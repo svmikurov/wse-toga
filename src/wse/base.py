@@ -3,7 +3,6 @@
 import abc
 
 import toga
-from toga.style import Pack
 from travertino.constants import (
     CENTER,
     COLUMN,
@@ -68,23 +67,31 @@ class GoToBoxMixin(abc.ABC):
 class BaseBox(
     GoToBoxMixin,
     toga.Box,
-    abc.ABC
+    abc.ABC,
 ):
     """Base box."""
 
-    def __init__(self) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
-        super().__init__()
-
-        # Box style.
+        super().__init__(*args, **kwargs)
         self.style.update(direction=COLUMN)
 
-        # Widget styles.
-        self.btn_style = Pack(
-            flex=1,
-            height=60,
-        )
-        self.label_style = Pack(
-            height=35,
-            text_align=CENTER,
-        )
+
+class BaseButton(toga.Button):
+    """Base button."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the button."""
+        super().__init__(*args, **kwargs)
+        self.style.update(flex=1)
+        self.style.update(height=60)
+
+
+class BaseLabel(toga.Label):
+    """Base label."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the label."""
+        super().__init__(*args, **kwargs)
+        self.style.update(height=35)
+        self.style.update(text_align=CENTER)

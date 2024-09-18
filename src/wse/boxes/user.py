@@ -2,11 +2,10 @@
 
 import toga
 
-from wse import boxes, constants
-from wse.boxes.base import BaseBox, goto_box_name
+from wse import base, boxes, constants
 
 
-class UserBox(BaseBox):
+class UserBox(base.BaseBox):
     """User box."""
 
     def __init__(self) -> None:
@@ -14,10 +13,9 @@ class UserBox(BaseBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_main_box = toga.Button(
+        btn_goto_main_box = base.BaseButton(
             text='На главную',
             on_press=boxes.MainBox.goto_box_handler,
-            style=self.btn_style,
         )
 
         # Widget DOM.
@@ -28,4 +26,4 @@ class UserBox(BaseBox):
     @staticmethod
     def goto_box_handler(widget: toga.Button) -> None:
         """Go to User box, button handler."""
-        goto_box_name(widget, constants.USER_BOX)
+        base.goto_box_name(widget, constants.USER_BOX)
