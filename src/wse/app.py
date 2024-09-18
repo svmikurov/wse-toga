@@ -12,7 +12,7 @@ BOXES = {
 }
 
 
-class WSEToga(toga.App):
+class WSE(toga.App):
     """WSE application."""
 
     main_box: toga.Box
@@ -29,6 +29,6 @@ class WSEToga(toga.App):
         self.main_window.show()
 
 
-def main() -> WSEToga:
+def main() -> WSE:
     """Return the app instance."""
-    return WSEToga()
+    return WSE()
