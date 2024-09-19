@@ -63,15 +63,25 @@ class ErrorResponse:
         self.message = message
 
 
-def send_post_request(
+def send_get_request(
+    url: str,
+    auth: AppAuth | None = None,
+) -> Response:
+    """Send GET request."""
+    with httpx.Client(auth=auth) as client:
+        response = client.get(url=url)
+    return response
+
+
+async def send_post_request(
     url: str,
     payload: dict | None = None,
     auth: AppAuth | None = None,
 ) -> Response | ErrorResponse:
     """Send POST request."""
-    with httpx.Client(auth=auth) as client:
+    async with httpx.AsyncClient(auth=auth) as client:
         try:
-            response = client.post(url=url, json=payload)
+            response = await client.post(url=url, json=payload)
         except httpx.ConnectError as exc:
             print(f'\nINFO: HTTP Exception for {exc.request.url} - {exc}')
             return ErrorResponse(

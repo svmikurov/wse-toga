@@ -1,12 +1,11 @@
 """Base box."""
 
-import abc
-
 import toga
 from travertino.constants import (
     CENTER,
     COLUMN,
 )
+from typing_extensions import Self
 
 
 def get_box(widget: toga.Button, box_name: str) -> toga.Box:
@@ -34,15 +33,21 @@ def goto_box_name(widget: toga.Button, box_name: str) -> None:
     set_window_content(widget, box)
 
 
-class GoToBoxMixin(abc.ABC):
-    """Go to current box mixin."""
+class GoToBoxMixin:
+    """Go to box mixin."""
 
     @classmethod
-    @abc.abstractmethod
-    def goto_box_handler(cls, widget: toga.Button) -> None:
-        """Go to current box by box name, button handler.
+    def get_box(cls, widget: toga.Button, box_name: str) -> Self:
+        """Get the box that was initialized in the app."""
+        return widget.root.app.__getattribute__(box_name)
 
-        Override this method.
+    @classmethod
+    def set_window_content(cls, widget: toga.Button, box: Self) -> None:
+        """Set box to window content."""
+        widget.window.content = box
+
+    def goto_box_handler(self, widget: toga.Button, box_name: str) -> None:
+        """Go to box by box name, button handler.
 
         Switching between windows may require additional operations,
         such as retrieving data from the server to display it in the
@@ -53,16 +58,30 @@ class GoToBoxMixin(abc.ABC):
         ----------
         widget : `toga.Button`
             The widget that generated the event.
+        box_name : `str`
+            Box name to go.
 
         Example
         -------
-        @staticmethod
-        def goto_box_handler(widget: toga.Button) -> None:
-            goto_box_name(widget, constants.MAIN_BOX)
+        Add require additional operations:
+
+            def goto_box_handler(self, widget: toga.Button) -> None:
+                super().goto_box_handler(widget)
+                ...
 
         """
-        pass
+        box = self.get_box(widget, box_name)
+        self.set_window_content(widget, box)
+        box.on_open()
 
+    @classmethod
+    def on_open(cls) -> None:
+        """Run the assign box method.
+
+        Override to start box method
+        then box assigned to window content.
+        """
+        pass
 
 class MessageBoxMixin:
     """Dialog message mixin."""
@@ -79,7 +98,6 @@ class MessageBoxMixin:
 class BaseBox(
     GoToBoxMixin,
     toga.Box,
-    abc.ABC,
 ):
     """Base box."""
 

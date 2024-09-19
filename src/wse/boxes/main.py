@@ -1,8 +1,7 @@
 """Main box."""
 
-import toga
-
-from wse import base, boxes, constants
+from wse import base
+from wse import constants as const
 
 
 class MainBox(base.BaseBox):
@@ -19,15 +18,15 @@ class MainBox(base.BaseBox):
         # Box widgets.
         btn_goto_word_box = base.BaseButton(
             'Словарь',
-            on_press=lambda _: self.app.word_box.goto_box_handler(_),
+            on_press=lambda _: self.goto_box_handler(_, const.WORD_BOX),
         )
         btn_goto_user_box = base.BaseButton(
             'Учетная запись',
-            on_press=lambda _: self.app.user_box.goto_box_handler(_),
+            on_press=lambda _: self.goto_box_handler(_, const.USER_BOX),
         )
         btn_goto_glossary_box = base.BaseButton(
             'Глоссарий',
-            on_press=lambda _: self.app.glossary_box.goto_box_handler(_),
+            on_press=lambda _: self.goto_box_handler(_, const.GLOS_BOX),
         )
 
         # Widget DOM.
@@ -36,8 +35,3 @@ class MainBox(base.BaseBox):
             btn_goto_word_box,
             btn_goto_glossary_box,
         )
-
-    @classmethod
-    def goto_box_handler(cls, widget: toga.Button) -> None:
-        """Go to Main box, button handler."""
-        base.goto_box_name(widget, constants.MAIN_BOX)
