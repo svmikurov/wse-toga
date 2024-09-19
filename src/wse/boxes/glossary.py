@@ -15,7 +15,7 @@ class GlossaryBox(base.BaseBox):
         # Box widgets.
         btn_goto_main_box = base.BaseButton(
             text='На главную',
-            on_press=boxes.MainBox.goto_box_handler,
+            on_press=lambda _: self.app.main_box.goto_box_handler(_),
         )
 
         # Widget DOM.
@@ -23,7 +23,7 @@ class GlossaryBox(base.BaseBox):
             btn_goto_main_box,
         )
 
-    @staticmethod
-    def goto_box_handler(widget: toga.Button) -> None:
+    @classmethod
+    def goto_box_handler(cls, widget: toga.Button) -> None:
         """Go to Glossary box, button handler."""
         base.goto_box_name(widget, constants.GLOSSARY_BOX)

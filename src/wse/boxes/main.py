@@ -19,15 +19,15 @@ class MainBox(base.BaseBox):
         # Box widgets.
         btn_goto_word_box = base.BaseButton(
             'Словарь',
-            on_press=boxes.WordBox.goto_box_handler,
+            on_press=lambda _: self.app.word_box.goto_box_handler(_),
         )
         btn_goto_user_box = base.BaseButton(
             'Учетная запись',
-            on_press=boxes.UserBox.goto_box_handler,
+            on_press=lambda _: self.app.user_box.goto_box_handler(_),
         )
         btn_goto_glossary_box = base.BaseButton(
             'Глоссарий',
-            on_press=boxes.GlossaryBox.goto_box_handler,
+            on_press=lambda _: self.app.glossary_box.goto_box_handler(_),
         )
 
         # Widget DOM.
@@ -37,7 +37,7 @@ class MainBox(base.BaseBox):
             btn_goto_glossary_box,
         )
 
-    @staticmethod
-    def goto_box_handler(widget: toga.Button) -> None:
+    @classmethod
+    def goto_box_handler(cls, widget: toga.Button) -> None:
         """Go to Main box, button handler."""
         base.goto_box_name(widget, constants.MAIN_BOX)

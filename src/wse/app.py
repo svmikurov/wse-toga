@@ -6,6 +6,7 @@ from wse import boxes, constants
 
 BOXES = {
     constants.GLOSSARY_BOX: boxes.GlossaryBox,
+    constants.LOGIN_BOX: boxes.LoginBox,
     constants.MAIN_BOX: boxes.MainBox,
     constants.USER_BOX: boxes.UserBox,
     constants.WORD_BOX: boxes.WordBox,

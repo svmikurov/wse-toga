@@ -37,9 +37,9 @@ def goto_box_name(widget: toga.Button, box_name: str) -> None:
 class GoToBoxMixin(abc.ABC):
     """Go to current box mixin."""
 
-    @staticmethod
+    @classmethod
     @abc.abstractmethod
-    def goto_box_handler(widget: toga.Button) -> None:
+    def goto_box_handler(cls, widget: toga.Button) -> None:
         """Go to current box by box name, button handler.
 
         Override this method.
@@ -62,6 +62,18 @@ class GoToBoxMixin(abc.ABC):
 
         """
         pass
+
+
+class MessageBoxMixin:
+    """Dialog message mixin."""
+
+    app: toga.App
+
+    async def show_message(self, title: str, message: str) -> None:
+        """Show dialog message."""
+        await self.app.main_window.dialog(
+            toga.InfoDialog(str(title), str(message))
+        )
 
 
 class BaseBox(
