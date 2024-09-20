@@ -117,7 +117,7 @@ class GlossaryParamsBox(base.BaseBox):
         response = send_get_request(url=url, auth=app_auth)
         self.fill_params(response)
 
-    async def save_params_handler(self, _: toga.Button) -> None:
+    def save_params_handler(self, _: toga.Button) -> None:
         """Save Glossary Exercise parameters, button handler.
 
         Request to save user exercise parameters.
@@ -129,7 +129,7 @@ class GlossaryParamsBox(base.BaseBox):
             const.CATEGORY: self.category_selection.value.id,
             const.PROGRES: self.progres_selection.value.alias,
         }
-        await send_post_request(url=url, payload=params, auth=app_auth)
+        send_post_request(url=url, payload=params, auth=app_auth)
 
     def fill_params(self, response: Response) -> None:
         """Fill Glossary Exercise parameters.
@@ -142,19 +142,19 @@ class GlossaryParamsBox(base.BaseBox):
 
         """
         if response.status_code == const.HTTP_200_OK:
-            parameters = response.json()
+            payload = response.json()
 
             # Choices.
-            edge_period_items = parameters['edge_period_items']
-            category_items = parameters[const.CATEGORIES]
-            progres_items = parameters[const.PROGRES]
+            edge_period_items = payload['edge_period_items']
+            category_items = payload[const.CATEGORIES]
+            progres_items = payload[const.PROGRES]
 
             # Default choice.
-            params = parameters['parameters']
-            start_period_alias = params[const.PERIOD_START]
-            end_period_alias = params[const.PERIOD_END]
-            default_cat = params[const.CATEGORY]
-            default_progres = parameters[const.PROGRES]
+            defaults = payload['parameters']
+            start_period_alias = defaults[const.PERIOD_START]
+            end_period_alias = defaults[const.PERIOD_END]
+            default_cat = defaults[const.CATEGORY]
+            default_progres = defaults[const.PROGRES]
 
             # Assign the choices to selection.
             self.start_period_selection.items = edge_period_items
@@ -196,9 +196,9 @@ class GlossaryExerciseBox(base.BaseBox):
         """Construct the box."""
         super().__init__()
         self.url = urljoin(const.HOST_API, const.GLOS_EXE_PATH)
-        self.task_data: dict | None = None
+        self.term_id: int | None = None
 
-        # Styles.
+        # Common styles.
         label_style = Pack(padding=(10, 0, 10, 20))
         bottom_group_btn_style = Pack(flex=1, height=60)
 
@@ -209,7 +209,7 @@ class GlossaryExerciseBox(base.BaseBox):
         )
         btn_goto_glossary_exercise_parameters_box = base.BaseButton(
             'Настроить упражнение',
-            on_press=lambda _: self.goto_box_handler(_, const.GLOS_PARAMS_BOX),
+            on_press=lambda _: self.goto_box_handler(_, const.GyLOS_PARAMS_BOX),
         )
         # Bottom group buttons.
         btn_know = toga.Button(
@@ -251,11 +251,23 @@ class GlossaryExerciseBox(base.BaseBox):
             btn_next,
         )
 
+    def on_open(self) -> None:
+        """Start exercise."""
+        self.show_task()
+
+    def show_task(self):
+        """Show new task."""
+        response = send_get_request(url=self.url, auth=app_auth)
+        task_data = response.json()
+        self.term_id = task_data['term_id']
+        self.question.value = task_data['question_text']
+        self.answer.value = task_data['answer_text']
+
     def btn_know_handler(self, _: toga.Button) -> None:
         """Mark that know the answer, button handler."""
         payload = {
             const.ACTION: const.KNOW,
-            const.TERM_ID: self.task_data.get(const.TERM_ID),
+            const.TERM_ID: self.term_id,
         }
         send_post_request(self.url, payload=payload, auth=app_auth)
 
@@ -263,14 +275,10 @@ class GlossaryExerciseBox(base.BaseBox):
         """Mark that not know the answer, button handler."""
         payload = {
             const.ACTION: const.NOT_KNOW,
-            const.TERM_ID: self.task_data.get(const.TERM_ID),
+            const.TERM_ID: self.term_id,
         }
         send_post_request(self.url, payload=payload, auth=app_auth)
 
     def btn_next_handler(self, _: toga.Button) -> None:
         """Switch to the next task, button handler."""
-        payload = {
-            const.ACTION: const.NEXT,
-            const.TERM_ID: self.task_data.get(const.TERM_ID),
-        }
-        self.show_new_task(payload=payload)
+        self.show_task()
