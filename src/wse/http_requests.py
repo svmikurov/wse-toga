@@ -73,15 +73,15 @@ def send_get_request(
     return response
 
 
-async def send_post_request(
+def send_post_request(
     url: str,
     payload: dict | None = None,
     auth: AppAuth | None = None,
 ) -> Response | ErrorResponse:
     """Send POST request."""
-    async with httpx.AsyncClient(auth=auth) as client:
+    with httpx.Client(auth=auth) as client:
         try:
-            response = await client.post(url=url, json=payload)
+            response = client.post(url=url, json=payload)
         except httpx.ConnectError as exc:
             print(f'\nINFO: HTTP Exception for {exc.request.url} - {exc}')
             return ErrorResponse(
