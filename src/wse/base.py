@@ -1,11 +1,16 @@
 """Base box."""
 
+import httpx
 import toga
+
+from httpx import Response
 from travertino.constants import (
     CENTER,
     COLUMN,
 )
 from typing_extensions import Self
+
+from wse.http_requests import app_auth
 
 
 class GoToBoxMixin:
@@ -59,7 +64,28 @@ class MessageBoxMixin:
         )
 
 
+class HttpRequestMixin:
+    """Http request mixin."""
+
+    auth = app_auth
+
+    @classmethod
+    def request_get(cls, url: str) -> Response:
+        """Send GET request."""
+        with httpx.Client(auth=cls.auth) as client:
+            response = client.get(url=url)
+        return response
+
+    @classmethod
+    def request_post(cls, url: str, payload: dict) -> Response:
+        """Send POST request."""
+        with httpx.Client(auth=cls.auth) as client:
+            response = client.post(url=url, json=payload)
+        return response
+
+
 class BaseBox(
+    MessageBoxMixin,
     GoToBoxMixin,
     toga.Box,
 ):

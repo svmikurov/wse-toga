@@ -27,13 +27,23 @@ GLOS_EXE_PATH = '/api/v1/glossary/exercise/'
 GLOS_PARAMS_PATH = '/api/v1/glossary/exercise/parameters/'
 """Glossary exercise parameters path (`str`).
 """
+GLOS_PROGRES = '/api/v1/glossary/progres/'
+"""Glossary progres update path (`str`).
+"""
 
 # Statuses
 HTTP_200_OK = 200
 HTTP_400_BAD_REQUEST = 400
+HTTP_401_UNAUTHORIZED = 401
 HTTP_500_INTERNAL_SERVER_ERROR = 500
 
 AUTH_TOKEN = 'auth_token'
+
+RESPONSE_ERROR_MSGS = {
+    HTTP_400_BAD_REQUEST: ('', 'Предоставлены неверные данные'),
+    HTTP_401_UNAUTHORIZED: ('', 'Необходимо авторизоваться'),
+    HTTP_500_INTERNAL_SERVER_ERROR: ('', 'Ошибка сервера'),
+}
 
 ########################################################################
 # Attribute names

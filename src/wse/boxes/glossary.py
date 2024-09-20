@@ -1,7 +1,8 @@
 """Glossary box."""
-
+import asyncio
 from urllib.parse import urljoin
 
+import httpx
 import toga
 from httpx import Response
 from toga.style import Pack
@@ -31,7 +32,7 @@ class GlossaryBox(base.BaseBox):
         )
         btn_goto_exercise_box = base.BaseButton(
             'Начать упражнение',
-            on_press=lambda _: self.goto_box_handler(_, const.GLOS_EXE_BOX),
+            on_press=self.goto_exercise_box_handler
         )
 
         # Widget DOM.
@@ -40,6 +41,11 @@ class GlossaryBox(base.BaseBox):
             btn_goto_params_box,
             btn_goto_exercise_box,
         )
+
+    async def goto_exercise_box_handler(self, widget: toga.Button):
+        box = self.get_box(widget, const.GLOS_EXE_BOX)
+        self.set_window_content(widget, box)
+        await box.show_task()
 
 
 class GlossaryParamsBox(base.BaseBox):
@@ -60,7 +66,7 @@ class GlossaryParamsBox(base.BaseBox):
         )
         btn_goto_glossary_exercise_box = base.BaseButton(
             'Начать упражнение',
-            on_press=lambda _: self.goto_box_handler(_, const.GLOS_EXE_BOX),
+            on_press=self.goto_exercise_box_handler
         )
         btn_save_params = base.BaseButton(
             'Сохранить настройки',
@@ -101,15 +107,23 @@ class GlossaryParamsBox(base.BaseBox):
             progres_box_pair,
             btn_goto_glossary_exercise_box,
         )
+
         period_box_pair.add(period_box_left, period_box_right)
         period_box_left.add(self.start_period_selection)
         period_box_right.add(self.end_period_selection)
+
         category_box_pair.add(category_box_left, category_box_right)
         category_box_left.add(category_label)
         category_box_right.add(self.category_selection)
+
         progres_box_pair.add(progres_box_left, progres_box_right)
         progres_box_left.add(progres_label)
         progres_box_right.add(self.progres_selection)
+
+    async def goto_exercise_box_handler(self, widget: toga.Button):
+        box = self.get_box(widget, const.GLOS_EXE_BOX)
+        self.set_window_content(widget, box)
+        await box.show_task()
 
     def on_open(self) -> None:
         """Request and fill params data."""
@@ -189,16 +203,23 @@ class GlossaryParamsBox(base.BaseBox):
             )
 
 
-class GlossaryExerciseBox(base.BaseBox):
+class GlossaryExerciseBox(
+    base.BaseBox,
+):
     """Glossary box."""
 
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
-        self.url = urljoin(const.HOST_API, const.GLOS_EXE_PATH)
+        self.auth = app_auth
+        self.url_exercise = urljoin(const.HOST_API, const.GLOS_EXE_PATH)
+        self.url_progres = urljoin(const.HOST_API, const.GLOS_PROGRES)
         self.term_id: int | None = None
+        self.coro_task_timer = None
+        self.pause = False
 
         # Common styles.
+        text_style = Pack(padding=(0, 5, 0, 5))
         label_style = Pack(padding=(10, 0, 10, 20))
         bottom_group_btn_style = Pack(flex=1, height=60)
 
@@ -209,31 +230,50 @@ class GlossaryExerciseBox(base.BaseBox):
         )
         btn_goto_glossary_exercise_parameters_box = base.BaseButton(
             'Настроить упражнение',
-            on_press=lambda _: self.goto_box_handler(_, const.GyLOS_PARAMS_BOX),
+            on_press=lambda _: self.goto_box_handler(_, const.GLOS_PARAMS_BOX),
         )
         # Bottom group buttons.
-        btn_know = toga.Button(
-            text='Не Знаю',
-            style=bottom_group_btn_style,
-            on_press=self.btn_know_handler,
-        )
         btn_not_know = toga.Button(
-            text='Знаю',
-            style=bottom_group_btn_style,
+            'Не знаю',
             on_press=self.btn_not_know_handler,
+            style=bottom_group_btn_style,
+        )
+        btn_know = toga.Button(
+            'Знаю',
+            on_press=self.btn_know_handler,
+            style=bottom_group_btn_style,
         )
         btn_next = toga.Button(
-            text='Далее',
-            style=bottom_group_btn_style,
+            'Далее',
             on_press=self.btn_next_handler,
+            style=bottom_group_btn_style,
+        )
+        btn_pause = toga.Button(
+            'Пауза',
+            on_press=self.pause_handler,
+            style=bottom_group_btn_style,
         )
 
         # Box widgets.
-        question_label = toga.Label(text='Вопрос:', style=label_style)
-        self.question = toga.MultilineTextInput(readonly=True)
-        answer_label = toga.Label(text='Ответ:', style=label_style)
-        self.answer = toga.MultilineTextInput(readonly=True)
-        bottom_group_box = toga.Box(style=Pack(direction=ROW))
+        question_label = toga.Label(
+            text='Вопрос:',
+            style=label_style,
+        )
+        self.question = toga.MultilineTextInput(
+            readonly=True,
+            style=text_style,
+        )
+        answer_label = toga.Label(
+            text='Ответ:',
+            style=label_style,
+        )
+        self.answer = toga.MultilineTextInput(
+            readonly=True,
+            style=text_style,
+        )
+        bottom_group_box = toga.Box(
+            style=Pack(direction=ROW),
+        )
 
         # Widget DOM.
         self.add(
@@ -246,39 +286,73 @@ class GlossaryExerciseBox(base.BaseBox):
             bottom_group_box,
         )
         bottom_group_box.add(
-            btn_know,
             btn_not_know,
+            btn_know,
             btn_next,
+            btn_pause,
         )
 
-    def on_open(self) -> None:
-        """Start exercise."""
-        self.show_task()
-
-    def show_task(self):
-        """Show new task."""
-        response = send_get_request(url=self.url, auth=app_auth)
-        task_data = response.json()
-        self.term_id = task_data['term_id']
-        self.question.value = task_data['question_text']
-        self.answer.value = task_data['answer_text']
-
-    def btn_know_handler(self, _: toga.Button) -> None:
+    async def btn_know_handler(self, _: toga.Button) -> None:
         """Mark that know the answer, button handler."""
         payload = {
             const.ACTION: const.KNOW,
-            const.TERM_ID: self.term_id,
+            const.ID: self.term_id,
         }
-        send_post_request(self.url, payload=payload, auth=app_auth)
+        await self.request_post(payload=payload)
+        await self.show_task()
 
-    def btn_not_know_handler(self, _: toga.Button) -> None:
+    async def btn_not_know_handler(self, _: toga.Button) -> None:
         """Mark that not know the answer, button handler."""
         payload = {
             const.ACTION: const.NOT_KNOW,
-            const.TERM_ID: self.term_id,
+            const.ID: self.term_id,
         }
-        send_post_request(self.url, payload=payload, auth=app_auth)
+        await self.request_post(payload=payload)
+        await self.show_task()
 
-    def btn_next_handler(self, _: toga.Button) -> None:
+    async def btn_next_handler(self, _: toga.Button) -> None:
         """Switch to the next task, button handler."""
-        self.show_task()
+        self.pause = False
+        await self.show_task()
+
+    def pause_handler(self, _: toga.Button) -> None:
+        """Exercise pause, button handler."""
+        self.pause = False if self.pause else True
+
+    @property
+    def is_enable_new_task(self) -> bool:
+        """Return `False` to cancel task update, `True` otherwise."""
+        if not self.pause:
+            return self.is_visible_box(self)
+        return False
+
+    def is_visible_box(self, widget: toga.Box) -> bool:
+        """Is the box of widget is main_window content?"""
+        return widget.root.app.main_window.content == self
+
+    async def show_task(self):
+        """Show new task."""
+        if self.coro_task_timer:
+            self.coro_task_timer.cancel()
+
+        while self.is_enable_new_task:
+            response = await self.request_get()
+            task_data = response.json()
+            self.term_id = task_data[const.ID]
+            self.question.value = task_data['question_text']
+            self.answer.value = task_data['answer_text']
+
+            self.coro_task_timer = asyncio.create_task(asyncio.sleep(5))
+            await self.coro_task_timer
+
+    async def request_get(self) -> Response:
+        """Request the next task."""
+        async with httpx.AsyncClient(auth=self.auth) as client:
+            response = await client.get(self.url_exercise)
+        return response
+
+    async def request_post(self, payload: dict) -> Response:
+        """Request the progres update."""
+        async with httpx.AsyncClient(auth=self.auth) as client:
+            response = await client.post(self.url_progres, json=payload)
+        return response

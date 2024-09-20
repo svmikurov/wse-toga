@@ -7,7 +7,7 @@ from toga.style import Pack
 
 from wse import base
 from wse import constants as const
-from wse.http_requests import app_auth, get_message, send_post_request
+from wse.http_requests import app_auth, get_response_error_msg, send_post_request
 
 
 class UserBox(base.BaseBox):
@@ -34,17 +34,8 @@ class UserBox(base.BaseBox):
         )
 
 
-class LoginBox(
-    base.MessageBoxMixin,
-    base.BaseBox,
-):
+class LoginBox(base.BaseBox):
     """Log in box."""
-
-    LOGIN_MESSAGES = {
-        const.HTTP_200_OK: ('Вы вошли в учетную запись', ''),
-        const.HTTP_400_BAD_REQUEST: ('Неверные имя или пароль', ''),
-        const.HTTP_500_INTERNAL_SERVER_ERROR: ('Ошибка сервера', ''),
-    }
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -101,6 +92,6 @@ class LoginBox(
             self.password_input.value = None
             app_auth.set_token(response)
             self.goto_box_handler(widget, const.MAIN_BOX)
-
-        title, message = get_message(self.LOGIN_MESSAGES, response.status_code)
-        await self.show_message(title, message)
+        else:
+            title, message = get_response_error_msg(response.status_code)
+            await self.show_message(title, message)

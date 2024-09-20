@@ -6,24 +6,14 @@ import httpx
 from httpx import Request, Response
 
 import wse.constants as const
-
-
-def get_message(
-    messages: dict[int, tuple[str, str]],
-    status_code: int,
-) -> tuple[str, str]:
-    """Get message by response."""
-    default_message = ('Необработанная ошибка', '')
-    title, message = messages.get(status_code, default_message)
-    return title, message
-
+from wse.contrib import get_response_error_msg
 
 class AppAuth(httpx.Auth):
     """Authentication."""
 
     def __init__(self) -> None:
         """Construct."""
-        self.token = None
+        self.token = '84f584014eb5ec98b45a8aea48ee661fba474299'
 
     def auth_flow(
         self,
