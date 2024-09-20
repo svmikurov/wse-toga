@@ -94,7 +94,7 @@ class LoginBox(
             const.PASSWORD: self.password_input.value,
         }
 
-        response = await send_post_request(url=url, payload=authorization_data)
+        response = send_post_request(url=url, payload=authorization_data)
 
         if response.status_code == const.HTTP_200_OK:
             self.username_input.value = None
