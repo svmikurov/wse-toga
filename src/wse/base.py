@@ -8,31 +8,6 @@ from travertino.constants import (
 from typing_extensions import Self
 
 
-def get_box(widget: toga.Button, box_name: str) -> toga.Box:
-    """Get the box that was initialized in the app."""
-    return widget.root.app.__getattribute__(box_name)
-
-
-def set_window_content(widget: toga.Button, box: toga.Box) -> None:
-    """Set box to window content."""
-    widget.window.content = box
-
-
-def goto_box_name(widget: toga.Button, box_name: str) -> None:
-    """Go to box by box name, button handler.
-
-    Parameters
-    ----------
-    widget : `toga.Button`
-        The widget that generated the event.
-    box_name : `str`
-        The name of box.
-
-    """
-    box = get_box(widget, box_name)
-    set_window_content(widget, box)
-
-
 class GoToBoxMixin:
     """Go to box mixin."""
 
@@ -49,10 +24,8 @@ class GoToBoxMixin:
     def goto_box_handler(self, widget: toga.Button, box_name: str) -> None:
         """Go to box by box name, button handler.
 
-        Switching between windows may require additional operations,
-        such as retrieving data from the server to display it in the
-        content. Add this method along with these operations to the
-        switch button handler.
+        Runs the ``on_open`` method when the current field
+        is assigned to the window content.
 
         Parameters
         ----------
@@ -61,14 +34,6 @@ class GoToBoxMixin:
         box_name : `str`
             Box name to go.
 
-        Example
-        -------
-        Add require additional operations:
-
-            def goto_box_handler(self, widget: toga.Button) -> None:
-                super().goto_box_handler(widget)
-                ...
-
         """
         box = self.get_box(widget, box_name)
         self.set_window_content(widget, box)
@@ -76,10 +41,9 @@ class GoToBoxMixin:
 
     @classmethod
     def on_open(cls) -> None:
-        """Run the assign box method.
+        """Run when the current box is assigned to the window content.
 
-        Override to start box method
-        then box assigned to window content.
+        Override to run box method then box assigned to window content.
         """
         pass
 
