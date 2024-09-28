@@ -4,7 +4,6 @@ import asyncio
 from http import HTTPStatus
 from urllib.parse import urljoin
 
-import httpx
 import toga
 from httpx import Response
 from toga.style import Pack
@@ -39,7 +38,13 @@ from wse.constants import (
     PROGRES,
     QUESTION_TEXT,
 )
-from wse.http_requests import app_auth, send_get_request, send_post_request
+from wse.http_requests import (
+    app_auth,
+    request_get_async,
+    request_post_async,
+    send_get_request,
+    send_post_request,
+)
 from wse.tools import set_selection_item
 
 
@@ -319,7 +324,7 @@ class GlossaryExerciseBox(base.BaseBox):
             ACTION: KNOW,
             ID: self.term_id,
         }
-        await self.request_post(payload=payload)
+        await request_post_async(self.url_progres, payload=payload)
         await self.show_task()
 
     async def btn_not_know_handler(self, _: toga.Button) -> None:
@@ -328,7 +333,7 @@ class GlossaryExerciseBox(base.BaseBox):
             ACTION: NOT_KNOW,
             ID: self.term_id,
         }
-        await self.request_post(payload=payload)
+        await request_post_async(self.url_progres, payload=payload)
         await self.show_task()
 
     async def btn_next_handler(self, _: toga.Button) -> None:
@@ -357,7 +362,7 @@ class GlossaryExerciseBox(base.BaseBox):
             self.coro_task_timer.cancel()
 
         while self.is_enable_new_task:
-            response = await self.request_get()
+            response = await request_get_async(self.url_exercise)
             task_data = response.json()
             self.term_id = task_data[ID]
             self.question.value = task_data[QUESTION_TEXT]
@@ -367,15 +372,3 @@ class GlossaryExerciseBox(base.BaseBox):
                 asyncio.sleep(self.timeout)
             )
             await self.coro_task_timer
-
-    async def request_get(self) -> Response:
-        """Request the next task."""
-        async with httpx.AsyncClient(auth=self.auth) as client:
-            response = await client.get(self.url_exercise)
-        return response
-
-    async def request_post(self, payload: dict) -> Response:
-        """Request the progres update."""
-        async with httpx.AsyncClient(auth=self.auth) as client:
-            response = await client.post(self.url_progres, json=payload)
-        return response

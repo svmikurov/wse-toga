@@ -80,3 +80,17 @@ def send_post_request(
             )
         else:
             return response
+
+
+async def request_get_async(url: str) -> Response:
+    """Request async the get method."""
+    async with httpx.AsyncClient(auth=app_auth) as client:
+        response = await client.get(url)
+    return response
+
+
+async def request_post_async(url: str, payload: dict) -> Response:
+    """Request async the post method."""
+    async with httpx.AsyncClient(auth=app_auth) as client:
+        response = await client.post(url, json=payload)
+    return response
