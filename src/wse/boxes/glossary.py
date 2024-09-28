@@ -160,14 +160,15 @@ class GlossaryParamsBox(base.BaseBox):
         """
         if response.status_code == const.HTTP_200_OK:
             payload = response.json()
+            exercise_choices = payload['exercise_choices']
 
             # Choices.
-            edge_period_items = payload['edge_period_items']
-            category_items = payload[const.CATEGORIES]
-            progres_items = payload[const.PROGRES]
+            edge_period_items = exercise_choices['edge_period_items']
+            category_items = exercise_choices[const.CATEGORIES]
+            progres_items = exercise_choices[const.PROGRES]
 
             # Default choice.
-            defaults = payload['parameters']
+            defaults = payload['lookup_conditions']
             start_period_alias = defaults[const.PERIOD_START]
             end_period_alias = defaults[const.PERIOD_END]
             default_cat = defaults[const.CATEGORY]
