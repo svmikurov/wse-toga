@@ -76,51 +76,41 @@ class GlossaryParamsBox(base.BaseBox):
         )
 
         # Parameter widgets.
-        period_label = toga.Label(
-            text='Период добавления слова (начало / конец периода):',
-            style=label_style,
-        )
+        # labels
+        start_date_label = toga.Label('Начало периода:', style=label_style)
+        end_date_label = toga.Label('Конец периода:', style=label_style)
+        category_label = toga.Label(text='Категория:', style=label_style)
+        progres_label = toga.Label(text='Стадия изучения:', style=label_style)
+        # selections
         self.start_period_selection = toga.Selection(accessor=const.HUMANLY)
         self.end_period_selection = toga.Selection(accessor=const.HUMANLY)
-
-        category_label = toga.Label(text='Категория:', style=label_style)
-        category_box_pair = toga.Box()
-        category_box_left = toga.Box(style=pair_box_style)
-        category_box_right = toga.Box(style=pair_box_style)
         self.category_selection = toga.Selection(accessor=const.NAME)
-
-        progres_label = toga.Label(text='Стадия изучения:', style=label_style)
-        progres_box_pair = toga.Box()
-        progres_box_left = toga.Box(style=pair_box_style)
-        progres_box_right = toga.Box(style=pair_box_style)
         self.progres_selection = toga.Selection(accessor=const.HUMANLY)
-
-        period_box_pair = toga.Box()
-        period_box_left = toga.Box(style=pair_box_style)
-        period_box_right = toga.Box(style=pair_box_style)
+        # boxes
+        box_pair = toga.Box()
+        box_left = toga.Box(style=pair_box_style)
+        box_right = toga.Box(style=pair_box_style)
 
         # Widget DOM.
         self.add(
             btn_goto_glossary_box,
             btn_save_params,
-            period_label,
-            period_box_pair,
-            category_box_pair,
-            progres_box_pair,
+            box_pair,
             btn_goto_glossary_exercise_box,
         )
-
-        period_box_pair.add(period_box_left, period_box_right)
-        period_box_left.add(self.start_period_selection)
-        period_box_right.add(self.end_period_selection)
-
-        category_box_pair.add(category_box_left, category_box_right)
-        category_box_left.add(category_label)
-        category_box_right.add(self.category_selection)
-
-        progres_box_pair.add(progres_box_left, progres_box_right)
-        progres_box_left.add(progres_label)
-        progres_box_right.add(self.progres_selection)
+        box_pair.add(box_left, box_right)
+        box_left.add(
+            start_date_label,
+            end_date_label,
+            category_label,
+            progres_label,
+        )
+        box_right.add(
+            self.start_period_selection,
+            self.end_period_selection,
+            self.category_selection,
+            self.progres_selection,
+        )
 
     async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
         """Go to glossary exercise, button handler."""
@@ -207,9 +197,7 @@ class GlossaryParamsBox(base.BaseBox):
             )
 
 
-class GlossaryExerciseBox(
-    base.BaseBox,
-):
+class GlossaryExerciseBox(base.BaseBox):
     """Glossary box."""
 
     def __init__(self) -> None:
