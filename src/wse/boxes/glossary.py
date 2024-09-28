@@ -1,6 +1,7 @@
 """Glossary box."""
 
 import asyncio
+from http import HTTPStatus
 from urllib.parse import urljoin
 
 import httpx
@@ -10,7 +11,34 @@ from toga.style import Pack
 from travertino.constants import COLUMN, ROW
 
 from wse import base
-from wse import constants as const
+from wse.constants import (
+    ACTION,
+    ALIAS,
+    ANSWER_TEXT,
+    CATEGORIES,
+    CATEGORY,
+    DEFAULT_TIMEOUT,
+    EDGE_PERIOD_ITEMS,
+    EXERCISE_CHOICES,
+    GLOS_BOX,
+    GLOS_EXE_BOX,
+    GLOS_EXE_PATH,
+    GLOS_PARAMS_BOX,
+    GLOS_PARAMS_PATH,
+    GLOS_PROGRES,
+    HOST_API,
+    HUMANLY,
+    ID,
+    KNOW,
+    LOOKUP_CONDITIONS,
+    MAIN_BOX,
+    NAME,
+    NOT_KNOW,
+    PERIOD_END,
+    PERIOD_START,
+    PROGRES,
+    QUESTION_TEXT,
+)
 from wse.http_requests import app_auth, send_get_request, send_post_request
 from wse.tools import set_selection_item
 
@@ -25,11 +53,11 @@ class GlossaryBox(base.BaseBox):
         # Box widgets.
         btn_goto_main_box = base.BaseButton(
             text='На главную',
-            on_press=lambda _: self.goto_box_handler(_, const.MAIN_BOX),
+            on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
         btn_goto_params_box = base.BaseButton(
             'Настроить упражнение',
-            on_press=lambda _: self.goto_box_handler(_, const.GLOS_PARAMS_BOX),
+            on_press=lambda _: self.goto_box_handler(_, GLOS_PARAMS_BOX),
         )
         btn_goto_exercise_box = base.BaseButton(
             'Начать упражнение',
@@ -45,7 +73,7 @@ class GlossaryBox(base.BaseBox):
 
     async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
         """Go to glossary exercise, button handler."""
-        box = self.get_box(widget, const.GLOS_EXE_BOX)
+        box = self.get_box(widget, GLOS_EXE_BOX)
         self.set_window_content(widget, box)
         await box.show_task()
 
@@ -64,7 +92,7 @@ class GlossaryParamsBox(base.BaseBox):
         # Box widgets.
         btn_goto_glossary_box = base.BaseButton(
             'Глоссарий',
-            on_press=lambda _: self.goto_box_handler(_, const.GLOS_BOX),
+            on_press=lambda _: self.goto_box_handler(_, GLOS_BOX),
         )
         btn_goto_glossary_exercise_box = base.BaseButton(
             'Начать упражнение',
@@ -79,13 +107,13 @@ class GlossaryParamsBox(base.BaseBox):
         # labels
         start_date_label = toga.Label('Начало периода:', style=label_style)
         end_date_label = toga.Label('Конец периода:', style=label_style)
-        category_label = toga.Label(text='Категория:', style=label_style)
-        progres_label = toga.Label(text='Стадия изучения:', style=label_style)
+        category_label = toga.Label('Категория:', style=label_style)
+        progres_label = toga.Label('Стадия изучения:', style=label_style)
         # selections
-        self.start_period_selection = toga.Selection(accessor=const.HUMANLY)
-        self.end_period_selection = toga.Selection(accessor=const.HUMANLY)
-        self.category_selection = toga.Selection(accessor=const.NAME)
-        self.progres_selection = toga.Selection(accessor=const.HUMANLY)
+        self.start_period_selection = toga.Selection(accessor=HUMANLY)
+        self.end_period_selection = toga.Selection(accessor=HUMANLY)
+        self.category_selection = toga.Selection(accessor=NAME)
+        self.progres_selection = toga.Selection(accessor=HUMANLY)
         # boxes
         box_pair = toga.Box()
         box_left = toga.Box(style=pair_box_style)
@@ -114,13 +142,13 @@ class GlossaryParamsBox(base.BaseBox):
 
     async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
         """Go to glossary exercise, button handler."""
-        box = self.get_box(widget, const.GLOS_EXE_BOX)
+        box = self.get_box(widget, GLOS_EXE_BOX)
         self.set_window_content(widget, box)
         await box.show_task()
 
     def on_open(self) -> None:
         """Request and fill params data."""
-        url = urljoin(const.HOST_API, const.GLOS_PARAMS_PATH)
+        url = urljoin(HOST_API, GLOS_PARAMS_PATH)
         response = send_get_request(url=url, auth=app_auth)
         self.fill_params(response)
 
@@ -129,12 +157,12 @@ class GlossaryParamsBox(base.BaseBox):
 
         Request to save user exercise parameters.
         """
-        url = urljoin(const.HOST_API, const.GLOS_PARAMS_PATH)
+        url = urljoin(HOST_API, GLOS_PARAMS_PATH)
         params = {
-            const.PERIOD_START: self.start_period_selection.value.alias,
-            const.PERIOD_END: self.end_period_selection.value.alias,
-            const.CATEGORY: self.category_selection.value.id,
-            const.PROGRES: self.progres_selection.value.alias,
+            PERIOD_START: self.start_period_selection.value.alias,
+            PERIOD_END: self.end_period_selection.value.alias,
+            CATEGORY: self.category_selection.value.id,
+            PROGRES: self.progres_selection.value.alias,
         }
         send_post_request(url=url, payload=params, auth=app_auth)
 
@@ -148,21 +176,21 @@ class GlossaryParamsBox(base.BaseBox):
             as choice by default.
 
         """
-        if response.status_code == const.HTTP_200_OK:
+        if response.status_code == HTTPStatus.OK:
             payload = response.json()
-            exercise_choices = payload['exercise_choices']
+            exercise_choices = payload[EXERCISE_CHOICES]
 
             # Choices.
-            edge_period_items = exercise_choices['edge_period_items']
-            category_items = exercise_choices[const.CATEGORIES]
-            progres_items = exercise_choices[const.PROGRES]
+            edge_period_items = exercise_choices[EDGE_PERIOD_ITEMS]
+            category_items = exercise_choices[CATEGORIES]
+            progres_items = exercise_choices[PROGRES]
 
             # Default choice.
-            defaults = payload['lookup_conditions']
-            start_period_alias = defaults[const.PERIOD_START]
-            end_period_alias = defaults[const.PERIOD_END]
-            default_cat = defaults[const.CATEGORY]
-            default_progres = defaults[const.PROGRES]
+            defaults = payload[LOOKUP_CONDITIONS]
+            start_period_alias = defaults[PERIOD_START]
+            end_period_alias = defaults[PERIOD_END]
+            default_cat = defaults[CATEGORY]
+            default_progres = defaults[PROGRES]
 
             # Assign the choices to selection.
             self.start_period_selection.items = edge_period_items
@@ -172,25 +200,25 @@ class GlossaryParamsBox(base.BaseBox):
 
             # Assign the default choice to selection.
             set_selection_item(
-                key=const.ALIAS,
+                key=ALIAS,
                 value=start_period_alias,
                 items=edge_period_items,
                 selection=self.start_period_selection,
             )
             set_selection_item(
-                key=const.ALIAS,
+                key=ALIAS,
                 value=end_period_alias,
                 items=edge_period_items,
                 selection=self.end_period_selection,
             )
             set_selection_item(
-                key=const.ID,
+                key=ID,
                 value=default_cat,
                 items=category_items,
                 selection=self.category_selection,
             )
             set_selection_item(
-                key=const.ALIAS,
+                key=ALIAS,
                 value=default_progres,
                 items=progres_items,
                 selection=self.progres_selection,
@@ -204,11 +232,12 @@ class GlossaryExerciseBox(base.BaseBox):
         """Construct the box."""
         super().__init__()
         self.auth = app_auth
-        self.url_exercise = urljoin(const.HOST_API, const.GLOS_EXE_PATH)
-        self.url_progres = urljoin(const.HOST_API, const.GLOS_PROGRES)
+        self.url_exercise = urljoin(HOST_API, GLOS_EXE_PATH)
+        self.url_progres = urljoin(HOST_API, GLOS_PROGRES)
         self.term_id: int | None = None
         self.coro_task_timer = None
         self.pause = False
+        self.timeout = DEFAULT_TIMEOUT
 
         # Common styles.
         text_style = Pack(padding=(0, 5, 0, 5))
@@ -218,11 +247,11 @@ class GlossaryExerciseBox(base.BaseBox):
         # Buttons.
         btn_goto_glossary_box = base.BaseButton(
             'Глоссарий',
-            on_press=lambda _: self.goto_box_handler(_, const.GLOS_BOX),
+            on_press=lambda _: self.goto_box_handler(_, GLOS_BOX),
         )
         btn_goto_glossary_exercise_parameters_box = base.BaseButton(
             'Настроить упражнение',
-            on_press=lambda _: self.goto_box_handler(_, const.GLOS_PARAMS_BOX),
+            on_press=lambda _: self.goto_box_handler(_, GLOS_PARAMS_BOX),
         )
         # Bottom group buttons.
         btn_not_know = toga.Button(
@@ -287,8 +316,8 @@ class GlossaryExerciseBox(base.BaseBox):
     async def btn_know_handler(self, _: toga.Button) -> None:
         """Mark that know the answer, button handler."""
         payload = {
-            const.ACTION: const.KNOW,
-            const.ID: self.term_id,
+            ACTION: KNOW,
+            ID: self.term_id,
         }
         await self.request_post(payload=payload)
         await self.show_task()
@@ -296,8 +325,8 @@ class GlossaryExerciseBox(base.BaseBox):
     async def btn_not_know_handler(self, _: toga.Button) -> None:
         """Mark that not know the answer, button handler."""
         payload = {
-            const.ACTION: const.NOT_KNOW,
-            const.ID: self.term_id,
+            ACTION: NOT_KNOW,
+            ID: self.term_id,
         }
         await self.request_post(payload=payload)
         await self.show_task()
@@ -330,11 +359,13 @@ class GlossaryExerciseBox(base.BaseBox):
         while self.is_enable_new_task:
             response = await self.request_get()
             task_data = response.json()
-            self.term_id = task_data[const.ID]
-            self.question.value = task_data['question_text']
-            self.answer.value = task_data['answer_text']
+            self.term_id = task_data[ID]
+            self.question.value = task_data[QUESTION_TEXT]
+            self.answer.value = task_data[ANSWER_TEXT]
 
-            self.coro_task_timer = asyncio.create_task(asyncio.sleep(5))
+            self.coro_task_timer = asyncio.create_task(
+                asyncio.sleep(self.timeout)
+            )
             await self.coro_task_timer
 
     async def request_get(self) -> Response:
