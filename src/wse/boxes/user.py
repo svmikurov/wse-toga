@@ -7,7 +7,8 @@ from toga.style import Pack
 
 from wse import base
 from wse import constants as const
-from wse.http_requests import app_auth, get_response_error_msg, send_post_request
+from wse.contrib import get_response_error_msg
+from wse.http_requests import app_auth, send_post_request
 
 
 class UserBox(base.BaseBox):

@@ -6,14 +6,14 @@ import httpx
 from httpx import Request, Response
 
 import wse.constants as const
-from wse.contrib import get_response_error_msg
+
 
 class AppAuth(httpx.Auth):
     """Authentication."""
 
     def __init__(self) -> None:
         """Construct."""
-        self.token = '84f584014eb5ec98b45a8aea48ee661fba474299'
+        self.token = '395dfaec6056130298f438687eb49e46015d84b0'
 
     def auth_flow(
         self,

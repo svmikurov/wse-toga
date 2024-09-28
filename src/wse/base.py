@@ -2,7 +2,6 @@
 
 import httpx
 import toga
-
 from httpx import Response
 from travertino.constants import (
     CENTER,
@@ -51,6 +50,7 @@ class GoToBoxMixin:
         Override to run box method then box assigned to window content.
         """
         pass
+
 
 class MessageBoxMixin:
     """Dialog message mixin."""

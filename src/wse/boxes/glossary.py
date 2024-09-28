@@ -1,4 +1,5 @@
 """Glossary box."""
+
 import asyncio
 from urllib.parse import urljoin
 
@@ -6,11 +7,11 @@ import httpx
 import toga
 from httpx import Response
 from toga.style import Pack
-from travertino.constants import ROW, COLUMN
+from travertino.constants import COLUMN, ROW
 
 from wse import base
 from wse import constants as const
-from wse.http_requests import app_auth, send_post_request, send_get_request
+from wse.http_requests import app_auth, send_get_request, send_post_request
 from wse.tools import set_selection_item
 
 
@@ -32,7 +33,7 @@ class GlossaryBox(base.BaseBox):
         )
         btn_goto_exercise_box = base.BaseButton(
             'Начать упражнение',
-            on_press=self.goto_exercise_box_handler
+            on_press=self.goto_exercise_box_handler,
         )
 
         # Widget DOM.
@@ -42,7 +43,8 @@ class GlossaryBox(base.BaseBox):
             btn_goto_exercise_box,
         )
 
-    async def goto_exercise_box_handler(self, widget: toga.Button):
+    async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
+        """Go to glossary exercise, button handler."""
         box = self.get_box(widget, const.GLOS_EXE_BOX)
         self.set_window_content(widget, box)
         await box.show_task()
@@ -66,7 +68,7 @@ class GlossaryParamsBox(base.BaseBox):
         )
         btn_goto_glossary_exercise_box = base.BaseButton(
             'Начать упражнение',
-            on_press=self.goto_exercise_box_handler
+            on_press=self.goto_exercise_box_handler,
         )
         btn_save_params = base.BaseButton(
             'Сохранить настройки',
@@ -120,7 +122,8 @@ class GlossaryParamsBox(base.BaseBox):
         progres_box_left.add(progres_label)
         progres_box_right.add(self.progres_selection)
 
-    async def goto_exercise_box_handler(self, widget: toga.Button):
+    async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
+        """Go to glossary exercise, button handler."""
         box = self.get_box(widget, const.GLOS_EXE_BOX)
         self.set_window_content(widget, box)
         await box.show_task()
@@ -327,10 +330,10 @@ class GlossaryExerciseBox(
         return False
 
     def is_visible_box(self, widget: toga.Box) -> bool:
-        """Is the box of widget is main_window content?"""
+        """Is the box of widget is main_window content."""
         return widget.root.app.main_window.content == self
 
-    async def show_task(self):
+    async def show_task(self) -> None:
         """Show new task."""
         if self.coro_task_timer:
             self.coro_task_timer.cancel()
