@@ -1,5 +1,6 @@
 """User boxes."""
 
+from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
@@ -88,7 +89,7 @@ class LoginBox(base.BaseBox):
 
         response = send_post_request(url=url, payload=authorization_data)
 
-        if response.status_code == const.HTTP_200_OK:
+        if response.status_code == HTTPStatus.OK:
             self.username_input.value = None
             self.password_input.value = None
             app_auth.set_token(response)

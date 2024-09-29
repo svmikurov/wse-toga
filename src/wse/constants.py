@@ -1,4 +1,5 @@
 """App constants."""
+from http import HTTPStatus
 
 ########################################################################
 # Box names
@@ -31,11 +32,9 @@ GLOS_PROGRES = '/api/v1/glossary/progres/'
 """Glossary progres update path (`str`).
 """
 
-# Statuses
-HTTP_200_OK = 200
-HTTP_400_BAD_REQUEST = 400
-HTTP_401_UNAUTHORIZED = 401
-HTTP_500_INTERNAL_SERVER_ERROR = 500
+HTTP_400_BAD_REQUEST = HTTPStatus.BAD_REQUEST
+HTTP_401_UNAUTHORIZED = HTTPStatus.UNAUTHORIZED
+HTTP_500_INTERNAL_SERVER_ERROR = HTTPStatus.INTERNAL_SERVER_ERROR
 
 AUTH_TOKEN = 'auth_token'
 
