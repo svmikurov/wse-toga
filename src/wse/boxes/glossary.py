@@ -13,6 +13,7 @@ from wse import base
 from wse.constants import (
     ACTION,
     ALIAS,
+    ANSWER,
     ANSWER_TEXT,
     CATEGORIES,
     CATEGORY,
@@ -36,6 +37,7 @@ from wse.constants import (
     PERIOD_END,
     PERIOD_START,
     PROGRES,
+    QUESTION,
     QUESTION_TEXT,
 )
 from wse.http_requests import (
@@ -243,6 +245,8 @@ class GlossaryExerciseBox(base.BaseBox):
         self.coro_task_timer = None
         self.pause = False
         self.timeout = DEFAULT_TIMEOUT
+        self.task_status = None
+        self.task_data = None
 
         # Common styles.
         text_style = Pack(padding=(0, 5, 0, 5))
@@ -362,11 +366,17 @@ class GlossaryExerciseBox(base.BaseBox):
             self.coro_task_timer.cancel()
 
         while self.is_enable_new_task:
-            response = await request_get_async(self.url_exercise)
-            task_data = response.json()
-            self.term_id = task_data[ID]
-            self.question.value = task_data[QUESTION_TEXT]
-            self.answer.value = task_data[ANSWER_TEXT]
+            if self.task_status != ANSWER:
+                response = await request_get_async(self.url_exercise)
+                self.task_data = response.json()
+                self.term_id = self.task_data[ID]
+                self.question.value = self.task_data[QUESTION_TEXT]
+                self.answer.value = None
+                self.task_status = ANSWER
+            else:
+                self.question.value = self.task_data[QUESTION_TEXT]
+                self.answer.value = self.task_data[ANSWER_TEXT]
+                self.task_status = QUESTION
 
             self.coro_task_timer = asyncio.create_task(
                 asyncio.sleep(self.timeout)
