@@ -1,4 +1,5 @@
 """App constants."""
+
 from http import HTTPStatus
 
 ########################################################################
@@ -55,7 +56,9 @@ ANSWER_TEXT = 'answer_text'
 CATEGORIES = 'categories'
 CATEGORY = 'category'
 DEFAULT_TIMEOUT = 5
+DETAIL = 'detail'
 EDGE_PERIOD_ITEMS = 'edge_period_items'
+ERROR = 'error'
 EXERCISE_CHOICES = 'exercise_choices'
 HUMANLY = 'humanly'
 ID = 'id'

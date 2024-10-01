@@ -18,7 +18,9 @@ from wse.constants import (
     CATEGORIES,
     CATEGORY,
     DEFAULT_TIMEOUT,
+    DETAIL,
     EDGE_PERIOD_ITEMS,
+    ERROR,
     EXERCISE_CHOICES,
     GLOS_BOX,
     GLOS_EXE_BOX,
@@ -42,7 +44,6 @@ from wse.constants import (
 )
 from wse.http_requests import (
     app_auth,
-    request_get_async,
     request_post_async,
     send_get_request,
     send_post_request,
@@ -63,26 +64,15 @@ class GlossaryBox(base.BaseBox):
             on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
         btn_goto_params_box = base.BaseButton(
-            'Настроить упражнение',
+            'Упражнение',
             on_press=lambda _: self.goto_box_handler(_, GLOS_PARAMS_BOX),
-        )
-        btn_goto_exercise_box = base.BaseButton(
-            'Начать упражнение',
-            on_press=self.goto_exercise_box_handler,
         )
 
         # Widget DOM.
         self.add(
             btn_goto_main_box,
             btn_goto_params_box,
-            btn_goto_exercise_box,
         )
-
-    async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
-        """Go to glossary exercise, button handler."""
-        box = self.get_box(widget, GLOS_EXE_BOX)
-        self.set_window_content(widget, box)
-        await box.show_task()
 
 
 class GlossaryParamsBox(base.BaseBox):
@@ -147,11 +137,23 @@ class GlossaryParamsBox(base.BaseBox):
             self.progress_selection,
         )
 
+    @property
+    def params(self) -> dict[str, str]:
+        """User lookup conditions (`dict`, reade-only)."""
+        params = {
+            PERIOD_START: self.start_period_selection.value.alias,
+            PERIOD_END: self.end_period_selection.value.alias,
+            CATEGORY: self.category_selection.value.id,
+            PROGRESS: self.progress_selection.value.alias,
+        }
+        return params
+
     async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
         """Go to glossary exercise, button handler."""
-        box = self.get_box(widget, GLOS_EXE_BOX)
-        self.set_window_content(widget, box)
-        await box.show_task()
+        exercise_box = self.get_box(widget, GLOS_EXE_BOX)
+        exercise_box.lookup_conditions = self.params
+        self.set_window_content(widget, exercise_box)
+        await exercise_box.show_task()
 
     def on_open(self) -> None:
         """Request and fill params data."""
@@ -165,13 +167,7 @@ class GlossaryParamsBox(base.BaseBox):
         Request to save user exercise parameters.
         """
         url = urljoin(HOST_API, GLOS_PARAMS_PATH)
-        params = {
-            PERIOD_START: self.start_period_selection.value.alias,
-            PERIOD_END: self.end_period_selection.value.alias,
-            CATEGORY: self.category_selection.value.id,
-            PROGRESS: self.progress_selection.value.alias,
-        }
-        send_post_request(url=url, payload=params, auth=app_auth)
+        send_post_request(url=url, payload=self.params, auth=app_auth)
 
     def fill_params(self, response: Response) -> None:
         """Fill Glossary Exercise parameters.
@@ -247,6 +243,7 @@ class GlossaryExerciseBox(base.BaseBox):
         self.timeout = DEFAULT_TIMEOUT
         self.task_status = None
         self.task_data = None
+        self.lookup_conditions = None
 
         # Common styles.
         text_style = Pack(padding=(0, 5, 0, 5))
@@ -271,11 +268,6 @@ class GlossaryExerciseBox(base.BaseBox):
         btn_know = toga.Button(
             'Знаю',
             on_press=self.btn_know_handler,
-            style=bottom_group_btn_style,
-        )
-        btn_next = toga.Button(
-            'Далее',
-            on_press=self.btn_next_handler,
             style=bottom_group_btn_style,
         )
         btn_pause = toga.Button(
@@ -316,10 +308,9 @@ class GlossaryExerciseBox(base.BaseBox):
             bottom_group_box,
         )
         bottom_group_box.add(
+            btn_pause,
             btn_not_know,
             btn_know,
-            btn_next,
-            btn_pause,
         )
 
     async def btn_know_handler(self, _: toga.Button) -> None:
@@ -338,11 +329,6 @@ class GlossaryExerciseBox(base.BaseBox):
             ID: self.term_id,
         }
         await request_post_async(self.url_progress, payload=payload)
-        await self.show_task()
-
-    async def btn_next_handler(self, _: toga.Button) -> None:
-        """Switch to the next task, button handler."""
-        self.pause = False
         await self.show_task()
 
     def pause_handler(self, _: toga.Button) -> None:
@@ -367,8 +353,21 @@ class GlossaryExerciseBox(base.BaseBox):
 
         while self.is_enable_new_task:
             if self.task_status != ANSWER:
-                response = await request_get_async(self.url_exercise)
+                response = await request_post_async(
+                    self.url_exercise,
+                    self.lookup_conditions,
+                )
                 self.task_data = response.json()
+
+                if response.status_code != HTTPStatus.OK:
+                    msg = 'Необработанная ошибка'
+                    if DETAIL in self.task_data:
+                        msg = self.task_data.get(DETAIL)
+                    elif ERROR in self.task_data:
+                        msg = self.task_data.get(ERROR)
+                    await self.show_message('Сообщение:', msg)
+                    break
+
                 self.term_id = self.task_data[ID]
                 self.question.value = self.task_data[QUESTION_TEXT]
                 self.answer.value = None
