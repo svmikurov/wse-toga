@@ -28,8 +28,8 @@ GLOS_EXE_PATH = '/api/v1/glossary/exercise/'
 GLOS_PARAMS_PATH = '/api/v1/glossary/exercise/parameters/'
 """Glossary exercise parameters path (`str`).
 """
-GLOS_PROGRES = '/api/v1/glossary/progres/'
-"""Glossary progres update path (`str`).
+GLOS_PROGRESS = '/api/v1/glossary/progress/'
+"""Glossary progress update path (`str`).
 """
 
 HTTP_400_BAD_REQUEST = HTTPStatus.BAD_REQUEST
@@ -67,7 +67,7 @@ NOT_KNOW = 'not_know'
 PASSWORD = 'password'
 PERIOD_END = 'period_end_date'
 PERIOD_START = 'period_start_date'
-PROGRES = 'progres'
+PROGRESS = 'progress'
 QUESTION = 'question'
 QUESTION_TEXT = 'question_text'
 TERM_ID = 'term_id'

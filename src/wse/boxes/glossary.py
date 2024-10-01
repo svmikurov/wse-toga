@@ -25,7 +25,7 @@ from wse.constants import (
     GLOS_EXE_PATH,
     GLOS_PARAMS_BOX,
     GLOS_PARAMS_PATH,
-    GLOS_PROGRES,
+    GLOS_PROGRESS,
     HOST_API,
     HUMANLY,
     ID,
@@ -36,7 +36,7 @@ from wse.constants import (
     NOT_KNOW,
     PERIOD_END,
     PERIOD_START,
-    PROGRES,
+    PROGRESS,
     QUESTION,
     QUESTION_TEXT,
 )
@@ -115,12 +115,12 @@ class GlossaryParamsBox(base.BaseBox):
         start_date_label = toga.Label('Начало периода:', style=label_style)
         end_date_label = toga.Label('Конец периода:', style=label_style)
         category_label = toga.Label('Категория:', style=label_style)
-        progres_label = toga.Label('Стадия изучения:', style=label_style)
+        progress_label = toga.Label('Стадия изучения:', style=label_style)
         # selections
         self.start_period_selection = toga.Selection(accessor=HUMANLY)
         self.end_period_selection = toga.Selection(accessor=HUMANLY)
         self.category_selection = toga.Selection(accessor=NAME)
-        self.progres_selection = toga.Selection(accessor=HUMANLY)
+        self.progress_selection = toga.Selection(accessor=HUMANLY)
         # boxes
         box_pair = toga.Box()
         box_left = toga.Box(style=pair_box_style)
@@ -138,13 +138,13 @@ class GlossaryParamsBox(base.BaseBox):
             start_date_label,
             end_date_label,
             category_label,
-            progres_label,
+            progress_label,
         )
         box_right.add(
             self.start_period_selection,
             self.end_period_selection,
             self.category_selection,
-            self.progres_selection,
+            self.progress_selection,
         )
 
     async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
@@ -169,7 +169,7 @@ class GlossaryParamsBox(base.BaseBox):
             PERIOD_START: self.start_period_selection.value.alias,
             PERIOD_END: self.end_period_selection.value.alias,
             CATEGORY: self.category_selection.value.id,
-            PROGRES: self.progres_selection.value.alias,
+            PROGRESS: self.progress_selection.value.alias,
         }
         send_post_request(url=url, payload=params, auth=app_auth)
 
@@ -190,20 +190,20 @@ class GlossaryParamsBox(base.BaseBox):
             # Choices.
             edge_period_items = exercise_choices[EDGE_PERIOD_ITEMS]
             category_items = exercise_choices[CATEGORIES]
-            progres_items = exercise_choices[PROGRES]
+            progress_items = exercise_choices[PROGRESS]
 
             # Default choice.
             defaults = payload[LOOKUP_CONDITIONS]
             start_period_alias = defaults[PERIOD_START]
             end_period_alias = defaults[PERIOD_END]
             default_cat = defaults[CATEGORY]
-            default_progres = defaults[PROGRES]
+            default_progress = defaults[PROGRESS]
 
             # Assign the choices to selection.
             self.start_period_selection.items = edge_period_items
             self.end_period_selection.items = edge_period_items
             self.category_selection.items = category_items
-            self.progres_selection.items = progres_items
+            self.progress_selection.items = progress_items
 
             # Assign the default choice to selection.
             set_selection_item(
@@ -226,9 +226,9 @@ class GlossaryParamsBox(base.BaseBox):
             )
             set_selection_item(
                 key=ALIAS,
-                value=default_progres,
-                items=progres_items,
-                selection=self.progres_selection,
+                value=default_progress,
+                items=progress_items,
+                selection=self.progress_selection,
             )
 
 
@@ -240,7 +240,7 @@ class GlossaryExerciseBox(base.BaseBox):
         super().__init__()
         self.auth = app_auth
         self.url_exercise = urljoin(HOST_API, GLOS_EXE_PATH)
-        self.url_progres = urljoin(HOST_API, GLOS_PROGRES)
+        self.url_progress = urljoin(HOST_API, GLOS_PROGRESS)
         self.term_id: int | None = None
         self.coro_task_timer = None
         self.pause = False
@@ -328,7 +328,7 @@ class GlossaryExerciseBox(base.BaseBox):
             ACTION: KNOW,
             ID: self.term_id,
         }
-        await request_post_async(self.url_progres, payload=payload)
+        await request_post_async(self.url_progress, payload=payload)
         await self.show_task()
 
     async def btn_not_know_handler(self, _: toga.Button) -> None:
@@ -337,7 +337,7 @@ class GlossaryExerciseBox(base.BaseBox):
             ACTION: NOT_KNOW,
             ID: self.term_id,
         }
-        await request_post_async(self.url_progres, payload=payload)
+        await request_post_async(self.url_progress, payload=payload)
         await self.show_task()
 
     async def btn_next_handler(self, _: toga.Button) -> None:
