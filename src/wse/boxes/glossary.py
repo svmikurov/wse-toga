@@ -140,10 +140,12 @@ class GlossaryParamsBox(base.BaseBox):
     @property
     def lookup_conditions(self) -> dict[str, str | list]:
         """User lookup conditions (`dict`, reade-only)."""
+        # self.category_selection.value is None if not is set
+        category_condition = self.category_selection.value
         lookup_conditions = {
             PERIOD_START: self.start_period_selection.value.alias,
             PERIOD_END: self.end_period_selection.value.alias,
-            CATEGORY: self.category_selection.value.id,
+            CATEGORY: category_condition.id if category_condition else None,
             PROGRESS: self.progress_selection.value.alias,
         }
         return lookup_conditions
