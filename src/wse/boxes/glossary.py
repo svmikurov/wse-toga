@@ -282,6 +282,11 @@ class GlossaryExerciseBox(base.BaseBox):
             on_press=self.pause_handler,
             style=bottom_group_btn_style,
         )
+        btn_next = toga.Button(
+            'Далее',
+            on_press=self.btn_next_handler,
+            style=bottom_group_btn_style,
+        )
 
         # Box widgets.
         question_label = toga.Label(
@@ -318,6 +323,7 @@ class GlossaryExerciseBox(base.BaseBox):
             btn_pause,
             btn_not_know,
             btn_know,
+            btn_next,
         )
 
     async def btn_know_handler(self, _: toga.Button) -> None:
@@ -341,6 +347,11 @@ class GlossaryExerciseBox(base.BaseBox):
     def pause_handler(self, _: toga.Button) -> None:
         """Exercise pause, button handler."""
         self.pause = False if self.pause else True
+
+    async def btn_next_handler(self, _: toga.Button) -> None:
+        """Switch to the next task, button handler."""
+        self.pause = False
+        await self.show_task()
 
     @property
     def is_enable_new_task(self) -> bool:
