@@ -13,7 +13,8 @@ class AppAuth(httpx.Auth):
 
     def __init__(self) -> None:
         """Construct."""
-        self.token = '395dfaec6056130298f438687eb49e46015d84b0'
+        # self.token = None
+        self.token = const.TOKEN
 
     def auth_flow(
         self,

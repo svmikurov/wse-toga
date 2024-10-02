@@ -138,22 +138,27 @@ class GlossaryParamsBox(base.BaseBox):
         )
 
     @property
-    def params(self) -> dict[str, str]:
+    def lookup_conditions(self) -> dict[str, str | list]:
         """User lookup conditions (`dict`, reade-only)."""
-        params = {
+        lookup_conditions = {
             PERIOD_START: self.start_period_selection.value.alias,
             PERIOD_END: self.end_period_selection.value.alias,
             CATEGORY: self.category_selection.value.id,
             PROGRESS: self.progress_selection.value.alias,
         }
-        return params
+        return lookup_conditions
 
     async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
         """Go to glossary exercise, button handler."""
         exercise_box = self.get_box(widget, GLOS_EXE_BOX)
-        exercise_box.lookup_conditions = self.params
-        self.set_window_content(widget, exercise_box)
-        await exercise_box.show_task()
+        try:
+            exercise_box.lookup_conditions = self.lookup_conditions
+        except AttributeError as error:
+            await self.show_message('', 'Войдите в учетную запись')
+            raise error
+        else:
+            self.set_window_content(widget, exercise_box)
+            await exercise_box.show_task()
 
     def on_open(self) -> None:
         """Request and fill params data."""
@@ -167,7 +172,7 @@ class GlossaryParamsBox(base.BaseBox):
         Request to save user exercise parameters.
         """
         url = urljoin(HOST_API, GLOS_PARAMS_PATH)
-        send_post_request(url=url, payload=self.params, auth=app_auth)
+        send_post_request(url, self.lookup_conditions, app_auth)
 
     def fill_params(self, response: Response) -> None:
         """Fill Glossary Exercise parameters.
@@ -192,7 +197,7 @@ class GlossaryParamsBox(base.BaseBox):
             defaults = payload[LOOKUP_CONDITIONS]
             start_period_alias = defaults[PERIOD_START]
             end_period_alias = defaults[PERIOD_END]
-            default_cat = defaults[CATEGORY]
+            default_category = defaults[CATEGORY]
             default_progress = defaults[PROGRESS]
 
             # Assign the choices to selection.
@@ -216,7 +221,7 @@ class GlossaryParamsBox(base.BaseBox):
             )
             set_selection_item(
                 key=ID,
-                value=default_cat,
+                value=default_category,
                 items=category_items,
                 selection=self.category_selection,
             )
