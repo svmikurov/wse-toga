@@ -28,10 +28,15 @@ class MainBox(base.BaseBox):
             'Глоссарий',
             on_press=lambda _: self.goto_box_handler(_, const.GLOS_BOX),
         )
+        btn_goto_foreign_box = base.BaseButton(
+            'Словарь иностранных слов',
+            on_press=lambda _: self.goto_box_handler(_, const.FOREIGN_BOX),
+        )
 
         # Widget DOM.
         self.add(
             btn_goto_user_box,
             btn_goto_word_box,
             btn_goto_glossary_box,
+            btn_goto_foreign_box,
         )

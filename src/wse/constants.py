@@ -6,6 +6,9 @@ from http import HTTPStatus
 # Box names
 ########################################################################
 
+FOREIGN_BOX = 'foreign_box'
+FOREIGN_EXERCISE_BOX = 'foreign_exercise_box'
+FOREIGN_PARAMS_BOX = 'foreign_params_box'
 GLOS_BOX = 'glossary_box'
 GLOS_EXE_BOX = 'glossary_exercise_box'
 GLOS_PARAMS_BOX = 'glossary_exercise_params_box'
@@ -23,6 +26,9 @@ HOST_API = 'http://127.0.0.1/'
 TOKEN_PATH = '/auth/token/login/'
 """Endpoint to obtain the user authentication token, allowed method: POST (`str`).
 """  # noqa: W505, E501
+FOREIGN_EXERCISE_PATH = ''
+FOREIGN_PROGRES_PATH = ''
+FOREIGN_PARAMS_PATH = ''
 GLOS_EXE_PATH = '/api/v1/glossary/exercise/'
 """Glossary exercise path (`str`).
 """

@@ -1,5 +1,10 @@
 """App boxes to assign to window content."""
 
+from wse.boxes.foreign import (
+    EnglishBox,
+    EnglishExerciseBox,
+    EnglishParamsBox,
+)
 from wse.boxes.glossary import (
     GlossaryBox,
     GlossaryExerciseBox,
@@ -13,6 +18,9 @@ from wse.boxes.user import (
 from wse.boxes.word import WordBox
 
 __all__ = (
+    'EnglishBox',
+    'EnglishExerciseBox',
+    'EnglishParamsBox',
     'GlossaryBox',
     'GlossaryExerciseBox',
     'GlossaryParamsBox',

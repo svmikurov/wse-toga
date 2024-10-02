@@ -5,6 +5,9 @@ import toga
 from wse import boxes, constants
 
 BOXES = {
+    constants.FOREIGN_BOX: boxes.EnglishBox,
+    constants.FOREIGN_EXERCISE_BOX: boxes.EnglishExerciseBox,
+    constants.FOREIGN_PARAMS_BOX: boxes.EnglishParamsBox,
     constants.GLOS_BOX: boxes.GlossaryBox,
     constants.GLOS_PARAMS_BOX: boxes.GlossaryParamsBox,
     constants.GLOS_EXE_BOX: boxes.GlossaryExerciseBox,
