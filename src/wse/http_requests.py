@@ -1,11 +1,17 @@
 """Requests module."""
 
+import os
 import typing
 
 import httpx
+from dotenv import load_dotenv
 from httpx import Request, Response
 
 import wse.constants as const
+
+load_dotenv()
+
+TOKEN = os.getenv('TOKEN')
 
 
 class AppAuth(httpx.Auth):
@@ -14,7 +20,7 @@ class AppAuth(httpx.Auth):
     def __init__(self) -> None:
         """Construct."""
         # self.token = None
-        self.token = const.TOKEN
+        self.token = TOKEN
 
     def auth_flow(
         self,
