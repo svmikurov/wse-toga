@@ -15,7 +15,6 @@ GLOS_PARAMS_BOX = 'glossary_exercise_params_box'
 LOGIN_BOX = 'login_box'
 MAIN_BOX = 'main_box'
 USER_BOX = 'user_box'
-WORD_BOX = 'word_box'
 
 ########################################################################
 # Url and statuses
@@ -23,12 +22,20 @@ WORD_BOX = 'word_box'
 
 # Url
 HOST_API = 'http://127.0.0.1/'
+"""Host to conect (`str`).
+"""
 TOKEN_PATH = '/auth/token/login/'
 """Endpoint to obtain the user authentication token, allowed method: POST (`str`).
 """  # noqa: W505, E501
-FOREIGN_EXERCISE_PATH = ''
-FOREIGN_PROGRES_PATH = ''
-FOREIGN_PARAMS_PATH = ''
+FOREIGN_EXERCISE_PATH = '/api/v1/foreign/exercise/'
+"""Learning foreign word exercise path (`str`).
+"""
+FOREIGN_PROGRESS_PATH = '/api/v1/foreign/progress/'
+"""Learning foreign word progress path (`str`).
+"""
+FOREIGN_PARAMS_PATH = '/api/v1/foreign/exercise/params/'
+"""Learning foreign word exercise parameters path (`str`).
+"""
 GLOS_EXE_PATH = '/api/v1/glossary/exercise/'
 """Glossary exercise path (`str`).
 """
