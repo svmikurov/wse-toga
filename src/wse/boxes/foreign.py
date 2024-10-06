@@ -20,14 +20,14 @@ from wse.constants import (
     DEFAULT_TIMEOUT,
     DETAIL,
     EDGE_PERIOD_ITEMS,
+    ERROR,
+    EXERCISE_CHOICES,
     FOREIGN_BOX,
     FOREIGN_EXERCISE_BOX,
     FOREIGN_EXERCISE_PATH,
     FOREIGN_PARAMS_BOX,
     FOREIGN_PARAMS_PATH,
-    FOREIGN_PROGRES_PATH,
-    ERROR,
-    EXERCISE_CHOICES,
+    FOREIGN_PROGRESS_PATH,
     HOST_API,
     HUMANLY,
     ID,
@@ -51,8 +51,8 @@ from wse.http_requests import (
 from wse.tools import set_selection_item
 
 
-class EnglishBox(base.BaseBox):
-    """Main English box."""
+class ForeignBox(base.BaseBox):
+    """Learning foreign words main box."""
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -75,8 +75,8 @@ class EnglishBox(base.BaseBox):
         )
 
 
-class EnglishParamsBox(base.BaseBox):
-    """English exercise parameters box."""
+class ForeignParamsBox(base.BaseBox):
+    """Learning foreign words exercise parameters box."""
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -88,7 +88,7 @@ class EnglishParamsBox(base.BaseBox):
 
         # Box widgets.
         btn_goto_glossary_box = base.BaseButton(
-            'Англо-русский словарь',
+            'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
         btn_goto_glossary_exercise_box = base.BaseButton(
@@ -238,7 +238,7 @@ class EnglishParamsBox(base.BaseBox):
             )
 
 
-class EnglishExerciseBox(base.BaseBox):
+class ForeignExerciseBox(base.BaseBox):
     """English exercise box."""
 
     def __init__(self) -> None:
@@ -246,7 +246,7 @@ class EnglishExerciseBox(base.BaseBox):
         super().__init__()
         self.auth = app_auth
         self.url_exercise = urljoin(HOST_API, FOREIGN_EXERCISE_PATH)
-        self.url_progress = urljoin(HOST_API, FOREIGN_PROGRES_PATH)
+        self.url_progress = urljoin(HOST_API, FOREIGN_PROGRESS_PATH)
         self.word_id: int | None = None
         self.coro_task_timer = None
         self.pause = False

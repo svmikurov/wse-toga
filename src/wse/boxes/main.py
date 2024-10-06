@@ -16,10 +16,6 @@ class MainBox(base.BaseBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_word_box = base.BaseButton(
-            'Словарь',
-            on_press=lambda _: self.goto_box_handler(_, const.WORD_BOX),
-        )
         btn_goto_user_box = base.BaseButton(
             'Учетная запись',
             on_press=lambda _: self.goto_box_handler(_, const.USER_BOX),
@@ -36,7 +32,7 @@ class MainBox(base.BaseBox):
         # Widget DOM.
         self.add(
             btn_goto_user_box,
-            btn_goto_word_box,
+            btn_goto_foreign_box,
             btn_goto_glossary_box,
             btn_goto_foreign_box,
         )
