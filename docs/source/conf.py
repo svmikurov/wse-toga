@@ -3,6 +3,11 @@
 # For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
+import os
+import sys
+
+sys.path.insert(0, os.path.abspath('../../src/'))
+
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
@@ -20,6 +25,9 @@ github_version = 'main'
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
+    # Include documentation from docstrings
+    # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html#module-sphinx.ext.autodoc
+    'sphinx.ext.autodoc',
     # Add copy button from block
     # https://sphinx-copybutton.readthedocs.io/en/latest/#sphinx-copybutton
     'sphinx_copybutton',
@@ -38,3 +46,5 @@ exclude_patterns = []
 
 html_theme = 'furo'
 html_static_path = ['_static']
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-add_module_names
+add_module_names = False

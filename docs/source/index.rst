@@ -10,6 +10,9 @@ Welcome to WSE's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   reference/index
+   rest-endpoint/index
+
 
 
 Indices and tables
