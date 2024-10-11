@@ -18,7 +18,7 @@ class AppAuth(httpx.Auth):
     """Authentication."""
 
     def __init__(self) -> None:
-        """Construct."""
+        """Construct the authentication."""
         # self.token = None
         self.token = TOKEN
 
@@ -60,7 +60,7 @@ class ErrorResponse:
         self.message = message
 
 
-def send_get_request(
+def request_get(
     url: str,
     auth: AppAuth | None = None,
 ) -> Response:
@@ -70,13 +70,12 @@ def send_get_request(
     return response
 
 
-def send_post_request(
+def request_post(
     url: str,
     payload: dict | None = None,
-    auth: AppAuth | None = None,
 ) -> Response | ErrorResponse:
     """Send POST request."""
-    with httpx.Client(auth=auth) as client:
+    with httpx.Client(auth=app_auth) as client:
         try:
             response = client.post(url=url, json=payload)
         except httpx.ConnectError as exc:
