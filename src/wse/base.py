@@ -13,31 +13,26 @@ from wse.http_requests import app_auth
 
 
 class GoToBoxMixin:
-    """Go to box mixin."""
+    """Go to page box mixin."""
 
     @classmethod
     def get_box(cls, widget: toga.Button, box_name: str) -> Self:
-        """Get the box that was initialized in the app."""
+        """Get the page box that was initialized in the app."""
         return widget.root.app.__getattribute__(box_name)
 
     @classmethod
     def set_window_content(cls, widget: toga.Button, box: Self) -> None:
-        """Set box to window content."""
+        """Set page box to window content."""
         widget.window.content = box
 
     def goto_box_handler(self, widget: toga.Button, box_name: str) -> None:
-        """Go to box by box name, button handler.
+        """Go to page box by box name, button handler.
 
-        Runs the ``on_open`` method when the current field
-        is assigned to the window content.
+        Invoke the :obj:`on_open` method when the current page box is
+        assigned to the window content.
 
-        Parameters
-        ----------
-        widget : `toga.Button`
-            The widget that generated the event.
-        box_name : `str`
-            Box name to go.
-
+        :param toga.Button widget: The widget that generated the event.
+        :param str box_name: The page box name to go.
         """
         box = self.get_box(widget, box_name)
         self.set_window_content(widget, box)
@@ -47,7 +42,8 @@ class GoToBoxMixin:
     def on_open(cls) -> None:
         """Run when the current box is assigned to the window content.
 
-        Override to run box method then box assigned to window content.
+        Override it if it necessary to run same actions, then the
+        current box is assigned to :term:`window content`.
         """
         pass
 
@@ -89,7 +85,7 @@ class BaseBox(
     GoToBoxMixin,
     toga.Box,
 ):
-    """Base box."""
+    """Base page box."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""

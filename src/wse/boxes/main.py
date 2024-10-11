@@ -15,7 +15,7 @@ class MainBox(base.BaseBox):
         """Construct the Main box."""
         super().__init__()
 
-        # Box widgets.
+        # Widgets.
         btn_goto_user_box = base.BaseButton(
             'Учетная запись',
             on_press=lambda _: self.goto_box_handler(_, const.USER_BOX),
@@ -29,7 +29,7 @@ class MainBox(base.BaseBox):
             on_press=lambda _: self.goto_box_handler(_, const.FOREIGN_BOX),
         )
 
-        # Widget DOM.
+        # DOM.
         self.add(
             btn_goto_user_box,
             btn_goto_foreign_box,

@@ -14,6 +14,7 @@ from wse.boxes.main import MainBox
 from wse.boxes.user import (
     LoginBox,
     UserBox,
+    UserCreateBox,
 )
 
 __all__ = (
@@ -26,5 +27,5 @@ __all__ = (
     'LoginBox',
     'MainBox',
     'UserBox',
-    'ForeignBox',
+    'UserCreateBox',
 )

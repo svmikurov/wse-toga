@@ -15,6 +15,8 @@ GLOS_PARAMS_BOX = 'glossary_exercise_params_box'
 LOGIN_BOX = 'login_box'
 MAIN_BOX = 'main_box'
 USER_BOX = 'user_box'
+USER_UPDATE_BOX = 'user_update_box'
+USER_CREATE_BOX = 'user_create_box'
 
 ########################################################################
 # Url and statuses

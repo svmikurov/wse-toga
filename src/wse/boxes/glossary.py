@@ -44,9 +44,9 @@ from wse.constants import (
 )
 from wse.http_requests import (
     app_auth,
+    request_get,
+    request_post,
     request_post_async,
-    send_get_request,
-    send_post_request,
 )
 from wse.tools import set_selection_item
 
@@ -165,7 +165,7 @@ class GlossaryParamsBox(base.BaseBox):
     def on_open(self) -> None:
         """Request and fill params data."""
         url = urljoin(HOST_API, GLOS_PARAMS_PATH)
-        response = send_get_request(url=url, auth=app_auth)
+        response = request_get(url=url, auth=app_auth)
         self.fill_params(response)
 
     def save_params_handler(self, _: toga.Button) -> None:
@@ -174,7 +174,7 @@ class GlossaryParamsBox(base.BaseBox):
         Request to save user exercise parameters.
         """
         url = urljoin(HOST_API, GLOS_PARAMS_PATH)
-        send_post_request(url, self.lookup_conditions, app_auth)
+        request_post(url, self.lookup_conditions, app_auth)
 
     def fill_params(self, response: Response) -> None:
         """Fill Glossary Exercise parameters.
