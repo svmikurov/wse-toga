@@ -35,13 +35,13 @@ FOREIGN_EXERCISE_PATH = '/api/v1/foreign/exercise/'
 FOREIGN_PROGRESS_PATH = '/api/v1/foreign/progress/'
 """Learning foreign word progress path (`str`).
 """
-FOREIGN_PARAMS_PATH = '/api/v1/foreign/exercise/params/'
+FOREIGN_PARAMS_PATH = '/api/v1/foreign/params/'
 """Learning foreign word exercise parameters path (`str`).
 """
 GLOS_EXE_PATH = '/api/v1/glossary/exercise/'
 """Glossary exercise path (`str`).
 """
-GLOS_PARAMS_PATH = '/api/v1/glossary/exercise/parameters/'
+GLOS_PARAMS_PATH = '/api/v1/glossary/params/'
 """Glossary exercise parameters path (`str`).
 """
 GLOS_PROGRESS = '/api/v1/glossary/progress/'
