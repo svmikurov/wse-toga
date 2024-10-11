@@ -1,27 +1,22 @@
-"""Glossary box."""
+"""Glossary page boxes."""
 
 import asyncio
 from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
-from httpx import Response
 from toga.style import Pack
-from travertino.constants import COLUMN, ROW
+from travertino.constants import ROW
 
 from wse import base
+from wse.boxes.widgets.exercise import ExerciseParamChoicesBox
 from wse.constants import (
     ACTION,
-    ALIAS,
     ANSWER,
     ANSWER_TEXT,
-    CATEGORIES,
-    CATEGORY,
     DEFAULT_TIMEOUT,
     DETAIL,
-    EDGE_PERIOD_ITEMS,
     ERROR,
-    EXERCISE_CHOICES,
     GLOS_BOX,
     GLOS_EXE_BOX,
     GLOS_EXE_PATH,
@@ -29,16 +24,10 @@ from wse.constants import (
     GLOS_PARAMS_PATH,
     GLOS_PROGRESS,
     HOST_API,
-    HUMANLY,
     ID,
     KNOW,
-    LOOKUP_CONDITIONS,
     MAIN_BOX,
-    NAME,
     NOT_KNOW,
-    PERIOD_END,
-    PERIOD_START,
-    PROGRESS,
     QUESTION,
     QUESTION_TEXT,
 )
@@ -48,7 +37,6 @@ from wse.http_requests import (
     request_post,
     request_post_async,
 )
-from wse.tools import set_selection_item
 
 
 class GlossaryBox(base.BaseBox):
@@ -82,10 +70,6 @@ class GlossaryParamsBox(base.BaseBox):
         """Construct the box."""
         super().__init__()
 
-        # Styles.
-        label_style = Pack(padding=(7, 0, 7, 20))
-        pair_box_style = Pack(flex=1, direction=COLUMN)
-
         # Box widgets.
         btn_goto_glossary_box = base.BaseButton(
             'Глоссарий',
@@ -99,62 +83,21 @@ class GlossaryParamsBox(base.BaseBox):
             'Сохранить настройки',
             on_press=self.save_params_handler,
         )
-
-        # Parameter widgets.
-        # labels
-        start_date_label = toga.Label('Начало периода:', style=label_style)
-        end_date_label = toga.Label('Конец периода:', style=label_style)
-        category_label = toga.Label('Категория:', style=label_style)
-        progress_label = toga.Label('Стадия изучения:', style=label_style)
-        # selections
-        self.start_period_selection = toga.Selection(accessor=HUMANLY)
-        self.end_period_selection = toga.Selection(accessor=HUMANLY)
-        self.category_selection = toga.Selection(accessor=NAME)
-        self.progress_selection = toga.Selection(accessor=HUMANLY)
-        # boxes
-        box_pair = toga.Box()
-        box_left = toga.Box(style=pair_box_style)
-        box_right = toga.Box(style=pair_box_style)
+        self.params_box = ExerciseParamChoicesBox()
 
         # Widget DOM.
         self.add(
             btn_goto_glossary_box,
+            self.params_box,
             btn_save_params,
-            box_pair,
             btn_goto_glossary_exercise_box,
         )
-        box_pair.add(box_left, box_right)
-        box_left.add(
-            start_date_label,
-            end_date_label,
-            category_label,
-            progress_label,
-        )
-        box_right.add(
-            self.start_period_selection,
-            self.end_period_selection,
-            self.category_selection,
-            self.progress_selection,
-        )
-
-    @property
-    def lookup_conditions(self) -> dict[str, str | list]:
-        """User lookup conditions (`dict`, reade-only)."""
-        # self.category_selection.value is None if not is set
-        category_condition = self.category_selection.value
-        lookup_conditions = {
-            PERIOD_START: self.start_period_selection.value.alias,
-            PERIOD_END: self.end_period_selection.value.alias,
-            CATEGORY: category_condition.id if category_condition else None,
-            PROGRESS: self.progress_selection.value.alias,
-        }
-        return lookup_conditions
 
     async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
         """Go to glossary exercise, button handler."""
         exercise_box = self.get_box(widget, GLOS_EXE_BOX)
         try:
-            exercise_box.lookup_conditions = self.lookup_conditions
+            exercise_box.lookup_conditions = self.params_box.lookup_conditions
         except AttributeError as error:
             await self.show_message('', 'Войдите в учетную запись')
             raise error
@@ -166,7 +109,7 @@ class GlossaryParamsBox(base.BaseBox):
         """Request and fill params data."""
         url = urljoin(HOST_API, GLOS_PARAMS_PATH)
         response = request_get(url=url, auth=app_auth)
-        self.fill_params(response)
+        self.params_box.fill_params(response)
 
     def save_params_handler(self, _: toga.Button) -> None:
         """Save Glossary Exercise parameters, button handler.
@@ -174,65 +117,7 @@ class GlossaryParamsBox(base.BaseBox):
         Request to save user exercise parameters.
         """
         url = urljoin(HOST_API, GLOS_PARAMS_PATH)
-        request_post(url, self.lookup_conditions, app_auth)
-
-    def fill_params(self, response: Response) -> None:
-        """Fill Glossary Exercise parameters.
-
-        Parameters
-        ----------
-        response : `httpx.Response`
-            Server response with choices and current exercise parameters
-            as choice by default.
-
-        """
-        if response.status_code == HTTPStatus.OK:
-            payload = response.json()
-            exercise_choices = payload[EXERCISE_CHOICES]
-
-            # Choices.
-            edge_period_items = exercise_choices[EDGE_PERIOD_ITEMS]
-            category_items = exercise_choices[CATEGORIES]
-            progress_items = exercise_choices[PROGRESS]
-
-            # Default choice.
-            defaults = payload[LOOKUP_CONDITIONS]
-            start_period_alias = defaults[PERIOD_START]
-            end_period_alias = defaults[PERIOD_END]
-            default_category = defaults[CATEGORY]
-            default_progress = defaults[PROGRESS]
-
-            # Assign the choices to selection.
-            self.start_period_selection.items = edge_period_items
-            self.end_period_selection.items = edge_period_items
-            self.category_selection.items = category_items
-            self.progress_selection.items = progress_items
-
-            # Assign the default choice to selection.
-            set_selection_item(
-                key=ALIAS,
-                value=start_period_alias,
-                items=edge_period_items,
-                selection=self.start_period_selection,
-            )
-            set_selection_item(
-                key=ALIAS,
-                value=end_period_alias,
-                items=edge_period_items,
-                selection=self.end_period_selection,
-            )
-            set_selection_item(
-                key=ID,
-                value=default_category,
-                items=category_items,
-                selection=self.category_selection,
-            )
-            set_selection_item(
-                key=ALIAS,
-                value=default_progress,
-                items=progress_items,
-                selection=self.progress_selection,
-            )
+        request_post(url, self.params_box.lookup_conditions)
 
 
 class GlossaryExerciseBox(base.BaseBox):
