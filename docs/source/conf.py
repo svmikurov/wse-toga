@@ -48,3 +48,6 @@ html_theme = 'furo'
 html_static_path = ['_static']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-add_module_names
 add_module_names = False
+autodoc_default_options = {
+    'show-inheritance': True,
+}
