@@ -9,9 +9,9 @@ from http import HTTPStatus
 FOREIGN_BOX = 'foreign_box'
 FOREIGN_EXERCISE_BOX = 'foreign_exercise_box'
 FOREIGN_PARAMS_BOX = 'foreign_params_box'
-GLOS_BOX = 'glossary_box'
-GLOS_EXE_BOX = 'glossary_exercise_box'
-GLOS_PARAMS_BOX = 'glossary_exercise_params_box'
+GLOSSARY_BOX = 'glossary_box'
+GLOSSARY_EXERCISE_BOX = 'glossary_exercise_box'
+GLOSSARY_PARAMS_BOX = 'glossary_exercise_params_box'
 LOGIN_BOX = 'login_box'
 MAIN_BOX = 'main_box'
 USER_BOX = 'user_box'
@@ -38,13 +38,13 @@ FOREIGN_PROGRESS_PATH = '/api/v1/foreign/progress/'
 FOREIGN_PARAMS_PATH = '/api/v1/foreign/params/'
 """Learning foreign word exercise parameters path (`str`).
 """
-GLOS_EXE_PATH = '/api/v1/glossary/exercise/'
+GLOSSARY_EXERCISE_PATH = '/api/v1/glossary/exercise/'
 """Glossary exercise path (`str`).
 """
-GLOS_PARAMS_PATH = '/api/v1/glossary/params/'
+GLOSSARY_PARAMS_PATH = '/api/v1/glossary/params/'
 """Glossary exercise parameters path (`str`).
 """
-GLOS_PROGRESS = '/api/v1/glossary/progress/'
+GLOSSARY_PROGRESS_PATH = '/api/v1/glossary/progress/'
 """Glossary progress update path (`str`).
 """
 
@@ -72,9 +72,10 @@ CATEGORIES = 'categories'
 CATEGORY = 'category'
 DEFAULT_TIMEOUT = 5
 DETAIL = 'detail'
-EDGE_PERIOD_ITEMS = 'edge_period_items'
+EDGE_PERIODS = 'edge_period_items'
 ERROR = 'error'
 EXERCISE_CHOICES = 'exercise_choices'
+STYLE = 'style'
 HUMANLY = 'humanly'
 ID = 'id'
 KNOW = 'know'

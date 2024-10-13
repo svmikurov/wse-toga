@@ -22,7 +22,7 @@ class MainBox(base.BaseBox):
         )
         btn_goto_glossary_box = base.BaseButton(
             'Глоссарий',
-            on_press=lambda _: self.goto_box_handler(_, const.GLOS_BOX),
+            on_press=lambda _: self.goto_box_handler(_, const.GLOSSARY_BOX),
         )
         btn_goto_foreign_box = base.BaseButton(
             'Словарь иностранных слов',

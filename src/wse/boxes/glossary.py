@@ -53,7 +53,7 @@ class GlossaryBox(base.BaseBox):
         )
         btn_goto_params_box = base.BaseButton(
             'Упражнение',
-            on_press=lambda _: self.goto_box_handler(_, GLOS_PARAMS_BOX),
+            on_press=lambda _: self.goto_box_handler(_, GLOSSARY_PARAMS_BOX),
         )
 
         # Widget DOM.
@@ -73,7 +73,7 @@ class GlossaryParamsBox(base.BaseBox):
         # Box widgets.
         btn_goto_glossary_box = base.BaseButton(
             'Глоссарий',
-            on_press=lambda _: self.goto_box_handler(_, GLOS_BOX),
+            on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
         )
         btn_goto_glossary_exercise_box = base.BaseButton(
             'Начать упражнение',
@@ -95,7 +95,7 @@ class GlossaryParamsBox(base.BaseBox):
 
     async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
         """Go to glossary exercise, button handler."""
-        exercise_box = self.get_box(widget, GLOS_EXE_BOX)
+        exercise_box = self.get_box(widget, GLOSSARY_EXERCISE_BOX)
         try:
             exercise_box.lookup_conditions = self.params_box.lookup_conditions
         except AttributeError as error:
@@ -107,8 +107,8 @@ class GlossaryParamsBox(base.BaseBox):
 
     def on_open(self) -> None:
         """Request and fill params data."""
-        url = urljoin(HOST_API, GLOS_PARAMS_PATH)
-        response = request_get(url=url, auth=app_auth)
+        url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
+        response = request_get(url=url)
         self.params_box.fill_params(response)
 
     def save_params_handler(self, _: toga.Button) -> None:

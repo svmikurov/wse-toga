@@ -11,9 +11,9 @@ BOXES = {
     constants.FOREIGN_EXERCISE_BOX: boxes.ForeignExerciseBox,
     constants.FOREIGN_PARAMS_BOX: boxes.ForeignParamsBox,
     # Glossary study page boxes.
-    constants.GLOS_BOX: boxes.GlossaryBox,
-    constants.GLOS_PARAMS_BOX: boxes.GlossaryParamsBox,
-    constants.GLOS_EXE_BOX: boxes.GlossaryExerciseBox,
+    constants.GLOSSARY_BOX: boxes.GlossaryBox,
+    constants.GLOSSARY_PARAMS_BOX: boxes.GlossaryParamsBox,
+    constants.GLOSSARY_EXERCISE_BOX: boxes.GlossaryExerciseBox,
     # User management page boxes.
     constants.LOGIN_BOX: boxes.LoginBox,
     constants.USER_CREATE_BOX: boxes.UserCreateBox,
