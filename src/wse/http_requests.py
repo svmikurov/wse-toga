@@ -60,12 +60,9 @@ class ErrorResponse:
         self.message = message
 
 
-def request_get(
-    url: str,
-    auth: AppAuth | None = None,
-) -> Response:
+def request_get(url: str) -> Response:
     """Send GET request."""
-    with httpx.Client(auth=auth) as client:
+    with httpx.Client(auth=app_auth) as client:
         response = client.get(url=url)
     return response
 
