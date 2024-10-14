@@ -1,4 +1,4 @@
-"""Requests module."""
+"""App http requests module."""
 
 import os
 import typing
@@ -15,7 +15,11 @@ TOKEN = os.getenv('TOKEN')
 
 
 class AppAuth(httpx.Auth):
-    """Authentication."""
+    """Authentication.
+
+    :ivar token: User authentication token.
+    :vartype token: str
+    """
 
     def __init__(self) -> None:
         """Construct the authentication."""
@@ -26,12 +30,15 @@ class AppAuth(httpx.Auth):
         self,
         request: Request,
     ) -> typing.Generator[Request, Response, None]:
-        """Execute the authentication flow."""
+        """Execute the authentication flow.
+
+        Adds auth ``token`` to "Authorization" header.
+        """
         request.headers['Authorization'] = f'Token {self.token}'
         yield request
 
     def set_token(self, response: Response) -> None:
-        """Set auth token."""
+        """Set auth token from login response."""
         self.token = response.json()[const.AUTH_TOKEN]
 
     def delete_token(self) -> None:
@@ -86,14 +93,14 @@ def request_post(
 
 
 async def request_get_async(url: str) -> Response:
-    """Request async the get method."""
+    """Request the async GET method."""
     async with httpx.AsyncClient(auth=app_auth) as client:
         response = await client.get(url)
     return response
 
 
 async def request_post_async(url: str, payload: dict) -> Response:
-    """Request async the post method."""
+    """Request the async POST method."""
     async with httpx.AsyncClient(auth=app_auth) as client:
         response = await client.post(url, json=payload)
     return response
