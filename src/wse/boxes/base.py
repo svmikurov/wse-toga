@@ -17,7 +17,10 @@ class GoToBoxMixin:
 
     @classmethod
     def get_box(cls, widget: toga.Button, box_name: str) -> Self:
-        """Get the page box that was initialized in the app."""
+        """Get the page box by box name.
+
+        Get the page box that was initialized in the app.
+        """
         return widget.root.app.__getattribute__(box_name)
 
     @classmethod
@@ -28,7 +31,7 @@ class GoToBoxMixin:
     def goto_box_handler(self, widget: toga.Button, box_name: str) -> None:
         """Go to page box by box name, button handler.
 
-        Invoke the :obj:`on_open` method when the current page box is
+        Invoke the :py:meth:`on_open` method when the current page box is
         assigned to the window content.
 
         :param toga.Button widget: The widget that generated the event.
@@ -40,7 +43,7 @@ class GoToBoxMixin:
 
     @classmethod
     def on_open(cls) -> None:
-        """Run when the current box is assigned to the window content.
+        """Runs when the current box is assigned to the window content.
 
         Override it if it necessary to run same actions, then the
         current box is assigned to :term:`window content`.
@@ -94,7 +97,10 @@ class BaseBox(
 
 
 class BaseButton(toga.Button):
-    """Base button."""
+    """Base button.
+
+    Assigns a common style to derived buttons.
+    """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the button."""
@@ -104,7 +110,10 @@ class BaseButton(toga.Button):
 
 
 class BaseLabel(toga.Label):
-    """Base label."""
+    """Base label.
+
+    Assigns a common style to derived labels.
+    """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the label."""

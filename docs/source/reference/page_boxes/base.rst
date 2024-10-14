@@ -1,6 +1,6 @@
-============
-Base widgets
-============
+========
+Base box
+========
 
 .. automodule:: wse.base
    :members:
