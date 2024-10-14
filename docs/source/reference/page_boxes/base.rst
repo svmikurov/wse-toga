@@ -2,5 +2,5 @@
 Base box
 ========
 
-.. automodule:: wse.base
+.. automodule:: wse.boxes.base
    :members:
