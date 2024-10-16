@@ -1,45 +1,45 @@
 """Foreign words page boxes."""
 
-import asyncio
 from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
 from toga.style import Pack
-from travertino.constants import ROW
 
-from wse import base
-from wse.boxes.widgets.exercise import ExerciseParamChoicesBox
+from wse.boxes.base import BaseBox
+from wse.boxes.sources.foreign import WordSource
+from wse.boxes.widgets.base import BaseButton, SmBtn, TextDisplay, TextInputApp
+from wse.boxes.widgets.exercise import (
+    ExerciseBox,
+    ExerciseParamsSelectionsBox,
+)
 from wse.constants import (
-    ACTION,
-    ANSWER,
-    ANSWER_TEXT,
-    DEFAULT_TIMEOUT,
-    DETAIL,
-    ERROR,
     FOREIGN_BOX,
+    FOREIGN_CREATE_BOX,
     FOREIGN_EXERCISE_BOX,
     FOREIGN_EXERCISE_PATH,
+    FOREIGN_LIST_BOX,
+    FOREIGN_LIST_CREATE_PATH,
     FOREIGN_PARAMS_BOX,
     FOREIGN_PARAMS_PATH,
     FOREIGN_PROGRESS_PATH,
+    FOREIGN_WORD,
     HOST_API,
-    ID,
-    KNOW,
     MAIN_BOX,
-    NOT_KNOW,
-    QUESTION,
-    QUESTION_TEXT,
+    NEXT,
+    PREVIOUS,
+    RESULTS,
+    RUSSIAN_WORD,
 )
 from wse.http_requests import (
-    app_auth,
     request_get,
     request_post,
     request_post_async,
 )
+from wse.utils import to_entries
 
 
-class ForeignBox(base.BaseBox):
+class ForeignMainPage(BaseBox):
     """Learning foreign words main box."""
 
     def __init__(self) -> None:
@@ -47,23 +47,33 @@ class ForeignBox(base.BaseBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_main_box = base.BaseButton(
+        btn_goto_main_box = BaseButton(
             text='На главную',
             on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
-        btn_goto_params_box = base.BaseButton(
+        btn_goto_params_box = BaseButton(
             'Упражнение',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
+        )
+        btn_goto_create_box = BaseButton(
+            'Добавить слово',
+            on_press=lambda _: self.goto_box_handler(_, FOREIGN_CREATE_BOX),
+        )
+        btn_goto_list_box = BaseButton(
+            'Словарь',
+            on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
         )
 
         # Widget DOM.
         self.add(
             btn_goto_main_box,
             btn_goto_params_box,
+            btn_goto_create_box,
+            btn_goto_list_box,
         )
 
 
-class ForeignParamsBox(base.BaseBox):
+class ForeignParamsPage(ExerciseParamsSelectionsBox):
     """Learning foreign words exercise parameters box."""
 
     def __init__(self) -> None:
@@ -71,19 +81,18 @@ class ForeignParamsBox(base.BaseBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_foreign_box = base.BaseButton(
+        btn_goto_foreign_box = BaseButton(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
-        btn_goto_foreign_exercise_box = base.BaseButton(
+        btn_goto_foreign_exercise_box = BaseButton(
             'Начать упражнение',
             on_press=self.goto_exercise_box_handler,
         )
-        btn_save_params = base.BaseButton(
+        btn_save_params = BaseButton(
             'Сохранить настройки',
             on_press=self.save_params_handler,
         )
-        self.params_box = ExerciseParamChoicesBox()
 
         # Widget DOM.
         self.add(
@@ -94,22 +103,18 @@ class ForeignParamsBox(base.BaseBox):
         )
 
     async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
-        """Go to glossary exercise, button handler."""
+        """Go to foreign exercise page box, button handler."""
         exercise_box = self.get_box(widget, FOREIGN_EXERCISE_BOX)
-        try:
-            exercise_box.lookup_conditions = self.params_box.lookup_conditions
-        except AttributeError as error:
-            await self.show_message('', 'Войдите в учетную запись')
-            raise error
-        else:
-            self.set_window_content(widget, exercise_box)
-            await exercise_box.show_task()
+        exercise_box.task.params = self.lookup_conditions
+        self.set_window_content(widget, exercise_box)
+        await exercise_box.loop_task()
 
     def on_open(self) -> None:
-        """Request and fill params data."""
+        """Request and fill params data of box when box open."""
         url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
-        response = request_get(url=url, auth=app_auth)
-        self.params_box.fill_params(response)
+        response = request_get(url=url)
+        if response.status_code == HTTPStatus.OK:
+            self.lookup_conditions = response.json()
 
     def save_params_handler(self, _: toga.Button) -> None:
         """Save Glossary Exercise parameters, button handler.
@@ -117,170 +122,266 @@ class ForeignParamsBox(base.BaseBox):
         Request to save user exercise parameters.
         """
         url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
-        request_post(url, self.params_box.lookup_conditions)
+        request_post(url, self.lookup_conditions)
 
 
-class ForeignExerciseBox(base.BaseBox):
-    """English exercise box."""
+class ForeignExercisePage(ExerciseBox):
+    """Foreign exercise box.
+
+    :ivar exercise_box: The ExerciseBox attr, container with exercise
+        widgets.
+    """
 
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
-        self.auth = app_auth
         self.url_exercise = urljoin(HOST_API, FOREIGN_EXERCISE_PATH)
         self.url_progress = urljoin(HOST_API, FOREIGN_PROGRESS_PATH)
-        self.word_id: int | None = None
-        self.coro_task_timer = None
-        self.pause = False
-        self.timeout = DEFAULT_TIMEOUT
-        self.task_status = None
-        self.task_data = None
-        self.lookup_conditions = None
-
-        # Common styles.
-        text_style = Pack(padding=(0, 5, 0, 5))
-        label_style = Pack(padding=(10, 0, 10, 20))
-        bottom_group_btn_style = Pack(flex=1, height=60)
 
         # Buttons.
-        btn_goto_glossary_box = base.BaseButton(
+        btn_goto_foreign_box = BaseButton(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
-        btn_goto_glossary_exercise_parameters_box = base.BaseButton(
+        btn_goto_params_box = BaseButton(
             'Настроить упражнение',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
-        )
-        # Bottom group buttons.
-        btn_not_know = toga.Button(
-            'Не знаю',
-            on_press=self.btn_not_know_handler,
-            style=bottom_group_btn_style,
-        )
-        btn_know = toga.Button(
-            'Знаю',
-            on_press=self.btn_know_handler,
-            style=bottom_group_btn_style,
-        )
-        btn_pause = toga.Button(
-            'Пауза',
-            on_press=self.pause_handler,
-            style=bottom_group_btn_style,
-        )
-        btn_next = toga.Button(
-            'Далее',
-            on_press=self.btn_next_handler,
-            style=bottom_group_btn_style,
-        )
-
-        # Box widgets.
-        question_label = toga.Label(
-            text='Вопрос:',
-            style=label_style,
-        )
-        self.question = toga.MultilineTextInput(
-            readonly=True,
-            style=text_style,
-        )
-        answer_label = toga.Label(
-            text='Ответ:',
-            style=label_style,
-        )
-        self.answer = toga.MultilineTextInput(
-            readonly=True,
-            style=text_style,
-        )
-        bottom_group_box = toga.Box(
-            style=Pack(direction=ROW),
         )
 
         # Widget DOM.
         self.add(
-            btn_goto_glossary_box,
-            btn_goto_glossary_exercise_parameters_box,
-            question_label,
-            self.question,
-            answer_label,
-            self.answer,
-            bottom_group_box,
-        )
-        bottom_group_box.add(
-            btn_pause,
-            btn_not_know,
-            btn_know,
-            btn_next,
+            btn_goto_foreign_box,
+            btn_goto_params_box,
+            self.exercise_box,
         )
 
-    async def btn_know_handler(self, _: toga.Button) -> None:
-        """Mark that know the answer, button handler."""
-        payload = {
-            ACTION: KNOW,
-            ID: self.word_id,
+
+class ForeignFormPage(BaseBox):
+    """General edit foreign box."""
+
+    url = ''
+    """Entries source url.
+    """
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the box."""
+        super().__init__(*args, **kwargs)
+        self.url = ''
+
+
+class ForeignCreatePage(BaseBox):
+    """Add word to foreign dictionary."""
+
+    url = urljoin(HOST_API, FOREIGN_LIST_CREATE_PATH)
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the box."""
+        super().__init__(*args, **kwargs)
+
+        # Box widgets.
+        btn_goto_foreign_box = BaseButton(
+            'Словарь иностранных слов',
+            on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
+        )
+        # Word data input widgets.
+        self.russian_input = TextInputApp(placeholder='Слово на русском')
+        self.foreign_input = TextInputApp(placeholder='Слово на иностранном')
+        btn_submit = BaseButton('Добавить', on_press=self.submit_handler)
+
+        self.add(
+            btn_goto_foreign_box,
+            self.russian_input,
+            self.foreign_input,
+            btn_submit,
+        )
+
+    async def submit_handler(self, _: toga.Widget) -> None:
+        """Submit, button handler."""
+        word_data = {
+            FOREIGN_WORD: self.russian_input.value,
+            RUSSIAN_WORD: self.foreign_input.value,
         }
-        await request_post_async(self.url_progress, payload=payload)
-        await self.show_task()
+        await request_post_async(self.url, word_data)
+        self.clear_word_input()
+        self.russian_input.focus()
 
-    async def btn_not_know_handler(self, _: toga.Button) -> None:
-        """Mark that not know the answer, button handler."""
-        payload = {
-            ACTION: NOT_KNOW,
-            ID: self.word_id,
-        }
-        await request_post_async(self.url_progress, payload=payload)
-        await self.show_task()
+    def clear_word_input(self) -> None:
+        """Clear the word input widgets value."""
+        self.russian_input.clean()
+        self.foreign_input.clean()
 
-    def pause_handler(self, _: toga.Button) -> None:
-        """Exercise pause, button handler."""
-        self.pause = False if self.pause else True
 
-    async def btn_next_handler(self, _: toga.Button) -> None:
-        """Switch to the next task, button handler."""
-        self.pause = False
-        await self.show_task()
+class ForeignUpdatePage(ForeignFormPage):
+    """Update the foreign word the box."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the box."""
+        super().__init__(*args, **kwargs)
+
+
+class ForeignListPage(BaseBox):
+    """Foreign words list page."""
+
+    def __init__(self) -> None:
+        """Construct the box."""
+        super().__init__()
+        self.source_url = urljoin(HOST_API, FOREIGN_LIST_CREATE_PATH)
+        self._next_pagination_url = None
+        self._previous_pagination_url = None
+        source_impl = WordSource()
+
+        # Buttons.
+        btn_goto_foreign_box = BaseButton(
+            'Словарь иностранных слов',
+            on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
+        )
+
+        # Entry info display.
+        self.info = TextDisplay()
+        self.info.placeholder = 'Информация о выбранном слове'
+
+        # Tha manage of entries.
+        btn_create = SmBtn('Добавить', on_press=self.create_handler)
+        btn_update = SmBtn('Изменить', on_press=self.update_handler)
+        btn_delete = SmBtn('Удалить', on_press=self.delete_handler)
+        btns_manage = toga.Box(children=[btn_create, btn_update, btn_delete])
+
+        # Pagination.
+        self.btn_previous = BaseButton('<', on_press=self.previous_handler)
+        btn_table_reload = BaseButton('Обновить', on_press=self.reload_handler)
+        btn_table_clear = BaseButton('Очистить', on_press=self.clear_handler)
+        self.btn_next = BaseButton('>', on_press=self.next_handler)
+        # By default, the pagination buttons is disabled.
+        self.btn_previous.enabled = False
+        self.btn_next.enabled = False
+
+        # The bottom grope of buttons.
+        btns_paginate = [
+            self.btn_previous, btn_table_reload, btn_table_clear, self.btn_next
+        ]  # fmt: skip
+
+        # Table.
+        self.table = toga.Table(
+            headings=['ID', 'Иностранный', 'Русский'],
+            data=source_impl,
+            accessors=source_impl.accessors,
+            style=Pack(flex=1),
+            on_select=self.on_select_handler,
+        )
+
+        # Page widgets DOM.
+        self.add(
+            btn_goto_foreign_box,
+            self.info,
+            btns_manage,
+            self.table,
+            toga.Box(children=btns_paginate),
+        )
+
+    def on_open(self) -> None:
+        """Populate the table when the table opens."""
+        if not self.is_table_populated():
+            self.populate_table()
+
+    def previous_handler(self, _: toga.Button) -> None:
+        """Populate the table by previous pagination, button handler."""
+        self.populate_table(self.previous_pagination_url)
+
+    def next_handler(self, _: toga.Button) -> None:
+        """Populate the table by next pagination, button handler."""
+        self.populate_table(self.next_pagination_url)
+
+    def reload_handler(self, _: toga.Button) -> None:
+        """Update the table."""
+        self.populate_table()
+
+    def clear_handler(self, _: toga.Button) -> None:
+        """Clear the table."""
+        self.clear_table()
+
+    def populate_table(self, url: str | None = None) -> None:
+        """Populate the table by url request."""
+        self.clear_table()
+        entries = self.request_entries(url)
+        for entry in entries:
+            self.table.data.add(entry)
+
+    def clear_table(self) -> None:
+        """Clear the table."""
+        self.table.data.clear()
+
+    def is_table_populated(self) -> bool:
+        """Check table is populated."""
+        return bool(self.table.data)
+
+    ####################################################################
+    # Tha manage of entries.
+
+    def on_select_handler(self, widget: toga.Table, **kwargs: object) -> None:
+        """Get entry on select event, button handler."""
+        row = widget.selection
+        self.info.value = (
+            f'You selected row: {row.id}'
+            if row is not None
+            else 'No row selected'
+        )
+
+    def create_handler(self, widget: toga.Button) -> None:
+        """Create the entry, button handler."""
+        # Ahe mobile app change window content, desktop - open the new
+        # window. NOTE: DD (Development Diversity)
+        # Mobile:
+        self.set_window_content(widget, self.root.app.foreign_create_box)
+
+    def update_handler(self, widget: toga.Button) -> None:
+        """Create the entry, button handler."""
+        # Ahe mobile app change window content, desktop - open the new
+        # window. NOTE: DD (Development Diversity)
+        # Mobile:
+        self.set_window_content(widget, self.root.app.foreign_update_box)
+
+    def delete_handler(self, widget: toga.Button) -> None:
+        """Create the entry, button handler."""
+        pass
+
+    ####################################################################
+    # URL functions
+
+    def request_entries(
+        self,
+        pagination_url: str | None = None,
+    ) -> list[tuple[str, ...]]:
+        """Request the entries to populate the table."""
+        payload = request_get(pagination_url or self.source_url).json()
+        self.next_pagination_url = payload[NEXT]
+        self.previous_pagination_url = payload[PREVIOUS]
+        return to_entries(payload[RESULTS])
 
     @property
-    def is_enable_new_task(self) -> bool:
-        """Return `False` to cancel task update, `True` otherwise."""
-        if not self.pause:
-            return self.is_visible_box(self)
-        return False
+    def next_pagination_url(self) -> str:
+        """Next pagination url (`str`).
 
-    def is_visible_box(self, widget: toga.Box) -> bool:
-        """Is the box of widget is main_window content."""
-        return widget.root.app.main_window.content == self
+        Controls the active state of the previous pagination button.
+        """
+        return self._next_pagination_url
 
-    async def show_task(self) -> None:
-        """Show new task."""
-        if self.coro_task_timer:
-            self.coro_task_timer.cancel()
+    @next_pagination_url.setter
+    def next_pagination_url(self, value: str | None) -> None:
+        self._next_pagination_url = value
+        self.btn_next.enabled = bool(value)
 
-        while self.is_enable_new_task:
-            if self.task_status != ANSWER:
-                response = await request_post_async(
-                    self.url_exercise,
-                    self.lookup_conditions,
-                )
-                self.task_data = response.json()
+    @property
+    def previous_pagination_url(self) -> str:
+        """Previous pagination url (`str`).
 
-                if response.status_code != HTTPStatus.OK:
-                    msg = 'Необработанная ошибка'
-                    if DETAIL in self.task_data:
-                        msg = self.task_data.get(DETAIL)
-                    elif ERROR in self.task_data:
-                        msg = self.task_data.get(ERROR)
-                    await self.show_message('Сообщение:', msg)
-                    break
+        Controls the active state of the previous pagination button.
+        """
+        return self._previous_pagination_url
 
-                self.word_id = self.task_data[ID]
-                self.question.value = self.task_data[QUESTION_TEXT]
-                self.answer.value = None
-                self.task_status = ANSWER
-            else:
-                self.question.value = self.task_data[QUESTION_TEXT]
-                self.answer.value = self.task_data[ANSWER_TEXT]
-                self.task_status = QUESTION
+    @previous_pagination_url.setter
+    def previous_pagination_url(self, value: str | None) -> None:
+        self._previous_pagination_url = value
+        self.btn_previous.enabled = bool(value)
 
-            self.coro_task_timer = asyncio.create_task(
-                asyncio.sleep(self.timeout)
-            )
-            await self.coro_task_timer
+    # End URL functions
+    ###################

@@ -6,10 +6,10 @@ Inherit it to construct the Word and the Glossary exercise params.
 import toga
 from toga.style import Pack
 
-from wse import base
+from wse.boxes.base import BaseBox
 
 
-class ProgressWidgets(base.BaseBox):
+class ProgressWidgets(BaseBox):
     """Progress widgets for exercise params boxes."""
 
     STUDY_STAGES = {
@@ -64,7 +64,6 @@ class ProgressWidgets(base.BaseBox):
 
         # Widget DOM.
         self.box_stages.add(
-            # The Progress widgets defined in ProgressWidgets:
             self.sw_study_stage,
             self.sw_repeat_stage,
             self.sw_examination_stage,
@@ -73,23 +72,23 @@ class ProgressWidgets(base.BaseBox):
 
     def study_stage_handler(self, widget: toga.Switch) -> None:
         """Choice study stage, switch handler."""
-        self.study_stage = True if widget.value else False
+        self.study_stage = bool(widget.value)
 
     def repeat_stage_handler(self, widget: toga.Switch) -> None:
         """Choice repeat stage, switch handler."""
-        self.repeat_stage = True if widget.value else False
+        self.repeat_stage = bool(widget.value)
 
     def examination_stage_handler(self, widget: toga.Switch) -> None:
         """Choice examination stage, switch handler."""
-        self.examination_stage = True if widget.value else False
+        self.examination_stage = bool(widget.value)
 
     def know_stage_handler(self, widget: toga.Switch) -> None:
         """Choice know stage, switch handler."""
-        self.know_stage = True if widget.value else False
+        self.know_stage = bool(widget.value)
 
     @property
     def progress(self) -> list[str]:
-        """Term study progress choices (`list[str], reade-only)."""
+        """Term study progress choices (`list[str]`, reade-only)."""
         progress_choices = []
         for alias, stage in self.STUDY_STAGES.items():
             if getattr(self, stage):

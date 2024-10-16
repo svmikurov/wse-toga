@@ -1,12 +1,9 @@
-"""Base box."""
+"""Base box widgets and methods."""
 
 import httpx
 import toga
 from httpx import Response
-from travertino.constants import (
-    CENTER,
-    COLUMN,
-)
+from travertino.constants import COLUMN
 from typing_extensions import Self
 
 from wse.http_requests import app_auth
@@ -31,8 +28,8 @@ class GoToBoxMixin:
     def goto_box_handler(self, widget: toga.Button, box_name: str) -> None:
         """Go to page box by box name, button handler.
 
-        Invoke the :py:meth:`on_open` method when the current page box is
-        assigned to the window content.
+        Invoke the :py:meth:`on_open` method when the current page box
+        is assigned to the window content.
 
         :param toga.Button widget: The widget that generated the event.
         :param str box_name: The page box name to go.
@@ -41,9 +38,8 @@ class GoToBoxMixin:
         self.set_window_content(widget, box)
         box.on_open()
 
-    @classmethod
-    def on_open(cls) -> None:
-        """Runs when the current box is assigned to the window content.
+    def on_open(self) -> None:
+        """Run when the current box is assigned to the window content.
 
         Override it if it necessary to run same actions, then the
         current box is assigned to :term:`window content`.
@@ -94,29 +90,3 @@ class BaseBox(
         """Construct the box."""
         super().__init__(*args, **kwargs)
         self.style.update(direction=COLUMN)
-
-
-class BaseButton(toga.Button):
-    """Base button.
-
-    Assigns a common style to derived buttons.
-    """
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the button."""
-        super().__init__(*args, **kwargs)
-        self.style.update(flex=1)
-        self.style.update(height=60)
-
-
-class BaseLabel(toga.Label):
-    """Base label.
-
-    Assigns a common style to derived labels.
-    """
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the label."""
-        super().__init__(*args, **kwargs)
-        self.style.update(height=35)
-        self.style.update(text_align=CENTER)
