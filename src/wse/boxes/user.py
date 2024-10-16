@@ -132,11 +132,11 @@ class UserBox(BaseBox):
             btn_delete_user,
         )
 
-    def delete_handler(self, _: toga.Button) -> None:
+    def delete_handler(self, _: toga.Widget) -> None:
         """Send the http request to delete the user, button handler."""
         pass
 
-    def logout_handler(self, _: toga.Button) -> None:
+    def logout_handler(self, _: toga.Widget) -> None:
         """Send the http request to user logout, button handler."""
         pass
 

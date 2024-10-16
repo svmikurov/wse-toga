@@ -80,7 +80,7 @@ class GlossaryParamsBox(BaseBox):
             btn_goto_glossary_exercise_box,
         )
 
-    async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
+    async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
         """Go to glossary exercise, button handler."""
         exercise_box = self.get_box(widget, GLOSSARY_EXERCISE_BOX)
         try:
@@ -99,7 +99,7 @@ class GlossaryParamsBox(BaseBox):
         if response.status_code == HTTPStatus.OK:
             self.params_box.fill_params(response.json())
 
-    def save_params_handler(self, _: toga.Button) -> None:
+    def save_params_handler(self, _: toga.Widget) -> None:
         """Save Glossary Exercise parameters, button handler.
 
         Request to save user exercise parameters.

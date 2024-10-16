@@ -165,23 +165,23 @@ class ExerciseBox(base.BaseBox):
     ####################################################################
     # Button handlers
 
-    async def know_handler(self, _: toga.Button) -> None:
+    async def know_handler(self, _: toga.Widget) -> None:
         """Mark that know the answer, button handler."""
         know_payload = {ACTION: KNOW, ID: self.task.item_id}
         await request_post_async(self.url_progress, know_payload)
         await self.loop_task()
 
-    async def not_know_handler(self, _: toga.Button) -> None:
+    async def not_know_handler(self, _: toga.Widget) -> None:
         """Mark that not know the answer, button handler."""
         not_know_payload = {ACTION: NOT_KNOW, ID: self.task.item_id}
         await request_post_async(self.url_progress, not_know_payload)
         await self.loop_task()
 
-    def pause_handler(self, _: toga.Button) -> None:
+    def pause_handler(self, _: toga.Widget) -> None:
         """Exercise pause, button handler."""
         self.timer.on_pause()
 
-    async def next_handler(self, _: toga.Button) -> None:
+    async def next_handler(self, _: toga.Widget) -> None:
         """Switch to the next task, button handler."""
         self.timer.unpause()
         await self.loop_task()

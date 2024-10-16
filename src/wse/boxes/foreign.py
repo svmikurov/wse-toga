@@ -100,7 +100,7 @@ class ForeignParamsPage(ExerciseParamsSelectionsBox):
             btn_goto_foreign_exercise_box,
         )
 
-    async def goto_exercise_box_handler(self, widget: toga.Button) -> None:
+    async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
         exercise_box = self.get_box(widget, FOREIGN_EXERCISE_BOX)
         exercise_box.task.params = self.lookup_conditions
@@ -114,7 +114,7 @@ class ForeignParamsPage(ExerciseParamsSelectionsBox):
         if response.status_code == HTTPStatus.OK:
             self.lookup_conditions = response.json()
 
-    def save_params_handler(self, _: toga.Button) -> None:
+    def save_params_handler(self, _: toga.Widget) -> None:
         """Save Glossary Exercise parameters, button handler.
 
         Request to save user exercise parameters.

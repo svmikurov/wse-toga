@@ -13,7 +13,7 @@ class GoToBoxMixin:
     """Go to page box mixin."""
 
     @classmethod
-    def get_box(cls, widget: toga.Button, box_name: str) -> Self:
+    def get_box(cls, widget: toga.Widget, box_name: str) -> Self:
         """Get the page box by box name.
 
         Get the page box that was initialized in the app.
@@ -21,11 +21,11 @@ class GoToBoxMixin:
         return widget.root.app.__getattribute__(box_name)
 
     @classmethod
-    def set_window_content(cls, widget: toga.Button, box: Self) -> None:
+    def set_window_content(cls, widget: toga.Widget, box: Self) -> None:
         """Set page box to window content."""
         widget.window.content = box
 
-    def goto_box_handler(self, widget: toga.Button, box_name: str) -> None:
+    def goto_box_handler(self, widget: toga.Widget, box_name: str) -> None:
         """Go to page box by box name, button handler.
 
         Invoke the :py:meth:`on_open` method when the current page box
