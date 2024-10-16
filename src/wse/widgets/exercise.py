@@ -26,8 +26,8 @@ from wse.contrib.http_requests import request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.widgets.base import (
-    BtnApp,
     BaseSelection,
+    BtnApp,
     TextDisplay,
 )
 
@@ -130,7 +130,7 @@ class ExerciseBox(base.BaseBox):
         super().__init__(style=Pack(direction=COLUMN))
         # The box has event timing control.
         self.timer = Timer()
-        # The box has task display control.
+        # The box has task control.
         self.task = Task()
         # To override attrs.
         self.url_exercise = FOREIGN_EXERCISE_PATH
@@ -193,7 +193,6 @@ class ExerciseBox(base.BaseBox):
         """Request the task data."""
         r = await request_post_async(self.url_exercise, self.task.params)
         self.task.data = r.json()
-        print(f'{self.task.params = }')
 
     def show_question(self) -> None:
         """Show the task question without an answer."""
