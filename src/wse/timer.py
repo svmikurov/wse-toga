@@ -21,7 +21,7 @@ class Timer:
 
     def is_timer(self) -> bool:
         """Is the timer started."""
-        return True if self.timer else False
+        return bool(self.timer)
 
     def cancel(self) -> None:
         """Cancel event timer."""
