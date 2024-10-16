@@ -29,11 +29,15 @@ from wse.constants import (
 from wse.contrib.http_requests import (
     request_get,
     request_post,
-    request_post_async,
 )
 from wse.contrib.utils import to_entries
-from wse.sources.foreign import WordSource
-from wse.widgets.base import BtnApp, SmBtn, TextDisplay, TextInputApp
+from wse.forms.forms import (
+    RequestCreateMixin,
+    RequestHandler,
+    RequestUpdateMixin,
+)
+from wse.sources.foreign import Word, WordSource
+from wse.widgets.base import BtnApp, SmBtn, TextInputApp
 from wse.widgets.exercise import ExerciseBox, ExerciseParamsSelectionsBox
 
 
@@ -154,15 +158,14 @@ class ForeignExercisePage(ExerciseBox):
         )
 
 
-class ForeignFormPage(BaseBox):
-    """General edit foreign box."""
+class ForeignFormContainer(BaseBox, RequestHandler):
+    """General form to create and update entries, the container."""
 
-    url = ''
-    """Entries source url path (`str`).
-    """
+    btn_submit_name = 'Отправить'
+    source_class = Word
 
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the box."""
+        """Construct the container."""
         super().__init__(*args, **kwargs)
 
         btn_goto_foreign_box = BtnApp(
@@ -172,7 +175,7 @@ class ForeignFormPage(BaseBox):
         # Word data input widgets.
         self.russian_input = TextInputApp(placeholder='Слово на русском')
         self.foreign_input = TextInputApp(placeholder='Слово на иностранном')
-        btn_submit = BtnApp('Добавить', on_press=self.submit_handler)
+        btn_submit = BtnApp(self.btn_submit_name, on_press=self.submit_handler)
 
         self.add(
             btn_goto_foreign_box,
@@ -181,36 +184,41 @@ class ForeignFormPage(BaseBox):
             btn_submit,
         )
 
-    async def submit_handler(self, _: toga.Widget) -> None:
-        """Submit, button handler."""
-        word_data = {
-            FOREIGN_WORD: self.russian_input.value,
-            RUSSIAN_WORD: self.foreign_input.value,
-        }
-        await request_post_async(self.url, word_data)
-        self.clear_entry_input()
-        self.russian_input.focus()
+    def populate_entry_input(self) -> None:
+        """Populate the entry input widgets value."""
+        self.russian_input.value = self.entry.russian_word
+        self.foreign_input.value = self.entry.foreign_word
 
     def clear_entry_input(self) -> None:
         """Clear the entry input widgets value."""
         self.russian_input.clean()
         self.foreign_input.clean()
 
+    def get_form_data(self) -> dict:
+        """Get the entered into the form data."""
+        submit_entry = {
+            FOREIGN_WORD: self.russian_input.value,
+            RUSSIAN_WORD: self.foreign_input.value,
+        }
+        return submit_entry
 
-class ForeignCreatePage(ForeignFormPage):
+
+class ForeignCreatePage(RequestCreateMixin, ForeignFormContainer):
     """Add word to foreign dictionary."""
 
     url = urljoin(HOST_API, FOREIGN_PATH)
-    """Create foreign word the url path (`str`).
-    """
+    btn_submit_name = 'Добавить'
 
 
-class ForeignUpdatePage(ForeignFormPage):
+class ForeignUpdatePage(RequestUpdateMixin, ForeignFormContainer):
     """Update the foreign word the box."""
 
     url = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
-    """Update foreign word the url path (`str`).
-    """
+    btn_submit_name = 'Изменить'
+
+    def handle_success(self, widget: toga.Widget) -> None:
+        """Go to foreign list page, if success."""
+        self.goto_box_handler(widget, FOREIGN_LIST_BOX)
 
 
 class ForeignListPage(BaseBox):
@@ -229,10 +237,6 @@ class ForeignListPage(BaseBox):
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
-
-        # Entry info display.
-        self.info = TextDisplay()
-        self.info.placeholder = 'Информация о выбранном слове'
 
         # Tha manage of entries.
         btn_create = SmBtn('Добавить', on_press=self.create_handler)
@@ -254,19 +258,17 @@ class ForeignListPage(BaseBox):
             self.btn_previous, btn_table_reload, btn_table_clear, self.btn_next
         ]  # fmt: skip
 
-        # Table.
+        # Entries list table.
         self.table = toga.Table(
             headings=['ID', 'Иностранный', 'Русский'],
             data=source_impl,
             accessors=source_impl.accessors,
             style=Pack(flex=1),
-            on_select=self.on_select_handler,
         )
 
         # Page widgets DOM.
         self.add(
             btn_goto_foreign_box,
-            self.info,
             btns_manage,
             self.table,
             toga.Box(children=btns_paginate),
@@ -277,24 +279,51 @@ class ForeignListPage(BaseBox):
         if not self.is_table_populated():
             self.populate_table()
 
-    def previous_handler(self, _: toga.Button) -> None:
+    ####################################################################
+    # Callback functions.
+
+    def reload_handler(self, _: toga.Widget) -> None:
+        """Update the table, button handler."""
+        self.populate_table()
+
+    def clear_handler(self, _: toga.Widget) -> None:
+        """Clear the table, button handler."""
+        self.clear_table()
+
+    def previous_handler(self, _: toga.Widget) -> None:
         """Populate the table by previous pagination, button handler."""
         self.populate_table(self.previous_pagination_url)
 
-    def next_handler(self, _: toga.Button) -> None:
+    def next_handler(self, _: toga.Widget) -> None:
         """Populate the table by next pagination, button handler."""
         self.populate_table(self.next_pagination_url)
 
-    def reload_handler(self, _: toga.Button) -> None:
-        """Update the table."""
-        self.populate_table()
+    def create_handler(self, widget: toga.Widget) -> None:
+        """Create the entry, button handler."""
+        # Ahe mobile app change window content, desktop - open the new
+        # window. NOTE: DD (Development Diversity)
+        # Mobile:
+        self.set_window_content(widget, self.root.app.foreign_create_box)
 
-    def clear_handler(self, _: toga.Button) -> None:
-        """Clear the table."""
-        self.clear_table()
+    def update_handler(self, widget: toga.Widget) -> None:
+        """Update the entry, button handler."""
+        # Ahe mobile app change window content, desktop - open the new
+        # window. NOTE: DD (Development Diversity)
+        # Mobile:
+        entry = self.table.selection
+        update_box = self.root.app.foreign_update_box
+        update_box.entry = entry
+        self.set_window_content(widget, update_box)
+
+    def delete_handler(self, widget: toga.Widget) -> None:
+        """Delete the entry, button handler."""
+        pass
+
+        # End callback functions.
+        ###############################
 
     def populate_table(self, url: str | None = None) -> None:
-        """Populate the table by url request."""
+        """Populate the table on url request."""
         self.clear_table()
         entries = self.request_entries(url)
         for entry in entries:
@@ -309,37 +338,7 @@ class ForeignListPage(BaseBox):
         return bool(self.table.data)
 
     ####################################################################
-    # Tha manage of entries.
-
-    def on_select_handler(self, widget: toga.Table, **kwargs: object) -> None:
-        """Get entry on select event, button handler."""
-        row = widget.selection
-        self.info.value = (
-            f'You selected row: {row.id}'
-            if row is not None
-            else 'No row selected'
-        )
-
-    def create_handler(self, widget: toga.Button) -> None:
-        """Create the entry, button handler."""
-        # Ahe mobile app change window content, desktop - open the new
-        # window. NOTE: DD (Development Diversity)
-        # Mobile:
-        self.set_window_content(widget, self.root.app.foreign_create_box)
-
-    def update_handler(self, widget: toga.Button) -> None:
-        """Create the entry, button handler."""
-        # Ahe mobile app change window content, desktop - open the new
-        # window. NOTE: DD (Development Diversity)
-        # Mobile:
-        self.set_window_content(widget, self.root.app.foreign_update_box)
-
-    def delete_handler(self, widget: toga.Button) -> None:
-        """Create the entry, button handler."""
-        pass
-
-    ####################################################################
-    # URL functions
+    # Url
 
     def request_entries(
         self,
@@ -376,6 +375,3 @@ class ForeignListPage(BaseBox):
     def previous_pagination_url(self, value: str | None) -> None:
         self._previous_pagination_url = value
         self.btn_previous.enabled = bool(value)
-
-    # End URL functions
-    ###################
