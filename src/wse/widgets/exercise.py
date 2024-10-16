@@ -26,7 +26,7 @@ from wse.contrib.http_requests import request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.widgets.base import (
-    BaseButton,
+    BtnApp,
     BaseSelection,
     TextDisplay,
 )
@@ -156,10 +156,10 @@ class ExerciseBox(base.BaseBox):
             btn_group_box,
         )
         btn_group_box.add(
-            BaseButton('Не знаю', self.not_know_handler),
-            BaseButton('Знаю', self.know_handler),
-            BaseButton('Пауза', self.pause_handler),
-            BaseButton('Далее', self.next_handler),
+            BtnApp('Не знаю', self.not_know_handler),
+            BtnApp('Знаю', self.know_handler),
+            BtnApp('Пауза', self.pause_handler),
+            BtnApp('Далее', self.next_handler),
         )
 
     ####################################################################

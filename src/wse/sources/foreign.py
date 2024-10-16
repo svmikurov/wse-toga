@@ -41,13 +41,13 @@ class WordSource(Source):
         self.notify('insert', index=self._words.index(word), item=word)
 
     def remove(self, item: str) -> None:
-        """Delete entry."""
+        """Remove entry from entries."""
         index = self.index(item)
         self.notify('pre_remove', index=index, item=item)
         del self._words[index]
         self.notify('remove', index=index, item=item)
 
     def clear(self) -> None:
-        """Delete entries."""
+        """Delete all entries."""
         self._words = []
         self.notify('clear')

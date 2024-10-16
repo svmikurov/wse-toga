@@ -2,5 +2,5 @@
 Exercise widgets
 ================
 
-.. automodule:: wse.boxes.widgets.exercise
+.. automodule:: wse.widgets.exercise
    :members:

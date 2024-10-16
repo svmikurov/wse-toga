@@ -14,6 +14,7 @@ Welcome to WSE's documentation!
    rest-endpoint/index
    how-to-guides/index
    glossary
+   constants/index
 
 
 

@@ -33,7 +33,7 @@ from wse.contrib.http_requests import (
 )
 from wse.contrib.utils import to_entries
 from wse.sources.foreign import WordSource
-from wse.widgets.base import BaseButton, SmBtn, TextDisplay, TextInputApp
+from wse.widgets.base import BtnApp, SmBtn, TextDisplay, TextInputApp
 from wse.widgets.exercise import ExerciseBox, ExerciseParamsSelectionsBox
 
 
@@ -45,19 +45,19 @@ class ForeignMainPage(BaseBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_main_box = BaseButton(
+        btn_goto_main_box = BtnApp(
             text='На главную',
             on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
-        btn_goto_params_box = BaseButton(
+        btn_goto_params_box = BtnApp(
             'Упражнение',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
         )
-        btn_goto_create_box = BaseButton(
+        btn_goto_create_box = BtnApp(
             'Добавить слово',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_CREATE_BOX),
         )
-        btn_goto_list_box = BaseButton(
+        btn_goto_list_box = BtnApp(
             'Словарь',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
         )
@@ -79,15 +79,15 @@ class ForeignParamsPage(ExerciseParamsSelectionsBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_foreign_box = BaseButton(
+        btn_goto_foreign_box = BtnApp(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
-        btn_goto_foreign_exercise_box = BaseButton(
+        btn_goto_foreign_exercise_box = BtnApp(
             'Начать упражнение',
             on_press=self.goto_exercise_box_handler,
         )
-        btn_save_params = BaseButton(
+        btn_save_params = BtnApp(
             'Сохранить настройки',
             on_press=self.save_params_handler,
         )
@@ -137,11 +137,11 @@ class ForeignExercisePage(ExerciseBox):
         self.url_progress = urljoin(HOST_API, FOREIGN_PROGRESS_PATH)
 
         # Buttons.
-        btn_goto_foreign_box = BaseButton(
+        btn_goto_foreign_box = BtnApp(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
-        btn_goto_params_box = BaseButton(
+        btn_goto_params_box = BtnApp(
             'Настроить упражнение',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
         )
@@ -165,14 +165,14 @@ class ForeignFormPage(BaseBox):
         """Construct the box."""
         super().__init__(*args, **kwargs)
 
-        btn_goto_foreign_box = BaseButton(
+        btn_goto_foreign_box = BtnApp(
             'Словарь иностранных слов',
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
+            on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
         )
         # Word data input widgets.
         self.russian_input = TextInputApp(placeholder='Слово на русском')
         self.foreign_input = TextInputApp(placeholder='Слово на иностранном')
-        btn_submit = BaseButton('Добавить', on_press=self.submit_handler)
+        btn_submit = BtnApp('Добавить', on_press=self.submit_handler)
 
         self.add(
             btn_goto_foreign_box,
@@ -225,7 +225,7 @@ class ForeignListPage(BaseBox):
         source_impl = WordSource()
 
         # Buttons.
-        btn_goto_foreign_box = BaseButton(
+        btn_goto_foreign_box = BtnApp(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
@@ -241,10 +241,10 @@ class ForeignListPage(BaseBox):
         btns_manage = toga.Box(children=[btn_create, btn_update, btn_delete])
 
         # Pagination.
-        self.btn_previous = BaseButton('<', on_press=self.previous_handler)
-        btn_table_reload = BaseButton('Обновить', on_press=self.reload_handler)
-        btn_table_clear = BaseButton('Очистить', on_press=self.clear_handler)
-        self.btn_next = BaseButton('>', on_press=self.next_handler)
+        self.btn_previous = BtnApp('<', on_press=self.previous_handler)
+        btn_table_reload = BtnApp('Обновить', on_press=self.reload_handler)
+        btn_table_clear = BtnApp('Очистить', on_press=self.clear_handler)
+        self.btn_next = BtnApp('>', on_press=self.next_handler)
         # By default, the pagination buttons is disabled.
         self.btn_previous.enabled = False
         self.btn_next.enabled = False

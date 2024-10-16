@@ -2,7 +2,7 @@
 
 from wse.contrib.utils import to_entries
 
-results = [
+http_response_data = [
     {'id': 6, 'name': 'apple', 'color': 'green'},
     {'id': 7, 'name': 'tomato', 'color': 'red'},
 ]
@@ -15,5 +15,5 @@ source_data = [
 
 def test_to_entries() -> None:
     """Test to entries."""
-    source = to_entries(results)
-    assert source_data == source
+    entries = to_entries(http_response_data)
+    assert source_data == entries

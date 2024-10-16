@@ -2,5 +2,5 @@
 HTTP requests
 =============
 
-.. automodule:: wse.http_requests
+.. automodule:: wse.contrib.http_requests
    :members:

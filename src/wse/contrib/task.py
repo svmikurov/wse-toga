@@ -1,6 +1,6 @@
 """Task."""
 
-from wse.constants.constants import ANSWER_TEXT, ID, QUESTION_TEXT
+from wse.constants.literal import ANSWER_TEXT, ID, QUESTION_TEXT
 
 
 class Task:

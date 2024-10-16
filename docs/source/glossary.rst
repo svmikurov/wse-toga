@@ -12,3 +12,7 @@ Glossary
 
    page box
        Box with widgets to assign to :term:`window content`.
+
+    entry
+       String value or tuple of string representation data to insert
+       to widget value (entries).

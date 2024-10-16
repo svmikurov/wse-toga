@@ -69,7 +69,7 @@ class TextInputApp(toga.TextInput):
         self.value = None
 
 
-class BaseButton(toga.Button):
+class BtnApp(toga.Button):
     """Custom button widget."""
 
     def __init__(

@@ -2,5 +2,5 @@
 Task module
 ===========
 
-.. automodule:: wse.task
+.. automodule:: wse.contrib.task
    :members:

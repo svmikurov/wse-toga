@@ -19,7 +19,7 @@ from wse.constants import (
     MAIN_BOX,
 )
 from wse.contrib.http_requests import request_get, request_post
-from wse.widgets.base import BaseButton
+from wse.widgets.base import BtnApp
 from wse.widgets.exercise import (
     ExerciseBox,
     ExerciseParamsSelectionsBox,
@@ -34,11 +34,11 @@ class GlossaryBox(BaseBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_main_box = BaseButton(
+        btn_goto_main_box = BtnApp(
             text='На главную',
             on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
-        btn_goto_params_box = BaseButton(
+        btn_goto_params_box = BtnApp(
             'Упражнение',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_PARAMS_BOX),
         )
@@ -58,15 +58,15 @@ class GlossaryParamsBox(BaseBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_glossary_box = BaseButton(
+        btn_goto_glossary_box = BtnApp(
             'Глоссарий',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
         )
-        btn_goto_glossary_exercise_box = BaseButton(
+        btn_goto_glossary_exercise_box = BtnApp(
             'Начать упражнение',
             on_press=self.goto_exercise_box_handler,
         )
-        btn_save_params = BaseButton(
+        btn_save_params = BtnApp(
             'Сохранить настройки',
             on_press=self.save_params_handler,
         )
@@ -118,11 +118,11 @@ class GlossaryExerciseBox(ExerciseBox):
         self.url_progress = urljoin(HOST_API, GLOSSARY_PROGRESS_PATH)
 
         # Buttons.
-        btn_goto_glossary_box = BaseButton(
+        btn_goto_glossary_box = BtnApp(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
         )
-        btn_goto_params_box = BaseButton(
+        btn_goto_params_box = BtnApp(
             'Настроить упражнение',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_PARAMS_BOX),
         )

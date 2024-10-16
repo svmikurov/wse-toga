@@ -2,5 +2,5 @@
 Progress study widgets
 ======================
 
-.. automodule:: wse.boxes.widgets.progress
+.. automodule:: wse.widgets.progress
    :members:

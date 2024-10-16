@@ -19,7 +19,7 @@ from wse.constants import (
     USERNAME,
 )
 from wse.contrib.http_requests import app_auth, request_post
-from wse.widgets.base import BaseButton
+from wse.widgets.base import BtnApp
 
 
 class Credentials(BaseBox):
@@ -45,7 +45,7 @@ class Credentials(BaseBox):
 
         # Widgets.
         title_label = toga.Label(self.page_box_title, style=title_style)
-        btn_goto_user_box = BaseButton(
+        btn_goto_user_box = BtnApp(
             'Назад',
             on_press=lambda _: self.goto_box_handler(_, const.USER_BOX),
         )
@@ -57,7 +57,7 @@ class Credentials(BaseBox):
             placeholder='Пароль',
             style=input_style,
         )
-        btn_submit = BaseButton(
+        btn_submit = BtnApp(
             self.btn_submit_name,
             on_press=self.submit_handler,
         )
@@ -98,27 +98,27 @@ class UserBox(BaseBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_main_box = BaseButton(
+        btn_goto_main_box = BtnApp(
             'На главную',
             on_press=lambda _: self.goto_box_handler(_, const.MAIN_BOX),
         )
-        btn_goto_register_form = BaseButton(
+        btn_goto_register_form = BtnApp(
             'Зарегистрироваться',
             on_press=lambda _: self.goto_box_handler(_, const.USER_CREATE_BOX),
         )
-        btn_goto_login_box = BaseButton(
+        btn_goto_login_box = BtnApp(
             'Войти в учетную запись',
             on_press=lambda _: self.goto_box_handler(_, const.LOGIN_BOX),
         )
-        btn_goto_update_user_box = BaseButton(
+        btn_goto_update_user_box = BtnApp(
             'Изменить учетную запись',
             on_press=lambda _: self.goto_box_handler(_, const.USER_UPDATE_BOX),
         )
-        btn_delete_user = BaseButton(
+        btn_delete_user = BtnApp(
             'Удалить учетную запись',
             on_press=lambda _: self.delete_handler,
         )
-        self.btn_logout = BaseButton(
+        self.btn_logout = BtnApp(
             'Выйти',
             on_press=self.logout_handler,
         )

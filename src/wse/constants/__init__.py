@@ -1,10 +1,11 @@
 """Application constants."""
 
-from wse.constants.constants import (
+from wse.constants.literal import (
     ACTION,
     ALIAS,
     ANSWER,
     ANSWER_TEXT,
+    AUTH_TOKEN,
     CATEGORIES,
     CATEGORY,
     DETAIL,
@@ -33,7 +34,7 @@ from wse.constants.constants import (
     TIMEOUT,
     USERNAME,
 )
-from wse.constants.page import (
+from wse.constants.box_name import (
     FOREIGN_BOX,
     FOREIGN_CREATE_BOX,
     FOREIGN_EXERCISE_BOX,
@@ -57,7 +58,6 @@ from wse.constants.settings import (
     TITLE_LABEL_HEIGHT,
 )
 from wse.constants.url import (
-    AUTH_TOKEN,
     FOREIGN_DETAIL_PATH,
     FOREIGN_EXERCISE_PATH,
     FOREIGN_PARAMS_PATH,

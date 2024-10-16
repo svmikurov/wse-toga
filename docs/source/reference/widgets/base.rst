@@ -2,5 +2,5 @@
 Base widgets
 ============
 
-.. automodule:: wse.boxes.widgets.base
+.. automodule:: wse.widgets.base
    :members:

@@ -18,7 +18,7 @@ FOREIGN_PARAMS_PATH = '/api/v1/foreign/params/'
 """Learning foreign word exercise parameters path (`str`).
 """
 FOREIGN_PATH = '/api/v1/foreign/'
-"""Liat, add foreign word the url path(`str`).
+"""Create foreign word and list of foreign word the url path(`str`).
 """
 FOREIGN_DETAIL_PATH = '/api/v1/foreign/{}/'
 """Detail foreign word the url path(`str`).
@@ -36,8 +36,6 @@ GLOSSARY_PROGRESS_PATH = '/api/v1/glossary/progress/'
 HTTP_400_BAD_REQUEST = HTTPStatus.BAD_REQUEST
 HTTP_401_UNAUTHORIZED = HTTPStatus.UNAUTHORIZED
 HTTP_500_INTERNAL_SERVER_ERROR = HTTPStatus.INTERNAL_SERVER_ERROR
-
-AUTH_TOKEN = 'auth_token'
 
 RESPONSE_ERROR_MSGS = {
     HTTP_400_BAD_REQUEST: ('', 'Предоставлены неверные данные'),

@@ -2,5 +2,5 @@
 Timer module
 ============
 
-.. automodule:: wse.timer
+.. automodule:: wse.contrib.timer
    :members:
