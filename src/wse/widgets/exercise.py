@@ -1,16 +1,10 @@
 """General exercise box widgets."""
 
 import toga
-from toga.style import Pack
-from travertino.constants import COLUMN, ROW
+from toga.style.pack import COLUMN, ROW, Pack
 
 from wse.boxes import base
 from wse.boxes.base import BaseBox
-from wse.boxes.widgets.base import (
-    BaseButton,
-    BaseSelection,
-    TextDisplay,
-)
 from wse.constants import (
     ACTION,
     ANSWER,
@@ -28,9 +22,14 @@ from wse.constants import (
     PROGRESS,
     QUESTION,
 )
-from wse.http_requests import request_post_async
-from wse.task import Task
-from wse.timer import Timer
+from wse.contrib.http_requests import request_post_async
+from wse.contrib.task import Task
+from wse.contrib.timer import Timer
+from wse.widgets.base import (
+    BaseButton,
+    BaseSelection,
+    TextDisplay,
+)
 
 
 class ExerciseParamsSelectionsBox(BaseBox):

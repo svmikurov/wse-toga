@@ -5,9 +5,9 @@ from urllib.parse import urljoin
 
 import toga
 
-from wse.boxes.base import BaseBox
-from wse.boxes.widgets.base import BaseButton
-from wse.boxes.widgets.exercise import ExerciseBox, ExerciseParamsSelectionsBox
+from wse.boxes.base import (
+    BaseBox,
+)
 from wse.constants import (
     GLOSSARY_BOX,
     GLOSSARY_EXERCISE_BOX,
@@ -18,7 +18,12 @@ from wse.constants import (
     HOST_API,
     MAIN_BOX,
 )
-from wse.http_requests import request_get, request_post
+from wse.contrib.http_requests import request_get, request_post
+from wse.widgets.base import BaseButton
+from wse.widgets.exercise import (
+    ExerciseBox,
+    ExerciseParamsSelectionsBox,
+)
 
 
 class GlossaryBox(BaseBox):

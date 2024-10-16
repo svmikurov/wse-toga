@@ -7,21 +7,16 @@ import toga
 from toga.style import Pack
 
 from wse.boxes.base import BaseBox
-from wse.boxes.sources.foreign import WordSource
-from wse.boxes.widgets.base import BaseButton, SmBtn, TextDisplay, TextInputApp
-from wse.boxes.widgets.exercise import (
-    ExerciseBox,
-    ExerciseParamsSelectionsBox,
-)
 from wse.constants import (
     FOREIGN_BOX,
     FOREIGN_CREATE_BOX,
+    FOREIGN_DETAIL_PATH,
     FOREIGN_EXERCISE_BOX,
     FOREIGN_EXERCISE_PATH,
     FOREIGN_LIST_BOX,
-    FOREIGN_PATH,
     FOREIGN_PARAMS_BOX,
     FOREIGN_PARAMS_PATH,
+    FOREIGN_PATH,
     FOREIGN_PROGRESS_PATH,
     FOREIGN_WORD,
     HOST_API,
@@ -30,14 +25,16 @@ from wse.constants import (
     PREVIOUS,
     RESULTS,
     RUSSIAN_WORD,
-    FOREIGN_DETAIL_PATH,
 )
-from wse.http_requests import (
+from wse.contrib.http_requests import (
     request_get,
     request_post,
     request_post_async,
 )
-from wse.utils import to_entries
+from wse.contrib.utils import to_entries
+from wse.sources.foreign import WordSource
+from wse.widgets.base import BaseButton, SmBtn, TextDisplay, TextInputApp
+from wse.widgets.exercise import ExerciseBox, ExerciseParamsSelectionsBox
 
 
 class ForeignMainPage(BaseBox):
@@ -204,7 +201,7 @@ class ForeignCreatePage(ForeignFormPage):
     """Add word to foreign dictionary."""
 
     url = urljoin(HOST_API, FOREIGN_PATH)
-    """Create foreign word the url path (`str`). 
+    """Create foreign word the url path (`str`).
     """
 
 
@@ -212,7 +209,7 @@ class ForeignUpdatePage(ForeignFormPage):
     """Update the foreign word the box."""
 
     url = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
-    """Update foreign word the url path (`str`). 
+    """Update foreign word the url path (`str`).
     """
 
 

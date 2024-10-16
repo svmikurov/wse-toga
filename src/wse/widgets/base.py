@@ -1,10 +1,15 @@
 """Custom app widget."""
 
 import toga
-from toga.style import Pack
+from toga.style.pack import Pack
 from travertino.constants import ITALIC
 
-from wse.constants import ALIAS, BUTTON_HEIGHT, FONT_SIZE_APP, HUMANLY
+from wse.constants import (
+    ALIAS,
+    BUTTON_HEIGHT,
+    FONT_SIZE_APP,
+    HUMANLY,
+)
 
 
 class TableApp(toga.Table):
@@ -90,7 +95,7 @@ class SmBtn(toga.Button):
         """Construct the button."""
         super().__init__(*args, **kwargs)
         self.style.flex = 1
-        self.style.height = 40
+        self.style.height = 45
 
 
 class BaseSelection(toga.Selection):

@@ -3,10 +3,10 @@
 import httpx
 import toga
 from httpx import Response
-from travertino.constants import COLUMN
+from toga.style.pack import COLUMN
 from typing_extensions import Self
 
-from wse.http_requests import app_auth
+from wse.contrib.http_requests import app_auth
 
 
 class GoToBoxMixin:

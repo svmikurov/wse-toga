@@ -2,7 +2,7 @@
 
 from wse import constants as const
 from wse.boxes.base import BaseBox
-from wse.boxes.widgets.base import BaseButton
+from wse.widgets.base import BaseButton
 
 
 class MainBox(BaseBox):

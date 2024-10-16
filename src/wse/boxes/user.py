@@ -5,12 +5,11 @@ from urllib.parse import urljoin
 
 import toga
 from toga import Button
-from toga.style import Pack
+from toga.style.pack import Pack
 from travertino.constants import CENTER
 
 from wse import constants as const
 from wse.boxes.base import BaseBox
-from wse.boxes.widgets.base import BaseButton
 from wse.constants import (
     HOST_API,
     INPUT_HEIGHT,
@@ -19,7 +18,8 @@ from wse.constants import (
     USER_BOX,
     USERNAME,
 )
-from wse.http_requests import app_auth, request_post
+from wse.contrib.http_requests import app_auth, request_post
+from wse.widgets.base import BaseButton
 
 
 class Credentials(BaseBox):
