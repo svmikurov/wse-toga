@@ -19,7 +19,7 @@ from wse.constants import (
     FOREIGN_EXERCISE_BOX,
     FOREIGN_EXERCISE_PATH,
     FOREIGN_LIST_BOX,
-    FOREIGN_LIST_CREATE_PATH,
+    FOREIGN_PATH,
     FOREIGN_PARAMS_BOX,
     FOREIGN_PARAMS_PATH,
     FOREIGN_PROGRESS_PATH,
@@ -30,6 +30,7 @@ from wse.constants import (
     PREVIOUS,
     RESULTS,
     RUSSIAN_WORD,
+    FOREIGN_DETAIL_PATH,
 )
 from wse.http_requests import (
     request_get,
@@ -160,25 +161,13 @@ class ForeignFormPage(BaseBox):
     """General edit foreign box."""
 
     url = ''
-    """Entries source url.
+    """Entries source url path (`str`).
     """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
         super().__init__(*args, **kwargs)
-        self.url = ''
 
-
-class ForeignCreatePage(BaseBox):
-    """Add word to foreign dictionary."""
-
-    url = urljoin(HOST_API, FOREIGN_LIST_CREATE_PATH)
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the box."""
-        super().__init__(*args, **kwargs)
-
-        # Box widgets.
         btn_goto_foreign_box = BaseButton(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
@@ -202,21 +191,29 @@ class ForeignCreatePage(BaseBox):
             RUSSIAN_WORD: self.foreign_input.value,
         }
         await request_post_async(self.url, word_data)
-        self.clear_word_input()
+        self.clear_entry_input()
         self.russian_input.focus()
 
-    def clear_word_input(self) -> None:
-        """Clear the word input widgets value."""
+    def clear_entry_input(self) -> None:
+        """Clear the entry input widgets value."""
         self.russian_input.clean()
         self.foreign_input.clean()
+
+
+class ForeignCreatePage(ForeignFormPage):
+    """Add word to foreign dictionary."""
+
+    url = urljoin(HOST_API, FOREIGN_PATH)
+    """Create foreign word the url path (`str`). 
+    """
 
 
 class ForeignUpdatePage(ForeignFormPage):
     """Update the foreign word the box."""
 
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the box."""
-        super().__init__(*args, **kwargs)
+    url = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
+    """Update foreign word the url path (`str`). 
+    """
 
 
 class ForeignListPage(BaseBox):
@@ -225,7 +222,7 @@ class ForeignListPage(BaseBox):
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
-        self.source_url = urljoin(HOST_API, FOREIGN_LIST_CREATE_PATH)
+        self.source_url = urljoin(HOST_API, FOREIGN_PATH)
         self._next_pagination_url = None
         self._previous_pagination_url = None
         source_impl = WordSource()
