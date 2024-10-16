@@ -6,19 +6,23 @@ from urllib.parse import urljoin
 import toga
 from toga import Button
 from toga.style import Pack
+from travertino.constants import CENTER
 
-from wse import base
 from wse import constants as const
+from wse.boxes.base import BaseBox
+from wse.boxes.widgets.base import BaseButton
 from wse.constants import (
     HOST_API,
+    INPUT_HEIGHT,
     PASSWORD,
+    TITLE_LABEL_HEIGHT,
     USER_BOX,
     USERNAME,
 )
 from wse.http_requests import app_auth, request_post
 
 
-class Credentials(base.BaseBox):
+class Credentials(BaseBox):
     """Credentials input widgets."""
 
     page_box_title = ''
@@ -36,13 +40,12 @@ class Credentials(base.BaseBox):
         super().__init__()
 
         # Styles.
-        input_style = Pack(
-            height=60,
-        )
+        input_style = Pack(height=INPUT_HEIGHT)
+        title_style = Pack(height=TITLE_LABEL_HEIGHT, text_align=CENTER)
 
         # Widgets.
-        title_label = base.BaseLabel(self.page_box_title)
-        btn_goto_user_box = base.BaseButton(
+        title_label = toga.Label(self.page_box_title, style=title_style)
+        btn_goto_user_box = BaseButton(
             'Назад',
             on_press=lambda _: self.goto_box_handler(_, const.USER_BOX),
         )
@@ -54,7 +57,7 @@ class Credentials(base.BaseBox):
             placeholder='Пароль',
             style=input_style,
         )
-        btn_submit = base.BaseButton(
+        btn_submit = BaseButton(
             self.btn_submit_name,
             on_press=self.submit_handler,
         )
@@ -84,7 +87,7 @@ class Credentials(base.BaseBox):
             self.goto_box_handler(widget, USER_BOX)
 
 
-class UserBox(base.BaseBox):
+class UserBox(BaseBox):
     """The general user page box.
 
     Contains buttons for move to user page boxes.
@@ -95,27 +98,27 @@ class UserBox(base.BaseBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_main_box = base.BaseButton(
+        btn_goto_main_box = BaseButton(
             'На главную',
             on_press=lambda _: self.goto_box_handler(_, const.MAIN_BOX),
         )
-        btn_goto_register_form = base.BaseButton(
+        btn_goto_register_form = BaseButton(
             'Зарегистрироваться',
             on_press=lambda _: self.goto_box_handler(_, const.USER_CREATE_BOX),
         )
-        btn_goto_login_box = base.BaseButton(
+        btn_goto_login_box = BaseButton(
             'Войти в учетную запись',
             on_press=lambda _: self.goto_box_handler(_, const.LOGIN_BOX),
         )
-        btn_goto_update_user_box = base.BaseButton(
+        btn_goto_update_user_box = BaseButton(
             'Изменить учетную запись',
             on_press=lambda _: self.goto_box_handler(_, const.USER_UPDATE_BOX),
         )
-        btn_delete_user = base.BaseButton(
+        btn_delete_user = BaseButton(
             'Удалить учетную запись',
             on_press=lambda _: self.delete_handler,
         )
-        self.btn_logout = base.BaseButton(
+        self.btn_logout = BaseButton(
             'Выйти',
             on_press=self.logout_handler,
         )
