@@ -45,11 +45,6 @@ class AppAuth(httpx.Auth):
         """Delete current auth token."""
         self.token = None
 
-    @property
-    def is_authenticated(self) -> bool:
-        """Return user authentication status."""
-        return True if self.token else False
-
 
 app_auth = AppAuth()
 
