@@ -7,9 +7,12 @@ from wse import boxes, constants
 BOXES = {
     constants.MAIN_BOX: boxes.MainBox,
     # Foreign language study page boxes.
-    constants.FOREIGN_BOX: boxes.ForeignBox,
-    constants.FOREIGN_EXERCISE_BOX: boxes.ForeignExerciseBox,
-    constants.FOREIGN_PARAMS_BOX: boxes.ForeignParamsBox,
+    constants.FOREIGN_BOX: boxes.ForeignMainPage,
+    constants.FOREIGN_EXERCISE_BOX: boxes.ForeignExercisePage,
+    constants.FOREIGN_PARAMS_BOX: boxes.ForeignParamsPage,
+    constants.FOREIGN_CREATE_BOX: boxes.ForeignCreatePage,
+    constants.FOREIGN_UPDATE_BOX: boxes.ForeignUpdatePage,
+    constants.FOREIGN_LIST_BOX: boxes.ForeignListPage,
     # Glossary study page boxes.
     constants.GLOSSARY_BOX: boxes.GlossaryBox,
     constants.GLOSSARY_PARAMS_BOX: boxes.GlossaryParamsBox,
@@ -20,7 +23,8 @@ BOXES = {
     constants.USER_UPDATE_BOX: boxes.LoginBox,
     constants.USER_BOX: boxes.UserBox,
 }
-"""Boxes to add to ``main_window.content`` (`dict[str, toga.Box]`).
+"""The box-container contents to add to ``main_window.content``
+(`dict[str, toga.Box]`).
 
 Fields:
   - box name: box instance
