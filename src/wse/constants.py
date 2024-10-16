@@ -41,8 +41,11 @@ FOREIGN_PROGRESS_PATH = '/api/v1/foreign/progress/'
 FOREIGN_PARAMS_PATH = '/api/v1/foreign/params/'
 """Learning foreign word exercise parameters path (`str`).
 """
-FOREIGN_LIST_CREATE_PATH = '/api/v1/foreign/'
-"""Add foreign word to dictionary (`str`).
+FOREIGN_PATH = '/api/v1/foreign/'
+"""Liat, add foreign word the url path(`str`).
+"""
+FOREIGN_DETAIL_PATH = '/api/v1/foreign/{}/'
+"""Detail foreign word the url path(`str`).
 """
 GLOSSARY_EXERCISE_PATH = '/api/v1/glossary/exercise/'
 """Glossary exercise path (`str`).
