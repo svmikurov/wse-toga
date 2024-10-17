@@ -10,6 +10,7 @@ from wse.constants import (
     FONT_SIZE_APP,
     HUMANLY,
 )
+from wse.constants.settings import PADDING_AROUND_WIDGET, PADDING_SIDE
 
 
 class TableApp(toga.Table):
@@ -17,10 +18,12 @@ class TableApp(toga.Table):
 
     def __init__(self, *arge: object, **kwargs: object) -> None:
         """Construct the table."""
+        style = Pack(
+            flex=1,
+            font_style=ITALIC,
+        )
+        kwargs['style'] = kwargs.get('style', style)
         super().__init__(*arge, **kwargs)
-        self.style.padding = (14, 7, 7, 7)
-        self.style.flex = 1
-        self.font_style = ITALIC
 
 
 class TextDisplay(toga.MultilineTextInput):
@@ -33,7 +36,7 @@ class TextDisplay(toga.MultilineTextInput):
     def __init__(self, **kwargs: object) -> None:
         """Construct the widget."""
         style = Pack(
-            padding=(0, 5, 0, 5),
+            padding=(0, 0, 0, 0),
         )
         kwargs['readonly'] = True
         kwargs['style'] = kwargs.get('style', style)
@@ -74,6 +77,11 @@ class MulTextInpApp(toga.MultilineTextInput):
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the table."""
+        style = Pack(
+            padding=(2, 0, 2, 0),
+            font_style=ITALIC,
+        )
+        kwargs['style'] = kwargs.get('style', style)
         super().__init__(*args, **kwargs)
 
     def clean(self) -> None:

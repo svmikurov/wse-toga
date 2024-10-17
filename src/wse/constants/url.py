@@ -32,6 +32,12 @@ GLOSSARY_PARAMS_PATH = '/api/v1/glossary/params/'
 GLOSSARY_PROGRESS_PATH = '/api/v1/glossary/progress/'
 """Glossary progress update path (`str`).
 """
+GLOSSARY_DETAIL_PATH = '/api/v1/glossary/%s/'
+"""Detail glossary term the url path(`str`).
+"""
+GLOSSARY_PATH = '/api/v1/glossary/'
+"""Create glossary term and list of glossary term the url path(`str`).
+"""
 
 HTTP_400_BAD_REQUEST = HTTPStatus.BAD_REQUEST
 HTTP_401_UNAUTHORIZED = HTTPStatus.UNAUTHORIZED

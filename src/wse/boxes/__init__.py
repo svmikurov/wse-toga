@@ -9,9 +9,12 @@ from wse.boxes.foreign import (
     ForeignUpdatePage,
 )
 from wse.boxes.glossary import (
-    GlossaryBox,
+    CreateTermPage,
     GlossaryExerciseBox,
+    GlossaryMainPage,
     GlossaryParamsBox,
+    ListTermPage,
+    UpdateTermPage,
 )
 from wse.boxes.main import (
     MainBox,
@@ -29,9 +32,12 @@ __all__ = (
     'ForeignMainPage',
     'ForeignParamsPage',
     'ForeignUpdatePage',
-    'GlossaryBox',
+    'CreateTermPage',
     'GlossaryExerciseBox',
+    'ListTermPage',
+    'GlossaryMainPage',
     'GlossaryParamsBox',
+    'UpdateTermPage',
     'LoginBox',
     'MainBox',
     'UserBox',

@@ -6,6 +6,7 @@ from httpx import Response
 from toga.style.pack import COLUMN
 from typing_extensions import Self
 
+from wse.constants.settings import PADDING_SM
 from wse.contrib.http_requests import app_auth
 
 
@@ -89,4 +90,5 @@ class BaseBox(
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
         super().__init__(*args, **kwargs)
-        self.style.update(direction=COLUMN)
+        self.style.direction = COLUMN
+        self.style.padding = PADDING_SM

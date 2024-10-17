@@ -4,7 +4,6 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
-from toga.style import Pack
 
 from wse.boxes.base import BaseBox
 from wse.constants import (
@@ -37,7 +36,7 @@ from wse.forms.forms import (
     RequestUpdateMixin,
 )
 from wse.sources.foreign import Word, WordSource
-from wse.widgets.base import BtnApp, SmBtn, TextInputApp
+from wse.widgets.base import BtnApp, SmBtn, TableApp, TextInputApp
 from wse.widgets.exercise import ExerciseBox, ExerciseParamsSelectionsBox
 
 
@@ -258,12 +257,11 @@ class ForeignListPage(BaseBox):
             self.btn_previous, btn_table_reload, btn_table_clear, self.btn_next
         ]  # fmt: skip
 
-        # Entries list table.
-        self.table = toga.Table(
+        # Table.
+        self.table = TableApp(
             headings=['ID', 'Иностранный', 'Русский'],
             data=source_impl,
             accessors=source_impl.accessors,
-            style=Pack(flex=1),
         )
 
         # Page widgets DOM.

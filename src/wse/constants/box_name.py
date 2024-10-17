@@ -45,3 +45,12 @@ GLOSSARY_EXERCISE_BOX = 'glossary_exercise_box'
 GLOSSARY_PARAMS_BOX = 'glossary_exercise_params_box'
 """Parameters of foreign words study the box (`str`).
 """
+GLOSSARY_CREATE_BOX = 'glossary_create_box'
+"""Create glossary term the box (`str`).
+"""
+GLOSSARY_LIST_BOX = 'glossary_list_box'
+"""Glossary list the box (`str`).
+"""
+GLOSSARY_UPDATE_BOX = 'glossary_update_box'
+"""Update glossary term the box (`str`).
+"""

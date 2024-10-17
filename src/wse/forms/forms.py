@@ -6,10 +6,12 @@ import toga
 from httpx import Response
 from toga.sources import Source
 
+from wse.boxes.base import BaseBox
 from wse.contrib.http_requests import (
     request_post_async,
     request_put_async,
 )
+from wse.widgets.base import BtnApp
 
 
 class EntryManagement:
@@ -33,7 +35,10 @@ class EntryManagement:
 
     @property
     def entry(self) -> source_class:
-        """The form entry data."""
+        """The form entry data.
+
+        Invoke the populate or clear the widget value.
+        """
         return self._entry
 
     @entry.setter
@@ -102,8 +107,8 @@ class EntryManagement:
         )
 
 
-class RequestMixin:
-    """The attributes to url request for entries."""
+class RequestHandler(EntryManagement):
+    """Request the form submit, the handler."""
 
     url = None
     """Entries url path to http requests (`str` | None).
@@ -111,6 +116,21 @@ class RequestMixin:
     success_http_status = None
     """Success http status (`int`).
     """
+    btn_submit_name = 'Отправить'
+
+    def __init__(self) -> None:
+        """Construct."""
+        super().__init__()
+        btn_submit = BtnApp(self.btn_submit_name, on_press=self.submit_handler)
+
+    async def submit_handler(self, widget: toga.Widget) -> None:
+        """Submit, button handler."""
+        form_data = self.get_form_data()
+        response = await self.send_request_async(form_data)
+        if response.status_code == self.success_http_status:
+            self.clear_entry_input()
+            self.handle_success(widget)
+        self.input_field_focus()
 
     async def send_request_async(self, payload: dict) -> Response:
         """Send http async request.
@@ -128,41 +148,6 @@ class RequestMixin:
         raise NotImplementedError(
             'Subclasses must provide a send_request_async() method.'
         )
-
-
-class RequestHandler(EntryManagement, RequestMixin):
-    """Request the form submit, the handler.
-
-    Override the methods:
-
-        populate_entry_input()
-        clear_entry_input()
-        get_form_data()
-
-    To send http request:
-
-        Define class attrs:
-            url =
-            success_http_status =
-
-        Override thr methods:
-
-            send_request_async()
-
-    """
-
-    def __init__(self) -> None:
-        """Construct."""
-        super().__init__()
-
-    async def submit_handler(self, widget: toga.Widget) -> None:
-        """Submit, button handler."""
-        form_data = self.get_form_data()
-        response = await self.send_request_async(form_data)
-        if response.status_code == self.success_http_status:
-            self.clear_entry_input()
-            self.handle_success(widget)
-        self.input_field_focus()
 
     def handle_success(self, widget: toga.Widget) -> None:
         """Invoke if success.
@@ -196,3 +181,7 @@ class RequestUpdateMixin:
         """Send http request to update entry, PUT method."""
         url = self.url % self.entry.id
         return await request_put_async(url, payload)
+
+
+class BaseForm(BaseBox, RequestHandler):
+    """"""
