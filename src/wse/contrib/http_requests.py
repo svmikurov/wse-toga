@@ -106,3 +106,10 @@ async def request_put_async(url: str, payload: dict) -> Response:
     async with httpx.AsyncClient(auth=app_auth) as client:
         response = await client.put(url, json=payload)
     return response
+
+
+async def request_delete_async(url: str) -> Response:
+    """Request the async DELETE method."""
+    async with httpx.AsyncClient(auth=app_auth) as client:
+        response = await client.delete(url)
+    return response
