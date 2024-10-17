@@ -69,6 +69,18 @@ class TextInputApp(toga.TextInput):
         self.value = None
 
 
+class MulTextInpApp(toga.MultilineTextInput):
+    """MultilineTextInput application widget."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the table."""
+        super().__init__(*args, **kwargs)
+
+    def clean(self) -> None:
+        """Clear the text input widget value."""
+        self.value = None
+
+
 class BtnApp(toga.Button):
     """Custom button widget."""
 
