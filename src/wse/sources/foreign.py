@@ -7,7 +7,7 @@ class Word:
     """A class to wrap individual word."""
 
     def __init__(self, id: str, foreign_word: str, russian_word: str) -> None:
-        """Construct the wrap."""
+        """Construct the word wrap."""
         self.id = int(id)
         self.foreign_word = foreign_word
         self.russian_word = russian_word
