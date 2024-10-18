@@ -34,11 +34,21 @@ class WordSource(Source):
         """Get entry index."""
         return self._words.index(entry)
 
-    def add(self, entry: str) -> None:
-        """Add entry."""
-        word = Word(*entry)
-        self._words.append(word)
-        self.notify('insert', index=self._words.index(word), item=word)
+    def add_entry(self, entry: tuple[str, ...]) -> None:
+        """Add entry to terms.
+
+        Adds ('item', 'item', ...) to self._terms (`list`).
+        """
+        term = Word(*entry)
+        self.add_term(term)
+
+    def add_term(self, term: Word) -> None:
+        """Add term to terms.
+
+        Add <wse.sources.glossary.Term X ...> to self._terms (`list`).
+        """
+        self._words.append(term)
+        self.notify('insert', index=self._words.index(term), item=term)
 
     def remove(self, item: str) -> None:
         """Remove entry from entries."""

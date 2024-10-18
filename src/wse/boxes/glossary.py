@@ -163,7 +163,7 @@ class GlossaryExerciseBox(ExerciseBox):
         )
 
 
-class GlossaryFormContainer(BaseForm):
+class GlossaryForm(BaseForm):
     """General form to create and update entries, the container."""
 
     btn_submit_name = 'Отправить'
@@ -210,7 +210,7 @@ class GlossaryFormContainer(BaseForm):
         self.term.focus()
 
 
-class CreateTermPage(RequestCreateMixin, GlossaryFormContainer):
+class CreateTermPage(RequestCreateMixin, GlossaryForm):
     """Glossary create page."""
 
     url = urljoin(HOST_API, GLOSSARY_PATH)
@@ -226,7 +226,7 @@ class CreateTermPage(RequestCreateMixin, GlossaryFormContainer):
         return submit_entry
 
 
-class UpdateTermPage(RequestUpdateMixin, GlossaryFormContainer):
+class UpdateTermPage(RequestUpdateMixin, GlossaryForm):
     """Glossary update page."""
 
     url = urljoin(HOST_API, GLOSSARY_DETAIL_PATH)
@@ -352,10 +352,6 @@ class ListTermPage(BaseBox):
     def clear_table(self) -> None:
         """Clear the table."""
         self.table.data.clear()
-
-    def is_table_populated(self) -> bool:
-        """Check table is populated."""
-        return bool(self.table.data)
 
     ####################################################################
     # Url

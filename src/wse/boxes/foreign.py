@@ -4,6 +4,7 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
+from httpx import Response
 
 from wse.boxes.base import BaseBox
 from wse.constants import (
@@ -27,13 +28,13 @@ from wse.constants import (
 )
 from wse.contrib.http_requests import (
     request_get,
-    request_post,
+    request_post, request_delete_async,
 )
 from wse.contrib.utils import to_entries
 from wse.forms.forms import (
     RequestCreateMixin,
     RequestHandler,
-    RequestUpdateMixin,
+    RequestUpdateMixin, BaseForm,
 )
 from wse.sources.foreign import Word, WordSource
 from wse.widgets.base import BtnApp, SmBtn, TableApp, TextInputApp
@@ -157,7 +158,7 @@ class ForeignExercisePage(ExerciseBox):
         )
 
 
-class ForeignFormContainer(BaseBox, RequestHandler):
+class ForeignForm(BaseForm):
     """General form to create and update entries, the container."""
 
     btn_submit_name = 'Отправить'
@@ -183,6 +184,10 @@ class ForeignFormContainer(BaseBox, RequestHandler):
             btn_submit,
         )
 
+    def on_open(self) -> None:
+        """Focus to input field on open form."""
+        self.input_field_focus()
+
     def populate_entry_input(self) -> None:
         """Populate the entry input widgets value."""
         self.russian_input.value = self.entry.russian_word
@@ -193,6 +198,18 @@ class ForeignFormContainer(BaseBox, RequestHandler):
         self.russian_input.clean()
         self.foreign_input.clean()
 
+    def input_field_focus(self) -> None:
+        """Focus to input field."""
+        self.russian_input.focus()
+
+
+class ForeignCreatePage(RequestCreateMixin, ForeignForm):
+    """Add word to foreign dictionary."""
+
+    url = urljoin(HOST_API, FOREIGN_PATH)
+    success_http_status = HTTPStatus.CREATED
+    btn_submit_name = 'Добавить'
+
     def get_form_data(self) -> dict:
         """Get the entered into the form data."""
         submit_entry = {
@@ -202,14 +219,7 @@ class ForeignFormContainer(BaseBox, RequestHandler):
         return submit_entry
 
 
-class ForeignCreatePage(RequestCreateMixin, ForeignFormContainer):
-    """Add word to foreign dictionary."""
-
-    url = urljoin(HOST_API, FOREIGN_PATH)
-    btn_submit_name = 'Добавить'
-
-
-class ForeignUpdatePage(RequestUpdateMixin, ForeignFormContainer):
+class ForeignUpdatePage(RequestUpdateMixin, ForeignForm):
     """Update the foreign word the box."""
 
     url = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
@@ -219,6 +229,15 @@ class ForeignUpdatePage(RequestUpdateMixin, ForeignFormContainer):
         """Go to foreign list page, if success."""
         self.goto_box_handler(widget, FOREIGN_LIST_BOX)
 
+    def get_form_data(self) -> dict:
+        """Get the entered into the form data."""
+        submit_entry = {
+            'id': str(self.entry.id),
+            FOREIGN_WORD: self.russian_input.value,
+            RUSSIAN_WORD: self.foreign_input.value,
+        }
+        return submit_entry
+
 
 class ForeignListPage(BaseBox):
     """Foreign words list page."""
@@ -226,42 +245,46 @@ class ForeignListPage(BaseBox):
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
-        self.source_url = urljoin(HOST_API, FOREIGN_PATH)
-        self._next_pagination_url = None
-        self._previous_pagination_url = None
-        source_impl = WordSource()
 
-        # Buttons.
+        # The table entries (data).
+        self.term_source = WordSource()
+        # The table entries source urls.
+        self.source_url = urljoin(HOST_API, FOREIGN_PATH)
+        self.delete_source_url = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
+        self._next_pagination_url = None
+        self.current_pagination_url = None
+        self._previous_pagination_url = None
+
+        # The navigation buttons.
         btn_goto_foreign_box = BtnApp(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
 
-        # Tha manage of entries.
-        btn_create = SmBtn('Добавить', on_press=self.create_handler)
-        btn_update = SmBtn('Изменить', on_press=self.update_handler)
-        btn_delete = SmBtn('Удалить', on_press=self.delete_handler)
-        btns_manage = toga.Box(children=[btn_create, btn_update, btn_delete])
-
-        # Pagination.
+        # The pagination buttons.
         self.btn_previous = BtnApp('<', on_press=self.previous_handler)
         btn_table_reload = BtnApp('Обновить', on_press=self.reload_handler)
-        btn_table_clear = BtnApp('Очистить', on_press=self.clear_handler)
         self.btn_next = BtnApp('>', on_press=self.next_handler)
         # By default, the pagination buttons is disabled.
         self.btn_previous.enabled = False
         self.btn_next.enabled = False
-
-        # The bottom grope of buttons.
+        # Buttons group.
         btns_paginate = [
-            self.btn_previous, btn_table_reload, btn_table_clear, self.btn_next
+            self.btn_previous, btn_table_reload, self.btn_next
         ]  # fmt: skip
+
+        # The table entries management buttons.
+        btn_create = SmBtn('Добавить', on_press=self.create_handler)
+        btn_update = SmBtn('Изменить', on_press=self.update_handler)
+        btn_delete = SmBtn('Удалить', on_press=self.delete_handler)
+        # Buttons group.
+        btns_manage = toga.Box(children=[btn_create, btn_update, btn_delete])
 
         # Table.
         self.table = TableApp(
             headings=['ID', 'Иностранный', 'Русский'],
-            data=source_impl,
-            accessors=source_impl.accessors,
+            data=self.term_source,
+            accessors=self.term_source.accessors,
         )
 
         # Page widgets DOM.
@@ -274,19 +297,35 @@ class ForeignListPage(BaseBox):
 
     def on_open(self) -> None:
         """Populate the table when the table opens."""
-        if not self.is_table_populated():
+        if bool(self.current_pagination_url):
+            self.populate_table(self.current_pagination_url)
+        else:
             self.populate_table()
 
     ####################################################################
     # Callback functions.
 
+    def create_handler(self, widget: toga.Widget) -> None:
+        """Create the entry, button handler."""
+        self.set_window_content(widget, self.root.app.foreign_create_box)
+
+    def update_handler(self, widget: toga.Widget) -> None:
+        """Update the entry, button handler."""
+        entry = self.table.selection
+        update_box = self.root.app.foreign_update_box
+        update_box.entry = entry
+        self.set_window_content(widget, update_box)
+
+    async def delete_handler(self, _: toga.Widget) -> None:
+        """Delete the entry, button handler."""
+        entry = self.table.selection
+        url = self.delete_source_url % entry.id
+        await request_delete_async(url)
+        self.populate_table(self.current_pagination_url)
+
     def reload_handler(self, _: toga.Widget) -> None:
         """Update the table, button handler."""
         self.populate_table()
-
-    def clear_handler(self, _: toga.Widget) -> None:
-        """Clear the table, button handler."""
-        self.clear_table()
 
     def previous_handler(self, _: toga.Widget) -> None:
         """Populate the table by previous pagination, button handler."""
@@ -296,44 +335,16 @@ class ForeignListPage(BaseBox):
         """Populate the table by next pagination, button handler."""
         self.populate_table(self.next_pagination_url)
 
-    def create_handler(self, widget: toga.Widget) -> None:
-        """Create the entry, button handler."""
-        # Ahe mobile app change window content, desktop - open the new
-        # window. NOTE: DD (Development Diversity)
-        # Mobile:
-        self.set_window_content(widget, self.root.app.foreign_create_box)
-
-    def update_handler(self, widget: toga.Widget) -> None:
-        """Update the entry, button handler."""
-        # Ahe mobile app change window content, desktop - open the new
-        # window. NOTE: DD (Development Diversity)
-        # Mobile:
-        entry = self.table.selection
-        update_box = self.root.app.foreign_update_box
-        update_box.entry = entry
-        self.set_window_content(widget, update_box)
-
-    def delete_handler(self, widget: toga.Widget) -> None:
-        """Delete the entry, button handler."""
-        pass
-
-        # End callback functions.
-        ###############################
-
     def populate_table(self, url: str | None = None) -> None:
         """Populate the table on url request."""
         self.clear_table()
         entries = self.request_entries(url)
         for entry in entries:
-            self.table.data.add(entry)
+            self.term_source.add_entry(entry)
 
     def clear_table(self) -> None:
         """Clear the table."""
         self.table.data.clear()
-
-    def is_table_populated(self) -> bool:
-        """Check table is populated."""
-        return bool(self.table.data)
 
     ####################################################################
     # Url
@@ -343,10 +354,17 @@ class ForeignListPage(BaseBox):
         pagination_url: str | None = None,
     ) -> list[tuple[str, ...]]:
         """Request the entries to populate the table."""
-        payload = request_get(pagination_url or self.source_url).json()
-        self.next_pagination_url = payload[NEXT]
-        self.previous_pagination_url = payload[PREVIOUS]
+        response = request_get(pagination_url or self.source_url)
+        self.set_pagination_urls(response)
+        payload = response.json()
         return to_entries(payload[RESULTS])
+
+    def set_pagination_urls(self, response: Response) -> None:
+        """Set pagination urls."""
+        payload = response.json()
+        self.next_pagination_url = payload[NEXT]
+        self.current_pagination_url = response.url
+        self.previous_pagination_url = payload[PREVIOUS]
 
     @property
     def next_pagination_url(self) -> str:
