@@ -19,7 +19,7 @@ from wse.constants import (
 )
 from wse.contrib.http_requests import app_auth, request_post
 from wse.page.base import BaseBox
-from wse.widget.base import BtnApp
+from wse.widget.base import BtnApp, MulTextInpApp
 
 
 class Credentials(BaseBox):
@@ -93,9 +93,19 @@ class UserBox(BaseBox):
     Contains buttons for move to user page boxes.
     """
 
+    USER_DATA = {
+        'username': 'Test name',
+    }
+    """Test user info data (`dict`q).
+    """
+    user_info_text = 'Username: %s'
+    """User info template (`str`).
+    """
+
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
+        self.user_data = self.USER_DATA
 
         # Box widgets.
         btn_goto_main_box = BtnApp(
@@ -123,14 +133,25 @@ class UserBox(BaseBox):
             on_press=self.logout_handler,
         )
 
+        # User info display
+        self.user_info_display = MulTextInpApp()
+
         # Widget DOM.
         self.add(
+            self.user_info_display,
             btn_goto_main_box,
             btn_goto_login_box,
             btn_goto_register_form,
             btn_goto_update_user_box,
             btn_delete_user,
         )
+
+    def on_open(self) -> None:
+        """Invoke display of user information."""
+        self.display_user_info()
+
+    ####################################################################
+    # Button callback functions.
 
     def delete_handler(self, _: toga.Widget) -> None:
         """Send the http request to delete the user, button handler."""
@@ -139,6 +160,19 @@ class UserBox(BaseBox):
     def logout_handler(self, _: toga.Widget) -> None:
         """Send the http request to user logout, button handler."""
         pass
+
+    ####################################################################
+    # User info display.
+
+    def display_user_info(self) -> None:
+        """Display the user info."""
+        self.populate_display_info()
+
+    def populate_display_info(self) -> None:
+        """Populate the user info display."""
+        user_name = self.user_data.get('username')
+        info_text = self.user_info_text % user_name
+        self.user_info_display.value = info_text
 
 
 class UserCreateBox(Credentials):
