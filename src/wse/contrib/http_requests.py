@@ -82,6 +82,8 @@ def request_post(
 ) -> Response:
     """Send POST request."""
     auth = app_auth if token else None
+    print(f'{payload = }')
+    print(f'{auth = }')
     with httpx.Client(auth=auth) as client:
         response = client.post(url=url, json=payload)
     return response

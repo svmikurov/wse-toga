@@ -18,6 +18,9 @@ USER_REGISTER_PATH = '/api/v1/auth/users/'
 USER_DETAIL = '/api/v1/auth/users/%s/'
 """User detail endpoint, allowed GET method (`str`).
 """
+USER_UPDATE_PATH = '/api/v1/auth/users/set_username/'
+"""User update endpoint, allowed POST method (`str`).
+"""
 USER_ME = '/api/v1/auth/users/me/'
 """User detail endpoint, allowed GET method (`str`).
 """

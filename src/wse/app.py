@@ -22,6 +22,7 @@ BOXES = {
     constants.GLOSSARY_LIST_BOX: page.ListTermPage,
     # User management page boxes.
     constants.USER_BOX: page.UserBox,
+    constants.USER_UPDATE_BOX: page.UserUpdateBox,
     constants.AUTH_BOX: page.AuthBox,
 }
 """The box-container contents to add to ``main_window.content``

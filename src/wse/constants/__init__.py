@@ -82,6 +82,7 @@ from wse.constants.url import (
     TOKEN_PATH,
     USER_ME,
     USER_REGISTER_PATH,
+    USER_UPDATE_PATH,
 )
 
 __all__ = (  # noqa: F405
@@ -89,11 +90,9 @@ __all__ = (  # noqa: F405
     'ALIAS',
     'ANSWER',
     'ANSWER_TEXT',
-    'AUTH_TOKEN',
-    'USER_ME',
     'AUTH_BOX',
+    'AUTH_TOKEN',
     'BUTTON_HEIGHT',
-    'USER_REGISTER_PATH',
     'CATEGORIES',
     'CATEGORY',
     'DEFAULT_TIMEOUT',
@@ -103,8 +102,6 @@ __all__ = (  # noqa: F405
     'EXERCISE_CHOICES',
     'FONT_SIZE_APP',
     'FOREIGN_BOX',
-    'LOGIN_PATH',
-    'LOGOUT_PATH',
     'FOREIGN_CREATE_BOX',
     'FOREIGN_DETAIL_PATH',
     'FOREIGN_EXERCISE_BOX',
@@ -136,6 +133,8 @@ __all__ = (  # noqa: F405
     'INPUT_HEIGHT',
     'KNOW',
     'LOGIN_BOX',
+    'LOGIN_PATH',
+    'LOGOUT_PATH',
     'LOOKUP_CONDITIONS',
     'MAIN_BOX',
     'NAME',
@@ -159,5 +158,8 @@ __all__ = (  # noqa: F405
     'USERNAME',
     'USER_BOX',
     'USER_CREATE_BOX',
+    'USER_ME',
+    'USER_REGISTER_PATH',
     'USER_UPDATE_BOX',
+    'USER_UPDATE_PATH,'
 )
