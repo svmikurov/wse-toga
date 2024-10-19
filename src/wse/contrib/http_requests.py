@@ -116,6 +116,17 @@ async def request_delete_async(url: str) -> Response:
     return response
 
 
+class HttpGetMixin:
+    """Request GET method, the mixin."""
+
+    success_http_status = HTTPStatus.OK
+
+    @classmethod
+    async def send_request_async(cls, url: str, payload: dict) -> Response:
+        """Send http request PUT method."""
+        return await request_put_async(url, payload)
+
+
 class HttpPostMixin:
     """Request POST method, the mixin."""
 
