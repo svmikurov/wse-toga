@@ -78,19 +78,13 @@ def request_get(url: str) -> Response:
 def request_post(
     url: str,
     payload: dict | None = None,
-) -> Response | ErrorResponse:
+    token: bool = True,
+) -> Response:
     """Send POST request."""
-    with httpx.Client(auth=app_auth) as client:
-        try:
-            response = client.post(url=url, json=payload)
-        except httpx.ConnectError as exc:
-            print(f'\nINFO: HTTP Exception for {exc.request.url} - {exc}')
-            return ErrorResponse(
-                const.HTTP_500_INTERNAL_SERVER_ERROR,
-                'Не удалось установить соединение',
-            )
-        else:
-            return response
+    auth = app_auth if token else None
+    with httpx.Client(auth=auth) as client:
+        response = client.post(url=url, json=payload)
+    return response
 
 
 #########################################################################
@@ -105,7 +99,9 @@ async def request_get_async(url: str) -> Response:
     return response
 
 
-async def request_post_async(url: str, payload: dict) -> Response:
+async def request_post_async(
+    url: str, payload: dict | None = None
+) -> Response:  # noqa: E501
     """Request the async POST method."""
     async with httpx.AsyncClient(auth=app_auth) as client:
         response = await client.post(url, json=payload)
