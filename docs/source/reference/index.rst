@@ -6,6 +6,8 @@ Reference
    :maxdepth: 2
 
    App <app>
-   modules/index
-   page_boxes/index
-   widgets/index
+   page/index
+   general/index
+   widget/index
+   constants/index
+   contrib/index

@@ -2,6 +2,7 @@
 
 import os
 import typing
+from http import HTTPStatus
 
 import httpx
 from dotenv import load_dotenv
@@ -113,3 +114,25 @@ async def request_delete_async(url: str) -> Response:
     async with httpx.AsyncClient(auth=app_auth) as client:
         response = await client.delete(url)
     return response
+
+
+class HttpPostMixin:
+    """Request POST method, the mixin."""
+
+    success_http_status = HTTPStatus.CREATED
+
+    @classmethod
+    async def send_request_async(cls, url: str, payload: dict) -> Response:
+        """Send http request, POST method."""
+        return await request_post_async(url, payload)
+
+
+class HttpPutMixin:
+    """Request PUT method, the mixin."""
+
+    success_http_status = HTTPStatus.OK
+
+    @classmethod
+    async def send_request_async(cls, url: str, payload: dict) -> Response:
+        """Send http request PUT method."""
+        return await request_put_async(url, payload)

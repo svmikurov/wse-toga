@@ -1,24 +1,5 @@
 """Application constants."""
 
-from wse.constants.box_name import (
-    FOREIGN_BOX,
-    FOREIGN_CREATE_BOX,
-    FOREIGN_EXERCISE_BOX,
-    FOREIGN_LIST_BOX,
-    FOREIGN_PARAMS_BOX,
-    FOREIGN_UPDATE_BOX,
-    GLOSSARY_BOX,
-    GLOSSARY_CREATE_BOX,
-    GLOSSARY_EXERCISE_BOX,
-    GLOSSARY_LIST_BOX,
-    GLOSSARY_PARAMS_BOX,
-    GLOSSARY_UPDATE_BOX,
-    LOGIN_BOX,
-    MAIN_BOX,
-    USER_BOX,
-    USER_CREATE_BOX,
-    USER_UPDATE_BOX,
-)
 from wse.constants.literal import (
     ACTION,
     ALIAS,
@@ -52,6 +33,25 @@ from wse.constants.literal import (
     TERM_ID,
     TIMEOUT,
     USERNAME,
+)
+from wse.constants.page import (
+    FOREIGN_BOX,
+    FOREIGN_CREATE_BOX,
+    FOREIGN_EXERCISE_BOX,
+    FOREIGN_LIST_BOX,
+    FOREIGN_PARAMS_BOX,
+    FOREIGN_UPDATE_BOX,
+    GLOSSARY_BOX,
+    GLOSSARY_CREATE_BOX,
+    GLOSSARY_EXERCISE_BOX,
+    GLOSSARY_LIST_BOX,
+    GLOSSARY_PARAMS_BOX,
+    GLOSSARY_UPDATE_BOX,
+    LOGIN_BOX,
+    MAIN_BOX,
+    USER_BOX,
+    USER_CREATE_BOX,
+    USER_UPDATE_BOX,
 )
 from wse.constants.settings import (
     BUTTON_HEIGHT,
