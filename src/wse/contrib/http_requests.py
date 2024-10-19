@@ -63,6 +63,11 @@ class ErrorResponse:
         self.message = message
 
 
+#########################################################################
+# Request
+#########################################################################
+
+
 def request_get(url: str) -> Response:
     """Send GET request."""
     with httpx.Client(auth=app_auth) as client:
@@ -86,6 +91,11 @@ def request_post(
             )
         else:
             return response
+
+
+#########################################################################
+# Async request
+#########################################################################
 
 
 async def request_get_async(url: str) -> Response:
@@ -114,6 +124,11 @@ async def request_delete_async(url: str) -> Response:
     async with httpx.AsyncClient(auth=app_auth) as client:
         response = await client.delete(url)
     return response
+
+
+#########################################################################
+# Request mixins
+#########################################################################
 
 
 class HttpGetMixin:

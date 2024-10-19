@@ -4,6 +4,7 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
+from httpx import Response
 from toga import Button
 from toga.style.pack import Pack
 from travertino.constants import CENTER
@@ -17,7 +18,9 @@ from wse.constants import (
     USER_BOX,
     USERNAME,
 )
-from wse.contrib.http_requests import app_auth, request_post
+from wse.constants.page import AUTH_BOX
+from wse.constants.url import USER_ME, USER_REGISTER_PATH
+from wse.contrib.http_requests import app_auth, request_get, request_post
 from wse.page.base import BaseBox
 from wse.widget.base import BtnApp, MulTextInpApp
 
@@ -25,11 +28,11 @@ from wse.widget.base import BtnApp, MulTextInpApp
 class Credentials(BaseBox):
     """Credentials input widgets."""
 
+    url_path = ''
+    """Submit url path (`str`).
+    """
     page_box_title = ''
     """Page box title (`str`).
-    """
-    page_box_path = ''
-    """Url path to page box (`str`).
     """
     btn_submit_name = 'Отправить'
     """Name of the "Submit" button (`str`).
@@ -46,21 +49,15 @@ class Credentials(BaseBox):
         # Widgets.
         title_label = toga.Label(self.page_box_title, style=title_style)
         btn_goto_user_box = BtnApp(
-            'Назад',
-            on_press=lambda _: self.goto_box_handler(_, const.USER_BOX),
+            'Назад', lambda _: self.goto_box_handler(_, const.USER_BOX)
         )
         self.username_input = toga.TextInput(
-            placeholder='Имя',
-            style=input_style,
+            placeholder='Имя', style=input_style
         )
         self.password_input = toga.PasswordInput(
-            placeholder='Пароль',
-            style=input_style,
+            placeholder='Пароль', style=input_style
         )
-        btn_submit = BtnApp(
-            self.btn_submit_name,
-            on_press=self.submit_handler,
-        )
+        btn_submit = BtnApp(self.btn_submit_name, on_press=self.submit_handler)
 
         # Widgets DOM.
         self.add(
@@ -73,18 +70,35 @@ class Credentials(BaseBox):
 
     def submit_handler(self, widget: Button) -> None:
         """Submit, button handler."""
-        url = urljoin(HOST_API, self.page_box_path)
+        url = urljoin(HOST_API, self.url_path)
+        self.request_auth(widget, url)
+
+    def request_auth(self, widget: toga.Widget, url: str) -> None:
+        """Request login."""
+        response = request_post(url, payload=self.get_credentials())
+        if response.status_code == HTTPStatus.OK:
+            self.handel_success(widget, response)
+
+    @staticmethod
+    def validate_credentials(credentials: dict) -> bool:
+        """Validate the user credentials."""
+        return True
+
+    def get_credentials(self) -> dict:
+        """Extract user data from form, validate it."""
         credentials = {
             USERNAME: self.username_input.value,
             PASSWORD: self.password_input.value,
         }
-        response = request_post(url=url, payload=credentials)
+        if self.validate_credentials(credentials):
+            return credentials
 
-        if response.status_code == HTTPStatus.OK:
-            self.username_input.value = None
-            self.password_input.value = None
-            app_auth.set_token(response)
-            self.goto_box_handler(widget, USER_BOX)
+    def handel_success(self, widget: toga.Widget, response: Response) -> None:
+        """Handel the success auth request."""
+        app_auth.set_token(response)
+        self.username_input.value = None
+        self.password_input.value = None
+        self.goto_box_handler(widget, USER_BOX)
 
 
 class UserBox(BaseBox):
@@ -93,6 +107,9 @@ class UserBox(BaseBox):
     Contains buttons for move to user page boxes.
     """
 
+    user_detail_url = urljoin(HOST_API, USER_ME)
+    """User detail url, allowed GET method (`str`).
+    """
     USER_DATA = {
         'username': 'Test name',
     }
@@ -105,7 +122,10 @@ class UserBox(BaseBox):
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
-        self.user_data = self.USER_DATA
+        self.user_data: dict = self.USER_DATA
+        self.user_id: int | None = None
+        self.username: str | None = None
+        self.is_auth: bool = False
 
         # Box widgets.
         btn_goto_main_box = BtnApp(
@@ -113,12 +133,8 @@ class UserBox(BaseBox):
             on_press=lambda _: self.goto_box_handler(_, const.MAIN_BOX),
         )
         btn_goto_register_form = BtnApp(
-            'Зарегистрироваться',
-            on_press=lambda _: self.goto_box_handler(_, const.USER_CREATE_BOX),
-        )
-        btn_goto_login_box = BtnApp(
-            'Войти в учетную запись',
-            on_press=lambda _: self.goto_box_handler(_, const.LOGIN_BOX),
+            'Вход / Регистрация',
+            on_press=lambda _: self.goto_box_handler(_, AUTH_BOX),
         )
         btn_goto_update_user_box = BtnApp(
             'Изменить учетную запись',
@@ -128,10 +144,7 @@ class UserBox(BaseBox):
             'Удалить учетную запись',
             on_press=lambda _: self.delete_handler,
         )
-        self.btn_logout = BtnApp(
-            'Выйти',
-            on_press=self.logout_handler,
-        )
+        self.btn_logout = BtnApp('Выйти', on_press=self.logout_handler)
 
         # User info display
         self.user_info_display = MulTextInpApp()
@@ -140,7 +153,6 @@ class UserBox(BaseBox):
         self.add(
             self.user_info_display,
             btn_goto_main_box,
-            btn_goto_login_box,
             btn_goto_register_form,
             btn_goto_update_user_box,
             btn_delete_user,
@@ -162,25 +174,37 @@ class UserBox(BaseBox):
         pass
 
     ####################################################################
-    # User info display.
+    # User info.
 
     def display_user_info(self) -> None:
         """Display the user info."""
+        self.set_user_info()
+        self.username = self.username or 'anonymous'
         self.populate_display_info()
+
+    def set_user_info(self) -> None:
+        """Set user info."""
+        response = request_get(self.user_detail_url)
+
+        if response.status_code == HTTPStatus.OK:
+            self.user_id = response.json()['id']
+            self.username = response.json()['username']
+            self.is_auth = True
+        else:
+            self.user_id = None
+            self.username = None
+            self.is_auth = False
+
+        self.update_auth_widgets()
 
     def populate_display_info(self) -> None:
         """Populate the user info display."""
-        user_name = self.user_data.get('username')
-        info_text = self.user_info_text % user_name
+        info_text = self.user_info_text % self.username
         self.user_info_display.value = info_text
 
-
-class UserCreateBox(Credentials):
-    """User registration page box."""
-
-    page_box_title = 'Регистрация пользователя'
-    page_box_path = ''
-    btn_submit_name = 'Зарегистрироваться'
+    def update_auth_widgets(self) -> None:
+        """Update auth widgets."""
+        pass
 
 
 class UserUpdateBox(Credentials):
@@ -191,9 +215,22 @@ class UserUpdateBox(Credentials):
     btn_submit_name = 'Изменить'
 
 
-class LoginBox(Credentials):
+class AuthBox(Credentials):
     """Login page box."""
 
     page_box_title = 'Вход в учетную запись'
-    page_box_path = ''
     btn_submit_name = 'Войти'
+
+    def __init__(self) -> None:
+        """Construct the page box."""
+        super().__init__()
+
+        btn_registration = BtnApp(
+            'Зарегистрироваться', self.registration_handler
+        )
+        self.add(btn_registration)
+
+    def registration_handler(self, widget: toga.Widget) -> None:
+        """Submit registration, button handler."""
+        url = urljoin(HOST_API, USER_REGISTER_PATH)
+        self.request_auth(widget, url)

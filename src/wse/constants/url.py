@@ -5,9 +5,23 @@ from http import HTTPStatus
 HOST_API = 'http://127.0.0.1/'
 """Host to conect (`str`).
 """
+
+USER_LOGIN_PATH = '/auth/token/login/'
+"""User login url path, allowed POST method (`str`).
+"""
+USER_REGISTER_PATH = '/api/v1/auth/users/'
+"""User registration path, allowed POST method (`str`).
+"""
+USER_DETAIL = '/api/v1/auth/users/%s/'
+"""User detail endpoint, allowed GET method (`str`).
+"""
+USER_ME = '/api/v1/auth/users/me/'
+"""User detail endpoint, allowed GET method (`str`).
+"""
 TOKEN_PATH = '/auth/token/login/'
 """Endpoint to obtain the user authentication token, allowed method: POST (`str`).
 """  # noqa: W505, E501
+
 FOREIGN_EXERCISE_PATH = '/api/v1/foreign/exercise/'
 """Learning foreign word exercise path (`str`).
 """
@@ -23,6 +37,7 @@ FOREIGN_PATH = '/api/v1/foreign/'
 FOREIGN_DETAIL_PATH = '/api/v1/foreign/%s/'
 """Detail foreign word the url path(`str`).
 """
+
 GLOSSARY_EXERCISE_PATH = '/api/v1/glossary/exercise/'
 """Glossary exercise path (`str`).
 """

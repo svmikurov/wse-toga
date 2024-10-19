@@ -35,6 +35,7 @@ from wse.constants.literal import (
     USERNAME,
 )
 from wse.constants.page import (
+    AUTH_BOX,
     FOREIGN_BOX,
     FOREIGN_CREATE_BOX,
     FOREIGN_EXERCISE_BOX,
@@ -85,6 +86,7 @@ __all__ = (  # noqa: F405
     'ANSWER',
     'ANSWER_TEXT',
     'AUTH_TOKEN',
+    'AUTH_BOX',
     'BUTTON_HEIGHT',
     'CATEGORIES',
     'CATEGORY',

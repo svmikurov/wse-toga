@@ -13,6 +13,9 @@ USER_CREATE_BOX = 'user_create_box'
 USER_UPDATE_BOX = 'user_update_box'
 """Update user the box (`str`).
 """
+AUTH_BOX = 'auth_box'
+"""User login or registration box name (
+"""
 LOGIN_BOX = 'login_box'
 """User login the box (`str`).
 """

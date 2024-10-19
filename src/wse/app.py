@@ -21,10 +21,8 @@ BOXES = {
     constants.GLOSSARY_UPDATE_BOX: page.UpdateTermPage,
     constants.GLOSSARY_LIST_BOX: page.ListTermPage,
     # User management page boxes.
-    constants.LOGIN_BOX: page.LoginBox,
-    constants.USER_CREATE_BOX: page.UserCreateBox,
-    constants.USER_UPDATE_BOX: page.LoginBox,
     constants.USER_BOX: page.UserBox,
+    constants.AUTH_BOX: page.AuthBox,
 }
 """The box-container contents to add to ``main_window.content``
 (`dict[str, toga.Box]`).
