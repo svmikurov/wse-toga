@@ -17,10 +17,12 @@ def run_tests() -> None:
     # default to running the whole test suite.
     args = sys.argv[1:]
     if len(args) == 0:
-        args = ['tests']
+        args = ['tests', 'src']
 
     returncode = pytest.main(
         [
+            # Include doctests
+            '--doctest-modules',
             # Turn up verbosity
             '-vv',
             # Disable color
