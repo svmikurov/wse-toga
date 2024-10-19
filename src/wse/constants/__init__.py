@@ -78,6 +78,8 @@ from wse.constants.url import (
     HTTP_500_INTERNAL_SERVER_ERROR,
     RESPONSE_ERROR_MSGS,
     TOKEN_PATH,
+    USER_ME,
+    USER_REGISTER_PATH,
 )
 
 __all__ = (  # noqa: F405
@@ -86,8 +88,10 @@ __all__ = (  # noqa: F405
     'ANSWER',
     'ANSWER_TEXT',
     'AUTH_TOKEN',
+    'USER_ME',
     'AUTH_BOX',
     'BUTTON_HEIGHT',
+    'USER_REGISTER_PATH',
     'CATEGORIES',
     'CATEGORY',
     'DEFAULT_TIMEOUT',

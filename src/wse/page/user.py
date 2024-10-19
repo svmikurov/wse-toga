@@ -5,21 +5,21 @@ from urllib.parse import urljoin
 
 import toga
 from httpx import Response
-from toga import Button
-from toga.style.pack import Pack
-from travertino.constants import CENTER
+from toga.style.pack import CENTER, Pack
 
-from wse import constants as const
 from wse.constants import (
+    AUTH_BOX,
     HOST_API,
     INPUT_HEIGHT,
+    MAIN_BOX,
     PASSWORD,
     TITLE_LABEL_HEIGHT,
     USER_BOX,
+    USER_ME,
+    USER_REGISTER_PATH,
+    USER_UPDATE_BOX,
     USERNAME,
 )
-from wse.constants.page import AUTH_BOX
-from wse.constants.url import USER_ME, USER_REGISTER_PATH
 from wse.contrib.http_requests import app_auth, request_get, request_post
 from wse.page.base import BoxApp
 from wse.widget.base import BtnApp, MulTextInpApp
@@ -49,7 +49,7 @@ class Credentials(BoxApp):
         # Widgets.
         title_label = toga.Label(self.page_box_title, style=title_style)
         btn_goto_user_box = BtnApp(
-            'Назад', lambda _: self.goto_box_handler(_, const.USER_BOX)
+            'Назад', lambda _: self.goto_box_handler(_, USER_BOX)
         )
         self.username_input = toga.TextInput(
             placeholder='Имя', style=input_style
@@ -68,7 +68,7 @@ class Credentials(BoxApp):
             btn_submit,
         )
 
-    def submit_handler(self, widget: Button) -> None:
+    def submit_handler(self, widget: toga.Widget) -> None:
         """Submit, button handler."""
         url = urljoin(HOST_API, self.url_path)
         self.request_auth(widget, url)
@@ -130,7 +130,7 @@ class UserBox(BoxApp):
         # Box widgets.
         btn_goto_main_box = BtnApp(
             'На главную',
-            on_press=lambda _: self.goto_box_handler(_, const.MAIN_BOX),
+            on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
         btn_goto_register_form = BtnApp(
             'Вход / Регистрация',
@@ -138,7 +138,7 @@ class UserBox(BoxApp):
         )
         btn_goto_update_user_box = BtnApp(
             'Изменить учетную запись',
-            on_press=lambda _: self.goto_box_handler(_, const.USER_UPDATE_BOX),
+            on_press=lambda _: self.goto_box_handler(_, USER_UPDATE_BOX),
         )
         btn_delete_user = BtnApp(
             'Удалить учетную запись',
