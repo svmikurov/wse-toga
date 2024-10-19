@@ -148,6 +148,7 @@ class UserBox(BoxApp):
 
         # User info display
         self.user_info_display = MulTextInpApp()
+        self.user_info_display.style.flex = 1
 
         # Widget DOM.
         self.add(

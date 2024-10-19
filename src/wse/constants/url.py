@@ -3,7 +3,7 @@
 from http import HTTPStatus
 
 HOST_API = 'http://127.0.0.1/'
-"""Host to conect (`str`).
+"""Host to connect (`str`).
 """
 
 USER_LOGIN_PATH = '/auth/token/login/'
