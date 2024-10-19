@@ -23,6 +23,7 @@ def run_tests() -> None:
         [
             # Include doctests
             '--doctest-modules',
+            '-s',
             # Turn up verbosity
             '-vv',
             # Disable color

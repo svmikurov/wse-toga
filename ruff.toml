@@ -2,7 +2,7 @@
 # https://docs.astral.sh/ruff/configuration/
 
 exclude = [
-    'docs', '.venv_wse_toga', 'conftest.py'
+    'docs', '.venv_wse_toga', 'tests/*'
 ]
 line-length = 79
 
