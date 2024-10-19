@@ -1,11 +1,11 @@
 """Form classe."""
 
 from wse.general.data import ManagingWidgetDataFromResponse
-from wse.page.base import BaseBox
+from wse.page.base import BoxApp
 
 
 class BaseForm(
-    BaseBox,
+    BoxApp,
     ManagingWidgetDataFromResponse,
 ):
     """Base form widget class."""

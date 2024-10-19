@@ -6,10 +6,10 @@ Inherit it to construct the Word and the Glossary exercise params.
 import toga
 from toga.style import Pack
 
-from wse.page.base import BaseBox
+from wse.page.base import BoxApp
 
 
-class ProgressWidgets(BaseBox):
+class ProgressWidgets(BoxApp):
     """Progress widgets for exercise params boxes."""
 
     STUDY_STAGES = {

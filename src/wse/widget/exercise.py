@@ -24,7 +24,7 @@ from wse.contrib.http_requests import request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.page import base
-from wse.page.base import BaseBox
+from wse.page.base import BoxApp
 from wse.widget.base import (
     BaseSelection,
     BtnApp,
@@ -32,7 +32,7 @@ from wse.widget.base import (
 )
 
 
-class ExerciseParamsSelectionsBox(BaseBox):
+class ExerciseParamsSelectionsBox(BoxApp):
     """Exercise param box of selection widgets.
 
     Use the ``params_box`` attribute of that class to
@@ -122,7 +122,7 @@ class ExerciseParamsSelectionsBox(BaseBox):
         )  # fmt: skip
 
 
-class ExerciseBox(base.BaseBox):
+class ExerciseBox(base.BoxApp):
     """Exercise box of widgets."""
 
     def __init__(self) -> None:

@@ -29,13 +29,13 @@ from wse.contrib.http_requests import (
 )
 from wse.general.form import BaseForm
 from wse.general.table import BaseTable
-from wse.page.base import BaseBox
+from wse.page.base import BoxApp
 from wse.source.foreign import Word, WordSource
 from wse.widget.base import BtnApp, TextInputApp
 from wse.widget.exercise import ExerciseBox, ExerciseParamsSelectionsBox
 
 
-class MainForeignPage(BaseBox):
+class MainForeignPage(BoxApp):
     """Learning foreign words main box."""
 
     def __init__(self) -> None:

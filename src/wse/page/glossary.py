@@ -28,7 +28,7 @@ from wse.contrib.http_requests import (
 from wse.general.form import BaseForm
 from wse.general.table import BaseTable
 from wse.page.base import (
-    BaseBox,
+    BoxApp,
 )
 from wse.source.glossary import Term, TermSource
 from wse.widget.base import BtnApp, MulTextInpApp
@@ -38,7 +38,7 @@ from wse.widget.exercise import (
 )
 
 
-class MainGlossaryPage(BaseBox):
+class MainGlossaryPage(BoxApp):
     """Glossary main box."""
 
     def __init__(self) -> None:
@@ -72,7 +72,7 @@ class MainGlossaryPage(BaseBox):
         )
 
 
-class ParamsGlossaryBox(BaseBox):
+class ParamsGlossaryBox(BoxApp):
     """Glossary box."""
 
     def __init__(self) -> None:

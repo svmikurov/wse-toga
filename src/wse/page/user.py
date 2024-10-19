@@ -21,11 +21,11 @@ from wse.constants import (
 from wse.constants.page import AUTH_BOX
 from wse.constants.url import USER_ME, USER_REGISTER_PATH
 from wse.contrib.http_requests import app_auth, request_get, request_post
-from wse.page.base import BaseBox
+from wse.page.base import BoxApp
 from wse.widget.base import BtnApp, MulTextInpApp
 
 
-class Credentials(BaseBox):
+class Credentials(BoxApp):
     """Credentials input widgets."""
 
     url_path = ''
@@ -101,7 +101,7 @@ class Credentials(BaseBox):
         self.goto_box_handler(widget, USER_BOX)
 
 
-class UserBox(BaseBox):
+class UserBox(BoxApp):
     """The general user page box.
 
     Contains buttons for move to user page boxes.

@@ -93,11 +93,7 @@ class HttpRequestMixin:
         return response
 
 
-class BaseBox(
-    MessageBoxMixin,
-    GoToBoxMixin,
-    toga.Box,
-):
+class BaseBox(toga.Box):
     """Base page box."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
@@ -105,3 +101,12 @@ class BaseBox(
         super().__init__(*args, **kwargs)
         self.style.direction = COLUMN
         self.style.padding = PADDING_SM
+        self.style.flex = 1
+
+
+class BoxApp(MessageBoxMixin, GoToBoxMixin, BaseBox):
+    """Base page box."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the box."""
+        super().__init__(*args, **kwargs)

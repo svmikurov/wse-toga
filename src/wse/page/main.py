@@ -1,11 +1,11 @@
 """Main box."""
 
 from wse import constants as const
-from wse.page.base import BaseBox
+from wse.page.base import BoxApp
 from wse.widget.base import BtnApp
 
 
-class MainBox(BaseBox):
+class MainBox(BoxApp):
     """Main box.
 
     Contains content that is displayed to the user

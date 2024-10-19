@@ -6,11 +6,11 @@ from httpx import Response
 from wse.constants import NEXT, PREVIOUS, RESULTS
 from wse.contrib.http_requests import request_delete_async, request_get
 from wse.contrib.utils import to_entries
-from wse.page.base import BaseBox
+from wse.page.base import BoxApp
 from wse.widget.base import BtnApp, SmBtn, TableApp
 
 
-class BaseTable(BaseBox):
+class BaseTable(BoxApp):
     """Base table, the container.
 
     In the derived class:
