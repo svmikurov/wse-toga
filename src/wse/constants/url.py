@@ -6,8 +6,11 @@ HOST_API = 'http://127.0.0.1/'
 """Host to connect (`str`).
 """
 
-USER_LOGIN_PATH = '/auth/token/login/'
+LOGIN_PATH = '/auth/token/login/'
 """User login url path, allowed POST method (`str`).
+"""
+LOGOUT_PATH = '/auth/token/logout/'
+"""User logout url path, allowed POST method (`str`).
 """
 USER_REGISTER_PATH = '/api/v1/auth/users/'
 """User registration path, allowed POST method (`str`).
