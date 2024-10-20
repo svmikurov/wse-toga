@@ -2,5 +2,5 @@
 Base page box
 =============
 
-.. automodule:: wse.page.base
+.. automodule:: wse.general.box
    :members:

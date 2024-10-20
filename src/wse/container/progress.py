@@ -1,12 +1,14 @@
-"""Progress exercise study choice stages, common widget.
+"""Container for choice exercise progress parameters.
 
-Inherit it to construct the Word and the Glossary exercise params.
+Choice parameters for exercises:
+    * Glossary term study exercise
+    * Foreign word study exercise
 """
 
 import toga
 from toga.style import Pack
 
-from wse.page.base import BoxApp
+from wse.general.box import BoxApp
 
 
 class ProgressWidgets(BoxApp):

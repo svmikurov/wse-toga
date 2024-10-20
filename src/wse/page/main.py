@@ -1,8 +1,8 @@
 """Main box."""
 
 from wse import constants as const
-from wse.page.base import BoxApp
-from wse.widget.base import BtnApp
+from wse.general.button import BtnApp
+from wse.general.box import BoxApp
 
 
 class MainBox(BoxApp):

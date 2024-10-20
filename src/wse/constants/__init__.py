@@ -161,5 +161,5 @@ __all__ = (  # noqa: F405
     'USER_ME',
     'USER_REGISTER_PATH',
     'USER_UPDATE_BOX',
-    'USER_UPDATE_PATH,'
+    'USER_UPDATE_PATH',
 )

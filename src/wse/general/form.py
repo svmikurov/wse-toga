@@ -1,7 +1,7 @@
 """Form classe."""
 
 from wse.general.data import ManagingWidgetDataFromResponse
-from wse.page.base import BoxApp
+from wse.general.box import BoxApp
 
 
 class BaseForm(

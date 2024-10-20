@@ -1,13 +1,21 @@
 """Base box widgets and methods."""
 
-import httpx
 import toga
-from httpx import Response
 from toga.style.pack import COLUMN
 from typing_extensions import Self
 
 from wse.constants.settings import PADDING_SM
-from wse.contrib.http_requests import app_auth
+
+
+class BaseBox(toga.Box):
+    """Base page box."""
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the box."""
+        super().__init__(*args, **kwargs)
+        self.style.direction = COLUMN
+        self.style.padding = PADDING_SM
+        self.style.flex = 1
 
 
 class GoToBoxMixin:
@@ -58,37 +66,6 @@ class MessageBoxMixin:
         await self.app.main_window.dialog(
             toga.InfoDialog(str(title), str(message))
         )
-
-
-class HttpRequestMixin:
-    """Http request mixin."""
-
-    auth = app_auth
-
-    @classmethod
-    def request_get(cls, url: str) -> Response:
-        """Send GET request."""
-        with httpx.Client(auth=cls.auth) as client:
-            response = client.get(url=url)
-        return response
-
-    @classmethod
-    def request_post(cls, url: str, payload: dict) -> Response:
-        """Send POST request."""
-        with httpx.Client(auth=cls.auth) as client:
-            response = client.post(url=url, json=payload)
-        return response
-
-
-class BaseBox(toga.Box):
-    """Base page box."""
-
-    def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the box."""
-        super().__init__(*args, **kwargs)
-        self.style.direction = COLUMN
-        self.style.padding = PADDING_SM
-        self.style.flex = 1
 
 
 class BoxApp(MessageBoxMixin, GoToBoxMixin, BaseBox):

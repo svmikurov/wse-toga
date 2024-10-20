@@ -2,15 +2,30 @@
 
 import toga
 from httpx import Response
+from toga.style import Pack
+from travertino.constants import ITALIC
 
 from wse.constants import NEXT, PREVIOUS, RESULTS
 from wse.contrib.http_requests import request_delete_async, request_get
 from wse.contrib.utils import to_entries
-from wse.page.base import BoxApp
-from wse.widget.base import BtnApp, SmBtn, TableApp
+from wse.general.button import BtnApp, SmBtn
+from wse.general.box import BoxApp
 
 
-class BaseTable(BoxApp):
+class BaseTable(toga.Table):
+    """General table app."""
+
+    def __init__(self, *arge: object, **kwargs: object) -> None:
+        """Construct the table."""
+        style = Pack(
+            flex=1,
+            font_style=ITALIC,
+        )
+        kwargs['style'] = kwargs.get('style', style)
+        super().__init__(*arge, **kwargs)
+
+
+class TableApp(BoxApp):
     """Base table, the container.
 
     In the derived class:
@@ -80,7 +95,7 @@ class BaseTable(BoxApp):
         )
 
         # The table.
-        self.table = TableApp(
+        self.table = BaseTable(
             headings=self.headings,
             data=self.entry,
             accessors=self.entry.accessors,

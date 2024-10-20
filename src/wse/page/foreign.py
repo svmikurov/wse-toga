@@ -21,18 +21,19 @@ from wse.constants import (
     MAIN_BOX,
     RUSSIAN_WORD,
 )
+from wse.container.exercise import ExerciseBox, ExerciseParamsSelectionsBox
 from wse.contrib.http_requests import (
     HttpPostMixin,
     HttpPutMixin,
     request_get,
     request_post,
 )
+from wse.general.button import BtnApp
 from wse.general.form import BaseForm
-from wse.general.table import BaseTable
-from wse.page.base import BoxApp
+from wse.general.table import TableApp
+from wse.general.text_input import TextInputApp
+from wse.general.box import BoxApp
 from wse.source.foreign import Word, WordSource
-from wse.widget.base import BtnApp, TextInputApp
-from wse.widget.exercise import ExerciseBox, ExerciseParamsSelectionsBox
 
 
 class MainForeignPage(BoxApp):
@@ -227,7 +228,7 @@ class UpdateForeignPage(HttpPutMixin, FormForeign):
         return submit_entry
 
 
-class ListForeignPage(BaseTable):
+class ListForeignPage(TableApp):
     """Table of list of foreign words, the page.
 
     :ivar Button btn_goto_foreign_box: Button go to Foreign Main page.

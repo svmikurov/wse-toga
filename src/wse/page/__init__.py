@@ -21,7 +21,8 @@ from wse.page.main import (
 )
 from wse.page.user import (
     AuthBox,
-    UserBox, UserUpdateBox,
+    UserBox,
+    UserUpdateBox,
 )
 
 __all__ = (

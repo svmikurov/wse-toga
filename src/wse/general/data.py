@@ -5,7 +5,7 @@ from httpx import Response
 from toga.sources import Source
 
 from wse.constants import ID
-from wse.widget.base import BtnApp
+from wse.general.button import BtnApp
 
 
 class ManagingWidgetData:

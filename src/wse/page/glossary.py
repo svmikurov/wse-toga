@@ -19,23 +19,24 @@ from wse.constants import (
     HOST_API,
     MAIN_BOX,
 )
+from wse.container.exercise import (
+    ExerciseBox,
+    ExerciseParamsSelectionsBox,
+)
 from wse.contrib.http_requests import (
     HttpPostMixin,
     HttpPutMixin,
     request_get,
     request_post,
 )
+from wse.general.button import BtnApp
 from wse.general.form import BaseForm
-from wse.general.table import BaseTable
-from wse.page.base import (
+from wse.general.table import TableApp
+from wse.general.text_input import MulTextInpApp
+from wse.general.box import (
     BoxApp,
 )
 from wse.source.glossary import Term, TermSource
-from wse.widget.base import BtnApp, MulTextInpApp
-from wse.widget.exercise import (
-    ExerciseBox,
-    ExerciseParamsSelectionsBox,
-)
 
 
 class MainGlossaryPage(BoxApp):
@@ -233,7 +234,7 @@ class UpdateTermPage(HttpPutMixin, FormGlossary):
         return submit_entry
 
 
-class ListTermPage(BaseTable):
+class ListTermPage(TableApp):
     """Table of list of glossary terms, the page.
 
     :ivar Button btn_goto_foreign_box: Button go to Glossary Main page.

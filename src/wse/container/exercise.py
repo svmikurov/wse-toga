@@ -1,4 +1,9 @@
-"""General exercise box widgets."""
+"""Container for choice exercise progress parameter.
+
+For exercises:
+    * Glossary term study exercise
+    * Foreign word study exercise
+"""
 
 import toga
 from toga.style.pack import COLUMN, ROW, Pack
@@ -23,13 +28,10 @@ from wse.constants import (
 from wse.contrib.http_requests import request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
-from wse.page import base
-from wse.page.base import BoxApp
-from wse.widget.base import (
-    BaseSelection,
-    BtnApp,
-    TextDisplay,
-)
+from wse.general.box import BoxApp
+from wse.general.button import BtnApp
+from wse.general.selection import BaseSelection
+from wse.general.text_input import TextDisplay
 
 
 class ExerciseParamsSelectionsBox(BoxApp):
@@ -122,7 +124,7 @@ class ExerciseParamsSelectionsBox(BoxApp):
         )  # fmt: skip
 
 
-class ExerciseBox(base.BoxApp):
+class ExerciseBox(BoxApp):
     """Exercise box of widgets."""
 
     def __init__(self) -> None:

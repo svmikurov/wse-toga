@@ -4,7 +4,6 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
-from httpx import Response
 from toga.style.pack import CENTER, Pack
 
 from wse.constants import (
@@ -20,102 +19,14 @@ from wse.constants import (
     USER_ME,
     USER_REGISTER_PATH,
     USER_UPDATE_BOX,
-    USERNAME, USER_UPDATE_PATH,
+    USER_UPDATE_PATH,
+    USERNAME,
 )
 from wse.contrib.http_requests import app_auth, request_get, request_post
 from wse.contrib.validator import validate_credentials
-from wse.page.base import BoxApp
-from wse.widget.base import BtnApp, MulTextInpApp
-
-
-class Credentials(BoxApp):
-    """Credentials input widgets."""
-
-    url_path = ''
-    """Submit url path (`str`).
-    """
-    page_box_title = ''
-    """Page box title (`str`).
-    """
-    btn_submit_name = 'Отправить'
-    """Name of the "Submit" button (`str`).
-    """
-
-    def __init__(self) -> None:
-        """Construct the widgets."""
-        super().__init__()
-
-        # Styles.
-        input_style = Pack(height=INPUT_HEIGHT)
-        title_style = Pack(height=TITLE_LABEL_HEIGHT, text_align=CENTER)
-
-        # Widgets.
-        title_label = toga.Label(self.page_box_title, style=title_style)
-        btn_goto_user_box = BtnApp(
-            'Назад', lambda _: self.goto_box_handler(_, USER_BOX)
-        )
-        self.username_input = toga.TextInput(
-            placeholder='Имя', style=input_style
-        )
-        self.password_input = toga.PasswordInput(
-            placeholder='Пароль', style=input_style
-        )
-        btn_submit = BtnApp(self.btn_submit_name, on_press=self.submit_handler)
-
-        # Widgets DOM.
-        self.add(
-            title_label,
-            btn_goto_user_box,
-            self.username_input,
-            self.password_input,
-            btn_submit,
-        )
-
-    ####################################################################
-    # Button callback functions.
-
-    async def submit_handler(self, widget: toga.Widget) -> None:
-        """Submit, button handler."""
-        url = urljoin(HOST_API, self.url_path)
-        await self.request_auth(widget, url)
-
-    ####################################################################
-    # Auth.
-
-    async def request_auth(self, widget: toga.Widget, url: str) -> None:
-        """Request login."""
-        credentials: dict = await self.get_credentials()
-        if not bool(credentials):
-            return
-
-        response = request_post(url, credentials, token=False)
-        if response.status_code == HTTPStatus.OK:
-            app_auth.set_token(response)
-            self.handel_success(widget, response)
-
-    def extract_credentials(self) -> dict:
-        """Extract user data from form, validate it."""
-        credentials = {
-            USERNAME: self.username_input.value,
-            PASSWORD: self.password_input.value,
-        }
-        return credentials
-
-    async def get_credentials(self) -> dict:
-        """Extract user data from form, validate it."""
-        credentials = self.extract_credentials()
-        errors = validate_credentials(credentials)
-        if not errors:
-            return credentials
-        else:
-            await self.show_message('', '\n'.join(errors))
-
-
-    def handel_success(self, widget: toga.Widget, response: Response) -> None:
-        """Handel the success auth request."""
-        self.username_input.value = None
-        self.password_input.value = None
-        self.goto_box_handler(widget, USER_BOX)
+from wse.general.button import BtnApp
+from wse.general.text_input import MulTextInpApp
+from wse.general.box import BoxApp
 
 
 class UserBox(BoxApp):
@@ -243,6 +154,95 @@ class UserBox(BoxApp):
             self.user_id = None
             self.username = None
             self.is_auth = False
+
+
+class Credentials(BoxApp):
+    """Credentials input widgets."""
+
+    url_path = ''
+    """Submit url path (`str`).
+    """
+    page_box_title = ''
+    """Page box title (`str`).
+    """
+    btn_submit_name = 'Отправить'
+    """Name of the "Submit" button (`str`).
+    """
+
+    def __init__(self) -> None:
+        """Construct the widgets."""
+        super().__init__()
+
+        # Styles.
+        input_style = Pack(height=INPUT_HEIGHT)
+        title_style = Pack(height=TITLE_LABEL_HEIGHT, text_align=CENTER)
+
+        # Widgets.
+        title_label = toga.Label(self.page_box_title, style=title_style)
+        btn_goto_user_box = BtnApp(
+            'Назад', lambda _: self.goto_box_handler(_, USER_BOX)
+        )
+        self.username_input = toga.TextInput(
+            placeholder='Имя', style=input_style
+        )
+        self.password_input = toga.PasswordInput(
+            placeholder='Пароль', style=input_style
+        )
+        btn_submit = BtnApp(self.btn_submit_name, on_press=self.submit_handler)
+
+        # Widgets DOM.
+        self.add(
+            title_label,
+            btn_goto_user_box,
+            self.username_input,
+            self.password_input,
+            btn_submit,
+        )
+
+    ####################################################################
+    # Button callback functions.
+
+    async def submit_handler(self, widget: toga.Widget) -> None:
+        """Submit, button handler."""
+        url = urljoin(HOST_API, self.url_path)
+        await self.request_auth(widget, url)
+
+    ####################################################################
+    # Auth.
+
+    async def request_auth(self, widget: toga.Widget, url: str) -> None:
+        """Request login."""
+        credentials: dict = await self.get_credentials()
+        if not bool(credentials):
+            return
+
+        response = request_post(url, credentials, token=False)
+        if response.status_code == HTTPStatus.OK:
+            app_auth.set_token(response)
+            self.handel_success(widget, response)
+
+    def extract_credentials(self) -> dict:
+        """Extract user data from form, validate it."""
+        credentials = {
+            USERNAME: self.username_input.value,
+            PASSWORD: self.password_input.value,
+        }
+        return credentials
+
+    async def get_credentials(self) -> dict:
+        """Extract user data from form, validate it."""
+        credentials = self.extract_credentials()
+        errors = validate_credentials(credentials)
+        if not errors:
+            return credentials
+        else:
+            await self.show_message('', '\n'.join(errors))
+
+    def handel_success(self, widget: toga.Widget) -> None:
+        """Handel the success auth request."""
+        self.username_input.value = None
+        self.password_input.value = None
+        self.goto_box_handler(widget, USER_BOX)
 
 
 class UserUpdateBox(Credentials):
