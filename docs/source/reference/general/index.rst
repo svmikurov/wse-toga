@@ -10,6 +10,7 @@ General
    box
    form
    table
+   label
    button
    selection
    text_input
