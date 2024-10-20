@@ -1,8 +1,10 @@
 """Main box."""
 
 from wse import constants as const
+from wse.constants import TITLE_MAIN
 from wse.general.button import BtnApp
 from wse.general.box import BoxApp
+from wse.general.label import TitleLabel
 
 
 class MainBox(BoxApp):
@@ -32,6 +34,7 @@ class MainBox(BoxApp):
 
         # DOM.
         self.add(
+            TitleLabel(TITLE_MAIN),
             btn_goto_user_box,
             btn_goto_foreign_box,
             btn_goto_glossary_box,

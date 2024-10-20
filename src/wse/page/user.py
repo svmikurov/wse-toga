@@ -20,12 +20,13 @@ from wse.constants import (
     USER_REGISTER_PATH,
     USER_UPDATE_BOX,
     USER_UPDATE_PATH,
-    USERNAME,
+    USERNAME, TITLE_USER_MAIN, TITLE_USER_UPDATE, TITLE_USER_AUTH,
 )
 from wse.contrib.http_requests import app_auth, request_get, request_post
 from wse.contrib.validator import validate_credentials
 from wse.general.button import BtnApp
-from wse.general.text_input import MulTextInpApp
+from wse.general.label import TitleLabel
+from wse.general.text_input import MulTextInpApp, TextDisplay
 from wse.general.box import BoxApp
 
 
@@ -70,11 +71,12 @@ class UserBox(BoxApp):
         )
 
         # User info display
-        self.info_display = MulTextInpApp()
+        self.info_display = TextDisplay()
         self.info_display.style.flex = 1
 
         # Widget DOM.
         self.add(
+            TitleLabel(TITLE_USER_MAIN),
             self.info_display,
             btn_goto_main,
             self.btn_goto_auth,
@@ -123,7 +125,7 @@ class UserBox(BoxApp):
 
     @property
     def values(self) -> dict:
-        """Widget attr values by user auth status."""
+        """Setup widget attr values by user auth status."""
         move_to = self.goto_box_handler
         widget_values = {
             True: {
@@ -159,6 +161,9 @@ class UserBox(BoxApp):
 class Credentials(BoxApp):
     """Credentials input widgets."""
 
+    title = ''
+    """Page box title (`str`).
+    """
     url_path = ''
     """Submit url path (`str`).
     """
@@ -192,6 +197,7 @@ class Credentials(BoxApp):
 
         # Widgets DOM.
         self.add(
+            TitleLabel(text=self.title),
             title_label,
             btn_goto_user_box,
             self.username_input,
@@ -248,6 +254,7 @@ class Credentials(BoxApp):
 class UserUpdateBox(Credentials):
     """User update page box."""
 
+    title = TITLE_USER_UPDATE
     page_box_title = 'Изменение учетных данных'
     url_path = USER_UPDATE_PATH
     btn_submit_name = 'Изменить'
@@ -268,6 +275,7 @@ class UserUpdateBox(Credentials):
 class AuthBox(Credentials):
     """Login page box."""
 
+    title = TITLE_USER_AUTH
     url_path = LOGIN_PATH
     page_box_title = 'Вход в учетную запись'
     btn_submit_name = 'Войти'

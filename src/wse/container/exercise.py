@@ -139,7 +139,7 @@ class ExerciseBox(BoxApp):
         self.url_progress = ''
 
         # Style.
-        label_style = Pack(padding=(10, 0, 10, 20))
+        label_style = Pack(padding=(7, 0, 10, 20))
 
         # Inner boxes.
         self.exercise_box = toga.Box(style=Pack(direction=COLUMN))

@@ -4,7 +4,8 @@ import toga
 from toga.style import Pack
 from travertino.constants import ITALIC
 
-from wse.constants import BUTTON_HEIGHT, FONT_SIZE_APP
+from wse.constants import BUTTON_HEIGHT, FONT_SIZE_APP, TEXT_DISPLAY_FONT_SIZE, \
+    TEXT_DISPLAY_FONT_STYLE
 
 
 class TextInputApp(toga.TextInput):
@@ -52,7 +53,9 @@ class TextDisplay(toga.MultilineTextInput):
     def __init__(self, **kwargs: object) -> None:
         """Construct the widget."""
         style = Pack(
-            padding=(0, 0, 0, 0),
+            padding=(2, 2, 2, 2),
+            font_size=TEXT_DISPLAY_FONT_SIZE,
+            font_style=TEXT_DISPLAY_FONT_STYLE,
         )
         kwargs['readonly'] = True
         kwargs['style'] = kwargs.get('style', style)

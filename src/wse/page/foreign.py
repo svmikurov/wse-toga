@@ -19,7 +19,9 @@ from wse.constants import (
     FOREIGN_WORD,
     HOST_API,
     MAIN_BOX,
-    RUSSIAN_WORD,
+    RUSSIAN_WORD, TITLE_FOREIGN_MAIN, TITLE_FOREIGN_PARAMS,
+    TITLE_FOREIGN_EXERCISE, TITLE_FOREIGN_CREATE, TITLE_FOREIGN_UPDATE,
+    TITLE_FOREIGN_LIST,
 )
 from wse.container.exercise import ExerciseBox, ExerciseParamsSelectionsBox
 from wse.contrib.http_requests import (
@@ -30,6 +32,7 @@ from wse.contrib.http_requests import (
 )
 from wse.general.button import BtnApp
 from wse.general.form import BaseForm
+from wse.general.label import TitleLabel
 from wse.general.table import TableApp
 from wse.general.text_input import TextInputApp
 from wse.general.box import BoxApp
@@ -63,6 +66,7 @@ class MainForeignPage(BoxApp):
 
         # Widget DOM.
         self.add(
+            TitleLabel(TITLE_FOREIGN_MAIN),
             btn_goto_main_box,
             btn_goto_params_box,
             btn_goto_create_box,
@@ -93,6 +97,7 @@ class ParamsForeignPage(ExerciseParamsSelectionsBox):
 
         # Widget DOM.
         self.add(
+            TitleLabel(TITLE_FOREIGN_PARAMS),
             btn_goto_foreign_box,
             self.params_box,
             btn_save_params,
@@ -147,6 +152,7 @@ class ForeignExercisePage(ExerciseBox):
 
         # Widget DOM.
         self.add(
+            TitleLabel(TITLE_FOREIGN_EXERCISE),
             btn_goto_foreign_box,
             btn_goto_params_box,
             self.exercise_box,
@@ -155,6 +161,10 @@ class ForeignExercisePage(ExerciseBox):
 
 class FormForeign(BaseForm):
     """General form to create and update entries, the container."""
+
+    title = ''
+    """Bage box title (`str`).
+    """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the foreign form."""
@@ -172,6 +182,7 @@ class FormForeign(BaseForm):
         btn_submit = BtnApp(self.btn_submit_name, on_press=self.submit_handler)
 
         self.add(
+            TitleLabel(text=self.title),
             btn_goto_foreign_box,
             self.russian_input,
             self.foreign_input,
@@ -196,6 +207,7 @@ class FormForeign(BaseForm):
 class CreateForeignPage(HttpPostMixin, FormForeign):
     """Add word to foreign dictionary."""
 
+    title = TITLE_FOREIGN_CREATE
     url = urljoin(HOST_API, FOREIGN_PATH)
     btn_submit_name = 'Добавить'
 
@@ -211,6 +223,7 @@ class CreateForeignPage(HttpPostMixin, FormForeign):
 class UpdateForeignPage(HttpPutMixin, FormForeign):
     """Update the foreign word the box."""
 
+    title = TITLE_FOREIGN_UPDATE
     url = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
     btn_submit_name = 'Изменить'
 
@@ -251,6 +264,7 @@ class ListForeignPage(TableApp):
 
         # Page widgets DOM.
         self.add(
+            TitleLabel(TITLE_FOREIGN_LIST),
             self.btn_goto_foreign_box,
             self.btns_manage,
             self.table,

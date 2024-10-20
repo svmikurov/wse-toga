@@ -17,7 +17,9 @@ from wse.constants import (
     GLOSSARY_PATH,
     GLOSSARY_PROGRESS_PATH,
     HOST_API,
-    MAIN_BOX,
+    MAIN_BOX, TITLE_GLOSSARY_MAIN, TITLE_GLOSSARY_PARAMS,
+    TITLE_GLOSSARY_EXERCISE, TITLE_GLOSSARY_CREATE, TITLE_GLOSSARY_UPDATE,
+    TITLE_GLOSSARY_LIST,
 )
 from wse.container.exercise import (
     ExerciseBox,
@@ -31,6 +33,7 @@ from wse.contrib.http_requests import (
 )
 from wse.general.button import BtnApp
 from wse.general.form import BaseForm
+from wse.general.label import TitleLabel
 from wse.general.table import TableApp
 from wse.general.text_input import MulTextInpApp
 from wse.general.box import (
@@ -66,6 +69,7 @@ class MainGlossaryPage(BoxApp):
 
         # Widget DOM.
         self.add(
+            TitleLabel(TITLE_GLOSSARY_MAIN),
             btn_goto_main_box,
             btn_goto_params_box,
             btn_goto_create_box,
@@ -97,6 +101,7 @@ class ParamsGlossaryBox(BoxApp):
 
         # Widget DOM.
         self.add(
+            TitleLabel(TITLE_GLOSSARY_PARAMS),
             btn_goto_glossary_box,
             self.params_box,
             btn_save_params,
@@ -152,6 +157,7 @@ class ExerciseGlossaryBox(ExerciseBox):
 
         # Widget DOM.
         self.add(
+            TitleLabel(TITLE_GLOSSARY_EXERCISE),
             btn_goto_glossary_box,
             btn_goto_params_box,
             self.exercise_box,
@@ -161,8 +167,12 @@ class ExerciseGlossaryBox(ExerciseBox):
 class FormGlossary(BaseForm):
     """General form to create and update entries, the container."""
 
+    title = ''
+    """Page box title (`str`).
+    """
+
     def __init__(self, *args: object, **kwargs: object) -> None:
-        """Construct the clossary form."""
+        """Construct the glossary form."""
         super().__init__(*args, **kwargs)
         self._entry = Term
 
@@ -178,6 +188,7 @@ class FormGlossary(BaseForm):
         btn_submit = BtnApp(self.btn_submit_name, on_press=self.submit_handler)
 
         self.add(
+            TitleLabel(text=self.title),
             btn_goto_foreign_box,
             self.term,
             self.definition,
@@ -202,6 +213,7 @@ class FormGlossary(BaseForm):
 class CreateTermPage(HttpPostMixin, FormGlossary):
     """Glossary create page."""
 
+    title = TITLE_GLOSSARY_CREATE
     url = urljoin(HOST_API, GLOSSARY_PATH)
     btn_submit_name = 'Добавить'
 
@@ -217,6 +229,7 @@ class CreateTermPage(HttpPostMixin, FormGlossary):
 class UpdateTermPage(HttpPutMixin, FormGlossary):
     """Glossary update page."""
 
+    title = TITLE_GLOSSARY_UPDATE
     url = urljoin(HOST_API, GLOSSARY_DETAIL_PATH)
     btn_submit_name = 'Изменить'
 
@@ -257,6 +270,7 @@ class ListTermPage(TableApp):
 
         # Page widgets DOM.
         self.add(
+            TitleLabel(TITLE_GLOSSARY_LIST),
             self.btn_goto_foreign_box,
             self.btns_manage,
             self.table,
