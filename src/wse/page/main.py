@@ -24,7 +24,7 @@ class MainBox(BoxApp):
             on_press=lambda _: self.goto_box_handler(_, const.USER_MAIN_BOX),
         )
         btn_goto_glossary_box = BtnApp(
-            'Глоссарий',
+            'Глоссарий терминов',
             on_press=lambda _: self.goto_box_handler(_, const.GLOSSARY_BOX),
         )
         btn_goto_foreign_box = BtnApp(
@@ -38,5 +38,4 @@ class MainBox(BoxApp):
             btn_goto_user_box,
             btn_goto_foreign_box,
             btn_goto_glossary_box,
-            btn_goto_foreign_box,
         )

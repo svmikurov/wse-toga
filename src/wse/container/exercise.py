@@ -23,7 +23,7 @@ from wse.constants import (
     PERIOD_END,
     PERIOD_START,
     PROGRESS,
-    QUESTION,
+    QUESTION, MAIN_BOX,
 )
 from wse.contrib.http_requests import request_post_async
 from wse.contrib.task import Task
@@ -35,7 +35,7 @@ from wse.general.selection import BaseSelection
 from wse.general.text_input import TextDisplay
 
 
-class ExerciseParamsSelectionsBox(BoxApp):
+class ExerciseParamSelectionsBox(BoxApp):
     """Exercise param box of selection widgets.
 
     Use the ``params_box`` attribute of that class to
@@ -64,13 +64,17 @@ class ExerciseParamsSelectionsBox(BoxApp):
         select_label_style = Pack(padding=(7, 0, 7, 20))
 
         # General buttons.
-        btn_goto_foreign_exercise_box = BtnApp(
-            'Начать упражнение',
-            on_press=self.goto_exercise_box_handler,
+        btn_goto_main = BtnApp(
+            'На главную',
+            on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
         btn_save_params = BtnApp(
             'Сохранить настройки',
             on_press=self.save_params_handler,
+        )
+        btn_goto_foreign_exercise = BtnApp(
+            'Начать упражнение',
+            on_press=self.goto_exercise_box_handler,
         )
 
         # Selection widgets.
@@ -104,9 +108,10 @@ class ExerciseParamsSelectionsBox(BoxApp):
         # Add ``params_box`` attr.
         self.add(
             TitleLabel(text=self.title),
+            btn_goto_main,
             self.params_box,
-            btn_goto_foreign_exercise_box,
             btn_save_params,
+            btn_goto_foreign_exercise,
         )
 
     ####################################################################

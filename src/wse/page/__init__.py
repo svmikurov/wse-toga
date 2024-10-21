@@ -1,19 +1,19 @@
 """App boxes to assign to window content."""
 
 from wse.page.foreign import (
-    CreateForeignPage,
-    ForeignExercisePage,
+    CreateWordPage,
+    ExerciseForeignPage,
     ListForeignPage,
     MainForeignPage,
-    ParamsForeignPage,
-    UpdateForeignPage,
+    ParamForeignPage,
+    UpdateWordPage,
 )
 from wse.page.glossary import (
     CreateTermPage,
     ExerciseGlossaryBox,
     ListTermPage,
     MainGlossaryPage,
-    ParamsGlossaryBox,
+    ParamGlossaryBox,
     UpdateTermPage,
 )
 from wse.page.main import (
@@ -27,11 +27,11 @@ from wse.page.user import (
 )
 
 __all__ = (
-    'CreateForeignPage',
+    'CreateWordPage',
     'CreateTermPage',
     'CreateUserBox',
     'ExerciseGlossaryBox',
-    'ForeignExercisePage',
+    'ExerciseForeignPage',
     'ListForeignPage',
     'ListTermPage',
     'LoginBox',
@@ -39,9 +39,9 @@ __all__ = (
     'MainForeignPage',
     'MainGlossaryPage',
     'MainUserBox',
-    'ParamsForeignPage',
-    'ParamsGlossaryBox',
-    'UpdateForeignPage',
+    'ParamForeignPage',
+    'ParamGlossaryBox',
+    'UpdateWordPage',
     'UpdateTermPage',
     'UpdateUserBox',
     'UpdateUserBox',

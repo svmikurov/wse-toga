@@ -27,7 +27,7 @@ from wse.constants import (
 )
 from wse.container.exercise import (
     ExerciseBox,
-    ExerciseParamsSelectionsBox,
+    ExerciseParamSelectionsBox,
 )
 from wse.contrib.http_requests import (
     HttpPostMixin,
@@ -81,7 +81,7 @@ class MainGlossaryPage(BoxApp):
         )
 
 
-class ParamsGlossaryBox(ExerciseParamsSelectionsBox):
+class ParamGlossaryBox(ExerciseParamSelectionsBox):
     """Glossary box."""
 
     title = TITLE_GLOSSARY_PARAMS
@@ -91,15 +91,13 @@ class ParamsGlossaryBox(ExerciseParamsSelectionsBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_glossary_box = BtnApp(
-            'Глоссарий',
+        btn_goto_glossary = BtnApp(
+            'Оглавление глоссария',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
         )
 
         # Widget DOM.
-        self.add(
-            btn_goto_glossary_box,
-        )
+        self.insert(2, btn_goto_glossary)
 
     async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
         """Go to glossary exercise, button handler."""
@@ -121,7 +119,7 @@ class ParamsGlossaryBox(ExerciseParamsSelectionsBox):
         Request to save user exercise parameters.
         """
         url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
-        request_post(url, self.params_box.lookup_conditions)
+        request_post(url, self.lookup_conditions)
 
 
 class ExerciseGlossaryBox(ExerciseBox):
@@ -252,7 +250,7 @@ class ListTermPage(TableApp):
 
         # The navigation buttons.
         self.btn_goto_foreign_box = BtnApp(
-            'Словарь терминов',
+            'Оглавление глоссария',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
         )
 
