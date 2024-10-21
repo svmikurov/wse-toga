@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 from httpx import Request, Response
 
 import wse.constants as const
+from wse.constants import CONNECTION_ERROR_MSG
 
 load_dotenv()
 
@@ -50,17 +51,17 @@ class AppAuth(httpx.Auth):
 app_auth = AppAuth()
 
 
-class ErrorResponse:
+class ErrorResponse(Response):
     """Stub to response with errors.
 
     Used to intercept errors of the HTTPX library.
     https://www.python-httpx.org/exceptions/
     """
 
-    def __init__(self, status_code: int, message: str) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct response."""
-        self.status_code = const.HTTP_500_INTERNAL_SERVER_ERROR
-        self.message = message
+        super().__init__(*args, **kwargs)
+        self.conn_error_msg = CONNECTION_ERROR_MSG
 
 
 #########################################################################
@@ -71,21 +72,29 @@ class ErrorResponse:
 def request_get(url: str) -> Response:
     """Send GET request."""
     with httpx.Client(auth=app_auth) as client:
-        response = client.get(url=url)
-    return response
+        try:
+            response = client.get(url=url)
+        except httpx.ConnectError:
+            print('Connection error')
+            return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
+        else:
+            return response
 
 
 def request_post(
     url: str,
     payload: dict | None = None,
     token: bool = True,
-) -> Response:
+) -> Response | ErrorResponse:
     """Send POST request."""
     auth = app_auth if token else None
-    print(f'{payload = }')
-    print(f'{auth = }')
+
     with httpx.Client(auth=auth) as client:
-        response = client.post(url=url, json=payload)
+        try:
+            response = client.post(url=url, json=payload)
+        except httpx.ConnectError:
+            print('Connection error')
+            return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
     return response
 
 
