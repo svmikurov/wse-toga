@@ -12,7 +12,7 @@ LOGIN_PATH = '/auth/token/login/'
 LOGOUT_PATH = '/auth/token/logout/'
 """User logout url path, allowed POST method (`str`).
 """
-USER_REGISTER_PATH = '/api/v1/auth/users/'
+USER_CREATE_PATH = '/api/v1/auth/users/'
 """User registration path, allowed POST method (`str`).
 """
 USER_DETAIL = '/api/v1/auth/users/%s/'

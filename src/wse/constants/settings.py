@@ -1,4 +1,5 @@
 """The application widget settings constants."""
+
 from travertino.constants import ITALIC
 
 DEFAULT_TIMEOUT = 5
@@ -33,8 +34,9 @@ TITLE_LABEL_PADDING = (5, 0, 10, 0)
 TITLE_MAIN = 'WSELFEDU'
 # User
 TITLE_USER_MAIN = 'Учетная запись'
-TITLE_USER_UPDATE = 'Изменить имя'
-TITLE_USER_AUTH = 'Вход в учетную запись'
+USER_UPDATE_TITLE = 'Изменить имя'
+USER_CREATE_TITLE = 'Регистрация'
+LOGIN_TITLE = 'Вход в учетную запись'
 # Glossary
 TITLE_GLOSSARY_MAIN = 'Глоссарий'
 TITLE_GLOSSARY_CREATE = 'Добавить термин'
@@ -49,3 +51,13 @@ TITLE_FOREIGN_UPDATE = 'Изменить термин'
 TITLE_FOREIGN_LIST = 'Список иностранных слов'
 TITLE_FOREIGN_PARAMS = 'Параметры изучения слов'
 TITLE_FOREIGN_EXERCISE = 'Изучение слов'
+
+#########################################################################
+# Messages
+
+LOGIN_MSG = 'Вы вошли в учетную записи'
+LOGIN_BAD_MSG = 'Неверный логин или пароль'
+LOGOUT_MSG = 'Вы вышли из учетной записи'
+USER_CREATE_MESSAGE = 'Вы создали учетную запись'
+USER_UPDATE_MESSAGE = 'Вы изменили имя'
+CONNECTION_ERROR_MSG = 'Ошибка соединения с сервером'

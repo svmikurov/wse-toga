@@ -4,7 +4,7 @@ MAIN_BOX = 'main_box'
 """Application main box page name (`str`).
 """
 
-USER_BOX = 'user_box'
+USER_MAIN_BOX = 'user_box'
 """User management the box page name (`str`).
 """
 USER_CREATE_BOX = 'user_create_box'
