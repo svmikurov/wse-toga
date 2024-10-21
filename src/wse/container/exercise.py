@@ -19,11 +19,12 @@ from wse.constants import (
     ID,
     KNOW,
     LOOKUP_CONDITIONS,
+    MAIN_BOX,
     NOT_KNOW,
     PERIOD_END,
     PERIOD_START,
     PROGRESS,
-    QUESTION, MAIN_BOX,
+    QUESTION,
 )
 from wse.contrib.http_requests import request_post_async
 from wse.contrib.task import Task

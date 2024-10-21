@@ -1,19 +1,13 @@
 """App http requests module."""
 
-import os
 import typing
 from http import HTTPStatus
 
 import httpx
-from dotenv import load_dotenv
 from httpx import Request, Response
 
 import wse.constants as const
 from wse.constants import CONNECTION_ERROR_MSG
-
-load_dotenv()
-
-TOKEN = os.getenv('TOKEN')
 
 
 class AppAuth(httpx.Auth):
@@ -25,8 +19,7 @@ class AppAuth(httpx.Auth):
 
     def __init__(self) -> None:
         """Construct the authentication."""
-        # self.token = None
-        self.token = TOKEN
+        self.token = None
 
     def auth_flow(
         self,
