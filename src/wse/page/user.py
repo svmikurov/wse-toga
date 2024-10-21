@@ -4,7 +4,7 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
-from toga.style.pack import CENTER, Pack
+from toga.style.pack import Pack
 
 from wse.constants import (
     AUTH_BOX,
@@ -14,19 +14,19 @@ from wse.constants import (
     LOGOUT_PATH,
     MAIN_BOX,
     PASSWORD,
-    TITLE_LABEL_HEIGHT,
     USER_BOX,
     USER_ME,
     USER_REGISTER_PATH,
     USER_UPDATE_BOX,
     USER_UPDATE_PATH,
-    USERNAME, TITLE_USER_MAIN, TITLE_USER_UPDATE, TITLE_USER_AUTH,
+    USERNAME, TITLE_USER_MAIN, TITLE_USER_UPDATE, TITLE_USER_AUTH, LOGOUT_MSG,
+    REGISTRATION_MSG, USER_RENAME_MSG, LOGIN_MSG,
 )
 from wse.contrib.http_requests import app_auth, request_get, request_post
 from wse.contrib.validator import validate_credentials
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
-from wse.general.text_input import MulTextInpApp, TextDisplay
+from wse.general.text_input import TextDisplay
 from wse.general.box import BoxApp
 
 
@@ -92,7 +92,7 @@ class UserBox(BoxApp):
     ####################################################################
     # Button callback functions.
 
-    def logout_handler(self, _: toga.Widget) -> None:
+    async def logout_handler(self, _: toga.Widget) -> None:
         """Send the http request to user logout, button handler."""
         url = urljoin(HOST_API, LOGOUT_PATH)
         response = request_post(url=url)
@@ -100,6 +100,7 @@ class UserBox(BoxApp):
             self.is_auth = False
             self.update_widget_values()
             app_auth.delete_token()
+            await self.show_message('', LOGOUT_MSG)
 
     async def delete_handler(self, _: toga.Widget) -> None:
         """Send the http request to delete the user, button handler."""
@@ -167,9 +168,6 @@ class Credentials(BoxApp):
     url_path = ''
     """Submit url path (`str`).
     """
-    page_box_title = ''
-    """Page box title (`str`).
-    """
     btn_submit_name = 'Отправить'
     """Name of the "Submit" button (`str`).
     """
@@ -180,10 +178,8 @@ class Credentials(BoxApp):
 
         # Styles.
         input_style = Pack(height=INPUT_HEIGHT)
-        title_style = Pack(height=TITLE_LABEL_HEIGHT, text_align=CENTER)
 
         # Widgets.
-        title_label = toga.Label(self.page_box_title, style=title_style)
         btn_goto_user_box = BtnApp(
             'Назад', lambda _: self.goto_box_handler(_, USER_BOX)
         )
@@ -198,7 +194,6 @@ class Credentials(BoxApp):
         # Widgets DOM.
         self.add(
             TitleLabel(text=self.title),
-            title_label,
             btn_goto_user_box,
             self.username_input,
             self.password_input,
@@ -225,7 +220,8 @@ class Credentials(BoxApp):
         response = request_post(url, credentials, token=False)
         if response.status_code == HTTPStatus.OK:
             app_auth.set_token(response)
-            self.handel_success(widget, response)
+            self.handel_success(widget)
+            await self.show_message('', LOGIN_MSG)
 
     def extract_credentials(self) -> dict:
         """Extract user data from form, validate it."""
@@ -255,7 +251,6 @@ class UserUpdateBox(Credentials):
     """User update page box."""
 
     title = TITLE_USER_UPDATE
-    page_box_title = 'Изменение учетных данных'
     url_path = USER_UPDATE_PATH
     btn_submit_name = 'Изменить'
 
@@ -269,7 +264,12 @@ class UserUpdateBox(Credentials):
 
         response = request_post(url, payload)
         if response.status_code == HTTPStatus.NO_CONTENT:
-            self.handel_success(widget, response)
+            await self.handel_success(widget)
+
+    async def handel_success(self, widget: toga.Widget) -> None:
+        """Show message."""
+        super().handel_success(widget)
+        await self.show_message('', USER_RENAME_MSG)
 
 
 class AuthBox(Credentials):
@@ -295,3 +295,5 @@ class AuthBox(Credentials):
         """Submit registration, button handler."""
         url = urljoin(HOST_API, USER_REGISTER_PATH)
         self.request_auth(widget, url)
+        self.show_message('', REGISTRATION_MSG)
+        super().handel_success(widget)
