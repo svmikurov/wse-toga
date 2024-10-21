@@ -1,1 +1,1 @@
-"""Application forms."""
+"""General custom application widgets."""

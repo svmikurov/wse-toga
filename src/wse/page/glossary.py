@@ -123,7 +123,7 @@ class ParamGlossaryBox(ExerciseParamSelectionsBox):
 
 
 class ExerciseGlossaryBox(ExerciseBox):
-    """English exercise box."""
+    """Foreign exercise box."""
 
     def __init__(self) -> None:
         """Construct the box."""

@@ -1,4 +1,4 @@
-"""Form classe."""
+"""Form class."""
 
 from wse.general.box import BoxApp
 from wse.general.data import ManagingWidgetDataFromResponse

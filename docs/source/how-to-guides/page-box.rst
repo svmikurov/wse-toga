@@ -14,8 +14,8 @@ Add widgets in class constructor of :term:`page box` to **comment chapters**:
   * Box widgets -- box widgets;
   * Widgets DOM -- box widget DOM.
 
-Buttons
--------
+Button move to page box
+-----------------------
 
 **Button naming:** ``btn_goto_boxname``.
 

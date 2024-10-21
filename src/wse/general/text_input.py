@@ -13,7 +13,10 @@ from wse.constants import (
 
 
 class TextInputApp(toga.TextInput):
-    """Text input widget."""
+    """Text input widget.
+
+    Defines a common style for derived TextInput widgets.
+    """
 
     def __init__(self, **kwargs: object) -> None:
         """Construct the widget."""

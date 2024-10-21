@@ -8,7 +8,10 @@ from wse.constants.settings import PADDING_SM
 
 
 class BaseBox(toga.Box):
-    """Base page box."""
+    """Base page box.
+
+    Defines a common style for derived box widgets.
+    """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
@@ -19,7 +22,10 @@ class BaseBox(toga.Box):
 
 
 class GoToBoxMixin:
-    """Go to page box mixin."""
+    """Go to page box mixin.
+
+    Mixin methods for switching between application pages.
+    """
 
     @classmethod
     def get_box(cls, widget: toga.Widget, box_name: str) -> Self:
@@ -73,7 +79,7 @@ class MessageBoxMixin:
 
 
 class BoxApp(MessageBoxMixin, GoToBoxMixin, BaseBox):
-    """Base page box."""
+    """General application page box."""
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""

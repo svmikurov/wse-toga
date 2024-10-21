@@ -13,7 +13,10 @@ from wse.general.button import BtnApp, SmBtn
 
 
 class BaseTable(toga.Table):
-    """General table app."""
+    """General table app.
+
+    Defines a common style for derived table widgets.
+    """
 
     def __init__(self, *arge: object, **kwargs: object) -> None:
         """Construct the table."""

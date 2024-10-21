@@ -8,7 +8,10 @@ from wse.constants import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
 
 
 class TitleLabel(toga.Label):
-    """General title label."""
+    """General title label.
+
+    Defines a common style for derived label widgets.
+    """
 
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the label."""

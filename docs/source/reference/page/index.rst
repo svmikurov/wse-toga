@@ -2,6 +2,8 @@
 Page boxes
 ==========
 
+.. automodule:: wse.page.__init__
+
 .. toctree::
    :maxdepth: 2
 
