@@ -62,7 +62,11 @@ class MessageBoxMixin:
     app: toga.App
 
     async def show_message(self, title: str, message: str) -> None:
-        """Show dialog message."""
+        """Show dialog message.
+
+        :param str title: The message title.
+        :param str message: The message text.
+        """
         await self.app.main_window.dialog(
             toga.InfoDialog(str(title), str(message))
         )

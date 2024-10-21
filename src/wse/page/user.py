@@ -4,38 +4,50 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
-from toga.style.pack import Pack
+from httpx import Response
 
 from wse.constants import (
-    AUTH_BOX,
     HOST_API,
-    INPUT_HEIGHT,
+    LOGIN_BAD_MSG,
+    LOGIN_BOX,
+    LOGIN_MSG,
     LOGIN_PATH,
+    LOGIN_TITLE,
+    LOGOUT_MSG,
     LOGOUT_PATH,
     MAIN_BOX,
     PASSWORD,
-    USER_BOX,
+    TITLE_USER_MAIN,
+    USER_CREATE_BOX,
+    USER_CREATE_PATH,
     USER_ME,
-    USER_REGISTER_PATH,
     USER_UPDATE_BOX,
+    USER_UPDATE_MESSAGE,
     USER_UPDATE_PATH,
-    USERNAME, TITLE_USER_MAIN, TITLE_USER_UPDATE, TITLE_USER_AUTH, LOGOUT_MSG,
-    REGISTRATION_MSG, USER_RENAME_MSG, LOGIN_MSG,
+    USER_UPDATE_TITLE,
+    USERNAME,
 )
+from wse.constants.settings import (
+    USER_CREATE_MESSAGE,
+    USER_CREATE_TITLE,
+)
+from wse.container.credentials import Credentials
 from wse.contrib.http_requests import app_auth, request_get, request_post
-from wse.contrib.validator import validate_credentials
+from wse.general.box import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
 from wse.general.text_input import TextDisplay
-from wse.general.box import BoxApp
 
 
-class UserBox(BoxApp):
-    """The general user page box.
+class MainUserBox(BoxApp):
+    """The main user page box.
 
     Contains buttons for move to user page boxes.
     """
 
+    title = TITLE_USER_MAIN
+    """Page box title (`str`).
+    """
     user_detail_url = urljoin(HOST_API, USER_ME)
     """User detail url, allowed GET method (`str`).
     """
@@ -46,7 +58,6 @@ class UserBox(BoxApp):
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
-        self.user_id: int | None = None
         self.username: str | None = None
         self.is_auth: bool = False
 
@@ -56,8 +67,12 @@ class UserBox(BoxApp):
             on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
         self.btn_goto_auth = BtnApp(
-            self.values['btn_auth']['text'],
-            on_press=self.values['btn_auth']['on_press'],
+            self.auth_attrs['btn_auth']['text'],
+            on_press=self.auth_attrs['btn_auth']['on_press'],
+        )
+        self.btn_goto_create = BtnApp(
+            'Создать учетную запись',
+            on_press=lambda _: self.goto_box_handler(_, USER_CREATE_BOX),
         )
         self.btn_goto_update = BtnApp(
             'Изменить имя',
@@ -76,10 +91,11 @@ class UserBox(BoxApp):
 
         # Widget DOM.
         self.add(
-            TitleLabel(TITLE_USER_MAIN),
+            TitleLabel(self.title),
             self.info_display,
             btn_goto_main,
             self.btn_goto_auth,
+            self.btn_goto_create,
             self.btn_goto_update,
             self.btn_delete,
         )
@@ -112,10 +128,12 @@ class UserBox(BoxApp):
     def update_widget_values(self) -> None:
         """Update widget values by user auth status."""
         # Display info.
-        self.info_display.value = self.values['info_text']
+        self.info_display.value = self.auth_attrs['info_text']
         # Button auth user.
-        self.btn_goto_auth.text = self.values['btn_auth']['text']
-        self.btn_goto_auth.on_press = self.values['btn_auth']['on_press']
+        self.btn_goto_auth.text = self.auth_attrs['btn_auth']['text']
+        self.btn_goto_auth.on_press = self.auth_attrs['btn_auth']['on_press']
+        # Button create user.
+        self.btn_goto_create.enabled = not self.is_auth
         # Button update user.
         self.btn_goto_update.enabled = self.is_auth
         # Button delete user.
@@ -125,7 +143,7 @@ class UserBox(BoxApp):
     # User info.
 
     @property
-    def values(self) -> dict:
+    def auth_attrs(self) -> dict:
         """Setup widget attr values by user auth status."""
         move_to = self.goto_box_handler
         widget_values = {
@@ -138,8 +156,8 @@ class UserBox(BoxApp):
             },
             False: {
                 'btn_auth': {
-                    'text': 'Вход / Регистрация',
-                    'on_press': lambda _: move_to(_, AUTH_BOX),
+                    'text': 'Вход',
+                    'on_press': lambda _: move_to(_, LOGIN_BOX),
                 },
                 'info_text': self.user_info_text % 'Anonymous',
             },
@@ -150,150 +168,57 @@ class UserBox(BoxApp):
         """Set user info."""
         response = request_get(self.user_detail_url)
         if response.status_code == HTTPStatus.OK:
-            self.user_id = response.json()['id']
             self.username = response.json()['username']
             self.is_auth = True
         else:
-            self.user_id = None
             self.username = None
             self.is_auth = False
 
 
-class Credentials(BoxApp):
-    """Credentials input widgets."""
+class CreateUserBox(Credentials):
+    """Create user page box."""
 
-    title = ''
-    """Page box title (`str`).
-    """
-    url_path = ''
-    """Submit url path (`str`).
-    """
-    btn_submit_name = 'Отправить'
-    """Name of the "Submit" button (`str`).
-    """
+    title = USER_CREATE_TITLE
+    url_path = USER_CREATE_PATH
+    btn_submit_name = 'Создать учетную запись'
+    success_status_code = HTTPStatus.CREATED
+    success_response_msg = USER_CREATE_MESSAGE
 
-    def __init__(self) -> None:
-        """Construct the widgets."""
-        super().__init__()
-
-        # Styles.
-        input_style = Pack(height=INPUT_HEIGHT)
-
-        # Widgets.
-        btn_goto_user_box = BtnApp(
-            'Назад', lambda _: self.goto_box_handler(_, USER_BOX)
-        )
-        self.username_input = toga.TextInput(
-            placeholder='Имя', style=input_style
-        )
-        self.password_input = toga.PasswordInput(
-            placeholder='Пароль', style=input_style
-        )
-        btn_submit = BtnApp(self.btn_submit_name, on_press=self.submit_handler)
-
-        # Widgets DOM.
-        self.add(
-            TitleLabel(text=self.title),
-            btn_goto_user_box,
-            self.username_input,
-            self.password_input,
-            btn_submit,
-        )
-
-    ####################################################################
-    # Button callback functions.
-
-    async def submit_handler(self, widget: toga.Widget) -> None:
-        """Submit, button handler."""
-        url = urljoin(HOST_API, self.url_path)
-        await self.request_auth(widget, url)
-
-    ####################################################################
-    # Auth.
-
-    async def request_auth(self, widget: toga.Widget, url: str) -> None:
-        """Request login."""
-        credentials: dict = await self.get_credentials()
-        if not bool(credentials):
-            return
-
-        response = request_post(url, credentials, token=False)
-        if response.status_code == HTTPStatus.OK:
-            app_auth.set_token(response)
-            self.handel_success(widget)
-            await self.show_message('', LOGIN_MSG)
-
-    def extract_credentials(self) -> dict:
-        """Extract user data from form, validate it."""
-        credentials = {
-            USERNAME: self.username_input.value,
-            PASSWORD: self.password_input.value,
-        }
-        return credentials
-
-    async def get_credentials(self) -> dict:
-        """Extract user data from form, validate it."""
-        credentials = self.extract_credentials()
-        errors = validate_credentials(credentials)
-        if not errors:
-            return credentials
-        else:
-            await self.show_message('', '\n'.join(errors))
-
-    def handel_success(self, widget: toga.Widget) -> None:
-        """Handel the success auth request."""
-        self.username_input.value = None
-        self.password_input.value = None
-        self.goto_box_handler(widget, USER_BOX)
+    async def send_request(self, url: str, payload: dict) -> Response:
+        """Request login, without token."""
+        return request_post(url, payload, token=False)
 
 
-class UserUpdateBox(Credentials):
-    """User update page box."""
+class UpdateUserBox(Credentials):
+    """Update user page box."""
 
-    title = TITLE_USER_UPDATE
+    title = USER_UPDATE_TITLE
     url_path = USER_UPDATE_PATH
     btn_submit_name = 'Изменить'
+    success_status_code = HTTPStatus.NO_CONTENT
+    success_response_msg = USER_UPDATE_MESSAGE
 
-    async def request_auth(self, widget: toga.Widget, url: str) -> None:
-        """Request login."""
-        credentials: dict = await self.get_credentials()
-        payload = {
-            'new_username': credentials['username'],
-            'current_password': credentials['password'],
-        }
-
-        response = request_post(url, payload)
-        if response.status_code == HTTPStatus.NO_CONTENT:
-            await self.handel_success(widget)
-
-    async def handel_success(self, widget: toga.Widget) -> None:
-        """Show message."""
-        super().handel_success(widget)
-        await self.show_message('', USER_RENAME_MSG)
+    async def get_credentials(self) -> dict | None:
+        """Rename credential payload field names."""
+        credentials: dict = await super().get_credentials()
+        if bool(credentials):
+            credentials['new_username'] = credentials.pop(USERNAME)
+            credentials['current_password'] = credentials.pop(PASSWORD)
+            return credentials
 
 
-class AuthBox(Credentials):
+class LoginBox(Credentials):
     """Login page box."""
 
-    title = TITLE_USER_AUTH
+    title = LOGIN_TITLE
     url_path = LOGIN_PATH
-    page_box_title = 'Вход в учетную запись'
     btn_submit_name = 'Войти'
+    success_response_msg = LOGIN_MSG
+    error_response_msg = LOGIN_BAD_MSG
 
-    def __init__(self) -> None:
-        """Construct the page box."""
-        super().__init__()
-
-        btn_registration = BtnApp(
-            'Зарегистрироваться', self.registration_handler
-        )
-
-        # Update DOM.
-        self.add(btn_registration)
-
-    def registration_handler(self, widget: toga.Widget) -> None:
-        """Submit registration, button handler."""
-        url = urljoin(HOST_API, USER_REGISTER_PATH)
-        self.request_auth(widget, url)
-        self.show_message('', REGISTRATION_MSG)
-        super().handel_success(widget)
+    async def send_request(self, url: str, payload: dict) -> Response:
+        """Request login without token, save token."""
+        response = request_post(url, payload, token=False)
+        if response.status_code == HTTPStatus.OK:
+            app_auth.set_token(response)
+        return response

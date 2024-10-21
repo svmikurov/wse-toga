@@ -113,7 +113,7 @@ class ManagingWidgetData:
         :raises NotImplementedError: if the method is not overridden.
         """
         raise NotImplementedError(
-            'Subclasses must provide a populate_entry_input() method.'
+            'Subclasses must provide a clear_entry_input() method.'
         )
 
 

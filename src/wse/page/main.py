@@ -2,8 +2,8 @@
 
 from wse import constants as const
 from wse.constants import TITLE_MAIN
-from wse.general.button import BtnApp
 from wse.general.box import BoxApp
+from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
 
 
@@ -21,7 +21,7 @@ class MainBox(BoxApp):
         # Widgets.
         btn_goto_user_box = BtnApp(
             'Учетная запись',
-            on_press=lambda _: self.goto_box_handler(_, const.USER_BOX),
+            on_press=lambda _: self.goto_box_handler(_, const.USER_MAIN_BOX),
         )
         btn_goto_glossary_box = BtnApp(
             'Глоссарий',

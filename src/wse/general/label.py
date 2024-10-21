@@ -1,4 +1,4 @@
-""" "General label widget."""
+"""General label widget."""
 
 import toga
 from toga.style import Pack
@@ -10,7 +10,7 @@ from wse.constants import TITLE_LABEL_FONT_SIZE, TITLE_LABEL_PADDING
 class TitleLabel(toga.Label):
     """General title label."""
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the label."""
         style = Pack(
             # flex=1,

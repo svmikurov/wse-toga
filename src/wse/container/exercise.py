@@ -30,6 +30,7 @@ from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.general.box import BoxApp
 from wse.general.button import BtnApp
+from wse.general.label import TitleLabel
 from wse.general.selection import BaseSelection
 from wse.general.text_input import TextDisplay
 
@@ -50,13 +51,27 @@ class ExerciseParamsSelectionsBox(BoxApp):
         )
     """
 
+    title = ''
+    """Page box title (`str`).
+    """
+
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
         self.style.update(direction=COLUMN)
 
         # Styles.
-        label_style = Pack(padding=(7, 0, 7, 20))
+        select_label_style = Pack(padding=(7, 0, 7, 20))
+
+        # General buttons.
+        btn_goto_foreign_exercise_box = BtnApp(
+            'Начать упражнение',
+            on_press=self.goto_exercise_box_handler,
+        )
+        btn_save_params = BtnApp(
+            'Сохранить настройки',
+            on_press=self.save_params_handler,
+        )
 
         # Selection widgets.
         self.start_period_selection = BaseSelection()
@@ -64,21 +79,19 @@ class ExerciseParamsSelectionsBox(BoxApp):
         self.progress_selection = BaseSelection()
         self.category_selection = BaseSelection()
 
-        # Inner boxes.
+        # Inner containers.
         box_left = toga.Box(style=Pack(flex=1, direction=COLUMN))
         box_right = toga.Box(style=Pack(flex=1, direction=COLUMN))
 
-        # Widgets DOM.
-        # Add ``params_box`` attr.
         self.params_box = toga.Box(
             style=Pack(direction=COLUMN),
             children=[toga.Box(children=[box_left, box_right])],
         )
         box_left.add(
-            toga.Label('Начало периода:', style=label_style),
-            toga.Label('Конец периода:', style=label_style),
-            toga.Label('Категория:', style=label_style),
-            toga.Label('Стадия изучения:', style=label_style),
+            toga.Label('Начало периода:', style=select_label_style),
+            toga.Label('Конец периода:', style=select_label_style),
+            toga.Label('Категория:', style=select_label_style),
+            toga.Label('Стадия изучения:', style=select_label_style),
         )
         box_right.add(
             self.start_period_selection,
@@ -86,6 +99,36 @@ class ExerciseParamsSelectionsBox(BoxApp):
             self.category_selection,
             self.progress_selection,
         )
+
+        # Widgets DOM.
+        # Add ``params_box`` attr.
+        self.add(
+            TitleLabel(text=self.title),
+            self.params_box,
+            btn_goto_foreign_exercise_box,
+            btn_save_params,
+        )
+
+    ####################################################################
+    # Button callback functions
+
+    async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
+        """Go to foreign exercise page box, button handler."""
+        raise NotImplementedError(
+            'Subclasses must provide a goto_exercise_box_handler() method.'
+        )
+
+    def save_params_handler(self, widget: toga.Widget) -> None:
+        """Save Foreign Exercise parameters, button handler.
+
+        Request to save user exercise parameters.
+        """
+        raise NotImplementedError(
+            'Subclasses must provide a save_params_handler() method.'
+        )
+
+    ####################################################################
+    # Lookup conditions
 
     @property
     def lookup_conditions(self) -> dict[str, str | list | None]:

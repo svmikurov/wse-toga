@@ -19,9 +19,13 @@ from wse.constants import (
     FOREIGN_WORD,
     HOST_API,
     MAIN_BOX,
-    RUSSIAN_WORD, TITLE_FOREIGN_MAIN, TITLE_FOREIGN_PARAMS,
-    TITLE_FOREIGN_EXERCISE, TITLE_FOREIGN_CREATE, TITLE_FOREIGN_UPDATE,
+    RUSSIAN_WORD,
+    TITLE_FOREIGN_CREATE,
+    TITLE_FOREIGN_EXERCISE,
     TITLE_FOREIGN_LIST,
+    TITLE_FOREIGN_MAIN,
+    TITLE_FOREIGN_PARAMS,
+    TITLE_FOREIGN_UPDATE,
 )
 from wse.container.exercise import ExerciseBox, ExerciseParamsSelectionsBox
 from wse.contrib.http_requests import (
@@ -30,12 +34,12 @@ from wse.contrib.http_requests import (
     request_get,
     request_post,
 )
+from wse.general.box import BoxApp
 from wse.general.button import BtnApp
 from wse.general.form import BaseForm
 from wse.general.label import TitleLabel
 from wse.general.table import TableApp
 from wse.general.text_input import TextInputApp
-from wse.general.box import BoxApp
 from wse.source.foreign import Word, WordSource
 
 
@@ -68,14 +72,16 @@ class MainForeignPage(BoxApp):
         self.add(
             TitleLabel(TITLE_FOREIGN_MAIN),
             btn_goto_main_box,
-            btn_goto_params_box,
             btn_goto_create_box,
+            btn_goto_params_box,
             btn_goto_list_box,
         )
 
 
 class ParamsForeignPage(ExerciseParamsSelectionsBox):
     """Learning foreign words exercise parameters box."""
+
+    title = TITLE_FOREIGN_PARAMS
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -86,22 +92,11 @@ class ParamsForeignPage(ExerciseParamsSelectionsBox):
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
-        btn_goto_foreign_exercise_box = BtnApp(
-            'Начать упражнение',
-            on_press=self.goto_exercise_box_handler,
-        )
-        btn_save_params = BtnApp(
-            'Сохранить настройки',
-            on_press=self.save_params_handler,
-        )
 
         # Widget DOM.
-        self.add(
-            TitleLabel(TITLE_FOREIGN_PARAMS),
+        self.insert(
+            1,
             btn_goto_foreign_box,
-            self.params_box,
-            btn_save_params,
-            btn_goto_foreign_exercise_box,
         )
 
     async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:

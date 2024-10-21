@@ -8,8 +8,8 @@ from travertino.constants import ITALIC
 from wse.constants import NEXT, PREVIOUS, RESULTS
 from wse.contrib.http_requests import request_delete_async, request_get
 from wse.contrib.utils import to_entries
-from wse.general.button import BtnApp, SmBtn
 from wse.general.box import BoxApp
+from wse.general.button import BtnApp, SmBtn
 
 
 class BaseTable(toga.Table):
@@ -111,7 +111,7 @@ class TableApp(BoxApp):
         :raises NotImplementedError: if the method is not overridden.
         """
         raise NotImplementedError(
-            'Subclasses must provide a populate_entry_input() method.'
+            'Subclasses must provide a create_handler() method.'
         )
 
     def update_handler(self, widget: toga.Widget) -> None:
@@ -121,7 +121,7 @@ class TableApp(BoxApp):
         :raises NotImplementedError: if the method is not overridden.
         """
         raise NotImplementedError(
-            'Subclasses must provide a populate_entry_input() method.'
+            'Subclasses must provide a update_handler() method.'
         )
 
     async def delete_handler(self, _: toga.Widget) -> None:

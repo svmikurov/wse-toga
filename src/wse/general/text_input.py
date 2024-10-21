@@ -4,8 +4,12 @@ import toga
 from toga.style import Pack
 from travertino.constants import ITALIC
 
-from wse.constants import BUTTON_HEIGHT, FONT_SIZE_APP, TEXT_DISPLAY_FONT_SIZE, \
-    TEXT_DISPLAY_FONT_STYLE
+from wse.constants import (
+    BUTTON_HEIGHT,
+    FONT_SIZE_APP,
+    TEXT_DISPLAY_FONT_SIZE,
+    TEXT_DISPLAY_FONT_STYLE,
+)
 
 
 class TextInputApp(toga.TextInput):

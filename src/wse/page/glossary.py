@@ -17,9 +17,13 @@ from wse.constants import (
     GLOSSARY_PATH,
     GLOSSARY_PROGRESS_PATH,
     HOST_API,
-    MAIN_BOX, TITLE_GLOSSARY_MAIN, TITLE_GLOSSARY_PARAMS,
-    TITLE_GLOSSARY_EXERCISE, TITLE_GLOSSARY_CREATE, TITLE_GLOSSARY_UPDATE,
+    MAIN_BOX,
+    TITLE_GLOSSARY_CREATE,
+    TITLE_GLOSSARY_EXERCISE,
     TITLE_GLOSSARY_LIST,
+    TITLE_GLOSSARY_MAIN,
+    TITLE_GLOSSARY_PARAMS,
+    TITLE_GLOSSARY_UPDATE,
 )
 from wse.container.exercise import (
     ExerciseBox,
@@ -31,14 +35,14 @@ from wse.contrib.http_requests import (
     request_get,
     request_post,
 )
+from wse.general.box import (
+    BoxApp,
+)
 from wse.general.button import BtnApp
 from wse.general.form import BaseForm
 from wse.general.label import TitleLabel
 from wse.general.table import TableApp
 from wse.general.text_input import MulTextInpApp
-from wse.general.box import (
-    BoxApp,
-)
 from wse.source.glossary import Term, TermSource
 
 
@@ -71,14 +75,16 @@ class MainGlossaryPage(BoxApp):
         self.add(
             TitleLabel(TITLE_GLOSSARY_MAIN),
             btn_goto_main_box,
-            btn_goto_params_box,
             btn_goto_create_box,
+            btn_goto_params_box,
             btn_goto_list_box,
         )
 
 
-class ParamsGlossaryBox(BoxApp):
+class ParamsGlossaryBox(ExerciseParamsSelectionsBox):
     """Glossary box."""
+
+    title = TITLE_GLOSSARY_PARAMS
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -89,43 +95,25 @@ class ParamsGlossaryBox(BoxApp):
             'Глоссарий',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
         )
-        btn_goto_glossary_exercise_box = BtnApp(
-            'Начать упражнение',
-            on_press=self.goto_exercise_box_handler,
-        )
-        btn_save_params = BtnApp(
-            'Сохранить настройки',
-            on_press=self.save_params_handler,
-        )
-        self.params_box = ExerciseParamsSelectionsBox()
 
         # Widget DOM.
         self.add(
-            TitleLabel(TITLE_GLOSSARY_PARAMS),
             btn_goto_glossary_box,
-            self.params_box,
-            btn_save_params,
-            btn_goto_glossary_exercise_box,
         )
 
     async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
         """Go to glossary exercise, button handler."""
         exercise_box = self.get_box(widget, GLOSSARY_EXERCISE_BOX)
-        try:
-            exercise_box.lookup_conditions = self.params_box.lookup_conditions
-        except AttributeError as error:
-            await self.show_message('', 'Войдите в учетную запись')
-            raise error
-        else:
-            self.set_window_content(widget, exercise_box)
-            await exercise_box.show_task()
+        exercise_box.task.params = self.lookup_conditions
+        self.set_window_content(widget, exercise_box)
+        await exercise_box.loop_task()
 
     def on_open(self) -> None:
         """Request and fill params data."""
         url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
         response = request_get(url=url)
         if response.status_code == HTTPStatus.OK:
-            self.params_box.fill_params(response.json())
+            self.lookup_conditions = response.json()
 
     def save_params_handler(self, _: toga.Widget) -> None:
         """Save Glossary Exercise parameters, button handler.
