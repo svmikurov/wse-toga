@@ -10,6 +10,7 @@ Welcome to WSE's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   install/index
    reference/index
    how-to-guides/index
    glossary
