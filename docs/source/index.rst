@@ -11,9 +11,9 @@ Welcome to WSE's documentation!
    :caption: Contents:
 
    reference/index
-   rest-endpoint/index
    how-to-guides/index
    glossary
+   rest-endpoint/index
 
 
 

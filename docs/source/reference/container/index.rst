@@ -7,5 +7,6 @@ Page containers
 .. toctree::
    :maxdepth: 2
 
+   Credentials <credentials>
    Exercise <exercise>
    Progress <progress>
