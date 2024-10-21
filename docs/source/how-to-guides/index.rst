@@ -8,3 +8,4 @@ How-to Guides
    :maxdepth: 2
 
    page-box
+   Message <message>
