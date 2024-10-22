@@ -16,7 +16,7 @@ from wse.constants import (
 )
 from wse.contrib.http_requests import ErrorResponse, request_post
 from wse.contrib.validator import validate_credentials
-from wse.general.box import BoxApp
+from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
 

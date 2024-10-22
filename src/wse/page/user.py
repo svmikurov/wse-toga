@@ -33,7 +33,7 @@ from wse.constants.settings import (
 )
 from wse.container.credentials import Credentials
 from wse.contrib.http_requests import app_auth, request_get, request_post
-from wse.general.box import BoxApp
+from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
 from wse.general.text_input import TextDisplay

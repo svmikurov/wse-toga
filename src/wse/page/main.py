@@ -2,7 +2,7 @@
 
 from wse import constants as const
 from wse.constants import TITLE_MAIN
-from wse.general.box import BoxApp
+from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
 

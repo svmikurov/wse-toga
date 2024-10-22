@@ -1,6 +1,6 @@
 """Form class."""
 
-from wse.general.box import BoxApp
+from wse.general.box_page import BoxApp
 from wse.general.data import ManagingWidgetDataFromResponse
 
 

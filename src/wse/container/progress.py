@@ -8,7 +8,7 @@ Choice parameters for exercises:
 import toga
 from toga.style import Pack
 
-from wse.general.box import BoxApp
+from wse.general.box_page import BoxApp
 
 
 class ProgressWidgets(BoxApp):

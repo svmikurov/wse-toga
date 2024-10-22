@@ -34,7 +34,7 @@ from wse.contrib.http_requests import (
     request_get,
     request_post,
 )
-from wse.general.box import BoxApp
+from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.form import BaseForm
 from wse.general.label import TitleLabel

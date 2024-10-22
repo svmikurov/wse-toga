@@ -29,7 +29,8 @@ from wse.constants import (
 from wse.contrib.http_requests import request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
-from wse.general.box import BoxApp
+from wse.general.box import FlexBox
+from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
 from wse.general.selection import BaseSelection
@@ -62,7 +63,7 @@ class ExerciseParamSelectionsBox(BoxApp):
         self.style.update(direction=COLUMN)
 
         # Styles.
-        select_label_style = Pack(padding=(7, 0, 7, 20))
+        label_style = Pack(padding=(7, 0, 7, 20))
 
         # General buttons.
         btn_goto_main = BtnApp(
@@ -78,41 +79,63 @@ class ExerciseParamSelectionsBox(BoxApp):
             on_press=self.goto_exercise_box_handler,
         )
 
-        # Selection widgets.
+        # Selection labels.
+        label_start = toga.Label('Начало периода:', style=label_style)
+        label_end = toga.Label('Конец периода:', style=label_style)
+        label_category = toga.Label('Категория:', style=label_style)
+        label_progres = toga.Label('Стадия изучения:', style=label_style)
+        # Selections.
         self.start_period_selection = BaseSelection()
         self.end_period_selection = BaseSelection()
-        self.progress_selection = BaseSelection()
         self.category_selection = BaseSelection()
-
-        # Inner containers.
-        box_left = toga.Box(style=Pack(flex=1, direction=COLUMN))
-        box_right = toga.Box(style=Pack(flex=1, direction=COLUMN))
-
-        self.params_box = toga.Box(
-            style=Pack(direction=COLUMN),
-            children=[toga.Box(children=[box_left, box_right])],
+        self.progress_selection = BaseSelection()
+        # Selection boxes.
+        selection_box_style = Pack(padding=(2, 0, 2, 0))
+        selection_start_box = toga.Box(
+            style=selection_box_style,
+            children=[
+                FlexBox(children=[label_start]),
+                FlexBox(children=[self.start_period_selection]),
+            ]
         )
-        box_left.add(
-            toga.Label('Начало периода:', style=select_label_style),
-            toga.Label('Конец периода:', style=select_label_style),
-            toga.Label('Категория:', style=select_label_style),
-            toga.Label('Стадия изучения:', style=select_label_style),
+        selection_start_box.style.padding_top = 4
+        selection_end_box = toga.Box(
+            style=selection_box_style,
+            children=[
+                FlexBox(children=[label_end]),
+                FlexBox(children=[self.end_period_selection]),
+            ]
         )
-        box_right.add(
-            self.start_period_selection,
-            self.end_period_selection,
-            self.category_selection,
-            self.progress_selection,
+        selection_category_box = toga.Box(
+            style=selection_box_style,
+            children=[
+                FlexBox(children=[label_progres]),
+                FlexBox(children=[self.category_selection]),
+            ]
+        )
+        selection_progress_box = toga.Box(
+            style=selection_box_style,
+            children=[
+                FlexBox(children=[label_category]),
+                FlexBox(children=[self.progress_selection]),
+            ]
         )
 
         # Widgets DOM.
         # Add ``params_box`` attr.
+        param_box = toga.Box(style=Pack(direction=COLUMN, flex=1))
         self.add(
             TitleLabel(text=self.title),
             btn_goto_main,
-            self.params_box,
+            param_box,
             btn_save_params,
             btn_goto_foreign_exercise,
+        )
+        param_box.add(
+            selection_start_box,
+            selection_end_box,
+            selection_progress_box,
+            selection_category_box,
         )
 
     ####################################################################
