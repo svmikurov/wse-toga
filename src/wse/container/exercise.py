@@ -37,6 +37,23 @@ from wse.general.selection import BaseSelection
 from wse.general.text_input import TextDisplay
 
 
+class AnswerBtn(toga.Button):
+    """User answer button."""
+
+    def __init__(
+            self,
+            text: str | None = None,
+            on_press: toga.widgets.button.OnPressHandler | None = None,
+    ) -> None:
+        """Construct the button."""
+        style = Pack(
+            flex=1,
+            height=100,
+            font_size=9,
+        )
+        super().__init__(text=text, style=style, on_press=on_press)
+
+
 class ExerciseParamSelectionsBox(BoxApp):
     """Exercise param box of selection widgets.
 
@@ -214,8 +231,18 @@ class ExerciseBox(BoxApp):
         label_style = Pack(padding=(7, 0, 10, 20))
 
         # Inner boxes.
-        self.exercise_box = toga.Box(style=Pack(direction=COLUMN))
-        btn_group_box = toga.Box(style=Pack(direction=ROW))
+        self.exercise_box = toga.Box(
+            style=Pack(
+                direction=COLUMN,
+                flex=1,
+            )
+        )
+        btn_group_box = toga.Box(
+            style=Pack(
+                direction=ROW,
+                height=100,
+            )
+        )
 
         # Text display widgets.
         self.question_display = TextDisplay()
@@ -230,10 +257,10 @@ class ExerciseBox(BoxApp):
             btn_group_box,
         )
         btn_group_box.add(
-            BtnApp('Не знаю', self.not_know_handler),
-            BtnApp('Знаю', self.know_handler),
-            BtnApp('Пауза', self.pause_handler),
-            BtnApp('Далее', self.next_handler),
+            AnswerBtn('Не знаю', self.not_know_handler),
+            AnswerBtn('Знаю', self.know_handler),
+            AnswerBtn('Пауза', self.pause_handler),
+            AnswerBtn('Далее', self.next_handler),
         )
 
     ####################################################################
