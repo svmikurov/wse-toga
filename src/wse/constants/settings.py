@@ -10,6 +10,7 @@ DEFAULT_TIMEOUT = 5
 # Widget constants
 ########################################################################
 
+SCREEN_SIZE = (440, 700)
 PADDING_NO = 0
 PADDING_SM = 2
 PADDING_SIDE = (PADDING_NO, PADDING_SM, PADDING_NO, PADDING_SM)

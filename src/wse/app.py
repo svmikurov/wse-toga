@@ -3,6 +3,7 @@
 import toga
 
 from wse import constants, page
+from wse.constants.settings import SCREEN_SIZE
 
 BOXES = {
     constants.MAIN_BOX: page.MainBox,
@@ -46,7 +47,10 @@ class WSE(toga.App):
             setattr(self, box_name, box_class())
 
         # Application start with Main page box content.
-        self.main_window = toga.MainWindow(title=self.formal_name)
+        self.main_window = toga.MainWindow(
+            title=self.formal_name,
+            size=toga.Size(*SCREEN_SIZE)
+        )
         self.main_window.content = self.main_box
         self.main_window.show()
 
