@@ -149,14 +149,14 @@ class MainUserBox(BoxApp):
         widget_values = {
             True: {
                 'btn_auth': {
-                    'text': 'Выход',
+                    'text': 'Выход из учетной записи',
                     'on_press': self.logout_handler,
                 },
                 'info_text': self.user_info_text % self.username,
             },
             False: {
                 'btn_auth': {
-                    'text': 'Вход',
+                    'text': 'Вход в учетную запись',
                     'on_press': lambda _: move_to(_, LOGIN_BOX),
                 },
                 'info_text': self.user_info_text % 'Anonymous',

@@ -143,10 +143,9 @@ class ExerciseParamSelectionsBox(BoxApp):
         param_box = toga.Box(style=Pack(direction=COLUMN, flex=1))
         self.add(
             TitleLabel(text=self.title),
-            btn_goto_main,
             param_box,
-            btn_save_params,
             btn_goto_foreign_exercise,
+            btn_save_params,
         )
         param_box.add(
             selection_start_box,
@@ -257,9 +256,9 @@ class ExerciseBox(BoxApp):
             btn_group_box,
         )
         btn_group_box.add(
+            AnswerBtn('Пауза', self.pause_handler),
             AnswerBtn('Не знаю', self.not_know_handler),
             AnswerBtn('Знаю', self.know_handler),
-            AnswerBtn('Пауза', self.pause_handler),
             AnswerBtn('Далее', self.next_handler),
         )
 

@@ -12,7 +12,7 @@ from wse.constants import (
     INPUT_HEIGHT,
     PASSWORD,
     USER_MAIN_BOX,
-    USERNAME,
+    USERNAME, MAIN_BOX,
 )
 from wse.contrib.http_requests import ErrorResponse, request_post
 from wse.contrib.validator import validate_credentials
@@ -67,10 +67,10 @@ class Credentials(BoxApp):
         # Widgets DOM.
         self.add(
             TitleLabel(text=self.title),
-            btn_goto_user_box,
             self.username_input,
             self.password_input,
             btn_submit,
+            btn_goto_user_box,
         )
 
     def on_open(self) -> None:
@@ -118,7 +118,7 @@ class Credentials(BoxApp):
     async def handel_success(self, widget: toga.Widget) -> None:
         """Handel the success auth request."""
         self._clear_fields()
-        self.goto_box_handler(widget, USER_MAIN_BOX)
+        self.goto_box_handler(widget, MAIN_BOX)
 
     def _clear_fields(self) -> None:
         """Clear the fields."""

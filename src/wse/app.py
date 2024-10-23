@@ -66,7 +66,7 @@ class WSE(toga.App):
         )
         cmd_goto_foreign = toga.Command(
             self.goto_foreign,
-            text='Иностранные слова',
+            text='Иностранный словарь',
             group=menu,
             order=3,
         )

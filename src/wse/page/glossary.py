@@ -92,12 +92,12 @@ class ParamGlossaryBox(ExerciseParamSelectionsBox):
 
         # Box widgets.
         btn_goto_glossary = BtnApp(
-            'Оглавление глоссария',
+            'Меню глоссария',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
         )
 
         # Widget DOM.
-        self.insert(2, btn_goto_glossary)
+        self.insert(4, btn_goto_glossary)
 
     async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
         """Go to glossary exercise, button handler."""
@@ -133,7 +133,7 @@ class ExerciseGlossaryBox(ExerciseBox):
 
         # Buttons.
         btn_goto_glossary_box = BtnApp(
-            'Словарь иностранных слов',
+            'Меню глоссария',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
         )
         btn_goto_params_box = BtnApp(
@@ -144,9 +144,8 @@ class ExerciseGlossaryBox(ExerciseBox):
         # Widget DOM.
         self.add(
             TitleLabel(TITLE_GLOSSARY_EXERCISE),
-            btn_goto_glossary_box,
-            btn_goto_params_box,
             self.exercise_box,
+            btn_goto_params_box,
         )
 
 

@@ -89,12 +89,12 @@ class ParamForeignPage(ExerciseParamSelectionsBox):
 
         # Box widgets.
         btn_goto_foreign = BtnApp(
-            'Оглавление словаря',
+            'Меню словаря',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
 
         # Widget DOM.
-        self.insert(2, btn_goto_foreign)
+        self.insert(4, btn_goto_foreign)
 
     async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
@@ -134,7 +134,7 @@ class ExerciseForeignPage(ExerciseBox):
 
         # Buttons.
         btn_goto_foreign_box = BtnApp(
-            'Оглавление словаря',
+            'Меню словаря',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
         btn_goto_params_box = BtnApp(
@@ -145,9 +145,8 @@ class ExerciseForeignPage(ExerciseBox):
         # Widget DOM.
         self.add(
             TitleLabel(TITLE_FOREIGN_EXERCISE),
-            btn_goto_foreign_box,
-            btn_goto_params_box,
             self.exercise_box,
+            btn_goto_params_box,
         )
 
 
