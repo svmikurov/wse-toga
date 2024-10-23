@@ -10,11 +10,14 @@ test-r:
 ruff:
 	ruff check && ruff format --diff
 
-# Briefcase
+# Android
 android-create:
 	briefcase create android
 
 android-build:
 	briefcase build android
 
-android: android-create android-build
+android-update:
+	briefcase build android
+
+update: android-update android-build
