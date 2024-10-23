@@ -170,10 +170,10 @@ class FormForeign(BaseForm):
 
         self.add(
             TitleLabel(text=self.title),
-            btn_goto_foreign_box,
             self.russian_input,
             self.foreign_input,
             btn_submit,
+            btn_goto_foreign_box,
         )
 
     def populate_entry_input(self) -> None:

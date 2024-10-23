@@ -51,7 +51,7 @@ TITLE_FOREIGN_CREATE = 'Добавить термин'
 TITLE_FOREIGN_UPDATE = 'Изменить термин'
 TITLE_FOREIGN_LIST = 'Список иностранных слов'
 TITLE_FOREIGN_PARAMS = 'Параметры изучения слов'
-TITLE_FOREIGN_EXERCISE = 'Изучение слов'
+TITLE_FOREIGN_EXERCISE = 'Изучение иностранных слов'
 
 #########################################################################
 # Messages

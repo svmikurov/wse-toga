@@ -157,7 +157,7 @@ class FormGlossary(BaseForm):
         super().__init__(*args, **kwargs)
         self._entry = Term
 
-        btn_goto_foreign_box = BtnApp(
+        btn_goto_glossary = BtnApp(
             'Глоссарий',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_LIST_BOX),
         )
@@ -170,10 +170,10 @@ class FormGlossary(BaseForm):
 
         self.add(
             TitleLabel(text=self.title),
-            btn_goto_foreign_box,
             self.term,
             self.definition,
             btn_submit,
+            btn_goto_glossary,
         )
 
     def populate_entry_input(self) -> None:
