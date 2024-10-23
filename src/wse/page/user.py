@@ -36,7 +36,7 @@ from wse.contrib.http_requests import app_auth, request_get, request_post
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
-from wse.general.text_input import TextDisplay
+from wse.general.text_input import TextPanel
 
 
 class MainUserBox(BoxApp):
@@ -86,7 +86,7 @@ class MainUserBox(BoxApp):
         )
 
         # User info display
-        self.info_display = TextDisplay()
+        self.info_display = TextPanel()
         self.info_display.style.flex = 1
 
         # Widget DOM.

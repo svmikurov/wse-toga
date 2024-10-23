@@ -34,7 +34,7 @@ from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
 from wse.general.selection import BaseSelection
-from wse.general.text_input import TextDisplay
+from wse.general.text_input import TextPanel
 
 
 class AnswerBtn(toga.Button):
@@ -245,8 +245,8 @@ class ExerciseBox(BoxApp):
         )
 
         # Text display widgets.
-        self.question_display = TextDisplay()
-        self.answer_display = TextDisplay()
+        self.question_display = TextPanel()
+        self.answer_display = TextPanel()
 
         # Widgets DOM.
         self.exercise_box.add(

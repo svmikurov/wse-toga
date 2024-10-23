@@ -50,7 +50,7 @@ class MulTextInpApp(toga.MultilineTextInput):
         self.value = None
 
 
-class TextDisplay(toga.MultilineTextInput):
+class TextPanel(toga.MultilineTextInput):
     """Exercise text display widget.
 
     :param str value: The initial content to display in the widget.
