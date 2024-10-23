@@ -132,10 +132,6 @@ class ExerciseGlossaryBox(ExerciseBox):
         self.url_progress = urljoin(HOST_API, GLOSSARY_PROGRESS_PATH)
 
         # Buttons.
-        btn_goto_glossary_box = BtnApp(
-            'Меню глоссария',
-            on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
-        )
         btn_goto_params_box = BtnApp(
             'Настроить упражнение',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_PARAMS_BOX),

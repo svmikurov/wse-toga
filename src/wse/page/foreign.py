@@ -133,10 +133,6 @@ class ExerciseForeignPage(ExerciseBox):
         self.url_progress = urljoin(HOST_API, FOREIGN_PROGRESS_PATH)
 
         # Buttons.
-        btn_goto_foreign_box = BtnApp(
-            'Меню словаря',
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
-        )
         btn_goto_params_box = BtnApp(
             'Настроить упражнение',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),

@@ -19,7 +19,6 @@ from wse.constants import (
     ID,
     KNOW,
     LOOKUP_CONDITIONS,
-    MAIN_BOX,
     NOT_KNOW,
     PERIOD_END,
     PERIOD_START,
@@ -41,9 +40,9 @@ class AnswerBtn(toga.Button):
     """User answer button."""
 
     def __init__(
-            self,
-            text: str | None = None,
-            on_press: toga.widgets.button.OnPressHandler | None = None,
+        self,
+        text: str | None = None,
+        on_press: toga.widgets.button.OnPressHandler | None = None,
     ) -> None:
         """Construct the button."""
         style = Pack(
@@ -55,20 +54,7 @@ class AnswerBtn(toga.Button):
 
 
 class ExerciseParamSelectionsBox(BoxApp):
-    """Exercise param box of selection widgets.
-
-    Use the ``params_box`` attribute of that class to
-    add box with selections to widgets DOM of subclass.
-
-    .. code-block:: python
-       :caption: For example:
-
-        self.add(
-            ...
-            self.params_box,
-            ...
-        )
-    """
+    """Exercise param box of selection widgets."""
 
     title = ''
     """Page box title (`str`).
@@ -83,10 +69,6 @@ class ExerciseParamSelectionsBox(BoxApp):
         label_style = Pack(padding=(7, 0, 7, 20))
 
         # General buttons.
-        btn_goto_main = BtnApp(
-            'На главную',
-            on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
-        )
         btn_save_params = BtnApp(
             'Сохранить настройки',
             on_press=self.save_params_handler,
@@ -113,7 +95,7 @@ class ExerciseParamSelectionsBox(BoxApp):
             children=[
                 FlexBox(children=[label_start]),
                 FlexBox(children=[self.start_period_selection]),
-            ]
+            ],
         )
         selection_start_box.style.padding_top = 4
         selection_end_box = toga.Box(
@@ -121,21 +103,21 @@ class ExerciseParamSelectionsBox(BoxApp):
             children=[
                 FlexBox(children=[label_end]),
                 FlexBox(children=[self.end_period_selection]),
-            ]
+            ],
         )
         selection_category_box = toga.Box(
             style=selection_box_style,
             children=[
                 FlexBox(children=[label_progres]),
                 FlexBox(children=[self.category_selection]),
-            ]
+            ],
         )
         selection_progress_box = toga.Box(
             style=selection_box_style,
             children=[
                 FlexBox(children=[label_category]),
                 FlexBox(children=[self.progress_selection]),
-            ]
+            ],
         )
 
         # Widgets DOM.

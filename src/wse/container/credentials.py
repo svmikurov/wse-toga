@@ -10,9 +10,10 @@ from toga.style import Pack
 from wse.constants import (
     HOST_API,
     INPUT_HEIGHT,
+    MAIN_BOX,
     PASSWORD,
     USER_MAIN_BOX,
-    USERNAME, MAIN_BOX,
+    USERNAME,
 )
 from wse.contrib.http_requests import ErrorResponse, request_post
 from wse.contrib.validator import validate_credentials
