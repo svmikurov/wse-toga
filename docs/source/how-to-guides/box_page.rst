@@ -1,6 +1,6 @@
-========
-Page box
-========
+====
+Page
+====
 
 Create the page box
 ===================

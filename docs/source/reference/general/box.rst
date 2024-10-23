@@ -1,6 +1,6 @@
-=============
-Base page box
-=============
+===
+Box
+===
 
 .. automodule:: wse.general.box
    :members:

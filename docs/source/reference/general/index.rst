@@ -8,6 +8,7 @@ General
    :maxdepth: 2
 
    box
+   box_page
    form
    table
    label
