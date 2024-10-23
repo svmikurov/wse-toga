@@ -60,6 +60,7 @@ class TextPanel(toga.MultilineTextInput):
     def __init__(self, **kwargs: object) -> None:
         """Construct the widget."""
         style = Pack(
+            flex=1,
             padding=(2, 2, 2, 2),
             font_size=TEXT_DISPLAY_FONT_SIZE,
             font_style=TEXT_DISPLAY_FONT_STYLE,
