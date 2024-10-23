@@ -50,6 +50,50 @@ class WSE(toga.App):
         self.main_window.content = self.main_box
         self.main_window.show()
 
+        # Commands
+        menu = toga.Group('Menu')
+        cmd_goto_main = toga.Command(
+            self.goto_main,
+            text='Главная страница',
+            group=menu,
+            order=1,
+        )
+        cmd_goto_user = toga.Command(
+            self.goto_user,
+            text='Учетная запись',
+            group=menu,
+            order=2,
+        )
+        cmd_goto_foreign = toga.Command(
+            self.goto_foreign,
+            text='Иностранные слова',
+            group=menu,
+            order=3,
+        )
+        cmd_goto_glossary = toga.Command(
+            self.goto_glossary,
+            text='Глоссарий',
+            group=menu,
+            order=4,
+        )
+        self.app.commands.add(
+            cmd_goto_main, cmd_goto_user, cmd_goto_glossary, cmd_goto_foreign
+        )
+
+    def set_window_content(self, box: toga.Box) -> None:
+        self.main_window.content = box
+
+    def goto_main(self, widget, **kwargs) -> None:
+        self.set_window_content(self.main_box)
+
+    def goto_glossary(self, widget, **kwargs) -> None:
+        self.set_window_content(self.glossary_box)
+
+    def goto_user(self, widget, **kwargs) -> None:
+        self.set_window_content(self.user_box)
+
+    def goto_foreign(self, widget, **kwargs) -> None:
+        self.set_window_content(self.foreign_box)
 
 def main() -> WSE:
     """Return the app instance."""
