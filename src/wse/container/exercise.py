@@ -29,7 +29,7 @@ from wse.constants import (
     QUESTION,
     TASK_ERROR_MSG,
 )
-from wse.contrib.http_requests import request_post_async
+from wse.contrib.http_requests import request_post, request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.general.box import FlexBox
@@ -279,7 +279,7 @@ class ExerciseBox(BoxApp):
 
     async def request_task(self) -> None:
         """Request the task data."""
-        r = await request_post_async(self.url_exercise, self.task.params)
+        r = request_post(self.url_exercise, self.task.params)
         if r.status_code == HTTPStatus.OK:
             self.task.data = r.json()
             return
