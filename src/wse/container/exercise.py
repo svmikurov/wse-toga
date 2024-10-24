@@ -108,14 +108,14 @@ class ExerciseParamSelectionsBox(BoxApp):
         selection_category_box = toga.Box(
             style=selection_box_style,
             children=[
-                FlexBox(children=[label_progres]),
+                FlexBox(children=[label_category]),
                 FlexBox(children=[self.category_selection]),
             ],
         )
         selection_progress_box = toga.Box(
             style=selection_box_style,
             children=[
-                FlexBox(children=[label_category]),
+                FlexBox(children=[label_progres]),
                 FlexBox(children=[self.progress_selection]),
             ],
         )
@@ -132,8 +132,8 @@ class ExerciseParamSelectionsBox(BoxApp):
         param_box.add(
             selection_start_box,
             selection_end_box,
-            selection_progress_box,
             selection_category_box,
+            selection_progress_box,
         )
 
     ####################################################################
@@ -209,7 +209,7 @@ class ExerciseBox(BoxApp):
         self.url_progress = ''
 
         # Style.
-        label_style = Pack(padding=(7, 0, 10, 20))
+        label_style = Pack(padding=(2, 0, 2, 7))
 
         # Inner boxes.
         self.exercise_box = toga.Box(
@@ -228,6 +228,8 @@ class ExerciseBox(BoxApp):
         # Text display widgets.
         self.question_display = TextPanel()
         self.answer_display = TextPanel()
+        self.question_display.style.flex = 2
+        self.answer_display.style.flex = 2
 
         # Widgets DOM.
         self.exercise_box.add(

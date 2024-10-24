@@ -4,6 +4,7 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
+from toga import MultilineTextInput
 from toga.style import Pack
 
 from wse.constants import (
@@ -143,8 +144,8 @@ class ExerciseForeignPage(ExerciseBox):
 
         # TextPanel
         textpanel_label = toga.Label('Информация об упражнении:')
-        textpanel_label.style = Pack(padding=(7, 0, 10, 20))
-        self.textpanel = TextPanel()
+        textpanel_label.style = Pack(padding=(2, 0, 2, 7))
+        self.textpanel = MultilineTextInput()
 
         # Widget DOM.
         self.add(
@@ -158,7 +159,7 @@ class ExerciseForeignPage(ExerciseBox):
 
     def populate_textpanel(self) -> None:
         """Populate the text panel."""
-        self.textpanel.update(
+        self.textpanel.value = (
             f'Найдено слов: {self.task.data[ITEMS]}\n'
             f'Оценка знания слова: {self.task.data[ASSESSMENT]}'
         )

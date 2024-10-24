@@ -93,11 +93,11 @@ class MainUserBox(BoxApp):
         self.add(
             TitleLabel(self.title),
             self.info_display,
-            btn_goto_main,
             self.btn_goto_auth,
             self.btn_goto_create,
             self.btn_goto_update,
             self.btn_delete,
+            btn_goto_main,
         )
 
     def on_open(self) -> None:
