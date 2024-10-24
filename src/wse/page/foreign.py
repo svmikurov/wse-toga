@@ -160,7 +160,7 @@ class ExerciseForeignPage(ExerciseBox):
     def populate_textpanel(self) -> None:
         """Populate the text panel."""
         self.textpanel.value = (
-            f'Найдено слов: {self.task.data[ITEMS]}\n'
+            f'Найдено слов: {self.task.data["item_count"]}\n'
             f'Оценка знания слова: {self.task.data[ASSESSMENT]}'
         )
 
