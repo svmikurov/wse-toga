@@ -5,6 +5,8 @@ For exercises:
     * Foreign word study exercise
 """
 
+from http import HTTPStatus
+
 import toga
 from toga.style.pack import COLUMN, ROW, Pack
 
@@ -19,11 +21,13 @@ from wse.constants import (
     ID,
     KNOW,
     LOOKUP_CONDITIONS,
+    NO_TASK_MSG,
     NOT_KNOW,
     PERIOD_END,
     PERIOD_START,
     PROGRESS,
     QUESTION,
+    TASK_ERROR_MSG,
 )
 from wse.contrib.http_requests import request_post_async
 from wse.contrib.task import Task
@@ -276,7 +280,14 @@ class ExerciseBox(BoxApp):
     async def request_task(self) -> None:
         """Request the task data."""
         r = await request_post_async(self.url_exercise, self.task.params)
-        self.task.data = r.json()
+        if r.status_code == HTTPStatus.OK:
+            self.task.data = r.json()
+            return
+        elif r.status_code == HTTPStatus.NO_CONTENT:
+            await self.show_message('', NO_TASK_MSG)
+        else:
+            await self.show_message('', TASK_ERROR_MSG)
+        self.task.data = None
 
     def show_question(self) -> None:
         """Show the task question without an answer."""
@@ -293,7 +304,10 @@ class ExerciseBox(BoxApp):
 
         while self.is_enable_new_task():
             if self.task.status != ANSWER:
+                self.clean_text_panel()
                 await self.request_task()
+                if not self.task.data:
+                    break
                 self.show_question()
                 self.task.status = ANSWER
             else:
@@ -310,3 +324,8 @@ class ExerciseBox(BoxApp):
     def is_visible_box(self, widget: toga.Box) -> bool:
         """Is the box of widget is main_window content."""
         return bool(widget.root.app.main_window.content == self)
+
+    def clean_text_panel(self) -> None:
+        """Clean the test panel."""
+        self.answer_display.clean()
+        self.question_display.clean()

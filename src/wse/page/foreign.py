@@ -43,7 +43,7 @@ from wse.general.button import BtnApp
 from wse.general.form import BaseForm
 from wse.general.label import TitleLabel
 from wse.general.table import TableApp
-from wse.general.text_input import TextInputApp, TextPanel
+from wse.general.text_input import TextInputApp
 from wse.source.foreign import Word, WordSource
 
 
