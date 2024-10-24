@@ -49,7 +49,7 @@ class WSE(toga.App):
         # Application start with Main page box content.
         self.main_window = toga.MainWindow(
             title=self.formal_name,
-            size=toga.Size(*SCREEN_SIZE)
+            size=toga.Size(*SCREEN_SIZE),
         )
         self.main_window.content = self.main_box
         self.main_window.show()
