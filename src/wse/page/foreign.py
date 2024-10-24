@@ -4,8 +4,10 @@ from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
+from toga.style import Pack
 
 from wse.constants import (
+    ASSESSMENT,
     FOREIGN_BOX,
     FOREIGN_CREATE_BOX,
     FOREIGN_DETAIL_PATH,
@@ -18,6 +20,7 @@ from wse.constants import (
     FOREIGN_PROGRESS_PATH,
     FOREIGN_WORD,
     HOST_API,
+    ITEMS,
     MAIN_BOX,
     RUSSIAN_WORD,
     TITLE_FOREIGN_CREATE,
@@ -39,7 +42,7 @@ from wse.general.button import BtnApp
 from wse.general.form import BaseForm
 from wse.general.label import TitleLabel
 from wse.general.table import TableApp
-from wse.general.text_input import TextInputApp
+from wse.general.text_input import TextInputApp, TextPanel
 from wse.source.foreign import Word, WordSource
 
 
@@ -138,12 +141,32 @@ class ExerciseForeignPage(ExerciseBox):
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
         )
 
+        # TextPanel
+        textpanel_label = toga.Label('Информация об упражнении:')
+        textpanel_label.style = Pack(padding=(7, 0, 10, 20))
+        self.textpanel = TextPanel()
+
         # Widget DOM.
         self.add(
             TitleLabel(TITLE_FOREIGN_EXERCISE),
             self.exercise_box,
+            self.textpanel,
             btn_goto_params_box,
         )
+        self.exercise_box.insert(4, textpanel_label)
+        self.exercise_box.insert(5, self.textpanel)
+
+    def populate_textpanel(self) -> None:
+        """Populate the text panel."""
+        self.textpanel.update(
+            f'Найдено слов: {self.task.data[ITEMS]}\n'
+            f'Оценка знания слова: {self.task.data[ASSESSMENT]}'
+        )
+
+    def show_question(self) -> None:
+        """Add populate items."""
+        super().show_question()
+        self.populate_textpanel()
 
 
 class FormForeign(BaseForm):
