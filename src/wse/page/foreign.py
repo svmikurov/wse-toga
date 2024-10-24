@@ -21,7 +21,6 @@ from wse.constants import (
     FOREIGN_PROGRESS_PATH,
     FOREIGN_WORD,
     HOST_API,
-    ITEMS,
     MAIN_BOX,
     RUSSIAN_WORD,
     TITLE_FOREIGN_CREATE,
