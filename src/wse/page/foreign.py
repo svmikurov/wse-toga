@@ -18,7 +18,6 @@ from wse.constants import (
     FOREIGN_PARAMS_BOX,
     FOREIGN_PARAMS_PATH,
     FOREIGN_PATH,
-    FOREIGN_PROGRESS_PATH,
     FOREIGN_WORD,
     HOST_API,
     MAIN_BOX,
@@ -30,6 +29,7 @@ from wse.constants import (
     TITLE_FOREIGN_PARAMS,
     TITLE_FOREIGN_UPDATE,
 )
+from wse.constants.url import FOREIGN_ASSESSMENT_PATH
 from wse.container.exercise import ExerciseBox, ExerciseParamSelectionsBox
 from wse.contrib.http_requests import (
     HttpPostMixin,
@@ -133,7 +133,7 @@ class ExerciseForeignPage(ExerciseBox):
         """Construct the box."""
         super().__init__()
         self.url_exercise = urljoin(HOST_API, FOREIGN_EXERCISE_PATH)
-        self.url_progress = urljoin(HOST_API, FOREIGN_PROGRESS_PATH)
+        self.url_progress = urljoin(HOST_API, FOREIGN_ASSESSMENT_PATH)
 
         # Buttons.
         btn_goto_params_box = BtnApp(
@@ -167,6 +167,10 @@ class ExerciseForeignPage(ExerciseBox):
         """Add populate items."""
         super().show_question()
         self.populate_textpanel()
+
+    def move_to_params_box(self, widget: toga.Widget) -> None:
+        """Move to exercise parameters page box."""
+        self.goto_box_handler(widget, FOREIGN_PARAMS_BOX)
 
 
 class FormForeign(BaseForm):

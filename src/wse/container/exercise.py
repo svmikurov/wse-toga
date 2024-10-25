@@ -17,8 +17,6 @@ from wse.constants import (
     CATEGORY,
     EDGE_PERIODS,
     EXERCISE_CHOICES,
-    FOREIGN_EXERCISE_PATH,
-    ID,
     KNOW,
     LOOKUP_CONDITIONS,
     NO_TASK_MSG,
@@ -29,6 +27,7 @@ from wse.constants import (
     QUESTION,
     TASK_ERROR_MSG,
 )
+from wse.constants.literal import ITEM_ID
 from wse.contrib.http_requests import request_post, request_post_async
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
@@ -209,7 +208,7 @@ class ExerciseBox(BoxApp):
         # The box has task control.
         self.task = Task()
         # To override attrs.
-        self.url_exercise = FOREIGN_EXERCISE_PATH
+        self.url_exercise = ''
         self.url_progress = ''
 
         # Style.
@@ -255,14 +254,19 @@ class ExerciseBox(BoxApp):
 
     async def know_handler(self, _: toga.Widget) -> None:
         """Mark that know the answer, button handler."""
-        know_payload = {ACTION: KNOW, ID: self.task.item_id}
+        know_payload = {ACTION: KNOW, ITEM_ID: self.task.item_id}
         await request_post_async(self.url_progress, know_payload)
-        await self.loop_task()
+        await self.move_to_next_task()
 
     async def not_know_handler(self, _: toga.Widget) -> None:
         """Mark that not know the answer, button handler."""
-        not_know_payload = {ACTION: NOT_KNOW, ID: self.task.item_id}
+        not_know_payload = {ACTION: NOT_KNOW, ITEM_ID: self.task.item_id}
         await request_post_async(self.url_progress, not_know_payload)
+        await self.move_to_next_task()
+
+    async def move_to_next_task(self) -> None:
+        """Move to next task."""
+        self.task.status = QUESTION
         await self.loop_task()
 
     def pause_handler(self, _: toga.Widget) -> None:
@@ -285,6 +289,7 @@ class ExerciseBox(BoxApp):
             return
         elif r.status_code == HTTPStatus.NO_CONTENT:
             await self.show_message('', NO_TASK_MSG)
+            self.move_to_params_box(self)
         else:
             await self.show_message('', TASK_ERROR_MSG)
         self.task.data = None
@@ -329,3 +334,10 @@ class ExerciseBox(BoxApp):
         """Clean the test panel."""
         self.answer_display.clean()
         self.question_display.clean()
+
+    def move_to_params_box(self, widget: toga.Widget) -> None:
+        """Move to exercise parameters page box.
+
+        Override this method.
+        """
+        pass
