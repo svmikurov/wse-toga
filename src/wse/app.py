@@ -84,25 +84,26 @@ class WSE(toga.App):
             cmd_goto_main, cmd_goto_user, cmd_goto_glossary, cmd_goto_foreign
         )
 
-    def set_window_content(self, box: toga.Box) -> None:
-        """Set window content."""
+    def move_to_page(self, box: toga.Box) -> None:
+        """Move to page box."""
         self.main_window.content = box
+        box.on_open()
 
     def goto_main(self, widget: toga.Widget, **kwargs: object) -> None:
         """Goto main box, command handler."""
-        self.set_window_content(self.main_box)
+        self.move_to_page(self.main_box)
 
     def goto_glossary(self, widget: toga.Widget, **kwargs: object) -> None:
         """Goto glossary box, command handler."""
-        self.set_window_content(self.glossary_box)
+        self.move_to_page(self.glossary_box)
 
     def goto_user(self, widget: toga.Widget, **kwargs: object) -> None:
         """Goto user box, command handler."""
-        self.set_window_content(self.user_box)
+        self.move_to_page(self.user_box)
 
     def goto_foreign(self, widget: toga.Widget, **kwargs: object) -> None:
         """Goto foreign box, command handler."""
-        self.set_window_content(self.foreign_box)
+        self.move_to_page(self.foreign_box)
 
 
 def main() -> WSE:
