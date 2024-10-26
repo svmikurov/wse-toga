@@ -14,6 +14,8 @@ Path to compiled package::
 
     wse/dist/wse_0.0.1-1~ubuntu-jammy_amd64.deb
 
+First :ref:`install the development mode. <Developer mode>`
+
 **In brief:**
 
 .. code-block:: console

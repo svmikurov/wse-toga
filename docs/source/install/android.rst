@@ -17,7 +17,7 @@ Path to compiled app.apk::
 
     wse/build/wse/android/gradle/app/build/outputs/apk/debug/app-debug.apk
 
-In development mode.
+First :ref:`install the development mode. <Developer mode>`
 
 .. seealso::
 

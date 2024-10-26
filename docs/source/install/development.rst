@@ -10,6 +10,8 @@ Developer mode
 
    `Toga <https://toga.readthedocs.io>`_
 
+`Install dependencies <https://docs.beeware.org/en/latest/tutorial/tutorial-0.html#install-dependencies>`_
+
 Install app
 -----------
 
