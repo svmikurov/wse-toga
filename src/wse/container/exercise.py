@@ -8,7 +8,6 @@ For exercises:
 from http import HTTPStatus
 
 import toga
-from toga import NumberInput
 from toga.style.pack import COLUMN, ROW, Pack
 
 from wse.constants import (
@@ -88,13 +87,11 @@ class ExerciseParamSelectionsBox(BoxApp):
         label_end = toga.Label('Конец периода:', style=label_style)
         label_category = toga.Label('Категория:', style=label_style)
         label_progres = toga.Label('Стадия изучения:', style=label_style)
-        label_first = toga.Label('Первые:', style=label_style)
-        label_last = toga.Label('Последние:', style=label_style)
         # Switch
-        self.first_switch = toga.Switch(
+        self.count_first_switch = toga.Switch(
             'Первые', style=label_style, on_change=self.first_switch_handler
         )
-        self.last_switch = toga.Switch(
+        self.count_last_switch = toga.Switch(
             'Последние', style=label_style, on_change=self.last_switch_handler
         )
         # Selections.
@@ -102,8 +99,8 @@ class ExerciseParamSelectionsBox(BoxApp):
         self.end_period_selection = BaseSelection()
         self.category_selection = BaseSelection()
         self.progress_selection = BaseSelection()
-        self.first_input = toga.NumberInput(step=10, min=10)
-        self.last_input = toga.NumberInput(step=10, min=10)
+        self.count_first_input = toga.NumberInput(step=10, min=10)
+        self.count_last_input = toga.NumberInput(step=10, min=10)
         # Selection boxes.
         selection_start_box = toga.Box(
             style=selection_box_style,
@@ -138,12 +135,12 @@ class ExerciseParamSelectionsBox(BoxApp):
             style=selection_box_style,
             children=[
                 FlexBox(
-                    children=[self.first_switch],
-                    style=Pack(direction=COLUMN, padding_right=20)
+                    children=[self.count_first_switch],
+                    style=Pack(direction=COLUMN, padding_right=20),
                 ),
                 FlexBox(
-                    children=[self.first_input],
-                    style=Pack(direction=COLUMN)
+                    children=[self.count_first_input],
+                    style=Pack(direction=COLUMN),
                 ),
             ],
         )
@@ -151,12 +148,12 @@ class ExerciseParamSelectionsBox(BoxApp):
             style=selection_box_style,
             children=[
                 FlexBox(
-                    children=[self.last_switch],
-                    style=Pack(direction=COLUMN, padding_right=20)
+                    children=[self.count_last_switch],
+                    style=Pack(direction=COLUMN, padding_right=20),
                 ),
                 FlexBox(
-                    children=[self.last_input],
-                    style=Pack(direction=COLUMN)
+                    children=[self.count_last_input],
+                    style=Pack(direction=COLUMN),
                 ),
             ],
         )
@@ -202,13 +199,13 @@ class ExerciseParamSelectionsBox(BoxApp):
 
     def first_switch_handler(self, widget: toga.Widget) -> None:
         """Count of first added words, switch handler."""
-        if self.first_switch.value:
-            self.last_switch.value = False
+        if self.count_first_switch.value:
+            self.count_last_switch.value = False
 
     def last_switch_handler(self, widget: toga.Widget) -> None:
         """Count of last added words, switch handler."""
-        if self.last_switch.value:
-            self.first_switch.value = False
+        if self.count_last_switch.value:
+            self.count_first_switch.value = False
 
     ####################################################################
     # Lookup conditions
@@ -226,8 +223,10 @@ class ExerciseParamSelectionsBox(BoxApp):
             PERIOD_END: self.end_period_selection.get_alias(),
             CATEGORY: self.category_selection.get_alias(),
             PROGRESS: self.progress_selection.get_alias(),
-            'first_words': int(self.first_input.value) * self.first_switch.value,  # noqa: E501
-            'last_words': int(self.last_input.value) * self.last_switch.value,
+            'count_first': int(self.count_first_input.value)
+            * self.count_first_switch.value,
+            'count_last': int(self.count_last_input.value)
+            * self.count_last_switch.value,
         }
         return lookup_conditions
 
@@ -249,7 +248,7 @@ class ExerciseParamSelectionsBox(BoxApp):
         )
         self.progress_selection.set_items(
             items[PROGRESS], defaults[PROGRESS]
-        ) # fmt: skip
+        )  # fmt: skip
 
 
 class ExerciseBox(BoxApp):
