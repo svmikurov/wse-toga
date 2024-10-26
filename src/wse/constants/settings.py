@@ -23,7 +23,7 @@ INPUT_HEIGHT = 60
 # TextDisplay
 TEXT_DISPLAY_FONT_SIZE = 18
 TEXT_DISPLAY_FONT_STYLE = ITALIC
-TEXT_DISPLAY_PADDING = (2, 2, 2, 2)
+TEXT_DISPLAY_PADDING = (0, 2, 0, 2)
 
 #########################################################################
 # Titles

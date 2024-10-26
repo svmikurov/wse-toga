@@ -61,7 +61,7 @@ class TextPanel(toga.MultilineTextInput):
         """Construct the widget."""
         style = Pack(
             flex=1,
-            padding=(2, 2, 2, 2),
+            padding=(0, 2, 0, 2),
             font_size=TEXT_DISPLAY_FONT_SIZE,
             font_style=TEXT_DISPLAY_FONT_STYLE,
         )

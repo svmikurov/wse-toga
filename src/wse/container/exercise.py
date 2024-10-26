@@ -99,8 +99,8 @@ class ExerciseParamSelectionsBox(BoxApp):
         self.end_period_selection = BaseSelection()
         self.category_selection = BaseSelection()
         self.progress_selection = BaseSelection()
-        self.count_first_input = toga.NumberInput(step=10, min=10)
-        self.count_last_input = toga.NumberInput(step=10, min=10)
+        self.count_first_input = toga.NumberInput(step=10, min=0)
+        self.count_last_input = toga.NumberInput(step=10, min=0)
         # Selection boxes.
         selection_start_box = toga.Box(
             style=selection_box_style,
@@ -218,15 +218,16 @@ class ExerciseParamSelectionsBox(BoxApp):
         Gets the data from the selection widgets to request
         a task from the server.
         """
+        # NumberInput return Decimal objects or None.
+        count_first = int(self.count_first_input.value or 0)
+        count_last = int(self.count_last_input.value or 0)
         lookup_conditions = {
             PERIOD_START: self.start_period_selection.get_alias(),
             PERIOD_END: self.end_period_selection.get_alias(),
             CATEGORY: self.category_selection.get_alias(),
             PROGRESS: self.progress_selection.get_alias(),
-            'count_first': int(self.count_first_input.value)
-            * self.count_first_switch.value,
-            'count_last': int(self.count_last_input.value)
-            * self.count_last_switch.value,
+            'count_first': count_first * self.count_first_switch.value,
+            'count_last': count_last * self.count_last_switch.value,
         }
         return lookup_conditions
 
@@ -249,6 +250,14 @@ class ExerciseParamSelectionsBox(BoxApp):
         self.progress_selection.set_items(
             items[PROGRESS], defaults[PROGRESS]
         )  # fmt: skip
+        if bool(defaults['count_first']):
+            self.count_first_input.value = defaults['count_first']
+            self.count_first_switch.value = True
+            self.count_last_switch.value = False
+        if bool(defaults['count_last']):
+            self.count_last_input.value = defaults['count_last']
+            self.count_last_switch.value = True
+            self.count_first_switch.value = False
 
 
 class ExerciseBox(BoxApp):
@@ -266,7 +275,7 @@ class ExerciseBox(BoxApp):
         self.url_progress = ''
 
         # Style.
-        label_style = Pack(padding=(2, 0, 2, 7))
+        label_style = Pack(padding=(0, 0, 0, 7))
 
         # Inner boxes.
         self.exercise_box = toga.Box(
@@ -337,7 +346,6 @@ class ExerciseBox(BoxApp):
 
     async def request_task(self) -> None:
         """Request the task data."""
-        print(f'>>> {self.task.params = }')
         r = request_post(self.url_exercise, self.task.params)
         if r.status_code == HTTPStatus.OK:
             self.task.data = r.json()

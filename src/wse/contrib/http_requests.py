@@ -66,7 +66,9 @@ def request_get(url: str) -> Response:
     """Send GET request."""
     with httpx.Client(auth=app_auth) as client:
         try:
-            response = client.get(url=url)
+            response = client.get(
+                url=url,
+            )
         except httpx.ConnectError:
             print('Connection error')
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)
@@ -137,8 +139,8 @@ class HttpGetMixin:
     success_http_status = HTTPStatus.OK
 
     @classmethod
-    async def send_request_async(cls, url: str, payload: dict) -> Response:
-        """Send http request PUT method."""
+    async def request_get_async(cls, url: str, payload: dict) -> Response:
+        """Send http request, GET method."""
         return await request_put_async(url, payload)
 
 
@@ -148,7 +150,7 @@ class HttpPostMixin:
     success_http_status = HTTPStatus.CREATED
 
     @classmethod
-    async def send_request_async(cls, url: str, payload: dict) -> Response:
+    async def request_post_async(cls, url: str, payload: dict) -> Response:
         """Send http request, POST method."""
         return await request_post_async(url, payload)
 
@@ -159,6 +161,6 @@ class HttpPutMixin:
     success_http_status = HTTPStatus.OK
 
     @classmethod
-    async def send_request_async(cls, url: str, payload: dict) -> Response:
-        """Send http request PUT method."""
+    async def request_put_async(cls, url: str, payload: dict) -> Response:
+        """Send http request, PUT method."""
         return await request_put_async(url, payload)

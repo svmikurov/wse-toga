@@ -35,7 +35,6 @@ from wse.contrib.http_requests import (
     HttpPostMixin,
     HttpPutMixin,
     request_get,
-    request_post,
 )
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
@@ -81,7 +80,7 @@ class MainForeignPage(BoxApp):
         )
 
 
-class ParamForeignPage(ExerciseParamSelectionsBox):
+class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
     """Learning foreign words exercise parameters box."""
 
     title = TITLE_FOREIGN_PARAMS
@@ -102,6 +101,8 @@ class ParamForeignPage(ExerciseParamSelectionsBox):
     async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
         exercise_box = self.get_box(widget, FOREIGN_EXERCISE_BOX)
+        exercise_box.clean_text_panel()
+        exercise_box.task.status = None
         exercise_box.task.params = self.lookup_conditions
         self.set_window_content(widget, exercise_box)
         await exercise_box.loop_task()
@@ -113,13 +114,13 @@ class ParamForeignPage(ExerciseParamSelectionsBox):
         if response.status_code == HTTPStatus.OK:
             self.lookup_conditions = response.json()
 
-    def save_params_handler(self, _: toga.Widget) -> None:
+    async def save_params_handler(self, _: toga.Widget) -> None:
         """Save Foreign Exercise parameters, button handler.
 
         Request to save user exercise parameters.
         """
         url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
-        request_post(url, self.lookup_conditions)
+        await self.request_put_async(url, self.lookup_conditions)
 
 
 class ExerciseForeignPage(ExerciseBox):
@@ -143,8 +144,10 @@ class ExerciseForeignPage(ExerciseBox):
 
         # TextPanel
         textpanel_label = toga.Label('Информация об упражнении:')
-        textpanel_label.style = Pack(padding=(2, 0, 2, 7))
-        self.textpanel = MultilineTextInput()
+        textpanel_label.style = Pack(padding=(0, 0, 0, 7))
+        self.textpanel = MultilineTextInput(
+            readonly=True,
+        )
 
         # Widget DOM.
         self.add(
@@ -177,7 +180,7 @@ class FormForeign(BaseForm):
     """General form to create and update entries, the container."""
 
     title = ''
-    """Bage box title (`str`).
+    """Page box title (`str`).
     """
 
     def __init__(self, *args: object, **kwargs: object) -> None:

@@ -36,9 +36,7 @@ class MainBox(BoxApp):
         )
 
         # Debug
-        btn_debug = BtnApp(
-            'Test request', on_press=self.debug_handler
-        )
+        btn_debug = BtnApp('Test request', on_press=self.debug_handler)
         self.debug_panel = toga.MultilineTextInput(
             readonly=True,
             placeholder='Ready ...',
