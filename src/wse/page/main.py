@@ -1,5 +1,8 @@
 """Main box."""
 
+import toga
+from toga.style import Pack
+
 from wse import constants as const
 from wse.constants import TITLE_MAIN
 from wse.general.box_page import BoxApp
@@ -32,10 +35,26 @@ class MainBox(BoxApp):
             on_press=lambda _: self.goto_box_handler(_, const.FOREIGN_BOX),
         )
 
+        # Debug
+        btn_debug = BtnApp(
+            'Test request', on_press=self.debug_handler
+        )
+        self.debug_panel = toga.MultilineTextInput(
+            readonly=True,
+            placeholder='Ready ...',
+            style=Pack(flex=1),
+        )
+
         # DOM.
         self.add(
             TitleLabel(TITLE_MAIN),
             btn_goto_user_box,
             btn_goto_foreign_box,
             btn_goto_glossary_box,
+            self.debug_panel,
+            btn_debug,
         )
+
+    def debug_handler(self, _: toga.Widget) -> None:
+        """Test thr request, button handler."""
+        pass
