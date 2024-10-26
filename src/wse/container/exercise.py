@@ -8,6 +8,7 @@ For exercises:
 from http import HTTPStatus
 
 import toga
+from toga import NumberInput
 from toga.style.pack import COLUMN, ROW, Pack
 
 from wse.constants import (
@@ -70,6 +71,7 @@ class ExerciseParamSelectionsBox(BoxApp):
 
         # Styles.
         label_style = Pack(padding=(7, 0, 7, 20))
+        selection_box_style = Pack(padding=(2, 0, 2, 0))
 
         # General buttons.
         btn_save_params = BtnApp(
@@ -86,13 +88,23 @@ class ExerciseParamSelectionsBox(BoxApp):
         label_end = toga.Label('Конец периода:', style=label_style)
         label_category = toga.Label('Категория:', style=label_style)
         label_progres = toga.Label('Стадия изучения:', style=label_style)
+        label_first = toga.Label('Первые:', style=label_style)
+        label_last = toga.Label('Последние:', style=label_style)
+        # Switch
+        self.first_switch = toga.Switch(
+            'Первые', style=label_style, on_change=self.first_switch_handler
+        )
+        self.last_switch = toga.Switch(
+            'Последние', style=label_style, on_change=self.last_switch_handler
+        )
         # Selections.
         self.start_period_selection = BaseSelection()
         self.end_period_selection = BaseSelection()
         self.category_selection = BaseSelection()
         self.progress_selection = BaseSelection()
+        self.first_input = toga.NumberInput(step=10, min=10)
+        self.last_input = toga.NumberInput(step=10, min=10)
         # Selection boxes.
-        selection_box_style = Pack(padding=(2, 0, 2, 0))
         selection_start_box = toga.Box(
             style=selection_box_style,
             children=[
@@ -122,6 +134,32 @@ class ExerciseParamSelectionsBox(BoxApp):
                 FlexBox(children=[self.progress_selection]),
             ],
         )
+        input_first_box = toga.Box(
+            style=selection_box_style,
+            children=[
+                FlexBox(
+                    children=[self.first_switch],
+                    style=Pack(direction=COLUMN, padding_right=20)
+                ),
+                FlexBox(
+                    children=[self.first_input],
+                    style=Pack(direction=COLUMN)
+                ),
+            ],
+        )
+        input_last_box = toga.Box(
+            style=selection_box_style,
+            children=[
+                FlexBox(
+                    children=[self.last_switch],
+                    style=Pack(direction=COLUMN, padding_right=20)
+                ),
+                FlexBox(
+                    children=[self.last_input],
+                    style=Pack(direction=COLUMN)
+                ),
+            ],
+        )
 
         # Widgets DOM.
         # Add ``params_box`` attr.
@@ -137,6 +175,8 @@ class ExerciseParamSelectionsBox(BoxApp):
             selection_end_box,
             selection_category_box,
             selection_progress_box,
+            input_first_box,
+            input_last_box,
         )
 
     ####################################################################
@@ -158,6 +198,19 @@ class ExerciseParamSelectionsBox(BoxApp):
         )
 
     ####################################################################
+    # Switch callback functions
+
+    def first_switch_handler(self, widget: toga.Widget) -> None:
+        """Count of first added words, switch handler."""
+        if self.first_switch.value:
+            self.last_switch.value = False
+
+    def last_switch_handler(self, widget: toga.Widget) -> None:
+        """Count of last added words, switch handler."""
+        if self.last_switch.value:
+            self.first_switch.value = False
+
+    ####################################################################
     # Lookup conditions
 
     @property
@@ -173,6 +226,8 @@ class ExerciseParamSelectionsBox(BoxApp):
             PERIOD_END: self.end_period_selection.get_alias(),
             CATEGORY: self.category_selection.get_alias(),
             PROGRESS: self.progress_selection.get_alias(),
+            'first_words': int(self.first_input.value) * self.first_switch.value,  # noqa: E501
+            'last_words': int(self.last_input.value) * self.last_switch.value,
         }
         return lookup_conditions
 
@@ -194,7 +249,7 @@ class ExerciseParamSelectionsBox(BoxApp):
         )
         self.progress_selection.set_items(
             items[PROGRESS], defaults[PROGRESS]
-        )  # fmt: skip
+        ) # fmt: skip
 
 
 class ExerciseBox(BoxApp):
@@ -283,6 +338,7 @@ class ExerciseBox(BoxApp):
 
     async def request_task(self) -> None:
         """Request the task data."""
+        print(f'>>> {self.task.params = }')
         r = request_post(self.url_exercise, self.task.params)
         if r.status_code == HTTPStatus.OK:
             self.task.data = r.json()
