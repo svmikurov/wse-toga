@@ -4,17 +4,22 @@ import toga
 from toga.style import Pack
 
 from wse import constants as const
-from wse.constants import TITLE_MAIN
+from wse.constants import TITLE_MAIN, HOST_API
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
+from wse.page.user import UserAuth
 
 
-class MainBox(BoxApp):
+class MainBox(UserAuth, BoxApp):
     """Main box.
 
     Contains content that is displayed to the user
     when the application is launched.
+    """
+
+    welcome = f'Ready for connect to {HOST_API}'
+    """Welcome text on the information display (`str`).
     """
 
     def __init__(self) -> None:
@@ -22,10 +27,6 @@ class MainBox(BoxApp):
         super().__init__()
 
         # Widgets.
-        btn_goto_user_box = BtnApp(
-            'Учетная запись',
-            on_press=lambda _: self.goto_box_handler(_, const.USER_MAIN_BOX),
-        )
         btn_goto_glossary_box = BtnApp(
             'Глоссарий терминов',
             on_press=lambda _: self.goto_box_handler(_, const.GLOSSARY_BOX),
@@ -35,24 +36,18 @@ class MainBox(BoxApp):
             on_press=lambda _: self.goto_box_handler(_, const.FOREIGN_BOX),
         )
 
-        # Debug
-        btn_debug = BtnApp('Test request', on_press=self.debug_handler)
-        self.debug_panel = toga.MultilineTextInput(
+        # Info panel
+        self.info_panel = toga.MultilineTextInput(
             readonly=True,
-            placeholder='Ready ...',
+            placeholder=self.welcome,
             style=Pack(flex=1),
         )
 
         # DOM.
         self.add(
             TitleLabel(TITLE_MAIN),
-            btn_goto_user_box,
+            self.btn_goto_auth,  # UserAuth attr
             btn_goto_foreign_box,
             btn_goto_glossary_box,
-            self.debug_panel,
-            btn_debug,
+            self.info_panel,
         )
-
-    def debug_handler(self, _: toga.Widget) -> None:
-        """Test thr request, button handler."""
-        pass

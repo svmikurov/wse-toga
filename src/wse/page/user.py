@@ -39,8 +39,93 @@ from wse.general.label import TitleLabel
 from wse.general.text_input import TextPanel
 
 
+class UserAuth(BoxApp):
+    """User authentication control widget."""
+
+    welcome: str
+    info_panel: toga.MultilineTextInput
+
+    user_info_text = 'Добро пожаловать, %s!'
+    """User info template (`str`).
+    """
+    user_detail_url = urljoin(HOST_API, USER_ME)
+    """User detail url, allowed GET method (`str`).
+    """
+
+    def __init__(self) -> None:
+        """Construct the Main box."""
+        super().__init__()
+        self.is_auth: bool = False
+        self.username: str | None = None
+
+        self.btn_goto_auth = BtnApp(
+            self.auth_attrs['btn_auth']['text'],
+            on_press=self.auth_attrs['btn_auth']['on_press'],
+        )
+
+    def on_open(self) -> None:
+        """Call widget setup by user authentication status."""
+        super().on_open()
+        self.setup_user_status()
+        self.update_widget_values()
+
+    ####################################################################
+    # Authentication
+
+    @property
+    def auth_attrs(self) -> dict:
+        """Setup widget attr values by user auth status."""
+        widget_values = {
+            True: {
+                'btn_auth': {
+                    'text': 'Выход из учетной записи',
+                    'on_press': self.logout_handler,
+                },
+                'info_text': self.user_info_text % self.username,
+            },
+            False: {
+                'btn_auth': {
+                    'text': 'Вход в учетную запись',
+                    'on_press': lambda _: self.goto_box_handler(_, LOGIN_BOX),
+                },
+                'info_text': self.welcome,
+            },
+        }
+        return widget_values[self.is_auth]
+
+    async def logout_handler(self, _: toga.Widget) -> None:
+        """Send the http request to user logout, button handler."""
+        url = urljoin(HOST_API, LOGOUT_PATH)
+        response = request_post(url=url)
+        if response.status_code == HTTPStatus.NO_CONTENT:
+            self.is_auth = False
+            self.update_widget_values()
+            app_auth.delete_token()
+            await self.show_message('', LOGOUT_MSG)
+
+    def update_widget_values(self) -> None:
+        """Update widget values by user auth status."""
+        # Display info.
+        self.info_panel.value = self.auth_attrs['info_text']
+        # Button auth user.
+        self.btn_goto_auth.text = self.auth_attrs['btn_auth']['text']
+        self.btn_goto_auth.on_press = self.auth_attrs['btn_auth']['on_press']
+
+    def setup_user_status(self) -> None:
+        """Set user info."""
+        response = request_get(self.user_detail_url)
+        if response.status_code == HTTPStatus.OK:
+            self.username = response.json()['username']
+            self.is_auth = True
+        else:
+            self.username = None
+            self.is_auth = False
+
+
 class MainUserBox(BoxApp):
     """The main user page box.
+
+    **DEPRECATED**
 
     Contains buttons for move to user page boxes.
     """
