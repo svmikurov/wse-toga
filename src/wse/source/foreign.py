@@ -6,9 +6,8 @@ from toga.sources import Source
 class Word:
     """A class to wrap individual word."""
 
-    def __init__(self, id: str, foreign_word: str, russian_word: str) -> None:
+    def __init__(self, foreign_word: str, russian_word: str) -> None:
         """Construct the word wrap."""
-        self.id = int(id)
         self.foreign_word = foreign_word
         self.russian_word = russian_word
 
@@ -20,7 +19,7 @@ class WordSource(Source):
         """Construct the source."""
         super().__init__()
         self._words = []
-        self.accessors = ['id', 'foreign_word', 'russian_word']
+        self.accessors = ['foreign_word', 'russian_word']
 
     def __len__(self) -> int:
         """Get len items."""

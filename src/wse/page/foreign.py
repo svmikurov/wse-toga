@@ -267,7 +267,7 @@ class ListForeignPage(TableApp):
     source_class = WordSource()
     source_url = urljoin(HOST_API, FOREIGN_PATH)
     source_url_detail = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
-    headings = ['ID', 'Иностранный', 'Русский']
+    headings = ['Иностранный', 'Русский']
 
     def __init__(self) -> None:
         """Construct the page."""
