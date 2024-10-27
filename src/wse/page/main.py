@@ -4,7 +4,7 @@ import toga
 from toga.style import Pack
 
 from wse import constants as const
-from wse.constants import TITLE_MAIN, HOST_API
+from wse.constants import HOST_API, TITLE_MAIN
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
@@ -27,11 +27,12 @@ class MainBox(UserAuth, BoxApp):
         super().__init__()
 
         # Widgets.
-        btn_goto_glossary_box = BtnApp(
+        self.title_label = TitleLabel(TITLE_MAIN)
+        self.btn_goto_glossary_box = BtnApp(
             'Глоссарий терминов',
             on_press=lambda _: self.goto_box_handler(_, const.GLOSSARY_BOX),
         )
-        btn_goto_foreign_box = BtnApp(
+        self.btn_goto_foreign_box = BtnApp(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, const.FOREIGN_BOX),
         )
@@ -45,9 +46,9 @@ class MainBox(UserAuth, BoxApp):
 
         # DOM.
         self.add(
-            TitleLabel(TITLE_MAIN),
+            self.title_label,
             self.btn_goto_auth,  # UserAuth attr
-            btn_goto_foreign_box,
-            btn_goto_glossary_box,
+            self.btn_goto_foreign_box,
+            self.btn_goto_glossary_box,
             self.info_panel,
         )

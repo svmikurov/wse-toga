@@ -46,42 +46,43 @@ from wse.source.foreign import Word, WordSource
 
 
 class MainForeignPage(BoxApp):
-    """Learning foreign words main box."""
+    """Learning foreign words the main page box."""
 
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
 
         # Box widgets.
-        btn_goto_main = BtnApp(
+        self.title_label = TitleLabel(TITLE_FOREIGN_MAIN)
+        self.btn_goto_main = BtnApp(
             text='На главную',
             on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
-        btn_goto_params = BtnApp(
+        self.btn_goto_params = BtnApp(
             'Упражнение',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
         )
-        btn_goto_create = BtnApp(
+        self.btn_goto_create = BtnApp(
             'Добавить слово',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_CREATE_BOX),
         )
-        btn_goto_list = BtnApp(
+        self.btn_goto_list = BtnApp(
             'Словарь',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
         )
 
         # Widget DOM.
         self.add(
-            TitleLabel(TITLE_FOREIGN_MAIN),
-            btn_goto_main,
-            btn_goto_create,
-            btn_goto_params,
-            btn_goto_list,
+            self.title_label,
+            self.btn_goto_main,
+            self.btn_goto_create,
+            self.btn_goto_params,
+            self.btn_goto_list,
         )
 
 
 class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
-    """Learning foreign words exercise parameters box."""
+    """Learning foreign words exercise parameters the page box."""
 
     title = TITLE_FOREIGN_PARAMS
 
@@ -90,13 +91,13 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
         super().__init__()
 
         # Box widgets.
-        btn_goto_foreign = BtnApp(
+        self.btn_goto_foreign = BtnApp(
             'Меню словаря',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
 
         # Widget DOM.
-        self.insert(4, btn_goto_foreign)
+        self.insert(4, self.btn_goto_foreign)
 
     async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
@@ -137,14 +138,14 @@ class ExerciseForeignPage(ExerciseBox):
         self.url_progress = urljoin(HOST_API, FOREIGN_ASSESSMENT_PATH)
 
         # Buttons.
-        btn_goto_params_box = BtnApp(
+        self.btn_goto_params_box = BtnApp(
             'Настроить упражнение',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
         )
 
         # TextPanel
-        textpanel_label = toga.Label('Информация об упражнении:')
-        textpanel_label.style = Pack(padding=(0, 0, 0, 7))
+        self.textpanel_label = toga.Label('Информация об упражнении:')
+        self.textpanel_label.style = Pack(padding=(0, 0, 0, 7))
         self.textpanel = MultilineTextInput(
             readonly=True,
         )
@@ -154,9 +155,9 @@ class ExerciseForeignPage(ExerciseBox):
             TitleLabel(TITLE_FOREIGN_EXERCISE),
             self.exercise_box,
             self.textpanel,
-            btn_goto_params_box,
+            self.btn_goto_params_box,
         )
-        self.exercise_box.insert(4, textpanel_label)
+        self.exercise_box.insert(4, self.textpanel_label)
         self.exercise_box.insert(5, self.textpanel)
 
     def populate_textpanel(self) -> None:
@@ -188,7 +189,7 @@ class FormForeign(BaseForm):
         super().__init__(*args, **kwargs)
         self._entry = Word
 
-        btn_goto_foreign_box = BtnApp(
+        self.btn_goto_foreign_box = BtnApp(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
         )
@@ -196,14 +197,17 @@ class FormForeign(BaseForm):
         self.russian_input = TextInputApp(placeholder='Слово на русском')
         self.russian_input.style.padding_bottom = 1
         self.foreign_input = TextInputApp(placeholder='Слово на иностранном')
-        btn_submit = BtnApp(self.btn_submit_name, on_press=self.submit_handler)
+        self.btn_submit = BtnApp(
+            self.btn_submit_name,
+            on_press=self.submit_handler,
+        )
 
         self.add(
             TitleLabel(text=self.title),
             self.russian_input,
             self.foreign_input,
-            btn_submit,
-            btn_goto_foreign_box,
+            self.btn_submit,
+            self.btn_goto_foreign_box,
         )
 
     def populate_entry_input(self) -> None:

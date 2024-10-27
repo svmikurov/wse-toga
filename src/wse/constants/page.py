@@ -45,7 +45,7 @@ GLOSSARY_BOX = 'glossary_box'
 GLOSSARY_EXERCISE_BOX = 'glossary_exercise_box'
 """Glossary study box page name (`str`).
 """
-GLOSSARY_PARAMS_BOX = 'glossary_exercise_params_box'
+GLOSSARY_PARAMS_BOX = 'glossary_params_box'
 """Parameters of glossary words study the box page name (`str`).
 """
 GLOSSARY_CREATE_BOX = 'glossary_create_box'

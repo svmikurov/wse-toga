@@ -2,106 +2,117 @@
 
 import toga
 
-from wse import constants, page
-from wse.constants.settings import SCREEN_SIZE
-
-BOXES = {
-    constants.MAIN_BOX: page.MainBox,
-    # Foreign language study page boxes.
-    constants.FOREIGN_BOX: page.MainForeignPage,
-    constants.FOREIGN_PARAMS_BOX: page.ParamForeignPage,
-    constants.FOREIGN_EXERCISE_BOX: page.ExerciseForeignPage,
-    constants.FOREIGN_CREATE_BOX: page.CreateWordPage,
-    constants.FOREIGN_UPDATE_BOX: page.UpdateWordPage,
-    constants.FOREIGN_LIST_BOX: page.ListForeignPage,
-    # Glossary study page boxes.
-    constants.GLOSSARY_BOX: page.MainGlossaryPage,
-    constants.GLOSSARY_PARAMS_BOX: page.ParamGlossaryBox,
-    constants.GLOSSARY_EXERCISE_BOX: page.ExerciseGlossaryBox,
-    constants.GLOSSARY_CREATE_BOX: page.CreateTermPage,
-    constants.GLOSSARY_UPDATE_BOX: page.UpdateTermPage,
-    constants.GLOSSARY_LIST_BOX: page.ListTermPage,
-    # User management page boxes.
-    constants.USER_MAIN_BOX: page.MainUserBox,
-    constants.USER_CREATE_BOX: page.CreateUserBox,
-    constants.USER_UPDATE_BOX: page.UpdateUserBox,
-    constants.LOGIN_BOX: page.LoginBox,
-}
-"""The box-container contents to add to ``main_window.content``
-(`dict[str, toga.Box]`).
-
-Fields:
-  - box name: box instance
-"""
+from wse import page
+from wse.constants import (
+    SCREEN_SIZE,
+)
+from wse.general.box_page import BoxApp
 
 
 class WSE(toga.App):
     """WSE application."""
 
-    main_box: toga.Box
+    # Page boxes.
+    main_box: page.MainBox
+    # Foreign language study page boxes.
+    foreign_box: page.MainForeignPage
+    foreign_params_box: page.ParamForeignPage
+    foreign_exercise_box: page.ExerciseForeignPage
+    foreign_create_box: page.CreateWordPage
+    foreign_update_box: page.UpdateWordPage
+    foreign_list_box: page.ListForeignPage
+    # Glossary study page boxes.
+    glossary_box: page.MainGlossaryPage
+    glossary_params_box: page.ParamGlossaryBox
+    glossary_exercise_box: page.ExerciseGlossaryBox
+    glossary_create_box: page.CreateTermPage
+    glossary_update_box: page.UpdateTermPage
+    glossary_list_box: page.ListTermPage
+    # Login box.
+    login_box: page.LoginBox
+
+    # Menu.
+    menu: toga.Group
+    cmd_goto_main: toga.Command
+    cmd_goto_foreign: toga.Command
+    cmd_goto_glossary: toga.Command
 
     def startup(self) -> None:
-        """Construct the main window and initialize the page boxes."""
-        # Initialize the page box widgets.
-        for box_name, box_class in BOXES.items():
-            setattr(self, box_name, box_class())
+        """Initialise widgets to start application.
 
-        # Application start with Main page box content.
+        * Initialises the page boxes.
+        * Creates the app command menu.
+        * Define the main window.
+        """
+        # Page boxes.
+        self.main_box = page.MainBox()
+        # Foreign language study page boxes.
+        self.foreign_box = page.MainForeignPage()
+        self.foreign_params_box = page.ParamForeignPage()
+        self.foreign_exercise_box = page.ExerciseForeignPage()
+        self.foreign_create_box = page.CreateWordPage()
+        self.foreign_update_box = page.UpdateWordPage()
+        self.foreign_list_box = page.ListForeignPage()
+        # Glossary study page boxes.
+        self.glossary_box = page.MainGlossaryPage()
+        self.glossary_params_box = page.ParamGlossaryBox()
+        self.glossary_exercise_box = page.ExerciseGlossaryBox()
+        self.glossary_create_box = page.CreateTermPage()
+        self.glossary_update_box = page.UpdateTermPage()
+        self.glossary_list_box = page.ListTermPage()
+        # Login box.
+        self.login_box = page.LoginBox()
+
+        # Menu.
+        self.menu = toga.Group('Menu')
+        # Menu commands.
+        self.cmd_goto_main = toga.Command(
+            self.goto_main,
+            text='Главная страница',
+            group=self.menu,
+            order=1,
+        )
+        self.cmd_goto_foreign = toga.Command(
+            self.goto_foreign,
+            text='Иностранный словарь',
+            group=self.menu,
+            order=2,
+        )
+        self.cmd_goto_glossary = toga.Command(
+            self.goto_glossary,
+            text='Глоссарий',
+            group=self.menu,
+            order=3,
+        )
+        self.commands.add(
+            self.cmd_goto_main,
+            self.cmd_goto_glossary,
+            self.cmd_goto_foreign,
+        )
+
+        # Main window.
         self.main_window = toga.MainWindow(
             title=self.formal_name,
             size=toga.Size(*SCREEN_SIZE),
         )
+        # Application start with Main page box content.
         self.main_window.content = self.main_box
         self.main_window.show()
 
-        # Commands
-        menu = toga.Group('Menu')
-        cmd_goto_main = toga.Command(
-            self.goto_main,
-            text='Главная страница',
-            group=menu,
-            order=1,
-        )
-        cmd_goto_user = toga.Command(
-            self.goto_user,
-            text='Учетная запись',
-            group=menu,
-            order=2,
-        )
-        cmd_goto_foreign = toga.Command(
-            self.goto_foreign,
-            text='Иностранный словарь',
-            group=menu,
-            order=3,
-        )
-        cmd_goto_glossary = toga.Command(
-            self.goto_glossary,
-            text='Глоссарий',
-            group=menu,
-            order=4,
-        )
-        self.app.commands.add(
-            cmd_goto_main, cmd_goto_user, cmd_goto_glossary, cmd_goto_foreign
-        )
-
-    def move_to_page(self, box: toga.Box) -> None:
+    def move_to_page(self, box: BoxApp) -> None:
         """Move to page box."""
         self.main_window.content = box
         box.on_open()
 
-    def goto_main(self, widget: toga.Widget, **kwargs: object) -> None:
+    def goto_main(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto main box, command handler."""
         self.move_to_page(self.main_box)
 
-    def goto_glossary(self, widget: toga.Widget, **kwargs: object) -> None:
+    def goto_glossary(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto glossary box, command handler."""
         self.move_to_page(self.glossary_box)
 
-    def goto_user(self, widget: toga.Widget, **kwargs: object) -> None:
-        """Goto user box, command handler."""
-        self.move_to_page(self.user_box)
-
-    def goto_foreign(self, widget: toga.Widget, **kwargs: object) -> None:
+    def goto_foreign(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto foreign box, command handler."""
         self.move_to_page(self.foreign_box)
 

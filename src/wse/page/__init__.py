@@ -20,16 +20,12 @@ from wse.page.main import (
     MainBox,
 )
 from wse.page.user import (
-    CreateUserBox,
     LoginBox,
-    MainUserBox,
-    UpdateUserBox,
 )
 
 __all__ = (
     'CreateWordPage',
     'CreateTermPage',
-    'CreateUserBox',
     'ExerciseGlossaryBox',
     'ExerciseForeignPage',
     'ListForeignPage',
@@ -38,11 +34,8 @@ __all__ = (
     'MainBox',
     'MainForeignPage',
     'MainGlossaryPage',
-    'MainUserBox',
     'ParamForeignPage',
     'ParamGlossaryBox',
     'UpdateWordPage',
     'UpdateTermPage',
-    'UpdateUserBox',
-    'UpdateUserBox',
 )

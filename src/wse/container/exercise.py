@@ -72,21 +72,23 @@ class ExerciseParamSelectionsBox(BoxApp):
         label_style = Pack(padding=(7, 0, 7, 20))
         selection_box_style = Pack(padding=(2, 0, 2, 0))
 
+        self.title_label = TitleLabel(text=self.title)
+
         # General buttons.
-        btn_save_params = BtnApp(
+        self.btn_save_params = BtnApp(
             'Сохранить настройки',
             on_press=self.save_params_handler,
         )
-        btn_goto_foreign_exercise = BtnApp(
+        self.btn_goto_foreign_exercise = BtnApp(
             'Начать упражнение',
             on_press=self.goto_exercise_box_handler,
         )
 
         # Selection labels.
-        label_start = toga.Label('Начало периода:', style=label_style)
-        label_end = toga.Label('Конец периода:', style=label_style)
-        label_category = toga.Label('Категория:', style=label_style)
-        label_progres = toga.Label('Стадия изучения:', style=label_style)
+        self.label_start = toga.Label('Начало периода:', style=label_style)
+        self.label_end = toga.Label('Конец периода:', style=label_style)
+        self.label_category = toga.Label('Категория:', style=label_style)
+        self.label_progres = toga.Label('Стадия изучения:', style=label_style)
         # Switch
         self.count_first_switch = toga.Switch(
             'Первые', style=label_style, on_change=self.first_switch_handler
@@ -102,36 +104,36 @@ class ExerciseParamSelectionsBox(BoxApp):
         self.count_first_input = toga.NumberInput(step=10, min=0)
         self.count_last_input = toga.NumberInput(step=10, min=0)
         # Selection boxes.
-        selection_start_box = toga.Box(
+        self.selection_start_box = toga.Box(
             style=selection_box_style,
             children=[
-                FlexBox(children=[label_start]),
+                FlexBox(children=[self.label_start]),
                 FlexBox(children=[self.start_period_selection]),
             ],
         )
-        selection_start_box.style.padding_top = 4
-        selection_end_box = toga.Box(
+        self.selection_start_box.style.padding_top = 4
+        self.selection_end_box = toga.Box(
             style=selection_box_style,
             children=[
-                FlexBox(children=[label_end]),
+                FlexBox(children=[self.label_end]),
                 FlexBox(children=[self.end_period_selection]),
             ],
         )
-        selection_category_box = toga.Box(
+        self.selection_category_box = toga.Box(
             style=selection_box_style,
             children=[
-                FlexBox(children=[label_category]),
+                FlexBox(children=[self.label_category]),
                 FlexBox(children=[self.category_selection]),
             ],
         )
-        selection_progress_box = toga.Box(
+        self.selection_progress_box = toga.Box(
             style=selection_box_style,
             children=[
-                FlexBox(children=[label_progres]),
+                FlexBox(children=[self.label_progres]),
                 FlexBox(children=[self.progress_selection]),
             ],
         )
-        input_first_box = toga.Box(
+        self.input_first_box = toga.Box(
             style=selection_box_style,
             children=[
                 FlexBox(
@@ -144,7 +146,7 @@ class ExerciseParamSelectionsBox(BoxApp):
                 ),
             ],
         )
-        input_last_box = toga.Box(
+        self.input_last_box = toga.Box(
             style=selection_box_style,
             children=[
                 FlexBox(
@@ -160,20 +162,20 @@ class ExerciseParamSelectionsBox(BoxApp):
 
         # Widgets DOM.
         # Add ``params_box`` attr.
-        param_box = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        self.param_box = toga.Box(style=Pack(direction=COLUMN, flex=1))
         self.add(
-            TitleLabel(text=self.title),
-            param_box,
-            btn_goto_foreign_exercise,
-            btn_save_params,
+            self.title_label,
+            self.param_box,
+            self.btn_goto_foreign_exercise,
+            self.btn_save_params,
         )
-        param_box.add(
-            selection_start_box,
-            selection_end_box,
-            selection_category_box,
-            selection_progress_box,
-            input_first_box,
-            input_last_box,
+        self.param_box.add(
+            self.selection_start_box,
+            self.selection_end_box,
+            self.selection_category_box,
+            self.selection_progress_box,
+            self.input_first_box,
+            self.input_last_box,
         )
 
     ####################################################################

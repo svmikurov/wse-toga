@@ -12,7 +12,6 @@ from wse.constants import (
     INPUT_HEIGHT,
     MAIN_BOX,
     PASSWORD,
-    USER_MAIN_BOX,
     USERNAME,
 )
 from wse.contrib.http_requests import ErrorResponse, request_post
@@ -52,26 +51,27 @@ class Credentials(BoxApp):
         input_style = Pack(height=INPUT_HEIGHT)
 
         # Widgets.
-        btn_goto_user_box = BtnApp(
-            'Назад', lambda _: self.goto_box_handler(_, USER_MAIN_BOX)
-        )
+        self.title_label = TitleLabel(text=self.title)
         self.username_input = toga.TextInput(
             placeholder='Имя', style=input_style
         )
         self.password_input = toga.PasswordInput(
             placeholder='Пароль', style=input_style
         )
-        btn_submit = BtnApp(
+        self.btn_submit = BtnApp(
             self.btn_submit_name, on_press=self._submit_handler
-        )  # noqa: E501
+        )
+        self.btn_goto_user_box = BtnApp(
+            'На главную', lambda _: self.goto_box_handler(_, MAIN_BOX)
+        )
 
         # Widgets DOM.
         self.add(
-            TitleLabel(text=self.title),
+            self.title_label,
             self.username_input,
             self.password_input,
-            btn_submit,
-            btn_goto_user_box,
+            self.btn_submit,
+            self.btn_goto_user_box,
         )
 
     def on_open(self) -> None:
