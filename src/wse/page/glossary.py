@@ -243,7 +243,10 @@ class ListTermPage(TableApp):
     source_class = TermSource()
     source_url = urljoin(HOST_API, GLOSSARY_PATH)
     source_url_detail = urljoin(HOST_API, GLOSSARY_DETAIL_PATH)
-    headings = ['ID', 'Термин', 'Толкование']
+    headings = [
+        'Термин',
+        'Толкование',
+    ]
 
     def __init__(self) -> None:
         """Construct the page."""
