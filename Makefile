@@ -2,6 +2,7 @@ start:
 	briefcase dev
 
 test:
+	export TOGA_BACKEND=toga_dummy && \
 	briefcase dev --test
 
 test-r:
