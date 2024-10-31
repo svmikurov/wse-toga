@@ -22,6 +22,8 @@ test_sources = [
 
 requires = [
     "httpx==0.27.2",
+    # https://pypi.org/project/toga-dummy/
+    "toga-dummy==0.4.8 ",
 ]
 test_requires = [
     "pytest",
@@ -191,7 +193,7 @@ exclude = [
     ".idea/*",
     ".venv*",
     "docs",
-    "tests/*",
+    "tests/conftest.py",
 ]
 line-length = 79
 
