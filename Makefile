@@ -1,6 +1,7 @@
 start:
 	briefcase dev
 
+# Test
 test:
 	export TOGA_BACKEND=toga_dummy && \
 	briefcase dev --test
@@ -13,6 +14,8 @@ ruff:
 
 format:
 	ruff check --fix && ruff format
+
+check: ruff test
 
 # Briefcase for android
 android-create:
