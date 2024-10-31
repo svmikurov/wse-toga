@@ -1,14 +1,23 @@
-"""Test Main page box widgets."""
+"""Test Main page box widgets.
+
+Testing:
+ * Text representation of widgets in the window content.
+ * Changing window contents when pressing move buttons.
+ * Control the widget count for test.
+"""
 
 from wse.app import WSE
 from wse.constants import HOST_API
 
+WIDGET_COUNT = 5
+"""Widget count at testing box container (int).
+"""
+
 
 def test_widget_count(wse: WSE) -> None:
     """Test of widget count."""
-    widget_count = 5
     children = wse.main_box.children
-    assert widget_count == len(children)
+    assert WIDGET_COUNT == len(children)
 
 
 def test_title(wse: WSE) -> None:
