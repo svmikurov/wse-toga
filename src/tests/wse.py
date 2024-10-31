@@ -10,14 +10,14 @@ import pytest
 
 def run_tests() -> None:
     """Run tests."""
-    project_path = Path(__file__).parent.parent
+    project_path = Path(__file__).parent.parent.parent
     os.chdir(project_path)
 
     # Determine any args to pass to pytest. If there aren't any,
     # default to running the whole test suite.
     args = sys.argv[1:]
     if len(args) == 0:
-        args = ['tests', 'src']
+        args = ['src']
 
     returncode = pytest.main(
         [

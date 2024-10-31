@@ -17,7 +17,7 @@ sources = [
     "src/wse",
 ]
 test_sources = [
-    "tests",
+    "src/tests",
 ]
 
 requires = [
@@ -193,7 +193,7 @@ exclude = [
     ".idea/*",
     ".venv*",
     "docs",
-    "tests/conftest.py",
+    "*/conftest.py",
 ]
 line-length = 79
 
