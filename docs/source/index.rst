@@ -15,6 +15,7 @@ Welcome to WSE's documentation!
    how-to-guides/index
    glossary
    rest-endpoint/index
+   test/index
 
 
 
