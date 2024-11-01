@@ -78,23 +78,27 @@ class TableApp(BoxApp):
         self._previous_pagination_url = None
         # The pagination buttons.
         self._btn_previous = BtnApp('<', on_press=self.previous_handler)
-        _btn_table_reload = BtnApp('Обновить', on_press=self.reload_handler)
+        self._btn_table_reload = BtnApp(
+            'Обновить', on_press=self.reload_handler
+        )
         self._btn_next = BtnApp('>', on_press=self.next_handler)
         # By default, the pagination buttons is disabled.
         self._btn_previous.enabled = False
         self._btn_next.enabled = False
         # Pagination buttons group.
         self.btns_paginate = toga.Box(
-            children=[self._btn_previous, _btn_table_reload, self._btn_next],
-        )
+            children=[
+                self._btn_previous, self._btn_table_reload, self._btn_next
+            ]
+        )  # fmt: skip
 
         # The table entries management buttons.
-        _btn_create = SmBtn('Добавить', on_press=self.create_handler)
-        _btn_update = SmBtn('Изменить', on_press=self.update_handler)
-        _btn_delete = SmBtn('Удалить', on_press=self.delete_handler)
+        self._btn_create = SmBtn('Добавить', on_press=self.create_handler)
+        self._btn_update = SmBtn('Изменить', on_press=self.update_handler)
+        self._btn_delete = SmBtn('Удалить', on_press=self.delete_handler)
         # Buttons group.
         self.btns_manage = toga.Box(
-            children=[_btn_create, _btn_update, _btn_delete],
+            children=[self._btn_create, self._btn_update, self._btn_delete],
         )
 
         # The table.

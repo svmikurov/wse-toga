@@ -283,6 +283,8 @@ class ListForeignPage(TableApp):
         """Construct the page."""
         super().__init__()
 
+        self.label_title = TitleLabel(TITLE_FOREIGN_LIST)
+
         # The navigation buttons.
         self.btn_goto_foreign_box = BtnApp(
             'Оглавление словаря',
@@ -291,7 +293,7 @@ class ListForeignPage(TableApp):
 
         # Page widgets DOM.
         self.add(
-            TitleLabel(TITLE_FOREIGN_LIST),
+            self.label_title,
             self.btn_goto_foreign_box,
             self.btns_manage,
             self.table,
