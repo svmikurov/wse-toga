@@ -12,5 +12,5 @@ Test foreign pages
 
 .. todo::
 
-   add tests of foreign exercise page widgets.
-   add tests of update foreign word page widgets.
+   * add tests of foreign exercise page widgets, request, handlers.
+   * add tests of update foreign word page widgets, request, handlers.

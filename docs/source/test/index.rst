@@ -11,3 +11,7 @@ Tests
    Foreign pages <foreign/index>
    Glossary pages <glossary/index>
    Other <other>
+
+.. todo::
+
+   * Add test of command menu.
