@@ -4,6 +4,10 @@ Testing:
  * Text representation of widgets in the window content.
  * Changing window contents when pressing move buttons.
  * Control the widget count for test.
+
+.. todo::
+
+   * add test login - request to login.
 """
 
 from wse.app import WSE
