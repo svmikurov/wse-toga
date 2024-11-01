@@ -1,4 +1,4 @@
-"""Test widgets of foreign exercise params page box.
+"""Test widgets of glossary exercise params page box.
 
 Testing:
  * Text representation of widgets in the window content
@@ -8,9 +8,9 @@ Testing:
 
 .. todo::
 
-   * add test foreign exercise params - selection handlers;
-   * add test foreign exercise params - start foreign exercise;
-   * add test foreign exercise params - save params handler.
+   * add test glossary exercise params - selection handlers;
+   * add test glossary exercise params - start glossary exercise;
+   * add test glossary exercise params - save params handler.
 """
 
 import pytest
@@ -19,21 +19,21 @@ from wse.app import WSE
 
 
 @pytest.fixture(autouse=True)
-def goto_foreign_params_page(wse: WSE) -> None:
-    """Assign the foreign params box to main window content, fixture."""
-    wse.main_window.content = wse.foreign_params_box
+def goto_glossary_params_page(wse: WSE) -> None:
+    """Assign the glossary params box to main window content, fixture."""  # noqa: W505
+    wse.main_window.content = wse.glossary_params_box
 
 
 def test_widget_order(wse: WSE) -> None:
-    """Test the widget and containers orger at foreign params page."""
-    box = wse.foreign_params_box
+    """Test the widget and containers orger at glossary params page."""
+    box = wse.glossary_params_box
 
     assert box.children == [
         box.title_label,
         box.param_box,
         box.btn_goto_exercise,
         box.btn_save_params,
-        box.btn_goto_foreign,
+        box.btn_goto_glossary,
     ]
 
     assert box.param_box.children == [
@@ -74,13 +74,13 @@ def test_widget_order(wse: WSE) -> None:
 
 def test_title(wse: WSE) -> None:
     """Test page box title."""
-    title = wse.foreign_params_box.title_label
-    assert title.text == 'Параметры изучения слов'
+    title = wse.glossary_params_box.title_label
+    assert title.text == 'Параметры изучения терминов'
 
 
 def test_btn_goto_foreign_exercise(wse: WSE) -> None:
     """Test the submit button."""
-    btn = wse.foreign_params_box.btn_goto_exercise
+    btn = wse.glossary_params_box.btn_goto_exercise
     assert btn.text == 'Начать упражнение'
     # btn._impl.simulate_press()
     # assert wse.main_window.content == wse.foreign_exercise_box
@@ -88,15 +88,15 @@ def test_btn_goto_foreign_exercise(wse: WSE) -> None:
 
 def test_btn_save_params(wse: WSE) -> None:
     """Test the save params button."""
-    btn = wse.foreign_params_box.btn_save_params
+    btn = wse.glossary_params_box.btn_save_params
     assert btn.text == 'Сохранить настройки'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.foreign_params_box
+    assert wse.main_window.content == wse.glossary_params_box
 
 
-def test_btn_goto_foreign_box(wse: WSE) -> None:
-    """Test button to go to foreign main page box."""
-    btn = wse.foreign_params_box.btn_goto_foreign
-    assert btn.text == 'Меню словаря'
+def test_btn_goto_glossary_box(wse: WSE) -> None:
+    """Test button to go to glossary main page box."""
+    btn = wse.glossary_params_box.btn_goto_glossary
+    assert btn.text == 'Меню глоссария'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.foreign_box
+    assert wse.main_window.content == wse.glossary_box

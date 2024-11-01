@@ -34,6 +34,12 @@ def test_widget_order(wse: WSE) -> None:
     ]
 
 
+def test_label_title(wse: WSE) -> None:
+    """Test the title of glossary term create page box."""
+    title = wse.glossary_box.title_label
+    assert title.text == 'Глоссарий'
+
+
 def test_btn_goto_main_page(wse: WSE) -> None:
     """Test the button of go to main page box."""
     btn = wse.glossary_box.btn_goto_main_box
