@@ -34,6 +34,7 @@ extensions = [
     # Allow reference sections using its title
     # https://www.sphinx-doc.org/en/master/usage/extensions/autosectionlabel.html#module-sphinx.ext.autosectionlabel
     'sphinx.ext.autosectionlabel',
+    'sphinx.ext.todo',
 ]
 
 templates_path = ['_templates']
@@ -54,3 +55,6 @@ autodoc_member_order = 'bysource'
 autodoc_default_options = {
     'show-inheritance': True,
 }
+# https://www.sphinx-doc.org/en/master/usage/extensions/todo.html#configuration
+todo_include_todos = True
+todo_link_only = True
