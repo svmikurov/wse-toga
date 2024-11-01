@@ -47,7 +47,7 @@ TITLE_GLOSSARY_PARAMS = 'Параметры изучения терминов'
 TITLE_GLOSSARY_EXERCISE = 'Изучение терминов'
 # Foreign
 TITLE_FOREIGN_MAIN = 'Иностранный словарь'
-TITLE_FOREIGN_CREATE = 'Добавить термин'
+TITLE_FOREIGN_CREATE = 'Добавить слово'
 TITLE_FOREIGN_UPDATE = 'Изменить термин'
 TITLE_FOREIGN_LIST = 'Список иностранных слов'
 TITLE_FOREIGN_PARAMS = 'Параметры изучения слов'

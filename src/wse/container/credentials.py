@@ -61,7 +61,7 @@ class Credentials(BoxApp):
         self.btn_submit = BtnApp(
             self.btn_submit_name, on_press=self._submit_handler
         )
-        self.btn_goto_user_box = BtnApp(
+        self.btn_goto_main_box = BtnApp(
             'На главную', lambda _: self.goto_box_handler(_, MAIN_BOX)
         )
 
@@ -71,7 +71,7 @@ class Credentials(BoxApp):
             self.username_input,
             self.password_input,
             self.btn_submit,
-            self.btn_goto_user_box,
+            self.btn_goto_main_box,
         )
 
     def on_open(self) -> None:

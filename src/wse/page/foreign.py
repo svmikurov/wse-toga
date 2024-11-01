@@ -180,7 +180,7 @@ class ExerciseForeignPage(ExerciseBox):
 class FormForeign(BaseForm):
     """General form to create and update entries, the container."""
 
-    title = ''
+    title = 'Добавить слово'
     """Page box title (`str`).
     """
 
@@ -189,9 +189,14 @@ class FormForeign(BaseForm):
         super().__init__(*args, **kwargs)
         self._entry = Word
 
-        self.btn_goto_foreign_box = BtnApp(
+        self.title_label = TitleLabel(text=self.title)
+        self.btn_goto_foreign_list_box = BtnApp(
             'Словарь иностранных слов',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
+        )
+        self.btn_goto_foreign_box = BtnApp(
+            'Меню иностранные слова',
+            on_press=lambda _: self.goto_box_handler(_, FOREIGN_BOX),
         )
         # Word data input widgets.
         self.russian_input = TextInputApp(placeholder='Слово на русском')
@@ -203,10 +208,11 @@ class FormForeign(BaseForm):
         )
 
         self.add(
-            TitleLabel(text=self.title),
+            self.title_label,
             self.russian_input,
             self.foreign_input,
             self.btn_submit,
+            self.btn_goto_foreign_list_box,
             self.btn_goto_foreign_box,
         )
 
