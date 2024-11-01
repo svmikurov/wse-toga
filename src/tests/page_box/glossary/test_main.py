@@ -8,8 +8,10 @@ Testing:
 """
 
 import pytest
+from _pytest.monkeypatch import MonkeyPatch
 
 from wse.app import WSE
+from wse.general.table import TableApp
 
 
 @pytest.fixture(autouse=True)
@@ -64,9 +66,22 @@ def test_btn_goto_glossary_params_page(wse: WSE) -> None:
     assert wse.main_window.content == wse.glossary_params_box
 
 
-def test_btn_goto_glossary_term_list_page(wse: WSE) -> None:
+def request_entries(obj: object, url: str) -> list[tuple[str, str]]:
+    """Return entries to insert at table."""
+    return [
+        ('term', 'definition'),
+    ]
+
+
+def test_btn_goto_glossary_term_list_page(
+    wse: WSE,
+    monkeypatch: MonkeyPatch,
+) -> None:
     """Test the button of go to glossary term list page box."""
     btn = wse.glossary_box.btn_goto_list_box
     assert btn.text == 'Глоссарий'
+
+    monkeypatch.setattr(TableApp, 'request_entries', request_entries)
+
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.glossary_list_box

@@ -17,7 +17,10 @@ def run_tests() -> None:
     # default to running the whole test suite.
     args = sys.argv[1:]
     if len(args) == 0:
-        args = ['src']
+        args = [
+            'src',
+            # 'src/tests/page_box/glossary/test_params.py',
+        ]
 
     returncode = pytest.main(
         [

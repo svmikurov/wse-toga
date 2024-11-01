@@ -9,19 +9,27 @@ Testing:
 .. todo::
 
    * add test glossary exercise params - selection handlers;
-   * add test glossary exercise params - start glossary exercise;
    * add test glossary exercise params - save params handler.
 """
 
+from unittest.mock import Mock
+
 import pytest
+import toga
+from _pytest.monkeypatch import MonkeyPatch
 
 from wse.app import WSE
+
+
+def set_window_content(app: toga.App, box: toga.Widget) -> None:
+    """Assign the specific page box to main window content."""
+    app.main_window.content = box
 
 
 @pytest.fixture(autouse=True)
 def goto_glossary_params_page(wse: WSE) -> None:
     """Assign the glossary params box to main window content, fixture."""  # noqa: W505
-    wse.main_window.content = wse.glossary_params_box
+    set_window_content(wse, wse.glossary_params_box)
 
 
 def test_widget_order(wse: WSE) -> None:
@@ -78,18 +86,30 @@ def test_title(wse: WSE) -> None:
     assert title.text == 'Параметры изучения терминов'
 
 
-def test_btn_goto_foreign_exercise(wse: WSE) -> None:
+def test_btn_goto_foreign_exercise(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     """Test the submit button."""
     btn = wse.glossary_params_box.btn_goto_exercise
     assert btn.text == 'Начать упражнение'
-    # btn._impl.simulate_press()
-    # assert wse.main_window.content == wse.foreign_exercise_box
+
+    # Button handler runs the http request the task of exercise
+    # and start the loop_task of exercise,
+    # assigns the exercise box to window content.
+    goto = Mock(side_effect=set_window_content(wse, wse.foreign_exercise_box))
+    monkeypatch.setattr(btn, 'on_press', goto)
+
+    btn._impl.simulate_press()
+    assert wse.main_window.content == wse.foreign_exercise_box
 
 
-def test_btn_save_params(wse: WSE) -> None:
+def test_btn_save_params(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     """Test the save params button."""
     btn = wse.glossary_params_box.btn_save_params
     assert btn.text == 'Сохранить настройки'
+
+    # Button handler runs the http request to save params.
+    goto = Mock()
+    monkeypatch.setattr(btn, 'on_press', goto)
+
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.glossary_params_box
 
