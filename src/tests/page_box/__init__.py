@@ -1,0 +1,1 @@
+"""Page box widgets tests."""
