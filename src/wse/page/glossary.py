@@ -161,40 +161,45 @@ class FormGlossary(BaseForm):
 
         # Widgets.
         self.title_label = TitleLabel(text=self.title)
-        self.btn_goto_glossary = BtnApp(
+        self.btn_goto_glossary_list = BtnApp(
             'Глоссарий',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_LIST_BOX),
         )
+        self.btn_goto_glossary_main = BtnApp(
+            'Глоссарий меню',
+            on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
+        )
 
         # Data input widgets.
-        self.term = MulTextInpApp(placeholder='Терин')
-        self.term.style.padding_bottom = 1
-        self.definition = MulTextInpApp(placeholder='Определение')
+        self.input_term = MulTextInpApp(placeholder='Термин')
+        self.input_term.style.padding_bottom = 1
+        self.input_definition = MulTextInpApp(placeholder='Определение')
         self.btn_submit = BtnApp(
             self.btn_submit_name, on_press=self.submit_handler
         )
 
         self.add(
             self.title_label,
-            self.term,
-            self.definition,
+            self.input_term,
+            self.input_definition,
             self.btn_submit,
-            self.btn_goto_glossary,
+            self.btn_goto_glossary_list,
+            self.btn_goto_glossary_main,
         )
 
     def populate_entry_input(self) -> None:
         """Populate the entry input widgets value."""
-        self.term.value = self.entry.term
-        self.definition.value = self.entry.definition
+        self.input_term.value = self.entry.input_term
+        self.input_definition.value = self.entry.input_definition
 
     def clear_entry_input(self) -> None:
         """Clear the entry input widgets value."""
-        self.term.clean()
-        self.definition.clean()
+        self.input_term.clean()
+        self.input_definition.clean()
 
     def focus_to_input_field(self) -> None:
         """Focus to input field."""
-        self.term.focus()
+        self.input_term.focus()
 
 
 class CreateTermPage(HttpPostMixin, FormGlossary):
@@ -207,8 +212,8 @@ class CreateTermPage(HttpPostMixin, FormGlossary):
     def get_widget_data(self) -> dict:
         """Get the entered into the form data."""
         submit_entry = {
-            'term': self.term.value,
-            'definition': self.definition.value,
+            'term': self.input_term.value,
+            'definition': self.input_definition.value,
         }
         return submit_entry
 
@@ -228,8 +233,8 @@ class UpdateTermPage(HttpPutMixin, FormGlossary):
         """Get the entered into the form data."""
         submit_entry = {
             'id': str(self.entry.id),
-            'term': self.term.value,
-            'definition': self.definition.value,
+            'term': self.input_term.value,
+            'definition': self.input_definition.value,
         }
         return submit_entry
 
@@ -254,7 +259,7 @@ class ListTermPage(TableApp):
 
         # Widgets.
         self.title_label = TitleLabel(TITLE_GLOSSARY_LIST)
-        self.btn_goto_foreign_box = BtnApp(
+        self.btn_goto_glossary_box = BtnApp(
             'Оглавление глоссария',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_BOX),
         )
@@ -262,7 +267,7 @@ class ListTermPage(TableApp):
         # Page widgets DOM.
         self.add(
             self.title_label,
-            self.btn_goto_foreign_box,
+            self.btn_goto_glossary_box,
             self.btns_manage,
             self.table,
             self.btns_paginate,

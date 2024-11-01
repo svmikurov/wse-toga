@@ -79,7 +79,7 @@ class ExerciseParamSelectionsBox(BoxApp):
             'Сохранить настройки',
             on_press=self.save_params_handler,
         )
-        self.btn_goto_foreign_exercise = BtnApp(
+        self.btn_goto_exercise = BtnApp(
             'Начать упражнение',
             on_press=self.goto_exercise_box_handler,
         )
@@ -166,7 +166,7 @@ class ExerciseParamSelectionsBox(BoxApp):
         self.add(
             self.title_label,
             self.param_box,
-            self.btn_goto_foreign_exercise,
+            self.btn_goto_exercise,
             self.btn_save_params,
         )
         self.param_box.add(
@@ -188,7 +188,7 @@ class ExerciseParamSelectionsBox(BoxApp):
         )
 
     def save_params_handler(self, widget: toga.Widget) -> None:
-        """Save Foreign Exercise parameters, button handler.
+        """Save Exercise parameters, button handler.
 
         Request to save user exercise parameters.
         """
