@@ -4,7 +4,7 @@ Testing:
  * Text representation of widgets in the window content
    (text on widget, placeholder text).
  * Changing window contents when pressing move buttons.
- * Control the order of widget and widget containers at page.
+ * The order of widget and widget containers at page.
 
 .. todo::
 
