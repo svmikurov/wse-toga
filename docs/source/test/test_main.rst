@@ -2,5 +2,5 @@
 Test main page box
 ==================
 
-.. automodule:: tests.page_box.test_main
+.. automodule:: tests.page.test_main
    :members:
