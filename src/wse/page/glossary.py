@@ -280,6 +280,6 @@ class ListTermPage(TableApp):
     def update_handler(self, widget: toga.Widget) -> None:
         """Go to update the term form, button handler."""
         entry = self.table.selection
-        update_box = self.root.app.glossary_update_box
+        update_box = self.root.app.box_glossary_update
         update_box.entry = entry
         self.set_window_content(widget, update_box)

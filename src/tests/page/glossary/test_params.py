@@ -94,11 +94,11 @@ def test_btn_goto_exercise(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     # Button handler runs the http request the task of exercise
     # and start the loop_task of exercise,
     # assigns the exercise box to window content.
-    goto = Mock(side_effect=set_window_content(wse, wse.foreign_exercise_box))
+    goto = Mock(side_effect=set_window_content(wse, wse.box_foreign_exercise))
     monkeypatch.setattr(btn, 'on_press', goto)
 
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.foreign_exercise_box
+    assert wse.main_window.content == wse.box_foreign_exercise
 
 
 def test_btn_save_params(wse: WSE, monkeypatch: MonkeyPatch) -> None:

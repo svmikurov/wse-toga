@@ -83,7 +83,7 @@ def test_btn_goto_exercise(wse: WSE) -> None:
     btn = wse.box_foreign_params.btn_goto_exercise
     assert btn.text == 'Начать упражнение'
     # btn._impl.simulate_press()
-    # assert wse.main_window.content == wse.foreign_exercise_box
+    # assert wse.main_window.content == wse.box_foreign_exercise
 
 
 def test_btn_save_params(wse: WSE) -> None:

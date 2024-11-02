@@ -26,7 +26,7 @@ FOREIGN_MAIN_BOX = 'box_foreign_main'
 FOREIGN_CREATE_BOX = 'box_foreign_create'
 """Create foreign word the box page name (`str`).
 """
-FOREIGN_EXERCISE_BOX = 'foreign_exercise_box'
+FOREIGN_EXERCISE_BOX = 'box_foreign_exercise'
 """Foreign words study box page name (`str`).
 """
 FOREIGN_LIST_BOX = 'box_foreign_list'
@@ -35,14 +35,14 @@ FOREIGN_LIST_BOX = 'box_foreign_list'
 FOREIGN_PARAMS_BOX = 'box_foreign_params'
 """Parameters of foreign words study the box page name (`str`).
 """
-FOREIGN_UPDATE_BOX = 'foreign_update_box'
+FOREIGN_UPDATE_BOX = 'box_foreign_update'
 """Update foreign word the box page name (`str`).
 """
 
 GLOSSARY_MAIN_BOX = 'box_glossary_main'
 """Glossary main box page name (`str`).
 """
-GLOSSARY_EXERCISE_BOX = 'glossary_exercise_box'
+GLOSSARY_EXERCISE_BOX = 'box_glossary_exercise'
 """Glossary study box page name (`str`).
 """
 GLOSSARY_PARAMS_BOX = 'box_glossary_params'
@@ -54,6 +54,6 @@ GLOSSARY_CREATE_BOX = 'box_glossary_create'
 GLOSSARY_LIST_BOX = 'box_glossary_list'
 """Glossary list the box page name (`str`).
 """
-GLOSSARY_UPDATE_BOX = 'glossary_update_box'
+GLOSSARY_UPDATE_BOX = 'box_glossary_update'
 """Update glossary term the box page name (`str`).
 """

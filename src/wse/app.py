@@ -17,16 +17,16 @@ class WSE(toga.App):
     # Foreign language study page boxes.
     box_foreign_main: page.MainForeignPage
     box_foreign_params: page.ParamForeignPage
-    foreign_exercise_box: page.ExerciseForeignPage
+    box_foreign_exercise: page.ExerciseForeignPage
     box_foreign_create: page.CreateWordPage
-    foreign_update_box: page.UpdateWordPage
+    box_foreign_update: page.UpdateWordPage
     box_foreign_list: page.ListForeignPage
     # Glossary study page boxes.
     box_glossary_main: page.MainGlossaryPage
     box_glossary_params: page.ParamGlossaryBox
-    glossary_exercise_box: page.ExerciseGlossaryBox
+    box_glossary_exercise: page.ExerciseGlossaryBox
     box_glossary_create: page.CreateTermPage
-    glossary_update_box: page.UpdateTermPage
+    box_glossary_update: page.UpdateTermPage
     box_glossary_list: page.ListTermPage
     # Login box.
     box_login: page.LoginBox
@@ -49,16 +49,16 @@ class WSE(toga.App):
         # Foreign language study page boxes.
         self.box_foreign_main = page.MainForeignPage()
         self.box_foreign_params = page.ParamForeignPage()
-        self.foreign_exercise_box = page.ExerciseForeignPage()
+        self.box_foreign_exercise = page.ExerciseForeignPage()
         self.box_foreign_create = page.CreateWordPage()
-        self.foreign_update_box = page.UpdateWordPage()
+        self.box_foreign_update = page.UpdateWordPage()
         self.box_foreign_list = page.ListForeignPage()
         # Glossary study page boxes.
         self.box_glossary_main = page.MainGlossaryPage()
         self.box_glossary_params = page.ParamGlossaryBox()
-        self.glossary_exercise_box = page.ExerciseGlossaryBox()
+        self.box_glossary_exercise = page.ExerciseGlossaryBox()
         self.box_glossary_create = page.CreateTermPage()
-        self.glossary_update_box = page.UpdateTermPage()
+        self.box_glossary_update = page.UpdateTermPage()
         self.box_glossary_list = page.ListTermPage()
         # Login box.
         self.box_login = page.LoginBox()
