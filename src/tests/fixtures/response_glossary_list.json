@@ -1,0 +1,19 @@
+{
+  "count": 100,
+  "next": "http://127.0.0.1/api/v1/foreign/?limit=20&offset=20",
+  "previous": null,
+  "results": [
+    {
+      "foreign_word": "hello",
+      "native_word": "привет"
+    },
+    {
+      "foreign_word": "apple",
+      "native_word": "яблоко"
+    },
+    {
+      "foreign_word": "pen",
+      "native_word": "ручка"
+    }
+  ]
+}

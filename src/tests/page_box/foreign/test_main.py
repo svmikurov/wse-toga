@@ -8,12 +8,18 @@ Testing:
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
+from httpx import Client
 
+from tests.mocking import MockClient
 from wse.app import WSE
-from wse.general.table import TableApp
 
 WIDGET_COUNT = 5
 """Widget count at testing box container (int).
+"""
+FIXTURE = 'response_glossary_list.json'
+"""The fixture of json response with a list of terms (`str`)
+
+The fixture file name in ``../fixtures/`` dir.
 """
 
 
@@ -21,6 +27,11 @@ WIDGET_COUNT = 5
 def goto_foreign_page_box(wse: WSE) -> None:
     """Set foreign box to main window content."""
     wse.main_window.content = wse.foreign_box
+
+
+def mock_list_json(*args: object, **kwargs: object) -> MockClient:
+    """Mock a json response with a list of terms."""
+    return MockClient(FIXTURE)
 
 
 def test_widget_count(wse: WSE) -> None:
@@ -59,22 +70,14 @@ def test_goto_foreign_params_page_btn(wse: WSE) -> None:
     assert wse.main_window.content == wse.foreign_params_box
 
 
-def request_entries(obj: object, url: str) -> list[tuple[str, str]]:
-    """Return entries to insert at table."""
-    return [
-        ('foreign', 'native'),
-    ]
-
-
 def test_goto_foreign_list_page_btn(
     wse: WSE,
     monkeypatch: MonkeyPatch,
 ) -> None:
     """Test button to go to term list page box."""
+    monkeypatch.setattr(Client, 'get', mock_list_json)
+
     btn = wse.foreign_box.btn_goto_list
     assert btn.text == 'Словарь'
-
-    monkeypatch.setattr(TableApp, 'request_entries', request_entries)
-
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.foreign_list_box
