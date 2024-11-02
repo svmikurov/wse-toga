@@ -51,11 +51,11 @@ class Credentials(BoxApp):
         input_style = Pack(height=INPUT_HEIGHT)
 
         # Widgets.
-        self.title_label = TitleLabel(text=self.title)
-        self.username_input = toga.TextInput(
+        self.label_title = TitleLabel(text=self.title)
+        self.input_username = toga.TextInput(
             placeholder='Имя', style=input_style
         )
-        self.password_input = toga.PasswordInput(
+        self.input_password = toga.PasswordInput(
             placeholder='Пароль', style=input_style
         )
         self.btn_submit = BtnApp(
@@ -68,9 +68,9 @@ class Credentials(BoxApp):
 
         # Widgets DOM.
         self.add(
-            self.title_label,
-            self.username_input,
-            self.password_input,
+            self.label_title,
+            self.input_username,
+            self.input_password,
             self.btn_submit,
             self.btn_goto_main,
         )
@@ -104,8 +104,8 @@ class Credentials(BoxApp):
     def _extract_credentials(self) -> dict:
         """Extract user data from form, validate it."""
         credentials = {
-            USERNAME: self.username_input.value,
-            PASSWORD: self.password_input.value,
+            USERNAME: self.input_username.value,
+            PASSWORD: self.input_password.value,
         }
         return credentials
 
@@ -124,8 +124,8 @@ class Credentials(BoxApp):
 
     def _clear_fields(self) -> None:
         """Clear the fields."""
-        self.username_input.value = None
-        self.password_input.value = None
+        self.input_username.value = None
+        self.input_password.value = None
 
     async def _show_response_message(
         self,

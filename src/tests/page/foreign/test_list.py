@@ -22,16 +22,16 @@ from wse.app import WSE
 @pytest.fixture(autouse=True)
 def goto_foreign_list_page(wse: WSE) -> None:
     """Assign the foreign list box to main window content, fixture."""
-    wse.main_window.content = wse.foreign_list_box
+    wse.main_window.content = wse.box_foreign_list
 
 
 def test_widget_order(wse: WSE) -> None:
     """Test the widget and containers orger at foreign list page."""
-    box = wse.foreign_list_box
+    box = wse.box_foreign_list
 
     assert box.children == [
         box.label_title,
-        box.btn_goto_foreign_box,
+        box.btn_goto_foreign_main,
         box.btns_manage,
         box.table,
         box.btns_paginate,
@@ -50,22 +50,22 @@ def test_widget_order(wse: WSE) -> None:
     ]
 
 
-def test_title(wse: WSE) -> None:
+def test_label_title(wse: WSE) -> None:
     """Test page box title."""
-    title = wse.foreign_list_box.label_title
+    title = wse.box_foreign_list.label_title
     assert title.text == 'Список иностранных слов'
 
 
 def test_table(wse: WSE) -> None:
     """Test table of foreign word list."""
-    table = wse.foreign_list_box.table
+    table = wse.box_foreign_list.table
     assert table.headings == ['Иностранный', 'Русский']
-    assert table.accessors == ['foreign_word', 'russian_word']
+    assert table.accessors == ['foreign_word', 'native_word']
 
 
-def test_btn_goto_foreign_box(wse: WSE) -> None:
+def test_btn_goto_foreign(wse: WSE) -> None:
     """Test button to go to foreign main page box."""
-    btn = wse.foreign_list_box.btn_goto_foreign_box
+    btn = wse.box_foreign_list.btn_goto_foreign_main
     assert btn.text == 'Оглавление словаря'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.foreign_box
+    assert wse.main_window.content == wse.box_foreign_main

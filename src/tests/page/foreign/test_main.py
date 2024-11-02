@@ -1,4 +1,4 @@
-"""Test Foreign page box widgets.
+"""Test foreign main page box widgets.
 
 Testing:
  * Text representation of widgets in the window content.
@@ -13,10 +13,7 @@ from httpx import Client
 from tests.mocking import MockClient
 from wse.app import WSE
 
-WIDGET_COUNT = 5
-"""Widget count at testing box container (int).
-"""
-FIXTURE = 'response_glossary_list.json'
+FIXTURE = 'response_foreign_list.json'
 """The fixture of json response with a list of terms (`str`)
 
 The fixture file name in ``../fixtures/`` dir.
@@ -26,7 +23,7 @@ The fixture file name in ``../fixtures/`` dir.
 @pytest.fixture(autouse=True)
 def goto_foreign_page_box(wse: WSE) -> None:
     """Set foreign box to main window content."""
-    wse.main_window.content = wse.foreign_box
+    wse.main_window.content = wse.box_foreign_main
 
 
 def mock_list_json(*args: object, **kwargs: object) -> MockClient:
@@ -34,50 +31,53 @@ def mock_list_json(*args: object, **kwargs: object) -> MockClient:
     return MockClient(FIXTURE)
 
 
-def test_widget_count(wse: WSE) -> None:
-    """Test of widget count."""
-    children = wse.foreign_box.children
-    assert WIDGET_COUNT == len(children)
+def test_widget_order(wse: WSE) -> None:
+    """Test the widget and containers orger at foreign main page."""
+    box = wse.box_foreign_main
+
+    assert box.children == [
+        box.label_title,
+        box.btn_goto_main,
+        box.btn_goto_create,
+        box.btn_goto_params,
+        box.btn_goto_list,
+    ]
 
 
-def test_title(wse: WSE) -> None:
+def test_label_title(wse: WSE) -> None:
     """Test page box title."""
-    title = wse.foreign_box.title_label
+    title = wse.box_foreign_main.label_title
     assert title.text == 'Иностранный словарь'
 
 
-def test_goto_main_box_btn(wse: WSE) -> None:
+def test_btn_goto_main(wse: WSE) -> None:
     """Test button to go to main page box."""
-    btn = wse.foreign_box.btn_goto_main
+    btn = wse.box_foreign_main.btn_goto_main
     assert btn.text == 'На главную'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.main_box
+    assert wse.main_window.content == wse.box_main
 
 
-def test_goto_foreign_create_page_btn(wse: WSE) -> None:
+def test_btn_goto_create(wse: WSE) -> None:
     """Test button to go to foreign create page box."""
-    btn = wse.foreign_box.btn_goto_create
+    btn = wse.box_foreign_main.btn_goto_create
     assert btn.text == 'Добавить слово'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.foreign_create_box
+    assert wse.main_window.content == wse.box_foreign_create
 
 
-def test_goto_foreign_params_page_btn(wse: WSE) -> None:
+def test_btn_goto_params(wse: WSE) -> None:
     """Test button to go to foreign exercise params page box."""
-    btn = wse.foreign_box.btn_goto_params
+    btn = wse.box_foreign_main.btn_goto_params
     assert btn.text == 'Упражнение'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.foreign_params_box
+    assert wse.main_window.content == wse.box_foreign_params
 
 
-def test_goto_foreign_list_page_btn(
-    wse: WSE,
-    monkeypatch: MonkeyPatch,
-) -> None:
-    """Test button to go to term list page box."""
-    monkeypatch.setattr(Client, 'get', mock_list_json)
-
-    btn = wse.foreign_box.btn_goto_list
+def test_btn_goto_list(wse: WSE, monkeypatch: MonkeyPatch) -> None:
+    """Test button to go to foreign word list page box."""
+    monkeypatch.setattr(Client, 'get', mock_list_json, raising=False)
+    btn = wse.box_foreign_main.btn_goto_list
     assert btn.text == 'Словарь'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.foreign_list_box
+    assert wse.main_window.content == wse.box_foreign_list

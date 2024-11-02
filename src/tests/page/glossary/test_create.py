@@ -25,15 +25,15 @@ def goto_glossary_term_create_page(wse: WSE) -> None:
 
     The pytest fixture, ``autouse=True``.
     """
-    wse.main_window.content = wse.glossary_create_box
+    wse.main_window.content = wse.box_glossary_create
 
 
 def test_widget_order(wse: WSE) -> None:
     """Test the widget order at glossary term create page box."""
-    box = wse.glossary_create_box
+    box = wse.box_glossary_create
 
     assert box.children == [
-        box.title_label,
+        box.label_title,
         box.input_term,
         box.input_definition,
         box.btn_submit,
@@ -44,30 +44,30 @@ def test_widget_order(wse: WSE) -> None:
 
 def test_label_title(wse: WSE) -> None:
     """Test the title of glossary term create page box."""
-    title = wse.glossary_create_box.title_label
+    title = wse.box_glossary_create.label_title
     assert title.text == 'Добавить термин'
 
 
-def test_input_glossary_term(wse: WSE) -> None:
+def test_input_term(wse: WSE) -> None:
     """Test the term input field of glossary create page."""
-    input_field = wse.glossary_create_box.input_term
+    input_field = wse.box_glossary_create.input_term
     assert input_field.placeholder == 'Термин'
     assert input_field.readonly is False
 
 
-def test_input_glossary_definition(wse: WSE) -> None:
+def test_input_definition(wse: WSE) -> None:
     """Test the definition input field of glossary create page."""
-    input_field = wse.glossary_create_box.input_definition
+    input_field = wse.box_glossary_create.input_definition
     assert input_field.placeholder == 'Определение'
     assert input_field.readonly is False
 
 
 def test_btn_submit(wse: WSE) -> None:
     """Test the button of create glossary term create."""
-    btn = wse.glossary_create_box.btn_submit
+    btn = wse.box_glossary_create.btn_submit
     assert btn.text == 'Добавить'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.glossary_create_box
+    assert wse.main_window.content == wse.box_glossary_create
 
 
 def request_entries(obj: object, url: str) -> list[tuple[str, str]]:
@@ -77,23 +77,23 @@ def request_entries(obj: object, url: str) -> list[tuple[str, str]]:
     ]
 
 
-def test_btn_goto_glossary_list_page(
+def test_btn_goto_glossary_list(
     wse: WSE,
     monkeypatch: MonkeyPatch,
 ) -> None:
     """Test the button of go to glossary list page box."""
-    btn = wse.glossary_create_box.btn_goto_glossary_list
+    btn = wse.box_glossary_create.btn_goto_glossary_list
     assert btn.text == 'Глоссарий'
 
     monkeypatch.setattr(TableApp, 'request_entries', request_entries)
 
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.glossary_list_box
+    assert wse.main_window.content == wse.box_glossary_list
 
 
-def test_btn_goto_glossary_main_page(wse: WSE) -> None:
+def test_btn_goto_glossary_main(wse: WSE) -> None:
     """Test the button of go to glossary main page."""
-    btn = wse.glossary_create_box.btn_goto_glossary_main
+    btn = wse.box_glossary_create.btn_goto_glossary_main
     assert btn.text == 'Глоссарий меню'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.glossary_box
+    assert wse.main_window.content == wse.box_glossary_main

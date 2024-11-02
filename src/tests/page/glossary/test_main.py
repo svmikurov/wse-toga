@@ -20,50 +20,50 @@ def goto_glossary_main_page(wse: WSE) -> None:
 
     The pytest fixture, ``autouse=True``.
     """
-    wse.main_window.content = wse.glossary_box
+    wse.main_window.content = wse.box_glossary_main
 
 
 def test_widget_order(wse: WSE) -> None:
     """Test the widget order at glossary main page box."""
-    box = wse.glossary_box
+    box = wse.box_glossary_main
 
     assert box.children == [
-        box.title_label,
-        box.btn_goto_main_box,
-        box.btn_goto_create_box,
-        box.btn_goto_params_box,
-        box.btn_goto_list_box,
+        box.label_title,
+        box.btn_goto_main,
+        box.btn_goto_create,
+        box.btn_goto_params,
+        box.btn_goto_list,
     ]
 
 
 def test_label_title(wse: WSE) -> None:
     """Test the title of glossary term create page box."""
-    title = wse.glossary_box.title_label
+    title = wse.box_glossary_main.label_title
     assert title.text == 'Глоссарий'
 
 
 def test_btn_goto_main_page(wse: WSE) -> None:
     """Test the button of go to main page box."""
-    btn = wse.glossary_box.btn_goto_main_box
+    btn = wse.box_glossary_main.btn_goto_main
     assert btn.text == 'На главную'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.main_box
+    assert wse.main_window.content == wse.box_main
 
 
 def test_btn_goto_glossary_create_page(wse: WSE) -> None:
     """Test the button of go to create glossary term page box."""
-    btn = wse.glossary_box.btn_goto_create_box
+    btn = wse.box_glossary_main.btn_goto_create
     assert btn.text == 'Добавить термин'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.glossary_create_box
+    assert wse.main_window.content == wse.box_glossary_create
 
 
 def test_btn_goto_glossary_params_page(wse: WSE) -> None:
     """Test the button of go to glossary exercise params page box."""
-    btn = wse.glossary_box.btn_goto_params_box
+    btn = wse.box_glossary_main.btn_goto_params
     assert btn.text == 'Упражнение'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.glossary_params_box
+    assert wse.main_window.content == wse.box_glossary_params
 
 
 def request_entries(obj: object, url: str) -> list[tuple[str, str]]:
@@ -73,15 +73,15 @@ def request_entries(obj: object, url: str) -> list[tuple[str, str]]:
     ]
 
 
-def test_btn_goto_glossary_term_list_page(
+def test_btn_goto_list(
     wse: WSE,
     monkeypatch: MonkeyPatch,
 ) -> None:
     """Test the button of go to glossary term list page box."""
-    btn = wse.glossary_box.btn_goto_list_box
+    btn = wse.box_glossary_main.btn_goto_list
     assert btn.text == 'Глоссарий'
 
     monkeypatch.setattr(TableApp, 'request_entries', request_entries)
 
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.glossary_list_box
+    assert wse.main_window.content == wse.box_glossary_list

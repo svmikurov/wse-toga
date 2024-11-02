@@ -1,6 +1,6 @@
 """The application page box instance names."""
 
-MAIN_BOX = 'main_box'
+MAIN_BOX = 'box_main'
 """Application main box page name (`str`).
 """
 
@@ -16,42 +16,42 @@ USER_UPDATE_BOX = 'user_update_box'
 AUTH_BOX = 'auth_box'
 """User login or registration box page name (`str`)
 """
-LOGIN_BOX = 'login_box'
+LOGIN_BOX = 'box_login'
 """User login the box page name (`str`).
 """
 
-FOREIGN_BOX = 'foreign_box'
+FOREIGN_MAIN_BOX = 'box_foreign_main'
 """Foreign main box page name (`str`).
 """
-FOREIGN_CREATE_BOX = 'foreign_create_box'
+FOREIGN_CREATE_BOX = 'box_foreign_create'
 """Create foreign word the box page name (`str`).
 """
 FOREIGN_EXERCISE_BOX = 'foreign_exercise_box'
 """Foreign words study box page name (`str`).
 """
-FOREIGN_LIST_BOX = 'foreign_list_box'
+FOREIGN_LIST_BOX = 'box_foreign_list'
 """Foreign words list the box page name (`str`).
 """
-FOREIGN_PARAMS_BOX = 'foreign_params_box'
+FOREIGN_PARAMS_BOX = 'box_foreign_params'
 """Parameters of foreign words study the box page name (`str`).
 """
 FOREIGN_UPDATE_BOX = 'foreign_update_box'
 """Update foreign word the box page name (`str`).
 """
 
-GLOSSARY_BOX = 'glossary_box'
+GLOSSARY_MAIN_BOX = 'box_glossary_main'
 """Glossary main box page name (`str`).
 """
 GLOSSARY_EXERCISE_BOX = 'glossary_exercise_box'
 """Glossary study box page name (`str`).
 """
-GLOSSARY_PARAMS_BOX = 'glossary_params_box'
+GLOSSARY_PARAMS_BOX = 'box_glossary_params'
 """Parameters of glossary words study the box page name (`str`).
 """
-GLOSSARY_CREATE_BOX = 'glossary_create_box'
+GLOSSARY_CREATE_BOX = 'box_glossary_create'
 """Create glossary term the box page name (`str`).
 """
-GLOSSARY_LIST_BOX = 'glossary_list_box'
+GLOSSARY_LIST_BOX = 'box_glossary_list'
 """Glossary list the box page name (`str`).
 """
 GLOSSARY_UPDATE_BOX = 'glossary_update_box'

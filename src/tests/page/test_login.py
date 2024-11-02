@@ -22,44 +22,44 @@ WIDGET_COUNT = 5
 @pytest.fixture(autouse=True)
 def goto_glossary_login_page(wse: WSE) -> None:
     """Assign the login box to main window content, fixture."""
-    wse.main_window.content = wse.login_box
+    wse.main_window.content = wse.box_login
 
 
 def test_widget_count(wse: WSE) -> None:
     """Test of widget count."""
-    children = wse.login_box.children
+    children = wse.box_login.children
     assert WIDGET_COUNT == len(children)
 
 
 def test_title(wse: WSE) -> None:
     """Test page box title."""
-    title = wse.login_box.title_label
+    title = wse.box_login.label_title
     assert title.text == 'Вход в учетную запись'
 
 
 def test_username_input(wse: WSE) -> None:
     """Test username input widget."""
-    username_input = wse.login_box.username_input
-    assert username_input.placeholder == 'Имя'
+    input_username = wse.box_login.input_username
+    assert input_username.placeholder == 'Имя'
 
 
 def test_password_input(wse: WSE) -> None:
     """Test password input widget."""
-    password_input = wse.login_box.password_input
-    assert password_input.placeholder == 'Пароль'
+    input_password = wse.box_login.input_password
+    assert input_password.placeholder == 'Пароль'
 
 
 def test_login_btn(wse: WSE) -> None:
     """Test the button to request login."""
-    btn = wse.login_box.btn_submit
+    btn = wse.box_login.btn_submit
     assert btn.text == 'Войти'
     # btn._impl.simulate_press()
-    # assert wse.main_window.content == wse.main_box
+    # assert wse.main_window.content == wse.box_main
 
 
 def test_goto_main_box_btn(wse: WSE) -> None:
     """Test the button to go to main page box."""
-    btn = wse.login_box.btn_goto_main
+    btn = wse.box_login.btn_goto_main
     assert btn.text == 'На главную'
     btn._impl.simulate_press()
-    assert wse.main_window.content == wse.main_box
+    assert wse.main_window.content == wse.box_main

@@ -13,23 +13,23 @@ class WSE(toga.App):
     """WSE application."""
 
     # Page boxes.
-    main_box: page.MainBox
+    box_main: page.MainBox
     # Foreign language study page boxes.
-    foreign_box: page.MainForeignPage
-    foreign_params_box: page.ParamForeignPage
+    box_foreign_main: page.MainForeignPage
+    box_foreign_params: page.ParamForeignPage
     foreign_exercise_box: page.ExerciseForeignPage
-    foreign_create_box: page.CreateWordPage
+    box_foreign_create: page.CreateWordPage
     foreign_update_box: page.UpdateWordPage
-    foreign_list_box: page.ListForeignPage
+    box_foreign_list: page.ListForeignPage
     # Glossary study page boxes.
-    glossary_box: page.MainGlossaryPage
-    glossary_params_box: page.ParamGlossaryBox
+    box_glossary_main: page.MainGlossaryPage
+    box_glossary_params: page.ParamGlossaryBox
     glossary_exercise_box: page.ExerciseGlossaryBox
-    glossary_create_box: page.CreateTermPage
+    box_glossary_create: page.CreateTermPage
     glossary_update_box: page.UpdateTermPage
-    glossary_list_box: page.ListTermPage
+    box_glossary_list: page.ListTermPage
     # Login box.
-    login_box: page.LoginBox
+    box_login: page.LoginBox
 
     # Menu.
     menu: toga.Group
@@ -45,23 +45,23 @@ class WSE(toga.App):
         * Define the main window.
         """
         # Page boxes.
-        self.main_box = page.MainBox()
+        self.box_main = page.MainBox()
         # Foreign language study page boxes.
-        self.foreign_box = page.MainForeignPage()
-        self.foreign_params_box = page.ParamForeignPage()
+        self.box_foreign_main = page.MainForeignPage()
+        self.box_foreign_params = page.ParamForeignPage()
         self.foreign_exercise_box = page.ExerciseForeignPage()
-        self.foreign_create_box = page.CreateWordPage()
+        self.box_foreign_create = page.CreateWordPage()
         self.foreign_update_box = page.UpdateWordPage()
-        self.foreign_list_box = page.ListForeignPage()
+        self.box_foreign_list = page.ListForeignPage()
         # Glossary study page boxes.
-        self.glossary_box = page.MainGlossaryPage()
-        self.glossary_params_box = page.ParamGlossaryBox()
+        self.box_glossary_main = page.MainGlossaryPage()
+        self.box_glossary_params = page.ParamGlossaryBox()
         self.glossary_exercise_box = page.ExerciseGlossaryBox()
-        self.glossary_create_box = page.CreateTermPage()
+        self.box_glossary_create = page.CreateTermPage()
         self.glossary_update_box = page.UpdateTermPage()
-        self.glossary_list_box = page.ListTermPage()
+        self.box_glossary_list = page.ListTermPage()
         # Login box.
-        self.login_box = page.LoginBox()
+        self.box_login = page.LoginBox()
 
         # Menu.
         self.menu = toga.Group('Menu')
@@ -96,7 +96,7 @@ class WSE(toga.App):
             size=toga.Size(*SCREEN_SIZE),
         )
         # Application start with Main page box content.
-        self.main_window.content = self.main_box
+        self.main_window.content = self.box_main
         self.main_window.show()
 
     def move_to_page(self, box: BoxApp) -> None:
@@ -106,15 +106,15 @@ class WSE(toga.App):
 
     def goto_main(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto main box, command handler."""
-        self.move_to_page(self.main_box)
+        self.move_to_page(self.box_main)
 
     def goto_glossary(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto glossary box, command handler."""
-        self.move_to_page(self.glossary_box)
+        self.move_to_page(self.box_glossary_main)
 
     def goto_foreign(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto foreign box, command handler."""
-        self.move_to_page(self.foreign_box)
+        self.move_to_page(self.box_foreign_main)
 
 
 def main() -> WSE:

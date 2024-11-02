@@ -27,14 +27,18 @@ class MainBox(UserAuth, BoxApp):
         super().__init__()
 
         # Widgets.
-        self.title_label = TitleLabel(TITLE_MAIN)
-        self.btn_goto_glossary_box = BtnApp(
+        self.label_title = TitleLabel(TITLE_MAIN)
+        self.btn_goto_glossary_main = BtnApp(
             'Глоссарий терминов',
-            on_press=lambda _: self.goto_box_handler(_, const.GLOSSARY_BOX),
+            on_press=lambda _: self.goto_box_handler(
+                _, const.GLOSSARY_MAIN_BOX
+            ),  # noqa: E501
         )
-        self.btn_goto_foreign_box = BtnApp(
+        self.btn_goto_foreign_main = BtnApp(
             'Словарь иностранных слов',
-            on_press=lambda _: self.goto_box_handler(_, const.FOREIGN_BOX),
+            on_press=lambda _: self.goto_box_handler(
+                _, const.FOREIGN_MAIN_BOX
+            ),  # noqa: E501
         )
 
         # Info panel
@@ -46,9 +50,9 @@ class MainBox(UserAuth, BoxApp):
 
         # DOM.
         self.add(
-            self.title_label,
+            self.label_title,
             self.btn_goto_auth,  # UserAuth attr
-            self.btn_goto_foreign_box,
-            self.btn_goto_glossary_box,
+            self.btn_goto_foreign_main,
+            self.btn_goto_glossary_main,
             self.info_panel,
         )

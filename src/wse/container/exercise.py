@@ -72,7 +72,7 @@ class ExerciseParamSelectionsBox(BoxApp):
         label_style = Pack(padding=(7, 0, 7, 20))
         selection_box_style = Pack(padding=(2, 0, 2, 0))
 
-        self.title_label = TitleLabel(text=self.title)
+        self.label_title = TitleLabel(text=self.title)
 
         # General buttons.
         self.btn_save_params = BtnApp(
@@ -97,18 +97,18 @@ class ExerciseParamSelectionsBox(BoxApp):
             'Последние', style=label_style, on_change=self.last_switch_handler
         )
         # Selections.
-        self.start_period_selection = BaseSelection()
-        self.end_period_selection = BaseSelection()
-        self.category_selection = BaseSelection()
-        self.progress_selection = BaseSelection()
-        self.count_first_input = toga.NumberInput(step=10, min=0)
-        self.count_last_input = toga.NumberInput(step=10, min=0)
+        self.selection_start_period = BaseSelection()
+        self.selection_end_period = BaseSelection()
+        self.selection_category = BaseSelection()
+        self.selection_progress = BaseSelection()
+        self.input_count_first = toga.NumberInput(step=10, min=0)
+        self.input_count_last = toga.NumberInput(step=10, min=0)
         # Selection boxes.
         self.selection_start_box = toga.Box(
             style=selection_box_style,
             children=[
                 FlexBox(children=[self.label_start]),
-                FlexBox(children=[self.start_period_selection]),
+                FlexBox(children=[self.selection_start_period]),
             ],
         )
         self.selection_start_box.style.padding_top = 4
@@ -116,21 +116,21 @@ class ExerciseParamSelectionsBox(BoxApp):
             style=selection_box_style,
             children=[
                 FlexBox(children=[self.label_end]),
-                FlexBox(children=[self.end_period_selection]),
+                FlexBox(children=[self.selection_end_period]),
             ],
         )
         self.selection_category_box = toga.Box(
             style=selection_box_style,
             children=[
                 FlexBox(children=[self.label_category]),
-                FlexBox(children=[self.category_selection]),
+                FlexBox(children=[self.selection_category]),
             ],
         )
         self.selection_progress_box = toga.Box(
             style=selection_box_style,
             children=[
                 FlexBox(children=[self.label_progres]),
-                FlexBox(children=[self.progress_selection]),
+                FlexBox(children=[self.selection_progress]),
             ],
         )
         self.input_first_box = toga.Box(
@@ -141,7 +141,7 @@ class ExerciseParamSelectionsBox(BoxApp):
                     style=Pack(direction=COLUMN, padding_right=20),
                 ),
                 FlexBox(
-                    children=[self.count_first_input],
+                    children=[self.input_count_first],
                     style=Pack(direction=COLUMN),
                 ),
             ],
@@ -154,7 +154,7 @@ class ExerciseParamSelectionsBox(BoxApp):
                     style=Pack(direction=COLUMN, padding_right=20),
                 ),
                 FlexBox(
-                    children=[self.count_last_input],
+                    children=[self.input_count_last],
                     style=Pack(direction=COLUMN),
                 ),
             ],
@@ -164,7 +164,7 @@ class ExerciseParamSelectionsBox(BoxApp):
         # Add ``params_box`` attr.
         self.param_box = toga.Box(style=Pack(direction=COLUMN, flex=1))
         self.add(
-            self.title_label,
+            self.label_title,
             self.param_box,
             self.btn_goto_exercise,
             self.btn_save_params,
@@ -221,13 +221,13 @@ class ExerciseParamSelectionsBox(BoxApp):
         a task from the server.
         """
         # NumberInput return Decimal objects or None.
-        count_first = int(self.count_first_input.value or 0)
-        count_last = int(self.count_last_input.value or 0)
+        count_first = int(self.input_count_first.value or 0)
+        count_last = int(self.input_count_last.value or 0)
         lookup_conditions = {
-            PERIOD_START: self.start_period_selection.get_alias(),
-            PERIOD_END: self.end_period_selection.get_alias(),
-            CATEGORY: self.category_selection.get_alias(),
-            PROGRESS: self.progress_selection.get_alias(),
+            PERIOD_START: self.selection_start_period.get_alias(),
+            PERIOD_END: self.selection_end_period.get_alias(),
+            CATEGORY: self.selection_category.get_alias(),
+            PROGRESS: self.selection_progress.get_alias(),
             'count_first': count_first * self.count_first_switch.value,
             'count_last': count_last * self.count_last_switch.value,
         }
@@ -240,24 +240,24 @@ class ExerciseParamSelectionsBox(BoxApp):
         # Items to display for selection.
         items = value[EXERCISE_CHOICES]
 
-        self.start_period_selection.set_items(
+        self.selection_start_period.set_items(
             items[EDGE_PERIODS], defaults[PERIOD_START]
         )
-        self.end_period_selection.set_items(
+        self.selection_end_period.set_items(
             items[EDGE_PERIODS], defaults[PERIOD_END]
         )
-        self.category_selection.set_items(
+        self.selection_category.set_items(
             items[CATEGORIES], defaults[CATEGORY]
         )
-        self.progress_selection.set_items(
+        self.selection_progress.set_items(
             items[PROGRESS], defaults[PROGRESS]
         )  # fmt: skip
         if bool(defaults['count_first']):
-            self.count_first_input.value = defaults['count_first']
+            self.input_count_first.value = defaults['count_first']
             self.count_first_switch.value = True
             self.count_last_switch.value = False
         if bool(defaults['count_last']):
-            self.count_last_input.value = defaults['count_last']
+            self.input_count_last.value = defaults['count_last']
             self.count_last_switch.value = True
             self.count_first_switch.value = False
 
@@ -280,7 +280,7 @@ class ExerciseBox(BoxApp):
         label_style = Pack(padding=(0, 0, 0, 7))
 
         # Inner boxes.
-        self.exercise_box = toga.Box(
+        self.box_exercise = toga.Box(
             style=Pack(
                 direction=COLUMN,
                 flex=1,
@@ -300,7 +300,7 @@ class ExerciseBox(BoxApp):
         self.answer_display.style.flex = 2
 
         # Widgets DOM.
-        self.exercise_box.add(
+        self.box_exercise.add(
             toga.Label('Вопрос:', style=label_style),
             self.question_display,
             toga.Label('Ответ:', style=label_style),
