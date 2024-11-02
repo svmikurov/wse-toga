@@ -18,8 +18,8 @@ def run_tests() -> None:
     args = sys.argv[1:]
     if len(args) == 0:
         args = [
-            'src',
-            # 'src/tests/page_box/glossary/test_params.py',
+            # 'src',
+            'src/tests/page/foreign/test_list.py',
         ]
 
     returncode = pytest.main(

@@ -69,10 +69,10 @@ def test_btn_goto_foreign(wse: WSE) -> None:
     assert wse.main_window.content == wse.box_foreign_main
 
 
-def request_entries(obj: object, url: str) -> list[tuple[str, str]]:
+def request_entries(obj: object, url: str) -> list[tuple[str, ...]]:
     """Return entries to insert at table."""
     return [
-        ('foreign', 'native'),
+        ('id', 'foreign', 'native'),
     ]
 
 

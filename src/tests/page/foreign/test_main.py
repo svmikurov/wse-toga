@@ -22,7 +22,7 @@ FIXTURE = 'response_foreign_list.json'
 
 @pytest.fixture(autouse=True)
 def goto_foreign_page_box(wse: WSE) -> None:
-    """Set foreign main page box to main window content, fixture."""
+    """Assign the foreign main box to main window content, fixture."""
     wse.main_window.content = wse.box_foreign_main
 
 
@@ -46,43 +46,43 @@ def test_widget_order(wse: WSE) -> None:
 
 def test_label_title(wse: WSE) -> None:
     """Test label of page box title."""
+    # Label text.
     title = wse.box_foreign_main.label_title
     assert title.text == 'Иностранный словарь'
 
 
 def test_btn_goto_main(wse: WSE) -> None:
-    """Test button to go to main page box."""
-    # Button name.
+    """Test the button go to main page box."""
     btn = wse.box_foreign_main.btn_goto_main
     assert btn.text == 'На главную'
+
     # Window switching.
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_main
 
 
 def test_btn_goto_create(wse: WSE) -> None:
-    """Test button to go to foreign create page box."""
-    # Button name.
+    """Test the button go to foreign create page box."""
     btn = wse.box_foreign_main.btn_goto_create
     assert btn.text == 'Добавить слово'
+
     # Window switching.
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_foreign_create
 
 
 def test_btn_goto_params(wse: WSE) -> None:
-    """Test button to go to foreign exercise params page box."""
-    # Button name.
+    """Test the button go to foreign exercise params page box."""
     btn = wse.box_foreign_main.btn_goto_params
     assert btn.text == 'Упражнение'
+
     # Window switching.
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_foreign_params
 
 
 def test_btn_goto_list(wse: WSE, monkeypatch: MonkeyPatch) -> None:
-    """Test button to go to foreign word list page box."""
-    # Button name.
+    """Test the button go to foreign word list page box."""
     btn = wse.box_foreign_main.btn_goto_list
     assert btn.text == 'Словарь'
 
