@@ -1,0 +1,25 @@
+name: Linter
+run-name: Linter
+
+on:
+  push:
+    paths: [ "**.py" ]
+  workflow_dispatch:
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install ruff linter
+        run: pip install ruff
+
+      - name: Run ruff
+        run: ruff check --fix && ruff format
