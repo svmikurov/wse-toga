@@ -2,8 +2,8 @@
 
 from http import HTTPStatus
 
-HOST_API = 'http://127.0.0.1/'
-# HOST_API = 'http://wselfedu.online/'
+# HOST_API = 'http://127.0.0.1/'
+HOST_API = 'http://wselfedu.online/'
 """Host to connect (`str`).
 """
 

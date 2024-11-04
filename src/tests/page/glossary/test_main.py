@@ -30,8 +30,8 @@ def test_widget_order(wse: WSE) -> None:
     assert box.children == [
         box.label_title,
         box.btn_goto_main,
-        box.btn_goto_create,
         box.btn_goto_params,
+        box.btn_goto_create,
         box.btn_goto_list,
     ]
 
@@ -79,7 +79,7 @@ def test_btn_goto_list(
 ) -> None:
     """Test the button of go to glossary term list page box."""
     btn = wse.box_glossary_main.btn_goto_list
-    assert btn.text == 'Глоссарий'
+    assert btn.text == 'Словарь терминов'
 
     monkeypatch.setattr(TableApp, 'request_entries', request_entries)
 

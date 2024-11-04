@@ -9,6 +9,12 @@ from toga.style import Pack
 
 from wse.constants import (
     ASSESSMENT,
+    BTN_GOTO_FOREIGN_CREATE,
+    BTN_GOTO_FOREIGN_LIST,
+    BTN_GOTO_FOREIGN_MAIN,
+    BTN_GOTO_FOREIGN_PARAMS,
+    BTN_GOTO_MAIN,
+    FOREIGN_ASSESSMENT_PATH,
     FOREIGN_CREATE_BOX,
     FOREIGN_DETAIL_PATH,
     FOREIGN_EXERCISE_BOX,
@@ -29,7 +35,6 @@ from wse.constants import (
     TITLE_FOREIGN_PARAMS,
     TITLE_FOREIGN_UPDATE,
 )
-from wse.constants.url import FOREIGN_ASSESSMENT_PATH
 from wse.container.exercise import ExerciseBox, ExerciseParamSelectionsBox
 from wse.contrib.http_requests import (
     HttpPostMixin,
@@ -55,19 +60,19 @@ class MainForeignPage(BoxApp):
         # Box widgets.
         self.label_title = TitleLabel(TITLE_FOREIGN_MAIN)
         self.btn_goto_main = BtnApp(
-            text='На главную',
+            BTN_GOTO_MAIN,
             on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
         self.btn_goto_params = BtnApp(
-            'Упражнение',
+            BTN_GOTO_FOREIGN_PARAMS,
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
         )
         self.btn_goto_create = BtnApp(
-            'Добавить слово',
+            BTN_GOTO_FOREIGN_CREATE,
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_CREATE_BOX),
         )
         self.btn_goto_list = BtnApp(
-            'Словарь',
+            BTN_GOTO_FOREIGN_LIST,
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
         )
 
@@ -75,8 +80,8 @@ class MainForeignPage(BoxApp):
         self.add(
             self.label_title,
             self.btn_goto_main,
-            self.btn_goto_create,
             self.btn_goto_params,
+            self.btn_goto_create,
             self.btn_goto_list,
         )
 
@@ -92,7 +97,7 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
 
         # Box widgets.
         self.btn_goto_foreign = BtnApp(
-            'Меню словаря',
+            BTN_GOTO_FOREIGN_MAIN,
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_MAIN_BOX),
         )
 
@@ -139,7 +144,7 @@ class ExerciseForeignPage(ExerciseBox):
 
         # Buttons.
         self.btn_goto_params = BtnApp(
-            'Настроить упражнение',
+            'Параметры упражнения',
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
         )
 
@@ -191,11 +196,11 @@ class FormForeign(BaseForm):
 
         self.label_title = TitleLabel(text=self.title)
         self.btn_goto_foreign_list = BtnApp(
-            'Словарь иностранных слов',
+            BTN_GOTO_FOREIGN_LIST,
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
         )
         self.btn_goto_foreign_main = BtnApp(
-            'Меню иностранные слова',
+            BTN_GOTO_FOREIGN_MAIN,
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_MAIN_BOX),
         )
         # Word data input widgets.
@@ -287,7 +292,7 @@ class ListForeignPage(TableApp):
 
         # The navigation buttons.
         self.btn_goto_foreign_main = BtnApp(
-            'Оглавление словаря',
+            BTN_GOTO_FOREIGN_MAIN,
             on_press=lambda _: self.goto_box_handler(_, FOREIGN_MAIN_BOX),
         )
 

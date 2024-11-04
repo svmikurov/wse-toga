@@ -64,7 +64,7 @@ def test_btn_submit(wse: WSE) -> None:
 def test_btn_goto_foreign(wse: WSE) -> None:
     """Test button to go to foreign page box."""
     btn = wse.box_foreign_create.btn_goto_foreign_main
-    assert btn.text == 'Меню иностранные слова'
+    assert btn.text == 'Иностранный'
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_foreign_main
 

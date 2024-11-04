@@ -97,6 +97,6 @@ def test_btn_save_params(wse: WSE) -> None:
 def test_btn_goto_foreign(wse: WSE) -> None:
     """Test button to go to foreign main page box."""
     btn = wse.box_foreign_params.btn_goto_foreign
-    assert btn.text == 'Меню словаря'
+    assert btn.text == 'Иностранный'
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_foreign_main

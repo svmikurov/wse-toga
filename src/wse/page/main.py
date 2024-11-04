@@ -3,8 +3,14 @@
 import toga
 from toga.style import Pack
 
-from wse import constants as const
-from wse.constants import HOST_API, TITLE_MAIN
+from wse.constants import (
+    BTN_GOTO_FOREIGN_MAIN,
+    BTN_GOTO_GLOSSARY_MAIN,
+    FOREIGN_MAIN_BOX,
+    GLOSSARY_MAIN_BOX,
+    HOST_API,
+    TITLE_MAIN,
+)
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
@@ -29,16 +35,12 @@ class MainBox(UserAuth, BoxApp):
         # Widgets.
         self.label_title = TitleLabel(TITLE_MAIN)
         self.btn_goto_glossary_main = BtnApp(
-            'Глоссарий терминов',
-            on_press=lambda _: self.goto_box_handler(
-                _, const.GLOSSARY_MAIN_BOX
-            ),  # noqa: E501
+            BTN_GOTO_GLOSSARY_MAIN,
+            on_press=lambda _: self.goto_box_handler(_, GLOSSARY_MAIN_BOX),  # noqa: E501
         )
         self.btn_goto_foreign_main = BtnApp(
-            'Словарь иностранных слов',
-            on_press=lambda _: self.goto_box_handler(
-                _, const.FOREIGN_MAIN_BOX
-            ),  # noqa: E501
+            BTN_GOTO_FOREIGN_MAIN,
+            on_press=lambda _: self.goto_box_handler(_, FOREIGN_MAIN_BOX),  # noqa: E501
         )
 
         # Info panel

@@ -66,6 +66,6 @@ def test_table(wse: WSE) -> None:
 def test_btn_goto_glossary_main(wse: WSE) -> None:
     """Test button to go to glossary main page box."""
     btn = wse.box_glossary_list.btn_goto_glossary_main
-    assert btn.text == 'Оглавление глоссария'
+    assert btn.text == 'Глоссарий'
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_glossary_main

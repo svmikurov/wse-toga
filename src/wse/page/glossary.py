@@ -6,6 +6,11 @@ from urllib.parse import urljoin
 import toga
 
 from wse.constants import (
+    BTN_GOTO_GLOSSARY_CREATE,
+    BTN_GOTO_GLOSSARY_LIST,
+    BTN_GOTO_GLOSSARY_MAIN,
+    BTN_GOTO_GLOSSARY_PARAMS,
+    BTN_GOTO_MAIN,
     GLOSSARY_CREATE_BOX,
     GLOSSARY_DETAIL_PATH,
     GLOSSARY_EXERCISE_BOX,
@@ -56,19 +61,19 @@ class MainGlossaryPage(BoxApp):
         # Box widgets.
         self.label_title = TitleLabel(TITLE_GLOSSARY_MAIN)
         self.btn_goto_main = BtnApp(
-            text='На главную',
+            BTN_GOTO_MAIN,
             on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
         )
         self.btn_goto_params = BtnApp(
-            'Упражнение',
+            BTN_GOTO_GLOSSARY_PARAMS,
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_PARAMS_BOX),
         )
         self.btn_goto_create = BtnApp(
-            'Добавить термин',
+            BTN_GOTO_GLOSSARY_CREATE,
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_CREATE_BOX),
         )
         self.btn_goto_list = BtnApp(
-            'Глоссарий',
+            BTN_GOTO_GLOSSARY_LIST,
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_LIST_BOX),
         )
 
@@ -76,8 +81,8 @@ class MainGlossaryPage(BoxApp):
         self.add(
             self.label_title,
             self.btn_goto_main,
-            self.btn_goto_create,
             self.btn_goto_params,
+            self.btn_goto_create,
             self.btn_goto_list,
         )
 
@@ -93,7 +98,7 @@ class ParamGlossaryBox(ExerciseParamSelectionsBox):
 
         # Box widgets.
         self.btn_goto_glossary_main = BtnApp(
-            'Меню глоссария',
+            BTN_GOTO_GLOSSARY_MAIN,
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_MAIN_BOX),
         )
 
@@ -124,7 +129,7 @@ class ParamGlossaryBox(ExerciseParamSelectionsBox):
 
 
 class ExerciseGlossaryBox(ExerciseBox):
-    """Foreign exercise box."""
+    """Glossary exercise box."""
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -135,7 +140,7 @@ class ExerciseGlossaryBox(ExerciseBox):
         # Widgets.
         self.label_title = TitleLabel(TITLE_GLOSSARY_EXERCISE)
         self.btn_goto_params = BtnApp(
-            'Настроить упражнение',
+            'Параметры упражнения',
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_PARAMS_BOX),
         )
 
@@ -162,11 +167,11 @@ class FormGlossary(BaseForm):
         # Widgets.
         self.label_title = TitleLabel(text=self.title)
         self.btn_goto_glossary_list = BtnApp(
-            'Глоссарий',
+            BTN_GOTO_GLOSSARY_LIST,
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_LIST_BOX),
         )
         self.btn_goto_glossary_main = BtnApp(
-            'Глоссарий меню',
+            BTN_GOTO_GLOSSARY_MAIN,
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_MAIN_BOX),
         )
 
@@ -242,7 +247,9 @@ class UpdateTermPage(HttpPutMixin, FormGlossary):
 class ListTermPage(TableApp):
     """Table of list of glossary terms, the page.
 
-    :ivar Button btn_goto_foreign_main: Button go to Glossary Main page.
+    :ivar Button label_title: The page title.
+    :ivar Button btn_goto_glossary_main: Button go to Glossary Main
+        page.
     """
 
     source_class = TermSource()
@@ -260,7 +267,7 @@ class ListTermPage(TableApp):
         # Widgets.
         self.label_title = TitleLabel(TITLE_GLOSSARY_LIST)
         self.btn_goto_glossary_main = BtnApp(
-            'Оглавление глоссария',
+            BTN_GOTO_GLOSSARY_MAIN,
             on_press=lambda _: self.goto_box_handler(_, GLOSSARY_MAIN_BOX),
         )
 

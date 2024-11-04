@@ -37,7 +37,7 @@ def test_click_goto_login_btn(wse: WSE) -> None:
 def test_click_goto_foreign_btn(wse: WSE) -> None:
     """Test click on button to go to foreign page box."""
     btn = wse.box_main.btn_goto_foreign_main
-    assert btn.text == 'Словарь иностранных слов'
+    assert btn.text == 'Иностранный'
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_foreign_main
 
@@ -45,7 +45,7 @@ def test_click_goto_foreign_btn(wse: WSE) -> None:
 def test_click_goto_glossary_btn(wse: WSE) -> None:
     """Test click on button to go to glossary page box."""
     btn = wse.box_main.btn_goto_glossary_main
-    assert btn.text == 'Глоссарий терминов'
+    assert btn.text == 'Глоссарий'
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_glossary_main
 

@@ -7,7 +7,7 @@ from toga.sources import ListSource
 
 from tests.utils import FixtureReader
 from wse.app import WSE
-from wse.constants import HOST_API
+from wse.constants import GLOSSARY_PARAMS_PATH, HOST_API
 
 REQEUST_PARAMS_URL = '/api/v1/glossary/params/'
 REQEUST_EXERCISE_URL = '/api/v1/glossary/exercise/'
@@ -40,7 +40,7 @@ def test_on_open(get: Mock, lookup_conditions: Mock, wse: WSE) -> None:
     wse.box_glossary_params.on_open()
 
     # Exercise params request url.
-    url = call(url='http://127.0.0.1/api/v1/glossary/params/')
+    url = call(url=urljoin(HOST_API, GLOSSARY_PARAMS_PATH))
     assert get.call_args == url
 
     # Call lookup_condition property setter.

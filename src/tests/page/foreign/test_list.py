@@ -96,13 +96,13 @@ def test_populate_table(wse: WSE, monkeypatch: MonkeyPatch) -> None:
 def test_label_title(wse: WSE) -> None:
     """Test page box title."""
     title = wse.box_foreign_list.label_title
-    assert title.text == 'Список иностранных слов'
+    assert title.text == 'Словарь иностранных слов'
 
 
 def test_btn_goto_foreign(wse: WSE) -> None:
     """Test button to go to foreign main page box."""
     btn = wse.box_foreign_list.btn_goto_foreign_main
-    assert btn.text == 'Оглавление словаря'
+    assert btn.text == 'Иностранный'
 
     # Window switching.
     btn._impl.simulate_press()

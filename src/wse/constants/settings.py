@@ -33,11 +33,14 @@ TITLE_LABEL_HEIGHT = 35
 TITLE_LABEL_PADDING = (5, 0, 10, 0)
 # Main
 TITLE_MAIN = 'WSELFEDU'
+BTN_GOTO_MAIN = 'На главную'
 # User
+TITLE_LOGIN = 'Вход в учетную запись'
 TITLE_USER_MAIN = 'Учетная запись'
-USER_UPDATE_TITLE = 'Изменить имя'
-USER_CREATE_TITLE = 'Регистрация'
-LOGIN_TITLE = 'Вход в учетную запись'
+TITLE_USER_UPDATE = 'Изменить имя'
+TITLE_USER_CREATE = 'Регистрация'
+BTN_GOTO_LOGIN = 'Вход в учетную запись'
+BTN_LOGOUT = 'Выход из учетной записи'
 # Glossary
 TITLE_GLOSSARY_MAIN = 'Глоссарий'
 TITLE_GLOSSARY_CREATE = 'Добавить термин'
@@ -45,13 +48,23 @@ TITLE_GLOSSARY_UPDATE = 'Изменить термин'
 TITLE_GLOSSARY_LIST = 'Список терминов'
 TITLE_GLOSSARY_PARAMS = 'Параметры изучения терминов'
 TITLE_GLOSSARY_EXERCISE = 'Изучение терминов'
+BTN_GOTO_GLOSSARY_MAIN = 'Глоссарий'
+BTN_GOTO_GLOSSARY_LIST = 'Словарь терминов'
+BTN_GOTO_GLOSSARY_EXERCISE = 'Начать упражнение'
+BTN_GOTO_GLOSSARY_PARAMS = 'Упражнение'
+BTN_GOTO_GLOSSARY_CREATE = 'Добавить термин'
 # Foreign
 TITLE_FOREIGN_MAIN = 'Иностранный словарь'
 TITLE_FOREIGN_CREATE = 'Добавить слово'
 TITLE_FOREIGN_UPDATE = 'Изменить термин'
-TITLE_FOREIGN_LIST = 'Список иностранных слов'
+TITLE_FOREIGN_LIST = 'Словарь иностранных слов'
 TITLE_FOREIGN_PARAMS = 'Параметры изучения слов'
 TITLE_FOREIGN_EXERCISE = 'Изучение иностранных слов'
+BTN_GOTO_FOREIGN_MAIN = 'Иностранный'
+BTN_GOTO_FOREIGN_CREATE = 'Добавить слово'
+BTN_GOTO_FOREIGN_LIST = 'Словарь иностранных слов'
+BTN_GOTO_FOREIGN_EXERCISE = 'Начать упражнение'
+BTN_GOTO_FOREIGN_PARAMS = 'Упражнение'
 
 #########################################################################
 # Messages

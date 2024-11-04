@@ -7,14 +7,16 @@ import toga
 from httpx import Response
 
 from wse.constants import (
+    BTN_GOTO_LOGIN,
+    BTN_LOGOUT,
     HOST_API,
     LOGIN_BAD_MSG,
     LOGIN_BOX,
     LOGIN_MSG,
     LOGIN_PATH,
-    LOGIN_TITLE,
     LOGOUT_MSG,
     LOGOUT_PATH,
+    TITLE_LOGIN,
     USER_ME,
 )
 from wse.container.credentials import Credentials
@@ -66,14 +68,14 @@ class UserAuth(BoxApp):
         widget_values = {
             True: {
                 'btn_auth': {
-                    'text': 'Выход из учетной записи',
+                    'text': BTN_LOGOUT,
                     'on_press': self.logout_handler,
                 },
                 'info_text': self.user_info_text % self.username,
             },
             False: {
                 'btn_auth': {
-                    'text': 'Вход в учетную запись',
+                    'text': BTN_GOTO_LOGIN,
                     'on_press': lambda _: self.goto_box_handler(_, LOGIN_BOX),
                 },
                 'info_text': self.welcome,
@@ -113,7 +115,7 @@ class UserAuth(BoxApp):
 class LoginBox(Credentials):
     """Login page box."""
 
-    title = LOGIN_TITLE
+    title = TITLE_LOGIN
     url_path = LOGIN_PATH
     btn_submit_name = 'Войти'
     success_response_msg = LOGIN_MSG

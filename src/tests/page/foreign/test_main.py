@@ -38,8 +38,8 @@ def test_widget_order(wse: WSE) -> None:
     assert box.children == [
         box.label_title,
         box.btn_goto_main,
-        box.btn_goto_create,
         box.btn_goto_params,
+        box.btn_goto_create,
         box.btn_goto_list,
     ]
 
@@ -84,7 +84,7 @@ def test_btn_goto_params(wse: WSE) -> None:
 def test_btn_goto_list(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     """Test the button go to foreign word list page box."""
     btn = wse.box_foreign_main.btn_goto_list
-    assert btn.text == 'Словарь'
+    assert btn.text == 'Словарь иностранных слов'
 
     # Window switching.
     # Switching to the list page calls the http request of word list to
