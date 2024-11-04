@@ -69,8 +69,8 @@ class ExerciseParamSelectionsBox(BoxApp):
         self.style.update(direction=COLUMN)
 
         # Styles.
-        label_style = Pack(padding=(7, 0, 7, 20))
-        selection_box_style = Pack(padding=(2, 0, 2, 0))
+        style_label = Pack(padding=(7, 0, 7, 20))
+        style_box_selection = Pack(padding=(2, 0, 2, 0))
 
         self.label_title = TitleLabel(text=self.title)
 
@@ -81,20 +81,20 @@ class ExerciseParamSelectionsBox(BoxApp):
         )
         self.btn_goto_exercise = BtnApp(
             'Начать упражнение',
-            on_press=self.goto_exercise_box_handler,
+            on_press=self.goto_box_exercise_handler,
         )
 
         # Selection labels.
-        self.label_start = toga.Label('Начало периода:', style=label_style)
-        self.label_end = toga.Label('Конец периода:', style=label_style)
-        self.label_category = toga.Label('Категория:', style=label_style)
-        self.label_progres = toga.Label('Стадия изучения:', style=label_style)
+        self.label_start = toga.Label('Начало периода:', style=style_label)
+        self.label_end = toga.Label('Конец периода:', style=style_label)
+        self.label_category = toga.Label('Категория:', style=style_label)
+        self.label_progres = toga.Label('Стадия изучения:', style=style_label)
         # Switch
         self.count_first_switch = toga.Switch(
-            'Первые', style=label_style, on_change=self.first_switch_handler
+            'Первые', style=style_label, on_change=self.first_switch_handler
         )
         self.count_last_switch = toga.Switch(
-            'Последние', style=label_style, on_change=self.last_switch_handler
+            'Последние', style=style_label, on_change=self.last_switch_handler
         )
         # Selections.
         self.selection_start_period = BaseSelection()
@@ -104,37 +104,37 @@ class ExerciseParamSelectionsBox(BoxApp):
         self.input_count_first = toga.NumberInput(step=10, min=0)
         self.input_count_last = toga.NumberInput(step=10, min=0)
         # Selection boxes.
-        self.selection_start_box = toga.Box(
-            style=selection_box_style,
+        self.box_selection_start = toga.Box(
+            style=style_box_selection,
             children=[
                 FlexBox(children=[self.label_start]),
                 FlexBox(children=[self.selection_start_period]),
             ],
         )
-        self.selection_start_box.style.padding_top = 4
-        self.selection_end_box = toga.Box(
-            style=selection_box_style,
+        self.box_selection_start.style.padding_top = 4
+        self.box_selection_end = toga.Box(
+            style=style_box_selection,
             children=[
                 FlexBox(children=[self.label_end]),
                 FlexBox(children=[self.selection_end_period]),
             ],
         )
-        self.selection_category_box = toga.Box(
-            style=selection_box_style,
+        self.box_selection_category = toga.Box(
+            style=style_box_selection,
             children=[
                 FlexBox(children=[self.label_category]),
                 FlexBox(children=[self.selection_category]),
             ],
         )
-        self.selection_progress_box = toga.Box(
-            style=selection_box_style,
+        self.box_selection_progress = toga.Box(
+            style=style_box_selection,
             children=[
                 FlexBox(children=[self.label_progres]),
                 FlexBox(children=[self.selection_progress]),
             ],
         )
-        self.input_first_box = toga.Box(
-            style=selection_box_style,
+        self.box_input_first = toga.Box(
+            style=style_box_selection,
             children=[
                 FlexBox(
                     children=[self.count_first_switch],
@@ -146,8 +146,8 @@ class ExerciseParamSelectionsBox(BoxApp):
                 ),
             ],
         )
-        self.input_last_box = toga.Box(
-            style=selection_box_style,
+        self.box_input_last = toga.Box(
+            style=style_box_selection,
             children=[
                 FlexBox(
                     children=[self.count_last_switch],
@@ -162,26 +162,26 @@ class ExerciseParamSelectionsBox(BoxApp):
 
         # Widgets DOM.
         # Add ``params_box`` attr.
-        self.param_box = toga.Box(style=Pack(direction=COLUMN, flex=1))
+        self.box_params = toga.Box(style=Pack(direction=COLUMN, flex=1))
         self.add(
             self.label_title,
-            self.param_box,
+            self.box_params,
             self.btn_goto_exercise,
             self.btn_save_params,
         )
-        self.param_box.add(
-            self.selection_start_box,
-            self.selection_end_box,
-            self.selection_category_box,
-            self.selection_progress_box,
-            self.input_first_box,
-            self.input_last_box,
+        self.box_params.add(
+            self.box_selection_start,
+            self.box_selection_end,
+            self.box_selection_category,
+            self.box_selection_progress,
+            self.box_input_first,
+            self.box_input_last,
         )
 
     ####################################################################
     # Button callback functions
 
-    async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
+    async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
         raise NotImplementedError(
             'Subclasses must provide a goto_exercise_box_handler() method.'
@@ -286,7 +286,7 @@ class ExerciseBox(BoxApp):
                 flex=1,
             )
         )
-        btn_group_box = toga.Box(
+        box_btn_group = toga.Box(
             style=Pack(
                 direction=ROW,
                 height=100,
@@ -305,9 +305,9 @@ class ExerciseBox(BoxApp):
             self.question_display,
             toga.Label('Ответ:', style=label_style),
             self.answer_display,
-            btn_group_box,
+            box_btn_group,
         )
-        btn_group_box.add(
+        box_btn_group.add(
             AnswerBtn('Пауза', self.pause_handler),
             AnswerBtn('Не знаю', self.not_know_handler),
             AnswerBtn('Знаю', self.know_handler),
@@ -354,7 +354,7 @@ class ExerciseBox(BoxApp):
             return
         elif r.status_code == HTTPStatus.NO_CONTENT:
             await self.show_message('', NO_TASK_MSG)
-            self.move_to_params_box(self)
+            self.move_to_box_params(self)
         else:
             await self.show_message('', TASK_ERROR_MSG)
         self.task.data = None
@@ -400,7 +400,7 @@ class ExerciseBox(BoxApp):
         self.answer_display.clean()
         self.question_display.clean()
 
-    def move_to_params_box(self, widget: toga.Widget) -> None:
+    def move_to_box_params(self, widget: toga.Widget) -> None:
         """Move to exercise parameters page box.
 
         Override this method.

@@ -99,7 +99,7 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
         # Widget DOM.
         self.insert(4, self.btn_goto_foreign)
 
-    async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
+    async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
         exercise_box = self.get_box(widget, FOREIGN_EXERCISE_BOX)
         exercise_box.clean_text_panel()
@@ -172,7 +172,7 @@ class ExerciseForeignPage(ExerciseBox):
         super().show_question()
         self.populate_textpanel()
 
-    def move_to_params_box(self, widget: toga.Widget) -> None:
+    def move_to_box_params(self, widget: toga.Widget) -> None:
         """Move to exercise parameters page box."""
         self.goto_box_handler(widget, FOREIGN_PARAMS_BOX)
 
