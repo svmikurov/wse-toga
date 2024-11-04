@@ -83,5 +83,6 @@ def test_btn_goto_list(
 
     monkeypatch.setattr(TableApp, 'request_entries', request_entries)
 
+    # No window switching.
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_glossary_list

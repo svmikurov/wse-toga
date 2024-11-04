@@ -12,7 +12,7 @@ import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from httpx import Client
 
-from tests.mocking import MockClient
+from tests.utils import FixtureReader
 from wse.app import WSE
 
 FIXTURE_PAGINATION_FIRST = 'pagination_foreign_first.json'
@@ -27,14 +27,14 @@ def goto_foreign_list_page(wse: WSE) -> None:
     wse.main_window.content = wse.box_foreign_list
 
 
-def mock_pagination_first(*args: object, **kwargs: object) -> MockClient:
+def mock_pagination_first(*args: object, **kwargs: object) -> FixtureReader:
     """Mock a json http response to test the first pagination page."""
-    return MockClient(FIXTURE_PAGINATION_FIRST)
+    return FixtureReader(FIXTURE_PAGINATION_FIRST)
 
 
-def mock_pagination_last(*args: object, **kwargs: object) -> MockClient:
+def mock_pagination_last(*args: object, **kwargs: object) -> FixtureReader:
     """Mock a json http response to test the last pagination page."""
-    return MockClient(FIXTURE_PAGINATION_LAST)
+    return FixtureReader(FIXTURE_PAGINATION_LAST)
 
 
 def test_pagination_first_page(wse: WSE, monkeypatch: MonkeyPatch) -> None:

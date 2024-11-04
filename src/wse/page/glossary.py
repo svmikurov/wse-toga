@@ -100,7 +100,7 @@ class ParamGlossaryBox(ExerciseParamSelectionsBox):
         # Widget DOM.
         self.insert(4, self.btn_goto_glossary_main)
 
-    async def goto_exercise_box_handler(self, widget: toga.Widget) -> None:
+    async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to glossary exercise, button handler."""
         exercise_box = self.get_box(widget, GLOSSARY_EXERCISE_BOX)
         exercise_box.task.params = self.lookup_conditions

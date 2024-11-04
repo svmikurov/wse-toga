@@ -38,43 +38,43 @@ def test_widget_order(wse: WSE) -> None:
 
     assert box.children == [
         box.label_title,
-        box.param_box,
+        box.box_params,
         box.btn_goto_exercise,
         box.btn_save_params,
         box.btn_goto_glossary_main,
     ]
 
-    assert box.param_box.children == [
-        box.selection_start_box,
-        box.selection_end_box,
-        box.selection_category_box,
-        box.selection_progress_box,
-        box.input_first_box,
-        box.input_last_box,
+    assert box.box_params.children == [
+        box.box_selection_start,
+        box.box_selection_end,
+        box.box_selection_category,
+        box.box_selection_progress,
+        box.box_input_first,
+        box.box_input_last,
     ]
 
     # Selection widgets are included in the parent box to flex layout.
-    assert box.selection_start_box.children == [
+    assert box.box_selection_start.children == [
         box.label_start.parent,
         box.selection_start_period.parent,
     ]
-    assert box.selection_end_box.children == [
+    assert box.box_selection_end.children == [
         box.label_end.parent,
         box.selection_end_period.parent,
     ]
-    assert box.selection_category_box.children == [
+    assert box.box_selection_category.children == [
         box.label_category.parent,
         box.selection_category.parent,
     ]
-    assert box.selection_progress_box.children == [
+    assert box.box_selection_progress.children == [
         box.label_progres.parent,
         box.selection_progress.parent,
     ]
-    assert box.input_first_box.children == [
+    assert box.box_input_first.children == [
         box.count_first_switch.parent,
         box.input_count_first.parent,
     ]
-    assert box.input_last_box.children == [
+    assert box.box_input_last.children == [
         box.count_last_switch.parent,
         box.input_count_last.parent,
     ]
