@@ -63,6 +63,10 @@
             {
                 "alias": 2,
                 "humanly": "PostgreSQL"
+            },
+                        {
+                "alias": null,
+                "humanly": "Не выбрано"
             }
         ],
         "progress": [
