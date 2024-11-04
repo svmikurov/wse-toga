@@ -11,7 +11,7 @@ import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from httpx import Client
 
-from tests.mocking import MockClient
+from tests.utils import FixtureReader
 from wse.app import WSE
 
 FIXTURE = 'response_foreign_list.json'
@@ -26,9 +26,9 @@ def goto_foreign_page_box(wse: WSE) -> None:
     wse.main_window.content = wse.box_foreign_main
 
 
-def mock_list_json(*args: object, **kwargs: object) -> MockClient:
+def mock_list_json(*args: object, **kwargs: object) -> FixtureReader:
     """Mock a json http response with a list of terms."""
-    return MockClient(FIXTURE)
+    return FixtureReader(FIXTURE)
 
 
 def test_widget_order(wse: WSE) -> None:

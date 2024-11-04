@@ -1,12 +1,12 @@
-"""Mocks."""
+"""Utils for testing.."""
 
 import json
 import os
 import pathlib
 
 
-class MockClient:
-    """Mock httpx.Client functionality.
+class FixtureReader:
+    """Reader of fixtures.
 
     :param str fixture: The fixture file name.
     """
@@ -16,24 +16,24 @@ class MockClient:
     """
 
     def __init__(self, fixture: str) -> None:
-        """Construct the mocking."""
+        """Construct the reader."""
         self.fixture = fixture
 
     @property
     def fixture_path(self) -> str:
-        """Return the path to fixture."""
+        """Return the path to fixture (`str`, reade-only)."""
         return os.path.join(self.module_dir, f'fixtures/{self.fixture}')
 
     @staticmethod
     def url() -> str:
-        """Mock the url."""
+        """Return the url."""
         return ''
 
     def json(self) -> dict:
-        """Mock the json method.
+        """Reade the fixture.
 
-        :return: the fixture data to mocking the response json.
-        """
+        :return: the fixture data.
+        """  # noqa: D401
         with open(self.fixture_path, 'r') as file:
             fixture = json.load(file)
         return fixture
