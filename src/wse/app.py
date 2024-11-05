@@ -97,6 +97,7 @@ class WSE(toga.App):
         )
         # Application start with Main page box content.
         self.main_window.content = self.box_main
+        self.box_main.on_open()
         self.main_window.show()
 
     def move_to_page(self, box: BoxApp) -> None:

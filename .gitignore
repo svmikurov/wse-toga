@@ -1,5 +1,5 @@
-# Venv
 .venv_wse_toga/
+*token.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

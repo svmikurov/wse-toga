@@ -1,7 +1,10 @@
 """App http requests module."""
 
+import json
+import os.path
 import typing
 from http import HTTPStatus
+from pathlib import Path
 
 import httpx
 from httpx import Request, Response
@@ -14,12 +17,19 @@ class AppAuth(httpx.Auth):
     """Authentication.
 
     :ivar token: User authentication token.
-    :vartype token: str
+    :vartype token: str or None
+    """
+
+    token_path = os.path.join(
+        Path(__file__).parent.parent,
+        'resources/token.json',
+    )
+    """Path to reade or save token (`str`).
     """
 
     def __init__(self) -> None:
-        """Construct the authentication."""
-        self.token = None
+        """Construct the token auth."""
+        self._token: str | None = None
 
     def auth_flow(
         self,
@@ -38,7 +48,33 @@ class AppAuth(httpx.Auth):
 
     def delete_token(self) -> None:
         """Delete current auth token."""
-        self.token = None
+        self._token = None
+        del self.token
+
+    @property
+    def token(self) -> str | None:
+        """The user authentication token."""
+        if self._token:
+            return self._token
+
+        try:
+            with open(self.token_path, 'r') as file:
+                data = json.load(file)
+                return data.get('token')
+        except FileNotFoundError:
+            return None
+
+    @token.setter
+    def token(self, token: str) -> None:
+        data = {'token': token}
+        with open(self.token_path, 'w') as file:
+            json.dump(data, file, indent=2)
+        self._token = token
+
+    @token.deleter
+    def token(self) -> None:
+        os.unlink(self.token_path)
+        self._token = None
 
 
 app_auth = AppAuth()
