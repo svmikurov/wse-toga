@@ -22,4 +22,4 @@ jobs:
         run: pip install ruff
 
       - name: Run ruff
-        run: ruff check --fix && ruff format
+        run: ruff check && ruff format --diff
