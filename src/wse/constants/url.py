@@ -22,7 +22,7 @@ USER_DETAIL = '/api/v1/auth/users/%s/'
 USER_UPDATE_PATH = '/api/v1/auth/users/set_username/'
 """User update endpoint, allowed POST method (`str`).
 """
-USER_ME = '/api/v1/auth/users/me/'
+USER_ME_PATH = '/api/v1/auth/users/me/'
 """User detail endpoint, allowed GET method (`str`).
 """
 TOKEN_PATH = '/auth/token/login/'

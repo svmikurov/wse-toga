@@ -6,6 +6,7 @@ Tests
    :maxdepth: 1
 
    Setup <setup>
+   Utils <utils>
    Main page <test_main>
    Login page <test_login>
    Foreign pages <foreign/index>

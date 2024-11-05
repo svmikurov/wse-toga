@@ -1,4 +1,4 @@
-"""Utils for testing.."""
+"""Utils for testing."""
 
 import json
 import os

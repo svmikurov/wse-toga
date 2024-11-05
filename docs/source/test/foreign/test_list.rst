@@ -1,6 +1,6 @@
-===========================
-Test foreign word list page
-===========================
+=========================================
+Test pagination of foreign word list page
+=========================================
 
-.. automodule:: tests.page.foreign.test_list
+.. automodule:: tests.page.foreign.test_list_pagination
    :members:

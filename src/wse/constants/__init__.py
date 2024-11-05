@@ -126,7 +126,7 @@ from wse.constants.url import (
     RESPONSE_ERROR_MSGS,
     TOKEN_PATH,
     USER_CREATE_PATH,
-    USER_ME,
+    USER_ME_PATH,
     USER_UPDATE_PATH,
 )
 
@@ -248,7 +248,7 @@ __all__ = (  # noqa: F405
     'USER_CREATE_MESSAGE',
     'USER_CREATE_PATH',
     'USER_MAIN_BOX',
-    'USER_ME',
+    'USER_ME_PATH',
     'USER_UPDATE_BOX',
     'USER_UPDATE_MESSAGE',
     'USER_UPDATE_PATH',

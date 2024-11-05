@@ -1,4 +1,4 @@
-"""The user pages for window content."""
+"""The page handlers of user data."""
 
 from http import HTTPStatus
 from urllib.parse import urljoin
@@ -17,7 +17,7 @@ from wse.constants import (
     LOGOUT_MSG,
     LOGOUT_PATH,
     TITLE_LOGIN,
-    USER_ME,
+    USER_ME_PATH,
 )
 from wse.container.credentials import Credentials
 from wse.contrib.http_requests import (
@@ -30,20 +30,23 @@ from wse.general.button import BtnApp
 
 
 class UserAuth(BoxApp):
-    """User authentication control widget."""
+    """Handlers to control the user authentication status.
+
+    Displays the user authentication status.
+    """
 
     welcome: str
     info_panel: toga.MultilineTextInput
 
     user_info_text = 'Добро пожаловать, %s!'
-    """User info template (`str`).
+    """User info text (`str`).
     """
-    user_detail_url = urljoin(HOST_API, USER_ME)
+    user_detail_url = urljoin(HOST_API, USER_ME_PATH)
     """User detail url, allowed GET method (`str`).
     """
 
     def __init__(self) -> None:
-        """Construct the Main box."""
+        """Construct the widget."""
         super().__init__()
         self.is_auth: bool = False
         self.username: str | None = None
@@ -54,7 +57,7 @@ class UserAuth(BoxApp):
         )
 
     def on_open(self) -> None:
-        """Call widget setup by user authentication status."""
+        """Update the widgets on opening page."""
         super().on_open()
         self.setup_user_status()
         self.update_widget_values()
@@ -102,10 +105,11 @@ class UserAuth(BoxApp):
         self.btn_goto_auth.on_press = self.auth_attrs['btn_auth']['on_press']
 
     def setup_user_status(self) -> None:
-        """Set user info."""
-        response = request_get(self.user_detail_url)
-        if response.status_code == HTTPStatus.OK:
-            self.username = response.json()['username']
+        """Request and set user data for information."""
+        user_data = request_get(self.user_detail_url)
+        # Update user data.
+        if user_data.status_code == HTTPStatus.OK:
+            self.username = user_data.json()['username']
             self.is_auth = True
         else:
             self.username = None

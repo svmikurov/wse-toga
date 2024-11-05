@@ -5,13 +5,6 @@ Testing:
    (text on widget, placeholder text).
  * Changing window contents when pressing move buttons.
  * Control the order of widget and widget containers at page.
-
-.. todo::
-
-   * add test glossary term list - request term list;
-   * add test glossary term list - update and delete term buttons;
-   * add test glossary term list - update and delete term handlers;
-   * add test glossary term list - pagination buttons, handlers.
 """
 
 import pytest

@@ -5,11 +5,6 @@ Testing:
    (text on widget, placeholder text).
  * Changing window contents when pressing move buttons.
  * Control the order of widget and widget containers at page.
-
-.. todo::
-
-   * add test glossary exercise params - selection handlers;
-   * add test glossary exercise params - save params handler.
 """
 
 from unittest.mock import Mock

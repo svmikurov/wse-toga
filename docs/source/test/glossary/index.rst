@@ -9,6 +9,7 @@ Test glossary pages
    Create term <test_create>
    List term <test_list>
    Exercise params <test_params>
+   Exercise params, handlers <test_params_handlers>
 
 .. todo::
 

@@ -1,4 +1,10 @@
-"""Test glossary exercise params handlers."""
+"""Test glossary exercise params handlers.
+
+Testing:
+ * Filling out ang reade the selections.
+ * Count switching.
+ * Request handler of save params.
+"""
 
 from unittest.mock import Mock, PropertyMock, call, patch
 from urllib.parse import urljoin
