@@ -1,0 +1,1474 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
+
+    <!-- Generated with Sphinx 7.3.7 and Furo 2024.08.06 --><title>Index - WSE 0.0.1 documentation</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">WSE 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">WSE 0.0.1 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="install/index.html">Install</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of Install</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="install/development.html">Developer mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/android.html">Android device</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="reference/index.html">Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="reference/app.html">App</a></li>
+<li class="toctree-l2"><a class="reference internal" href="reference/data.html">Data</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/general/index.html">General</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of General</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/general/box.html">Box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/general/box_page.html">Page box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/general/form.html">Form</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/general/table.html">Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/general/label.html">Label</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/general/button.html">Button</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/general/selection.html">Selection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/general/text_input.html">Text input</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/page/index.html">Page boxes</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of Page boxes</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/page/main.html">Main</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/page/user.html">User</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/page/foreign.html">Foreign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/page/glossary.html">Glossary</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/container/index.html">Page containers</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of Page containers</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/container/credentials.html">Credentials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/container/exercise.html">Exercise</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/container/progress.html">Progress</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/constants/index.html">Constants</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of Constants</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/constants/page.html">Page box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/constants/literal.html">Literal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/constants/settings.html">Settings</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/constants/url.html">Url</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="reference/contrib/index.html">Contrib</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of Contrib</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="reference/contrib/http_requests.html">Http</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/contrib/task.html">Task</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/contrib/timer.html">Timer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/contrib/utils.html">Utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reference/contrib/validator.html">Validator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="how-to-guides/index.html">How-to Guides</a><input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" role="switch" type="checkbox"/><label for="toctree-checkbox-8"><div class="visually-hidden">Toggle navigation of How-to Guides</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="how-to-guides/box_page.html">Page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="how-to-guides/message.html">Message</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="glossary.html">Glossary</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="rest-endpoint/index.html">REST endpoints</a><input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" role="switch" type="checkbox"/><label for="toctree-checkbox-9"><div class="visually-hidden">Toggle navigation of REST endpoints</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="rest-endpoint/foreign.html">Learning foreign words API endpoints</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="test/index.html">Tests</a><input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" role="switch" type="checkbox"/><label for="toctree-checkbox-10"><div class="visually-hidden">Toggle navigation of Tests</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="test/setup.html">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test/utils.html">Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test/test_main.html">Main page</a></li>
+<li class="toctree-l2"><a class="reference internal" href="test/test_login.html">Login page</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="test/foreign/index.html">Foreign pages</a><input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" role="switch" type="checkbox"/><label for="toctree-checkbox-11"><div class="visually-hidden">Toggle navigation of Foreign pages</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="test/foreign/test_main.html">Main</a></li>
+<li class="toctree-l3"><a class="reference internal" href="test/foreign/test_create.html">Create word</a></li>
+<li class="toctree-l3"><a class="reference internal" href="test/foreign/test_params.html">Exercise params</a></li>
+<li class="toctree-l3"><a class="reference internal" href="test/foreign/test_list.html">Word list</a></li>
+<li class="toctree-l3"><a class="reference internal" href="test/foreign/test_list_pagination.html">Word list pagination</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="test/glossary/index.html">Glossary pages</a><input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" role="switch" type="checkbox"/><label for="toctree-checkbox-12"><div class="visually-hidden">Toggle navigation of Glossary pages</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="test/glossary/test_main.html">Main</a></li>
+<li class="toctree-l3"><a class="reference internal" href="test/glossary/test_create.html">Create term</a></li>
+<li class="toctree-l3"><a class="reference internal" href="test/glossary/test_list.html">List term</a></li>
+<li class="toctree-l3"><a class="reference internal" href="test/glossary/test_params.html">Exercise params</a></li>
+<li class="toctree-l3"><a class="reference internal" href="test/glossary/test_params_handlers.html">Exercise params, handlers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="test/other.html">Other</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">TODO</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#J"><strong>J</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#Q"><strong>Q</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a></div>
+</section>
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/task.html#wse.contrib.task.Task.answer">answer (Task property)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.AnswerBtn">AnswerBtn (class in wse.container.exercise)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.AppAuth">AppAuth (class in wse.contrib.http_requests)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/page/user.html#wse.page.user.UserAuth.auth_attrs">auth_attrs (UserAuth property)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.AUTH_BOX">AUTH_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.AppAuth.auth_flow">auth_flow() (AppAuth method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="B" class="genindex-section">
+  <h2>B</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/box_page.html#wse.general.box_page.BaseBox">BaseBox (class in wse.general.box_page)</a>
+</li>
+        <li><a href="reference/general/form.html#wse.general.form.BaseForm">BaseForm (class in wse.general.form)</a>
+</li>
+        <li><a href="reference/general/selection.html#wse.general.selection.BaseSelection">BaseSelection (class in wse.general.selection)</a>
+</li>
+        <li><a href="reference/general/table.html#wse.general.table.BaseTable">BaseTable (class in wse.general.table)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/box_page.html#wse.general.box_page.BoxApp">BoxApp (class in wse.general.box_page)</a>
+</li>
+        <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.btn_submit_name">btn_submit_name (Credentials attribute)</a>
+
+        <ul>
+          <li><a href="reference/page/user.html#wse.page.user.LoginBox.btn_submit_name">(LoginBox attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/general/button.html#wse.general.button.BtnApp">BtnApp (class in wse.general.button)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/timer.html#wse.contrib.timer.Timer.cancel">cancel() (Timer method)</a>
+</li>
+        <li><a href="reference/general/text_input.html#wse.general.text_input.MulTextInpApp.clean">clean() (MulTextInpApp method)</a>
+
+        <ul>
+          <li><a href="reference/general/text_input.html#wse.general.text_input.TextInputApp.clean">(TextInputApp method)</a>
+</li>
+          <li><a href="reference/general/text_input.html#wse.general.text_input.TextPanel.clean">(TextPanel method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.clean_text_panel">clean_text_panel() (ExerciseBox method)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.FormForeign.clear_entry_input">clear_entry_input() (FormForeign method)</a>
+
+        <ul>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.FormGlossary.clear_entry_input">(FormGlossary method)</a>
+</li>
+          <li><a href="reference/data.html#wse.general.data.ManagingWidgetData.clear_entry_input">(ManagingWidgetData method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp.clear_table">clear_table() (TableApp method)</a>
+</li>
+        <li><a href="reference/general/box.html#wse.general.box.ColBox">ColBox (class in wse.general.box)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.ListForeignPage.create_handler">create_handler() (ListForeignPage method)</a>
+
+        <ul>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.ListTermPage.create_handler">(ListTermPage method)</a>
+</li>
+          <li><a href="reference/general/table.html#wse.general.table.TableApp.create_handler">(TableApp method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.CreateTermPage">CreateTermPage (class in wse.page.glossary)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.CreateWordPage">CreateWordPage (class in wse.page.foreign)</a>
+</li>
+        <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials">Credentials (class in wse.container.credentials)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/task.html#wse.contrib.task.Task.data">data (Task property)</a>
+</li>
+        <li><a href="reference/constants/settings.html#wse.constants.settings.DEFAULT_TIMEOUT">DEFAULT_TIMEOUT (in module wse.constants.settings)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp.delete_handler">delete_handler() (TableApp method)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.AppAuth.delete_token">delete_token() (AppAuth method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/data.html#wse.general.data.ManagingWidgetData.entry">entry (ManagingWidgetData property)</a>
+</li>
+        <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.error_response_msg">error_response_msg (Credentials attribute)</a>
+
+        <ul>
+          <li><a href="reference/page/user.html#wse.page.user.LoginBox.error_response_msg">(LoginBox attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.ErrorResponse">ErrorResponse (class in wse.contrib.http_requests)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/container/progress.html#wse.container.progress.ProgressWidgets.examination_stage_handler">examination_stage_handler() (ProgressWidgets method)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox">ExerciseBox (class in wse.container.exercise)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.ExerciseForeignPage">ExerciseForeignPage (class in wse.page.foreign)</a>
+</li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.ExerciseGlossaryBox">ExerciseGlossaryBox (class in wse.page.glossary)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseParamSelectionsBox">ExerciseParamSelectionsBox (class in wse.container.exercise)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseParamSelectionsBox.first_switch_handler">first_switch_handler() (ExerciseParamSelectionsBox method)</a>
+</li>
+        <li><a href="test/utils.html#tests.utils.FixtureReader.fixture_path">fixture_path (FixtureReader property)</a>
+</li>
+        <li><a href="test/utils.html#tests.utils.FixtureReader">FixtureReader (class in tests.utils)</a>
+</li>
+        <li><a href="reference/general/box.html#wse.general.box.FlexBox">FlexBox (class in wse.general.box)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.FormForeign.focus_to_input_field">focus_to_input_field() (FormForeign method)</a>
+
+        <ul>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.FormGlossary.focus_to_input_field">(FormGlossary method)</a>
+</li>
+          <li><a href="reference/data.html#wse.general.data.ManagingWidgetData.focus_to_input_field">(ManagingWidgetData method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/constants/url.html#wse.constants.url.FOREIGN_ASSESSMENT_PATH">FOREIGN_ASSESSMENT_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.FOREIGN_CREATE_BOX">FOREIGN_CREATE_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.FOREIGN_DETAIL_PATH">FOREIGN_DETAIL_PATH (in module wse.constants.url)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/constants/page.html#wse.constants.page.FOREIGN_EXERCISE_BOX">FOREIGN_EXERCISE_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.FOREIGN_EXERCISE_PATH">FOREIGN_EXERCISE_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.FOREIGN_LIST_BOX">FOREIGN_LIST_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.FOREIGN_MAIN_BOX">FOREIGN_MAIN_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.FOREIGN_PARAMS_BOX">FOREIGN_PARAMS_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.FOREIGN_PARAMS_PATH">FOREIGN_PARAMS_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.FOREIGN_PATH">FOREIGN_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.FOREIGN_PROGRESS_PATH">FOREIGN_PROGRESS_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.FOREIGN_UPDATE_BOX">FOREIGN_UPDATE_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.FormForeign">FormForeign (class in wse.page.foreign)</a>
+</li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.FormGlossary">FormGlossary (class in wse.page.glossary)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/selection.html#wse.general.selection.BaseSelection.get_alias">get_alias() (BaseSelection method)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.get_assertion">get_assertion() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="reference/general/box_page.html#wse.general.box_page.GoToBoxMixin.get_box">get_box() (GoToBoxMixin class method)</a>
+</li>
+        <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.get_credentials">get_credentials() (Credentials method)</a>
+</li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.CreateTermPage.get_widget_data">get_widget_data() (CreateTermPage method)</a>
+
+        <ul>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.CreateWordPage.get_widget_data">(CreateWordPage method)</a>
+</li>
+          <li><a href="reference/data.html#wse.general.data.ManagingWidgetData.get_widget_data">(ManagingWidgetData method)</a>
+</li>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.UpdateTermPage.get_widget_data">(UpdateTermPage method)</a>
+</li>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.UpdateWordPage.get_widget_data">(UpdateWordPage method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/constants/page.html#wse.constants.page.GLOSSARY_CREATE_BOX">GLOSSARY_CREATE_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.GLOSSARY_DETAIL_PATH">GLOSSARY_DETAIL_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.GLOSSARY_EXERCISE_BOX">GLOSSARY_EXERCISE_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.GLOSSARY_EXERCISE_PATH">GLOSSARY_EXERCISE_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.GLOSSARY_LIST_BOX">GLOSSARY_LIST_BOX (in module wse.constants.page)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/constants/page.html#wse.constants.page.GLOSSARY_MAIN_BOX">GLOSSARY_MAIN_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.GLOSSARY_PARAMS_BOX">GLOSSARY_PARAMS_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.GLOSSARY_PARAMS_PATH">GLOSSARY_PARAMS_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.GLOSSARY_PATH">GLOSSARY_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.GLOSSARY_PROGRESS_PATH">GLOSSARY_PROGRESS_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.GLOSSARY_UPDATE_BOX">GLOSSARY_UPDATE_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseParamSelectionsBox.goto_box_exercise_handler">goto_box_exercise_handler() (ExerciseParamSelectionsBox method)</a>
+
+        <ul>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.ParamForeignPage.goto_box_exercise_handler">(ParamForeignPage method)</a>
+</li>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.ParamGlossaryBox.goto_box_exercise_handler">(ParamGlossaryBox method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/general/box_page.html#wse.general.box_page.GoToBoxMixin.goto_box_handler">goto_box_handler() (GoToBoxMixin method)</a>
+</li>
+        <li><a href="reference/app.html#wse.app.WSE.goto_foreign">goto_foreign() (WSE method)</a>
+</li>
+        <li><a href="reference/app.html#wse.app.WSE.goto_glossary">goto_glossary() (WSE method)</a>
+</li>
+        <li><a href="reference/app.html#wse.app.WSE.goto_main">goto_main() (WSE method)</a>
+</li>
+        <li><a href="reference/general/box_page.html#wse.general.box_page.GoToBoxMixin">GoToBoxMixin (class in wse.general.box_page)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="H" class="genindex-section">
+  <h2>H</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.handel_success">handel_success() (Credentials method)</a>
+</li>
+        <li><a href="reference/data.html#wse.general.data.ManagingWidgetDataFromResponse.handle_success">handle_success() (ManagingWidgetDataFromResponse method)</a>
+
+        <ul>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.UpdateTermPage.handle_success">(UpdateTermPage method)</a>
+</li>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.UpdateWordPage.handle_success">(UpdateWordPage method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/constants/url.html#wse.constants.url.HOST_API">HOST_API (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.HttpGetMixin">HttpGetMixin (class in wse.contrib.http_requests)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.HttpPostMixin">HttpPostMixin (class in wse.contrib.http_requests)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.HttpPutMixin">HttpPutMixin (class in wse.contrib.http_requests)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.is_enable_new_task">is_enable_new_task() (ExerciseBox method)</a>
+</li>
+        <li><a href="reference/contrib/timer.html#wse.contrib.timer.Timer.is_pause">is_pause() (Timer method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/timer.html#wse.contrib.timer.Timer.is_timer">is_timer() (Timer method)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.is_visible_box">is_visible_box() (ExerciseBox method)</a>
+</li>
+        <li><a href="reference/contrib/task.html#wse.contrib.task.Task.item_id">item_id (Task property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="J" class="genindex-section">
+  <h2>J</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="test/utils.html#tests.utils.FixtureReader.json">json() (FixtureReader method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="K" class="genindex-section">
+  <h2>K</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.know_handler">know_handler() (ExerciseBox method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/container/progress.html#wse.container.progress.ProgressWidgets.know_stage_handler">know_stage_handler() (ProgressWidgets method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseParamSelectionsBox.last_switch_handler">last_switch_handler() (ExerciseParamSelectionsBox method)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.ListForeignPage">ListForeignPage (class in wse.page.foreign)</a>
+</li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.ListTermPage">ListTermPage (class in wse.page.glossary)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.LOGIN_BOX">LOGIN_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.LOGIN_PATH">LOGIN_PATH (in module wse.constants.url)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/page/user.html#wse.page.user.LoginBox">LoginBox (class in wse.page.user)</a>
+</li>
+        <li><a href="reference/page/user.html#wse.page.user.UserAuth.logout_handler">logout_handler() (UserAuth method)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.LOGOUT_PATH">LOGOUT_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseParamSelectionsBox.lookup_conditions">lookup_conditions (ExerciseParamSelectionsBox property)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.loop_task">loop_task() (ExerciseBox method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/app.html#wse.app.main">main() (in module wse.app)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.MAIN_BOX">MAIN_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/page/main.html#wse.page.main.MainBox">MainBox (class in wse.page.main)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.MainForeignPage">MainForeignPage (class in wse.page.foreign)</a>
+</li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.MainGlossaryPage">MainGlossaryPage (class in wse.page.glossary)</a>
+</li>
+        <li><a href="reference/data.html#wse.general.data.ManagingWidgetData">ManagingWidgetData (class in wse.general.data)</a>
+</li>
+        <li><a href="reference/data.html#wse.general.data.ManagingWidgetDataFromResponse">ManagingWidgetDataFromResponse (class in wse.general.data)</a>
+</li>
+        <li><a href="reference/general/box_page.html#wse.general.box_page.MessageBoxMixin">MessageBoxMixin (class in wse.general.box_page)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="test/glossary/test_params_handlers.html#module-tests.page.glossary.test_params_handlers">tests.page.glossary.test_params_handlers</a>
+</li>
+          <li><a href="test/test_main.html#module-tests.page.test_main">tests.page.test_main</a>
+</li>
+          <li><a href="test/other.html#module-tests.test_to_source">tests.test_to_source</a>
+</li>
+          <li><a href="test/utils.html#module-tests.utils">tests.utils</a>
+</li>
+          <li><a href="reference/app.html#module-wse.app">wse.app</a>
+</li>
+          <li><a href="reference/constants/page.html#module-wse.constants.page">wse.constants.page</a>
+</li>
+          <li><a href="reference/constants/settings.html#module-wse.constants.settings">wse.constants.settings</a>
+</li>
+          <li><a href="reference/constants/url.html#module-wse.constants.url">wse.constants.url</a>
+</li>
+          <li><a href="reference/container/index.html#module-wse.container.__init__">wse.container.__init__</a>
+</li>
+          <li><a href="reference/container/credentials.html#module-wse.container.credentials">wse.container.credentials</a>
+</li>
+          <li><a href="reference/container/exercise.html#module-wse.container.exercise">wse.container.exercise</a>
+</li>
+          <li><a href="reference/container/progress.html#module-wse.container.progress">wse.container.progress</a>
+</li>
+          <li><a href="reference/contrib/index.html#module-wse.contrib.__init__">wse.contrib.__init__</a>
+</li>
+          <li><a href="reference/contrib/http_requests.html#module-wse.contrib.http_requests">wse.contrib.http_requests</a>
+</li>
+          <li><a href="reference/contrib/task.html#module-wse.contrib.task">wse.contrib.task</a>
+</li>
+          <li><a href="reference/contrib/timer.html#module-wse.contrib.timer">wse.contrib.timer</a>
+</li>
+          <li><a href="reference/contrib/utils.html#module-wse.contrib.utils">wse.contrib.utils</a>
+</li>
+          <li><a href="reference/contrib/validator.html#module-wse.contrib.validator">wse.contrib.validator</a>
+</li>
+          <li><a href="reference/general/index.html#module-wse.general.__init__">wse.general.__init__</a>
+</li>
+          <li><a href="reference/general/box.html#module-wse.general.box">wse.general.box</a>
+</li>
+          <li><a href="reference/general/box_page.html#module-wse.general.box_page">wse.general.box_page</a>
+</li>
+          <li><a href="reference/general/button.html#module-wse.general.button">wse.general.button</a>
+</li>
+          <li><a href="reference/data.html#module-wse.general.data">wse.general.data</a>
+</li>
+          <li><a href="reference/general/form.html#module-wse.general.form">wse.general.form</a>
+</li>
+          <li><a href="reference/general/label.html#module-wse.general.label">wse.general.label</a>
+</li>
+          <li><a href="reference/general/selection.html#module-wse.general.selection">wse.general.selection</a>
+</li>
+          <li><a href="reference/general/table.html#module-wse.general.table">wse.general.table</a>
+</li>
+          <li><a href="reference/general/text_input.html#module-wse.general.text_input">wse.general.text_input</a>
+</li>
+          <li><a href="reference/page/index.html#module-wse.page.__init__">wse.page.__init__</a>
+</li>
+          <li><a href="reference/page/foreign.html#module-wse.page.foreign">wse.page.foreign</a>
+</li>
+          <li><a href="reference/page/glossary.html#module-wse.page.glossary">wse.page.glossary</a>
+</li>
+          <li><a href="reference/page/main.html#module-wse.page.main">wse.page.main</a>
+</li>
+          <li><a href="reference/page/user.html#module-wse.page.user">wse.page.user</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="test/utils.html#tests.utils.FixtureReader.module_dir">module_dir (FixtureReader attribute)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.move_to_box_params">move_to_box_params() (ExerciseBox method)</a>
+
+        <ul>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.ExerciseForeignPage.move_to_box_params">(ExerciseForeignPage method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.move_to_next_task">move_to_next_task() (ExerciseBox method)</a>
+</li>
+        <li><a href="reference/app.html#wse.app.WSE.move_to_page">move_to_page() (WSE method)</a>
+</li>
+        <li><a href="reference/general/text_input.html#wse.general.text_input.MulTextInpApp">MulTextInpApp (class in wse.general.text_input)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.next_handler">next_handler() (ExerciseBox method)</a>
+
+        <ul>
+          <li><a href="reference/general/table.html#wse.general.table.TableApp.next_handler">(TableApp method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp.next_pagination_url">next_pagination_url (TableApp property)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.not_know_handler">not_know_handler() (ExerciseBox method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="O" class="genindex-section">
+  <h2>O</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/form.html#wse.general.form.BaseForm.on_open">on_open() (BaseForm method)</a>
+
+        <ul>
+          <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.on_open">(Credentials method)</a>
+</li>
+          <li><a href="reference/general/box_page.html#wse.general.box_page.GoToBoxMixin.on_open">(GoToBoxMixin method)</a>
+</li>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.ParamForeignPage.on_open">(ParamForeignPage method)</a>
+</li>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.ParamGlossaryBox.on_open">(ParamGlossaryBox method)</a>
+</li>
+          <li><a href="reference/general/table.html#wse.general.table.TableApp.on_open">(TableApp method)</a>
+</li>
+          <li><a href="reference/page/user.html#wse.page.user.UserAuth.on_open">(UserAuth method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/timer.html#wse.contrib.timer.Timer.on_pause">on_pause() (Timer method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="glossary.html#term-page-box"><strong>page box</strong></a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.ParamForeignPage">ParamForeignPage (class in wse.page.foreign)</a>
+</li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.ParamGlossaryBox">ParamGlossaryBox (class in wse.page.glossary)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.pause_handler">pause_handler() (ExerciseBox method)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.FormForeign.populate_entry_input">populate_entry_input() (FormForeign method)</a>
+
+        <ul>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.FormGlossary.populate_entry_input">(FormGlossary method)</a>
+</li>
+          <li><a href="reference/data.html#wse.general.data.ManagingWidgetData.populate_entry_input">(ManagingWidgetData method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp.populate_table">populate_table() (TableApp method)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.ExerciseForeignPage.populate_textpanel">populate_textpanel() (ExerciseForeignPage method)</a>
+</li>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp.previous_handler">previous_handler() (TableApp method)</a>
+</li>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp.previous_pagination_url">previous_pagination_url (TableApp property)</a>
+</li>
+        <li><a href="reference/container/progress.html#wse.container.progress.ProgressWidgets.progress">progress (ProgressWidgets property)</a>
+</li>
+        <li><a href="reference/container/progress.html#wse.container.progress.ProgressWidgets">ProgressWidgets (class in wse.container.progress)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="Q" class="genindex-section">
+  <h2>Q</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/task.html#wse.contrib.task.Task.question">question (Task property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp.reload_handler">reload_handler() (TableApp method)</a>
+</li>
+        <li><a href="reference/container/progress.html#wse.container.progress.ProgressWidgets.repeat_stage_handler">repeat_stage_handler() (ProgressWidgets method)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.request_delete_async">request_delete_async() (in module wse.contrib.http_requests)</a>
+</li>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp.request_entries">request_entries() (TableApp method)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.request_get">request_get() (in module wse.contrib.http_requests)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.HttpGetMixin.request_get_async">request_get_async() (HttpGetMixin class method)</a>
+
+        <ul>
+          <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.request_get_async">(in module wse.contrib.http_requests)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.request_post">request_post() (in module wse.contrib.http_requests)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.HttpPostMixin.request_post_async">request_post_async() (HttpPostMixin class method)</a>
+
+        <ul>
+          <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.request_post_async">(in module wse.contrib.http_requests)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.HttpPutMixin.request_put_async">request_put_async() (HttpPutMixin class method)</a>
+
+        <ul>
+          <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.request_put_async">(in module wse.contrib.http_requests)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.request_task">request_task() (ExerciseBox method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseParamSelectionsBox.save_params_handler">save_params_handler() (ExerciseParamSelectionsBox method)</a>
+
+        <ul>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.ParamForeignPage.save_params_handler">(ParamForeignPage method)</a>
+</li>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.ParamGlossaryBox.save_params_handler">(ParamGlossaryBox method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.send_request">send_request() (Credentials method)</a>
+
+        <ul>
+          <li><a href="reference/page/user.html#wse.page.user.LoginBox.send_request">(LoginBox method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/data.html#wse.general.data.ManagingWidgetDataFromResponse.send_request_async">send_request_async() (ManagingWidgetDataFromResponse class method)</a>
+</li>
+        <li><a href="reference/general/selection.html#wse.general.selection.BaseSelection.set_items">set_items() (BaseSelection method)</a>
+</li>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp.set_pagination_urls">set_pagination_urls() (TableApp method)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.AppAuth.set_token">set_token() (AppAuth method)</a>
+</li>
+        <li><a href="reference/general/box_page.html#wse.general.box_page.GoToBoxMixin.set_window_content">set_window_content() (GoToBoxMixin class method)</a>
+</li>
+        <li><a href="reference/page/user.html#wse.page.user.UserAuth.setup_user_status">setup_user_status() (UserAuth method)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.show_answer">show_answer() (ExerciseBox method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/box_page.html#wse.general.box_page.MessageBoxMixin.show_message">show_message() (MessageBoxMixin method)</a>
+</li>
+        <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseBox.show_question">show_question() (ExerciseBox method)</a>
+
+        <ul>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.ExerciseForeignPage.show_question">(ExerciseForeignPage method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/general/button.html#wse.general.button.SmBtn">SmBtn (class in wse.general.button)</a>
+</li>
+        <li><a href="reference/data.html#wse.general.data.ManagingWidgetData.source_class">source_class (ManagingWidgetData attribute)</a>
+</li>
+        <li><a href="reference/contrib/timer.html#wse.contrib.timer.Timer.start">start() (Timer method)</a>
+</li>
+        <li><a href="reference/app.html#wse.app.WSE.startup">startup() (WSE method)</a>
+</li>
+        <li><a href="reference/container/progress.html#wse.container.progress.ProgressWidgets.study_stage_handler">study_stage_handler() (ProgressWidgets method)</a>
+</li>
+        <li><a href="reference/data.html#wse.general.data.ManagingWidgetDataFromResponse.submit_handler">submit_handler() (ManagingWidgetDataFromResponse method)</a>
+</li>
+        <li><a href="reference/data.html#wse.general.data.ManagingWidgetDataFromResponse.success_http_status">success_http_status (ManagingWidgetDataFromResponse attribute)</a>
+</li>
+        <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.success_response_msg">success_response_msg (Credentials attribute)</a>
+
+        <ul>
+          <li><a href="reference/page/user.html#wse.page.user.LoginBox.success_response_msg">(LoginBox attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.success_status_code">success_status_code (Credentials attribute)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="T" class="genindex-section">
+  <h2>T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/general/table.html#wse.general.table.TableApp">TableApp (class in wse.general.table)</a>
+</li>
+        <li><a href="reference/contrib/task.html#wse.contrib.task.Task">Task (class in wse.contrib.task)</a>
+</li>
+        <li><a href="test/test_main.html#tests.page.test_main.test_click_goto_foreign_btn">test_click_goto_foreign_btn() (in module tests.page.test_main)</a>
+</li>
+        <li><a href="test/test_main.html#tests.page.test_main.test_click_goto_glossary_btn">test_click_goto_glossary_btn() (in module tests.page.test_main)</a>
+</li>
+        <li><a href="test/test_main.html#tests.page.test_main.test_click_goto_login_btn">test_click_goto_login_btn() (in module tests.page.test_main)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.test_count_switch">test_count_switch() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="test/test_main.html#tests.page.test_main.test_info_panel">test_info_panel() (in module tests.page.test_main)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.test_input_count_first">test_input_count_first() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.test_input_count_last">test_input_count_last() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.test_on_open">test_on_open() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.test_save_params_handler">test_save_params_handler() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.test_selection_category_data">test_selection_category_data() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.test_selection_end_period_data">test_selection_end_period_data() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.test_selection_progress_data">test_selection_progress_data() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="test/glossary/test_params_handlers.html#tests.page.glossary.test_params_handlers.test_selection_start_period_data">test_selection_start_period_data() (in module tests.page.glossary.test_params_handlers)</a>
+</li>
+        <li><a href="test/test_main.html#tests.page.test_main.test_title">test_title() (in module tests.page.test_main)</a>
+</li>
+        <li><a href="test/other.html#tests.test_to_source.test_to_entries">test_to_entries() (in module tests.test_to_source)</a>
+</li>
+        <li><a href="test/test_main.html#tests.page.test_main.test_widget_count">test_widget_count() (in module tests.page.test_main)</a>
+</li>
+        <li>
+    tests.page.glossary.test_params_handlers
+
+        <ul>
+          <li><a href="test/glossary/test_params_handlers.html#module-tests.page.glossary.test_params_handlers">module</a>
+</li>
+        </ul></li>
+        <li>
+    tests.page.test_main
+
+        <ul>
+          <li><a href="test/test_main.html#module-tests.page.test_main">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    tests.test_to_source
+
+        <ul>
+          <li><a href="test/other.html#module-tests.test_to_source">module</a>
+</li>
+        </ul></li>
+        <li>
+    tests.utils
+
+        <ul>
+          <li><a href="test/utils.html#module-tests.utils">module</a>
+</li>
+        </ul></li>
+        <li><a href="reference/general/text_input.html#wse.general.text_input.TextInputApp">TextInputApp (class in wse.general.text_input)</a>
+</li>
+        <li><a href="reference/general/text_input.html#wse.general.text_input.TextPanel">TextPanel (class in wse.general.text_input)</a>
+</li>
+        <li><a href="reference/contrib/timer.html#wse.contrib.timer.Timer">Timer (class in wse.contrib.timer)</a>
+</li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.CreateTermPage.title">title (CreateTermPage attribute)</a>
+
+        <ul>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.CreateWordPage.title">(CreateWordPage attribute)</a>
+</li>
+          <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.title">(Credentials attribute)</a>
+</li>
+          <li><a href="reference/container/exercise.html#wse.container.exercise.ExerciseParamSelectionsBox.title">(ExerciseParamSelectionsBox attribute)</a>
+</li>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.FormForeign.title">(FormForeign attribute)</a>
+</li>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.FormGlossary.title">(FormGlossary attribute)</a>
+</li>
+          <li><a href="reference/page/user.html#wse.page.user.LoginBox.title">(LoginBox attribute)</a>
+</li>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.ParamForeignPage.title">(ParamForeignPage attribute)</a>
+</li>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.ParamGlossaryBox.title">(ParamGlossaryBox attribute)</a>
+</li>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.UpdateTermPage.title">(UpdateTermPage attribute)</a>
+</li>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.UpdateWordPage.title">(UpdateWordPage attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/general/label.html#wse.general.label.TitleLabel">TitleLabel (class in wse.general.label)</a>
+</li>
+        <li><a href="reference/contrib/utils.html#wse.contrib.utils.to_entries">to_entries() (in module wse.contrib.utils)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.AppAuth.token">token (AppAuth property)</a>
+</li>
+        <li><a href="reference/contrib/http_requests.html#wse.contrib.http_requests.AppAuth.token_path">token_path (AppAuth attribute)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.TOKEN_PATH">TOKEN_PATH (in module wse.constants.url)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/timer.html#wse.contrib.timer.Timer.unpause">unpause() (Timer method)</a>
+</li>
+        <li><a href="reference/general/text_input.html#wse.general.text_input.TextPanel.update">update() (TextPanel method)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.ListForeignPage.update_handler">update_handler() (ListForeignPage method)</a>
+
+        <ul>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.ListTermPage.update_handler">(ListTermPage method)</a>
+</li>
+          <li><a href="reference/general/table.html#wse.general.table.TableApp.update_handler">(TableApp method)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/page/user.html#wse.page.user.UserAuth.update_widget_values">update_widget_values() (UserAuth method)</a>
+</li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.UpdateTermPage">UpdateTermPage (class in wse.page.glossary)</a>
+</li>
+        <li><a href="reference/page/foreign.html#wse.page.foreign.UpdateWordPage">UpdateWordPage (class in wse.page.foreign)</a>
+</li>
+        <li><a href="reference/page/glossary.html#wse.page.glossary.CreateTermPage.url">url (CreateTermPage attribute)</a>
+
+        <ul>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.CreateWordPage.url">(CreateWordPage attribute)</a>
+</li>
+          <li><a href="reference/data.html#wse.general.data.ManagingWidgetDataFromResponse.url">(ManagingWidgetDataFromResponse attribute)</a>
+</li>
+          <li><a href="reference/page/glossary.html#wse.page.glossary.UpdateTermPage.url">(UpdateTermPage attribute)</a>
+</li>
+          <li><a href="reference/page/foreign.html#wse.page.foreign.UpdateWordPage.url">(UpdateWordPage attribute)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="test/utils.html#tests.utils.FixtureReader.url">url() (FixtureReader static method)</a>
+</li>
+        <li><a href="reference/container/credentials.html#wse.container.credentials.Credentials.url_path">url_path (Credentials attribute)</a>
+
+        <ul>
+          <li><a href="reference/page/user.html#wse.page.user.LoginBox.url_path">(LoginBox attribute)</a>
+</li>
+        </ul></li>
+        <li><a href="reference/constants/page.html#wse.constants.page.USER_CREATE_BOX">USER_CREATE_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.USER_CREATE_PATH">USER_CREATE_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.USER_DETAIL">USER_DETAIL (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/page/user.html#wse.page.user.UserAuth.user_detail_url">user_detail_url (UserAuth attribute)</a>
+</li>
+        <li><a href="reference/page/user.html#wse.page.user.UserAuth.user_info_text">user_info_text (UserAuth attribute)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.USER_MAIN_BOX">USER_MAIN_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.USER_ME_PATH">USER_ME_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/constants/page.html#wse.constants.page.USER_UPDATE_BOX">USER_UPDATE_BOX (in module wse.constants.page)</a>
+</li>
+        <li><a href="reference/constants/url.html#wse.constants.url.USER_UPDATE_PATH">USER_UPDATE_PATH (in module wse.constants.url)</a>
+</li>
+        <li><a href="reference/page/user.html#wse.page.user.UserAuth">UserAuth (class in wse.page.user)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/validator.html#wse.contrib.validator.validate_credentials">validate_credentials() (in module wse.contrib.validator)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/contrib/validator.html#wse.contrib.validator.validate_password">validate_password() (in module wse.contrib.validator)</a>
+</li>
+        <li><a href="reference/contrib/validator.html#wse.contrib.validator.validate_username">validate_username() (in module wse.contrib.validator)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="reference/page/main.html#wse.page.main.MainBox.welcome">welcome (MainBox attribute)</a>
+</li>
+        <li><a href="test/test_main.html#tests.page.test_main.WIDGET_COUNT">WIDGET_COUNT (in module tests.page.test_main)</a>
+</li>
+        <li><a href="glossary.html#term-window"><strong>window</strong></a>
+</li>
+        <li><a href="glossary.html#term-window-content"><strong>window content</strong></a>
+</li>
+        <li><a href="reference/app.html#wse.app.WSE">WSE (class in wse.app)</a>
+</li>
+        <li>
+    wse.app
+
+        <ul>
+          <li><a href="reference/app.html#module-wse.app">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.constants.page
+
+        <ul>
+          <li><a href="reference/constants/page.html#module-wse.constants.page">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.constants.settings
+
+        <ul>
+          <li><a href="reference/constants/settings.html#module-wse.constants.settings">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.constants.url
+
+        <ul>
+          <li><a href="reference/constants/url.html#module-wse.constants.url">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.container.__init__
+
+        <ul>
+          <li><a href="reference/container/index.html#module-wse.container.__init__">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.container.credentials
+
+        <ul>
+          <li><a href="reference/container/credentials.html#module-wse.container.credentials">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.container.exercise
+
+        <ul>
+          <li><a href="reference/container/exercise.html#module-wse.container.exercise">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.container.progress
+
+        <ul>
+          <li><a href="reference/container/progress.html#module-wse.container.progress">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.contrib.__init__
+
+        <ul>
+          <li><a href="reference/contrib/index.html#module-wse.contrib.__init__">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.contrib.http_requests
+
+        <ul>
+          <li><a href="reference/contrib/http_requests.html#module-wse.contrib.http_requests">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.contrib.task
+
+        <ul>
+          <li><a href="reference/contrib/task.html#module-wse.contrib.task">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.contrib.timer
+
+        <ul>
+          <li><a href="reference/contrib/timer.html#module-wse.contrib.timer">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.contrib.utils
+
+        <ul>
+          <li><a href="reference/contrib/utils.html#module-wse.contrib.utils">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    wse.contrib.validator
+
+        <ul>
+          <li><a href="reference/contrib/validator.html#module-wse.contrib.validator">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.__init__
+
+        <ul>
+          <li><a href="reference/general/index.html#module-wse.general.__init__">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.box
+
+        <ul>
+          <li><a href="reference/general/box.html#module-wse.general.box">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.box_page
+
+        <ul>
+          <li><a href="reference/general/box_page.html#module-wse.general.box_page">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.button
+
+        <ul>
+          <li><a href="reference/general/button.html#module-wse.general.button">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.data
+
+        <ul>
+          <li><a href="reference/data.html#module-wse.general.data">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.form
+
+        <ul>
+          <li><a href="reference/general/form.html#module-wse.general.form">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.label
+
+        <ul>
+          <li><a href="reference/general/label.html#module-wse.general.label">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.selection
+
+        <ul>
+          <li><a href="reference/general/selection.html#module-wse.general.selection">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.table
+
+        <ul>
+          <li><a href="reference/general/table.html#module-wse.general.table">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.general.text_input
+
+        <ul>
+          <li><a href="reference/general/text_input.html#module-wse.general.text_input">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.page.__init__
+
+        <ul>
+          <li><a href="reference/page/index.html#module-wse.page.__init__">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.page.foreign
+
+        <ul>
+          <li><a href="reference/page/foreign.html#module-wse.page.foreign">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.page.glossary
+
+        <ul>
+          <li><a href="reference/page/glossary.html#module-wse.page.glossary">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.page.main
+
+        <ul>
+          <li><a href="reference/page/main.html#module-wse.page.main">module</a>
+</li>
+        </ul></li>
+        <li>
+    wse.page.user
+
+        <ul>
+          <li><a href="reference/page/user.html#module-wse.page.user">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Sergei Mikurov
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=d45e8c67"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    </body>
+</html>
