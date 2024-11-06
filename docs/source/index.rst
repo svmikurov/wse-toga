@@ -16,6 +16,7 @@ Welcome to WSE's documentation!
    glossary
    rest-endpoint/index
    test/index
+   about/index
    TODO <todo>
 
 
