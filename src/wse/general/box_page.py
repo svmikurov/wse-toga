@@ -40,19 +40,6 @@ class GoToBoxMixin:
         """Set page box to window content."""
         widget.window.content = box
 
-    def goto_box_handler(self, widget: toga.Widget, box_name: str) -> None:
-        """Go to page box by box name, button handler.
-
-        Invoke the :py:meth:`on_open` method when the current page box
-        is assigned to the window content.
-
-        :param toga.Button widget: The widget that generated the event.
-        :param str box_name: The page box name to go.
-        """
-        box = self.get_box(widget, box_name)
-        self.set_window_content(widget, box)
-        box.on_open()
-
     def on_open(self) -> None:
         """Run when the current box is assigned to the window content.
 

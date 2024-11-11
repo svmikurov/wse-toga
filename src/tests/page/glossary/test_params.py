@@ -14,11 +14,7 @@ import toga
 from _pytest.monkeypatch import MonkeyPatch
 
 from wse.app import WSE
-
-
-def set_window_content(app: toga.App, box: toga.Widget) -> None:
-    """Assign the specific page box to main window content."""
-    app.main_window.content = box
+from wse.general.goto_handler import set_window_content
 
 
 @pytest.fixture(autouse=True)

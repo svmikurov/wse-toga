@@ -11,7 +11,6 @@ from wse.constants import (
     BTN_LOGOUT,
     HOST_API,
     LOGIN_BAD_MSG,
-    LOGIN_BOX,
     LOGIN_MSG,
     LOGIN_PATH,
     LOGOUT_MSG,
@@ -27,6 +26,7 @@ from wse.contrib.http_requests import (
 )
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
+from wse.general.goto_handler import goto_login
 
 
 class UserAuth(BoxApp):
@@ -79,7 +79,7 @@ class UserAuth(BoxApp):
             False: {
                 'btn_auth': {
                     'text': BTN_GOTO_LOGIN,
-                    'on_press': lambda _: self.goto_box_handler(_, LOGIN_BOX),
+                    'on_press': goto_login,
                 },
                 'info_text': self.welcome,
             },

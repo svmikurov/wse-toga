@@ -10,7 +10,6 @@ from toga.style import Pack
 from wse.constants import (
     HOST_API,
     INPUT_HEIGHT,
-    MAIN_BOX,
     PASSWORD,
     USERNAME,
 )
@@ -18,6 +17,7 @@ from wse.contrib.http_requests import ErrorResponse, request_post
 from wse.contrib.validator import validate_credentials
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
+from wse.general.goto_handler import goto_main
 from wse.general.label import TitleLabel
 
 
@@ -61,10 +61,7 @@ class Credentials(BoxApp):
         self.btn_submit = BtnApp(
             self.btn_submit_name, on_press=self._submit_handler
         )
-        self.btn_goto_main = BtnApp(
-            text='На главную',
-            on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
-        )
+        self.btn_goto_main = BtnApp('На главную', on_press=goto_main)
 
         # Widgets DOM.
         self.add(
@@ -120,7 +117,7 @@ class Credentials(BoxApp):
     async def handel_success(self, widget: toga.Widget) -> None:
         """Handel the success auth request."""
         self._clear_fields()
-        self.goto_box_handler(widget, MAIN_BOX)
+        goto_main(widget)
 
     def _clear_fields(self) -> None:
         """Clear the fields."""

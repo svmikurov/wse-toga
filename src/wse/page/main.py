@@ -6,13 +6,15 @@ from toga.style import Pack
 from wse.constants import (
     BTN_GOTO_FOREIGN_MAIN,
     BTN_GOTO_GLOSSARY_MAIN,
-    FOREIGN_MAIN_BOX,
-    GLOSSARY_MAIN_BOX,
     HOST_API,
     TITLE_MAIN,
 )
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
+from wse.general.goto_handler import (
+    goto_foreign_main,
+    goto_glossary_main,
+)
 from wse.general.label import TitleLabel
 from wse.page.user import UserAuth
 
@@ -36,11 +38,11 @@ class MainBox(UserAuth, BoxApp):
         self.label_title = TitleLabel(TITLE_MAIN)
         self.btn_goto_glossary_main = BtnApp(
             BTN_GOTO_GLOSSARY_MAIN,
-            on_press=lambda _: self.goto_box_handler(_, GLOSSARY_MAIN_BOX),  # noqa: E501
+            on_press=goto_glossary_main,
         )
         self.btn_goto_foreign_main = BtnApp(
             BTN_GOTO_FOREIGN_MAIN,
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_MAIN_BOX),  # noqa: E501
+            on_press=goto_foreign_main,
         )
 
         # Quick start of exercise.
@@ -50,11 +52,11 @@ class MainBox(UserAuth, BoxApp):
         )
         self.btn_goto_foreign_exercise = BtnApp(
             'Изучение слов',
-            on_press= self.goto_foreign_exercise_handler,
+            on_press=self.goto_foreign_exercise,
         )
         self.btn_goto_glossary_exercise = BtnApp(
             'Изучение терминов',
-            on_press= self.goto_glossary_exercise_handler,
+            on_press=self.goto_glossary_exercise,
         )
 
         # Info panel
@@ -76,8 +78,8 @@ class MainBox(UserAuth, BoxApp):
             self.btn_goto_glossary_exercise,
         )
 
-    async def goto_foreign_exercise_handler(self, widget: toga.Widget) -> None:
-        """Start foreign exercise, button handler."""
+    async def goto_foreign_exercise(self, widget: toga.Widget) -> None:
+        """Start foreign exercise."""
         box_params = widget.root.app.box_foreign_params
         box_params.on_open()
         await box_params.goto_box_exercise_handler(widget)
@@ -86,8 +88,8 @@ class MainBox(UserAuth, BoxApp):
         self.set_window_content(widget, box_exercise)
         await box_exercise.loop_task()
 
-    async def goto_glossary_exercise_handler(self, widget: toga.Widget) -> None:
-        """Start foreign exercise, button handler."""
+    async def goto_glossary_exercise(self, widget: toga.Widget) -> None:
+        """Start foreign exercise."""
         box_params = widget.root.app.box_glossary_params
         box_params.on_open()
         await box_params.goto_box_exercise_handler(widget)

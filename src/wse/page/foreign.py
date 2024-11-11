@@ -15,18 +15,12 @@ from wse.constants import (
     BTN_GOTO_FOREIGN_PARAMS,
     BTN_GOTO_MAIN,
     FOREIGN_ASSESSMENT_PATH,
-    FOREIGN_CREATE_BOX,
     FOREIGN_DETAIL_PATH,
-    FOREIGN_EXERCISE_BOX,
     FOREIGN_EXERCISE_PATH,
-    FOREIGN_LIST_BOX,
-    FOREIGN_MAIN_BOX,
-    FOREIGN_PARAMS_BOX,
     FOREIGN_PARAMS_PATH,
     FOREIGN_PATH,
     FOREIGN_WORD,
     HOST_API,
-    MAIN_BOX,
     RUSSIAN_WORD,
     TITLE_FOREIGN_CREATE,
     TITLE_FOREIGN_EXERCISE,
@@ -44,6 +38,13 @@ from wse.contrib.http_requests import (
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.form import BaseForm
+from wse.general.goto_handler import (
+    goto_foreign_create,
+    goto_foreign_list,
+    goto_foreign_main,
+    goto_foreign_params,
+    goto_main,
+)
 from wse.general.label import TitleLabel
 from wse.general.table import TableApp
 from wse.general.text_input import TextInputApp
@@ -59,21 +60,15 @@ class MainForeignPage(BoxApp):
 
         # Box widgets.
         self.label_title = TitleLabel(TITLE_FOREIGN_MAIN)
-        self.btn_goto_main = BtnApp(
-            BTN_GOTO_MAIN,
-            on_press=lambda _: self.goto_box_handler(_, MAIN_BOX),
-        )
+        self.btn_goto_main = BtnApp(BTN_GOTO_MAIN, on_press=goto_main)
         self.btn_goto_params = BtnApp(
-            BTN_GOTO_FOREIGN_PARAMS,
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
+            BTN_GOTO_FOREIGN_PARAMS, on_press=goto_foreign_params
         )
         self.btn_goto_create = BtnApp(
-            BTN_GOTO_FOREIGN_CREATE,
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_CREATE_BOX),
+            BTN_GOTO_FOREIGN_CREATE, on_press=goto_foreign_create
         )
         self.btn_goto_list = BtnApp(
-            BTN_GOTO_FOREIGN_LIST,
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
+            BTN_GOTO_FOREIGN_LIST, on_press=goto_foreign_list
         )
 
         # Widget DOM.
@@ -97,8 +92,7 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
 
         # Box widgets.
         self.btn_goto_foreign = BtnApp(
-            BTN_GOTO_FOREIGN_MAIN,
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_MAIN_BOX),
+            BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main
         )
 
         # Widget DOM.
@@ -106,7 +100,7 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
 
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
-        exercise_box = self.get_box(widget, FOREIGN_EXERCISE_BOX)
+        exercise_box = widget.root.app.box_foreign_exercise
         exercise_box.clean_text_panel()
         exercise_box.task.status = None
         exercise_box.task.params = self.lookup_conditions
@@ -144,8 +138,7 @@ class ExerciseForeignPage(ExerciseBox):
 
         # Buttons.
         self.btn_goto_params = BtnApp(
-            'Параметры упражнения',
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_PARAMS_BOX),
+            'Параметры упражнения', on_press=goto_foreign_params
         )
 
         # TextPanel
@@ -179,7 +172,7 @@ class ExerciseForeignPage(ExerciseBox):
 
     def move_to_box_params(self, widget: toga.Widget) -> None:
         """Move to exercise parameters page box."""
-        self.goto_box_handler(widget, FOREIGN_PARAMS_BOX)
+        goto_foreign_params(widget)
 
 
 class FormForeign(BaseForm):
@@ -197,11 +190,11 @@ class FormForeign(BaseForm):
         self.label_title = TitleLabel(text=self.title)
         self.btn_goto_foreign_list = BtnApp(
             BTN_GOTO_FOREIGN_LIST,
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_LIST_BOX),
+            on_press=goto_foreign_list,
         )
         self.btn_goto_foreign_main = BtnApp(
             BTN_GOTO_FOREIGN_MAIN,
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_MAIN_BOX),
+            on_press=goto_foreign_main,
         )
         # Word data input widgets.
         self.input_native = TextInputApp(placeholder='Слово на русском')
@@ -261,7 +254,7 @@ class UpdateWordPage(HttpPutMixin, FormForeign):
 
     def handle_success(self, widget: toga.Widget) -> None:
         """Go to foreign list page, if success."""
-        self.goto_box_handler(widget, FOREIGN_LIST_BOX)
+        goto_foreign_list(widget)
 
     def get_widget_data(self) -> dict:
         """Get the entered into the form data."""
@@ -293,7 +286,7 @@ class ListForeignPage(TableApp):
         # The navigation buttons.
         self.btn_goto_foreign_main = BtnApp(
             BTN_GOTO_FOREIGN_MAIN,
-            on_press=lambda _: self.goto_box_handler(_, FOREIGN_MAIN_BOX),
+            on_press=goto_foreign_main,
         )
 
         # Page widgets DOM.
@@ -307,7 +300,7 @@ class ListForeignPage(TableApp):
 
     def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the word form, button handler."""
-        self.goto_box_handler(widget, FOREIGN_CREATE_BOX)
+        goto_foreign_create(widget)
 
     def update_handler(self, widget: toga.Widget) -> None:
         """Go to create the word form, button handler."""
