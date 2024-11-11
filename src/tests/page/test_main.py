@@ -9,7 +9,7 @@ Testing:
 from wse.app import WSE
 from wse.constants import HOST_API
 
-WIDGET_COUNT = 5
+WIDGET_COUNT = 8
 """Widget count at testing box container (int).
 """
 

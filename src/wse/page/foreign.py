@@ -173,7 +173,7 @@ class ExerciseForeignPage(ExerciseBox):
         )
 
     def show_question(self) -> None:
-        """Add populate items."""
+        """Add population of text panel."""
         super().show_question()
         self.populate_textpanel()
 

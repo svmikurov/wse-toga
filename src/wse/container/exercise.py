@@ -263,7 +263,7 @@ class ExerciseParamSelectionsBox(BoxApp):
 
 
 class ExerciseBox(BoxApp):
-    """Exercise box of widgets."""
+    """Exercise container of widgets."""
 
     def __init__(self) -> None:
         """Construct the box."""
