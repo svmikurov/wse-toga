@@ -2,7 +2,7 @@
 [tool.briefcase]
 project_name = "WSE"
 bundle = "online.wselfedu"
-version = "0.0.1"
+version = "0.1.1"
 url = "http://wselfedu.online"
 license.file = "LICENSE"
 author = "Sergei Mikurov"

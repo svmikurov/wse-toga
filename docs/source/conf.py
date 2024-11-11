@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath('../../src/'))
 project = 'WSE'
 copyright = '2024, Sergei Mikurov'
 author = 'Sergei Mikurov'
-release = '0.1.0'
+release = '0.1.1'
 
 # -- GitHub information ------------------------------------------------
 github_user = 'svmikurov'
