@@ -29,7 +29,7 @@ def get_assertion(items: list, expected: ListSource) -> None:
 
 
 @patch(
-    target='wse.page.ParamGlossaryBox.lookup_conditions',
+    target='wse.page.ParamGlossaryPage.lookup_conditions',
     new_callable=PropertyMock,
 )
 @patch(
