@@ -23,8 +23,8 @@ class WSE(toga.App):
     box_foreign_list: page.ListForeignPage
     # Glossary study page boxes.
     box_glossary_main: page.MainGlossaryPage
-    box_glossary_params: page.ParamGlossaryBox
-    box_glossary_exercise: page.ExerciseGlossaryBox
+    box_glossary_params: page.ParamGlossaryPage
+    box_glossary_exercise: page.ExerciseGlossaryPage
     box_glossary_create: page.CreateTermPage
     box_glossary_update: page.UpdateTermPage
     box_glossary_list: page.ListTermPage
@@ -55,8 +55,8 @@ class WSE(toga.App):
         self.box_foreign_list = page.ListForeignPage()
         # Glossary study page boxes.
         self.box_glossary_main = page.MainGlossaryPage()
-        self.box_glossary_params = page.ParamGlossaryBox()
-        self.box_glossary_exercise = page.ExerciseGlossaryBox()
+        self.box_glossary_params = page.ParamGlossaryPage()
+        self.box_glossary_exercise = page.ExerciseGlossaryPage()
         self.box_glossary_create = page.CreateTermPage()
         self.box_glossary_update = page.UpdateTermPage()
         self.box_glossary_list = page.ListTermPage()

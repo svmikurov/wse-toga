@@ -85,8 +85,8 @@ class MainGlossaryPage(BoxApp):
         )
 
 
-class ParamGlossaryBox(ExerciseParamSelectionsBox):
-    """Glossary box."""
+class ParamGlossaryPage(ExerciseParamSelectionsBox):
+    """Glossary page box."""
 
     title = TITLE_GLOSSARY_PARAMS
 
@@ -126,8 +126,8 @@ class ParamGlossaryBox(ExerciseParamSelectionsBox):
         request_post(url, self.lookup_conditions)
 
 
-class ExerciseGlossaryBox(ExerciseBox):
-    """Glossary exercise box."""
+class ExerciseGlossaryPage(ExerciseBox):
+    """Glossary exercise page box."""
 
     def __init__(self) -> None:
         """Construct the box."""

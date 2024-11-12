@@ -10,10 +10,10 @@ from wse.page.foreign import (
 )
 from wse.page.glossary import (
     CreateTermPage,
-    ExerciseGlossaryBox,
+    ExerciseGlossaryPage,
     ListTermPage,
     MainGlossaryPage,
-    ParamGlossaryBox,
+    ParamGlossaryPage,
     UpdateTermPage,
 )
 from wse.page.main import (
@@ -26,7 +26,7 @@ from wse.page.user import (
 __all__ = (
     'CreateWordPage',
     'CreateTermPage',
-    'ExerciseGlossaryBox',
+    'ExerciseGlossaryPage',
     'ExerciseForeignPage',
     'ListForeignPage',
     'ListTermPage',
@@ -35,7 +35,7 @@ __all__ = (
     'MainForeignPage',
     'MainGlossaryPage',
     'ParamForeignPage',
-    'ParamGlossaryBox',
+    'ParamGlossaryPage',
     'UpdateWordPage',
     'UpdateTermPage',
 )
