@@ -5,7 +5,7 @@ import toga
 
 def set_window_content(widget: toga.Widget, box: toga.Box) -> None:
     """Set page box to window content."""
-    widget.window.content = box
+    widget.app.main_window.content = box
 
 
 def goto_main(widget: toga.Widget) -> None:

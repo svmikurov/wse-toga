@@ -265,6 +265,8 @@ class ExerciseParamSelectionsBox(BoxApp):
 class ExerciseBox(BoxApp):
     """Exercise container of widgets."""
 
+    title = ''
+
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__(style=Pack(direction=COLUMN))
@@ -278,6 +280,15 @@ class ExerciseBox(BoxApp):
 
         # Style.
         label_style = Pack(padding=(0, 0, 0, 7))
+        self.label_question = toga.Label('Вопрос:', style=label_style)
+        self.label_answer = toga.Label('Ответ:', style=label_style)
+
+        self.label_title = TitleLabel(self.title)
+
+        self.btn_pause = AnswerBtn('Пауза', self.pause_handler)
+        self.btn_not_know = AnswerBtn('Не знаю', self.not_know_handler)
+        self.btn_know = AnswerBtn('Знаю', self.know_handler)
+        self.btn_next = AnswerBtn('Далее', self.next_handler)
 
         # Inner boxes.
         self.box_exercise = toga.Box(
@@ -286,7 +297,7 @@ class ExerciseBox(BoxApp):
                 flex=1,
             )
         )
-        box_btn_group = toga.Box(
+        self.box_btn_group = toga.Box(
             style=Pack(
                 direction=ROW,
                 height=100,
@@ -294,24 +305,24 @@ class ExerciseBox(BoxApp):
         )
 
         # Text display widgets.
-        self.question_display = TextPanel()
-        self.answer_display = TextPanel()
-        self.question_display.style.flex = 2
-        self.answer_display.style.flex = 2
+        self.display_question = TextPanel()
+        self.display_answer = TextPanel()
+        self.display_question.style.flex = 2
+        self.display_answer.style.flex = 2
 
         # Widgets DOM.
         self.box_exercise.add(
-            toga.Label('Вопрос:', style=label_style),
-            self.question_display,
-            toga.Label('Ответ:', style=label_style),
-            self.answer_display,
-            box_btn_group,
+            self.label_question,
+            self.display_question,
+            self.label_answer,
+            self.display_answer,
+            self.box_btn_group,
         )
-        box_btn_group.add(
-            AnswerBtn('Пауза', self.pause_handler),
-            AnswerBtn('Не знаю', self.not_know_handler),
-            AnswerBtn('Знаю', self.know_handler),
-            AnswerBtn('Далее', self.next_handler),
+        self.box_btn_group.add(
+            self.btn_pause,
+            self.btn_not_know,
+            self.btn_know,
+            self.btn_next,
         )
 
     ####################################################################
@@ -361,12 +372,12 @@ class ExerciseBox(BoxApp):
 
     def show_question(self) -> None:
         """Show the task question without an answer."""
-        self.question_display.update(self.task.question)
-        self.answer_display.clean()
+        self.display_question.update(self.task.question)
+        self.display_answer.clean()
 
     def show_answer(self) -> None:
         """Show the task answer."""
-        self.answer_display.update(self.task.answer)
+        self.display_answer.update(self.task.answer)
 
     async def loop_task(self) -> None:
         """Show new task in loop."""
@@ -397,8 +408,8 @@ class ExerciseBox(BoxApp):
 
     def clean_text_panel(self) -> None:
         """Clean the test panel."""
-        self.answer_display.clean()
-        self.question_display.clean()
+        self.display_answer.clean()
+        self.display_question.clean()
 
     def move_to_box_params(self, widget: toga.Widget) -> None:
         """Move to exercise parameters page box.

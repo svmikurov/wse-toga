@@ -130,6 +130,8 @@ class ExerciseForeignPage(ExerciseBox):
         widgets.
     """
 
+    title = TITLE_FOREIGN_EXERCISE
+
     def __init__(self) -> None:
         """Construct the box."""
         super().__init__()
@@ -142,25 +144,25 @@ class ExerciseForeignPage(ExerciseBox):
         )
 
         # TextPanel
-        self.textpanel_label = toga.Label('Информация об упражнении:')
-        self.textpanel_label.style = Pack(padding=(0, 0, 0, 7))
-        self.textpanel = MultilineTextInput(
+        self.label_textpanel = toga.Label('Информация об упражнении:')
+        self.label_textpanel.style = Pack(padding=(0, 0, 0, 7))
+        self.display_exercise_info = MultilineTextInput(
             readonly=True,
         )
 
         # Widget DOM.
         self.add(
-            TitleLabel(TITLE_FOREIGN_EXERCISE),
+            self.label_title,
             self.box_exercise,
-            self.textpanel,
+            self.display_exercise_info,
             self.btn_goto_params,
         )
-        self.box_exercise.insert(4, self.textpanel_label)
-        self.box_exercise.insert(5, self.textpanel)
+        self.box_exercise.insert(4, self.label_textpanel)
+        self.box_exercise.insert(5, self.display_exercise_info)
 
     def populate_textpanel(self) -> None:
         """Populate the text panel."""
-        self.textpanel.value = (
+        self.display_exercise_info.value = (
             f'Найдено слов: {self.task.data["item_count"]}\n'
             f'Оценка знания слова: {self.task.data[ASSESSMENT]}'
         )

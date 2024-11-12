@@ -10,7 +10,6 @@ Testing:
 from unittest.mock import Mock
 
 import pytest
-import toga
 from _pytest.monkeypatch import MonkeyPatch
 
 from wse.app import WSE
@@ -20,7 +19,7 @@ from wse.general.goto_handler import set_window_content
 @pytest.fixture(autouse=True)
 def goto_glossary_params_page(wse: WSE) -> None:
     """Assign the glossary params box to main window content, fixture."""  # noqa: W505
-    set_window_content(wse, wse.box_glossary_params)
+    wse.app.main_window.content = wse.box_glossary_params
 
 
 def test_widget_order(wse: WSE) -> None:

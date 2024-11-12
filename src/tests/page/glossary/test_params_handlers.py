@@ -138,7 +138,8 @@ def test_save_params_handler(
 ) -> None:
     """Test save exercise parameters handler."""
     # Click button.
-    wse.box_glossary_params.btn_save_params._impl.simulate_press()
+    btn_save_params = wse.box_glossary_params.btn_save_params
+    btn_save_params._impl.simulate_press()
 
     # Request to save params by url.
     expected_url = urljoin(HOST_API, REQEUST_PARAMS_URL)
