@@ -1,12 +1,23 @@
+include .env	# import TEST_JUST var
+
 start:
 	briefcase dev
 
 # Test
 test:
 	export TOGA_BACKEND=toga_dummy && \
+	pytest -s
+
+test-just:
+	export TOGA_BACKEND=toga_dummy && \
+	pytest $(TEST_JUST) -s
+
+test-briefcase:
+	export TOGA_BACKEND=toga_dummy && \
 	briefcase dev --test
 
 test-r:
+	export TOGA_BACKEND=toga_dummy && \
 	briefcase dev --test -r
 
 ruff:
