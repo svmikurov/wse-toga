@@ -19,6 +19,7 @@ from unittest.mock import AsyncMock, Mock, patch
 import pytest
 from _pytest.fixtures import FixtureRequest
 from _pytest.monkeypatch import MonkeyPatch
+from toga import NumberInput
 
 from wse.app import WSE
 from wse.general.button import BtnApp
@@ -29,7 +30,7 @@ from wse.page import ParamForeignPage, ParamGlossaryPage
 def get_attr(
     instance: WSE | ParamForeignPage,
     attr_name: str,
-) -> ParamForeignPage | ParamGlossaryPage | BtnApp:
+) -> ParamForeignPage | ParamGlossaryPage | BtnApp | NumberInput:
     """Get instance attribute by attribute name."""
     attr = instance.__getattribute__(attr_name)
     return attr
@@ -213,6 +214,63 @@ def test_selections(
 
     # Label of selection has specific text.
     assert label.text == label_text
+
+
+@pytest.mark.parametrize(
+    'switch_name, switch_text',
+    [
+        ('count_first_switch', 'Первые'),
+        ('count_last_switch', 'Последние'),
+    ],
+)
+def test_switches(
+    switch_name: str,
+    switch_text: str,
+    box: ParamForeignPage | ParamGlossaryPage,
+) -> None:
+    """Test the switch widgets.
+
+    Testing:
+     * ParamForeignPage and ParamGlossaryPage classes;
+     * test that switch has specific text.
+
+    """
+    switch = get_attr(box, switch_name)
+
+    # Switch has specific text.
+    assert switch.text == switch_text
+
+
+@pytest.mark.parametrize(
+    'input_name',
+    [
+        ('input_count_first'),
+        ('input_count_last'),
+    ],
+)
+def test_number_inputs(
+    input_name: str,
+    box: ParamForeignPage | ParamGlossaryPage,
+) -> None:
+    """Test a number input widgets.
+
+    Testing:
+     * ParamForeignPage and ParamGlossaryPage classes;
+     * that a number input has not initial value;
+     * that a number input has an increment/decrement step of ten;
+     * that a number input has a minimal value.
+
+    """
+    switch = get_attr(box, input_name)
+
+    # A number input has not initial value.
+    assert switch.value is None
+
+    # A number input has an increment/decrement step of ten.
+    assert switch.step == 10
+
+    # A number input has a minimal value.
+    assert switch.min == 0
 
 
 @pytest.mark.parametrize(
