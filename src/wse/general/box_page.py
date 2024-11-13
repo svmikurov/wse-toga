@@ -29,15 +29,18 @@ class GoToBoxMixin:
 
     @classmethod
     def get_box(cls, widget: toga.Widget, box_name: str) -> Self:
-        """Get the page box by box name.
+        """**DEPRECATED** - Use wse.general.goto_handler module.
 
         Get the page box that was initialized in the app.
-        """
+        """  # noqa: D401
         return widget.root.app.__getattribute__(box_name)
 
     @classmethod
     def set_window_content(cls, widget: toga.Widget, box: Self) -> None:
-        """Set page box to window content."""
+        """**DEPRECATED** - Use wse.general.goto_handler module.
+
+        Set page box to window content.
+        """  # noqa: D401
         widget.window.content = box
 
     def on_open(self) -> None:

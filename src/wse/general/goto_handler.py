@@ -2,10 +2,19 @@
 
 import toga
 
+from wse.general.box_page import BoxApp
 
-def set_window_content(widget: toga.Widget, box: toga.Box) -> None:
+
+def set_window_content(
+    widget: toga.Widget,
+    box: BoxApp | toga.Box,
+) -> None:
     """Set page box to window content."""
     widget.app.main_window.content = box
+    try:
+        box.on_open()
+    except AttributeError:
+        pass
 
 
 def goto_main(widget: toga.Widget) -> None:
