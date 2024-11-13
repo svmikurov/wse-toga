@@ -120,7 +120,8 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
         Request to save user exercise parameters.
         """
         url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
-        await self.request_put_async(url, self.lookup_conditions)
+        payload = self.lookup_conditions
+        await self.request_put_async(url, payload)
 
 
 class ExerciseForeignPage(ExerciseBox):

@@ -123,7 +123,8 @@ class ParamGlossaryPage(ExerciseParamSelectionsBox):
         Request to save user exercise parameters.
         """
         url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
-        request_post(url, self.lookup_conditions)
+        payload = self.lookup_conditions
+        request_post(url, payload)
 
 
 class ExerciseGlossaryPage(ExerciseBox):
