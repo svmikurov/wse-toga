@@ -107,7 +107,7 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
         self.set_window_content(widget, exercise_box)
         await exercise_box.loop_task()
 
-    def on_open(self) -> None:
+    def on_open(self, widget: toga.Widget) -> None:
         """Request and fill params data of box when box open."""
         url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
         response = request_get(url=url)

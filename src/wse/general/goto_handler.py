@@ -12,7 +12,7 @@ def set_window_content(
     """Set page box to window content."""
     widget.app.main_window.content = box
     try:
-        box.on_open()
+        box.on_open(widget)
     except AttributeError:
         pass
 

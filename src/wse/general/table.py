@@ -153,7 +153,7 @@ class TableApp(BoxApp):
     ####################################################################
     # Any methods.
 
-    def on_open(self) -> None:
+    def on_open(self, widget: toga.Widget) -> None:
         """Invoke the populate the table when the table opens."""
         if bool(self.current_pagination_url):
             self.populate_table(self.current_pagination_url)

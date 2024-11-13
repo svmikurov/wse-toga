@@ -97,13 +97,13 @@ class WSE(toga.App):
         )
         # Application start with Main page box content.
         self.main_window.content = self.box_main
-        self.box_main.on_open()
+        self.box_main.on_open(self.box_main)
         self.main_window.show()
 
     def move_to_page(self, box: BoxApp) -> None:
         """Move to page box."""
         self.main_window.content = box
-        box.on_open()
+        box.on_open(box)
 
     def goto_main(self, _: toga.Widget, **kwargs: object) -> None:
         """Goto main box, command handler."""

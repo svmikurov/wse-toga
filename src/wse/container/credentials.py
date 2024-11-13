@@ -72,7 +72,7 @@ class Credentials(BoxApp):
             self.btn_goto_main,
         )
 
-    def on_open(self) -> None:
+    def on_open(self, widget: toga.Widget) -> None:
         """Clear fields."""
         self._clear_fields()
 

@@ -81,7 +81,7 @@ class MainBox(UserAuth, BoxApp):
     async def goto_foreign_exercise(self, widget: toga.Widget) -> None:
         """Start foreign exercise."""
         box_params = widget.root.app.box_foreign_params
-        box_params.on_open()
+        box_params.on_open(widget)
         await box_params.goto_box_exercise_handler(widget)
 
         box_exercise = widget.root.app.box_foreign_exercise
@@ -91,7 +91,7 @@ class MainBox(UserAuth, BoxApp):
     async def goto_glossary_exercise(self, widget: toga.Widget) -> None:
         """Start foreign exercise."""
         box_params = widget.root.app.box_glossary_params
-        box_params.on_open()
+        box_params.on_open(widget)
         await box_params.goto_box_exercise_handler(widget)
 
         box_exercise = widget.root.app.box_glossary_exercise

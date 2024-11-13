@@ -43,7 +43,7 @@ def test_on_open(get: Mock, lookup_conditions: Mock, wse: WSE) -> None:
         status_code=200,
         json=Mock(return_value=PARAMS),
     )
-    wse.box_glossary_params.on_open()
+    wse.box_glossary_params.on_open(wse.box_glossary_params)
 
     # Exercise params request url.
     url = call(url=urljoin(HOST_API, GLOSSARY_PARAMS_PATH))

@@ -110,7 +110,7 @@ class ParamGlossaryPage(ExerciseParamSelectionsBox):
         self.set_window_content(widget, exercise_box)
         await exercise_box.loop_task()
 
-    def on_open(self) -> None:
+    def on_open(self, widget: toga.Widget) -> None:
         """Request and fill params data."""
         url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
         response = request_get(url=url)

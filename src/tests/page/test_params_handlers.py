@@ -95,7 +95,7 @@ def test_on_open(
     # Mock the lookup_conditions.
     with patch(lookup_conditions, new_callable=PropertyMock) as mock:
         # Invoke on_open method.
-        box.on_open()
+        box.on_open(box)
 
         # Assert that request specific url.
         assert get.call_args == call(url=url)

@@ -56,9 +56,9 @@ class UserAuth(BoxApp):
             on_press=self.auth_attrs['btn_auth']['on_press'],
         )
 
-    def on_open(self) -> None:
+    def on_open(self, widget: toga.Widget) -> None:
         """Update the widgets on opening page."""
-        super().on_open()
+        super().on_open(widget)
         self.setup_user_status()
         self.update_widget_values()
 
