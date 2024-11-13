@@ -105,7 +105,7 @@ class ParamGlossaryPage(ExerciseParamSelectionsBox):
 
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to glossary exercise, button handler."""
-        exercise_box = widget.root.app.box_glosary_exrcise
+        exercise_box = widget.root.app.box_glossary_exercise
         exercise_box.task.params = self.lookup_conditions
         self.set_window_content(widget, exercise_box)
         await exercise_box.loop_task()

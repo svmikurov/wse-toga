@@ -27,7 +27,7 @@ def test_widget_order(wse: WSE) -> None:
         box.box_params,
         box.btn_goto_exercise,
         box.btn_save_params,
-        box.btn_goto_foreign,
+        box.btn_goto_foreign_main,
     ]
 
     assert box.box_params.children == [
@@ -90,7 +90,7 @@ def test_btn_save_params(wse: WSE) -> None:
 
 def test_btn_goto_foreign(wse: WSE) -> None:
     """Test button to go to foreign main page box."""
-    btn = wse.box_foreign_params.btn_goto_foreign
+    btn = wse.box_foreign_params.btn_goto_foreign_main
     assert btn.text == 'Иностранный'
     btn._impl.simulate_press()
     assert wse.main_window.content == wse.box_foreign_main

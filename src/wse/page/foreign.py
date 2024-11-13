@@ -91,12 +91,12 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
         super().__init__()
 
         # Box widgets.
-        self.btn_goto_foreign = BtnApp(
+        self.btn_goto_foreign_main = BtnApp(
             BTN_GOTO_FOREIGN_MAIN, on_press=goto_foreign_main
         )
 
         # Widget DOM.
-        self.insert(4, self.btn_goto_foreign)
+        self.insert(4, self.btn_goto_foreign_main)
 
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
