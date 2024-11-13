@@ -7,7 +7,6 @@ Test foreign pages
 
    Main <test_main>
    Create word <test_create>
-   Exercise params <test_params>
    Word list <test_list>
    Word list pagination <test_list_pagination>
 
