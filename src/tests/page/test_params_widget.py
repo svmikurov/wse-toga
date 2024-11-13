@@ -172,7 +172,7 @@ def test_label_title(box_name: str, title_text: str, wse: WSE) -> None:
      * that label has a specific text.
 
     """
-    box: ParamForeignPage | ParamGlossaryPage  = getattr(wse, box_name)
+    box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
 
     # The label has a specific text.
     assert box.label_title.text == title_text

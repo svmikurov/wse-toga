@@ -16,7 +16,6 @@ from _pytest.monkeypatch import MonkeyPatch
 from wse.app import WSE
 from wse.constants import HOST_API
 from wse.container.exercise import (
-    AnswerBtn,
     ExerciseBox,
 )
 from wse.contrib.task import Task
@@ -219,7 +218,7 @@ def test_answer_btns(
 
         * add test the change of task.status to 'question'.
     """
-    box: ExerciseForeignPage | ExerciseGlossaryPage  = getattr(wse, box_name)
+    box: ExerciseForeignPage | ExerciseGlossaryPage = getattr(wse, box_name)
     btn = getattr(box, btn_name)
     set_window_content(wse, box)
 

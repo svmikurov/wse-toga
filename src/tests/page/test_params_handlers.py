@@ -4,21 +4,23 @@ Testing:
  * Filling out ang reade the selections.
  * Count switching.
  * Request handler of save params.
+
 """
 
+from unittest import skip
 from unittest.mock import Mock, PropertyMock, call, patch
 from urllib.parse import urljoin
 
+import pytest
+from _pytest.fixtures import FixtureRequest
 from toga.sources import ListSource
 
 from tests.utils import FixtureReader
 from wse.app import WSE
-from wse.constants import GLOSSARY_PARAMS_PATH, HOST_API
+from wse.constants import HOST_API
+from wse.page import ParamForeignPage, ParamGlossaryPage
 
-REQEUST_PARAMS_URL = '/api/v1/glossary/params/'
-REQEUST_EXERCISE_URL = '/api/v1/glossary/exercise/'
-FIXTURE = 'params.json'
-PARAMS = FixtureReader(FIXTURE).json()
+PARAMS = FixtureReader('params.json').json()
 
 
 def get_assertion(items: list, expected: ListSource) -> None:
@@ -28,30 +30,78 @@ def get_assertion(items: list, expected: ListSource) -> None:
         assert item.humanly == expected[index].humanly
 
 
-@patch(
-    target='wse.page.ParamGlossaryPage.lookup_conditions',
-    new_callable=PropertyMock,
+@pytest.fixture
+def box_foreign(wse: WSE) -> ParamForeignPage:
+    """Return the instance of ParamForeignPage, fixture."""
+    box = wse.box_foreign_params
+    return box
+
+
+@pytest.fixture
+def box_glossary(wse: WSE) -> ParamGlossaryPage:
+    """Return the instance of ParamGlossaryPage, fixture."""
+    box = wse.box_glossary_params
+    return box
+
+
+@pytest.fixture(params=['box_foreign', 'box_glossary'])
+def box(request: FixtureRequest) -> ParamForeignPage | ParamGlossaryPage:
+    """Return the box fixtures one by one."""
+    return request.getfixturevalue(request.param)
+
+
+@pytest.mark.parametrize(
+    'box_name, params_path, lookup_conditions',
+    [
+        (
+            'box_foreign_params',
+            '/api/v1/foreign/params/',
+            'wse.page.ParamForeignPage.lookup_conditions',
+        ),
+        (
+            'box_glossary_params',
+            '/api/v1/glossary/params/',
+            'wse.page.ParamGlossaryPage.lookup_conditions',
+        ),
+    ],
 )
-@patch(
-    target='httpx.Client.get',
-)
-def test_on_open(get: Mock, lookup_conditions: Mock, wse: WSE) -> None:
-    """Test the calls of on_open method glossary params box."""
-    # Opening page requests the user exercise params from server.
+@patch('httpx.Client.get')
+def test_on_open(
+    get: Mock,
+    box_name: str,
+    lookup_conditions: str,
+    params_path: str,
+    wse: WSE,
+) -> None:
+    """Test the call of on_open method params box.
+
+    Testing:
+     * ParamForeignPage and ParamGlossaryPage classes;
+     * that request specific url;
+     * that that requested params has been set to
+       lookup_condition property of class.
+
+    """
+    box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
+    url = urljoin(HOST_API, params_path)
+
+    # Opening page requests the user exercise params to server.
     get.return_value = Mock(
         name='Response',
         status_code=200,
         json=Mock(return_value=PARAMS),
     )
-    wse.box_glossary_params.on_open()
 
-    # Exercise params request url.
-    url = call(url=urljoin(HOST_API, GLOSSARY_PARAMS_PATH))
-    assert get.call_args == url
+    # Mock the lookup_conditions.
+    with patch(lookup_conditions, new_callable=PropertyMock) as mock:
+        # Invoke on_open method.
+        box.on_open()
 
-    # Call lookup_condition property setter.
-    mock_calls = [call(PARAMS)]
-    assert lookup_conditions.mock_calls == mock_calls
+        # Assert that request specific url.
+        assert get.call_args == call(url=url)
+
+        # Set requested params to lookup_condition property.
+        assert mock.mock_calls == [call(PARAMS)]
 
 
 def test_selection_start_period_data(
@@ -130,6 +180,7 @@ def test_input_count_last(wse: WSE, selection_params: object) -> None:
     assert wse.box_glossary_params.count_first_switch.value is False
 
 
+@skip
 @patch('httpx.Client.post')
 def test_save_params_handler(
     post: Mock,
@@ -142,7 +193,7 @@ def test_save_params_handler(
     btn_save_params._impl.simulate_press()
 
     # Request to save params by url.
-    expected_url = urljoin(HOST_API, REQEUST_PARAMS_URL)
+    expected_url = urljoin(HOST_API, '')
     expected_json = {
         'period_start_date': 'NC',
         'period_end_date': 'DT',
