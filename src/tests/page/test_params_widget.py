@@ -241,6 +241,40 @@ def test_switches(
     assert switch.text == switch_text
 
 
+def test_switch_toggles(box: ParamForeignPage | ParamGlossaryPage) -> None:
+    """Test the switching.
+
+    Test the switches to add item count (number input) to exercise
+    params.
+
+    Testing:
+     * ParamForeignPage and ParamGlossaryPage classes;
+     * test that switch is off by default;
+     * test that toggle of first switch to set True;
+     * test that toggle of last switch to set True;
+     * test that toggle of last switch to set False.
+
+    """
+    # A switch is off by default.
+    assert not box.count_first_switch.value
+    assert not box.count_last_switch.value
+
+    # Toggle the first switch to set True.
+    box.count_first_switch.toggle()
+    assert box.count_first_switch.value
+    assert not box.count_last_switch.value
+
+    # Toggle the last switch to True.
+    box.count_last_switch.toggle()
+    assert not box.count_first_switch.value
+    assert box.count_last_switch.value
+
+    # Toggle the last switch to set False.
+    box.count_last_switch.toggle()
+    assert not box.count_first_switch.value
+    assert not box.count_last_switch.value
+
+
 @pytest.mark.parametrize(
     'input_name',
     [
