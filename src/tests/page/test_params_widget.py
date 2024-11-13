@@ -8,7 +8,6 @@ Testing:
 
 .. todo::
 
-   * add test the selections of box.box_params;
    * add test the inputs of box.box_params;
    * add test the populate of param widgets.
 
@@ -28,7 +27,7 @@ from wse.page import ParamForeignPage, ParamGlossaryPage
 
 
 def get_attr(
-    instance: object,
+    instance: WSE | ParamForeignPage,
     attr_name: str,
 ) -> ParamForeignPage | ParamGlossaryPage | BtnApp:
     """Get instance attribute by attribute name."""
@@ -89,7 +88,7 @@ def test_foreign_widget_order(
         box.box_input_last,
     ]
 
-    # Selection widgets are included in the parent box to flex layout.
+    # Selection widgets are parent box-container attr to flex layout.
     assert box.box_selection_start.children == [
         box.label_start.parent,
         box.selection_start_period.parent,
@@ -179,14 +178,41 @@ def test_label_title(box_name: str, title_text: str, wse: WSE) -> None:
     """Test page box title.
 
     Testing:
-    * ParamForeignPage and ParamGlossaryPage classes;
-    * that label has a specific text.
+     * ParamForeignPage and ParamGlossaryPage classes;
+     * that label has a specific text.
 
     """
     box = get_attr(wse, box_name)
 
     # The label has a specific text.
     assert box.label_title.text == title_text
+
+
+@pytest.mark.parametrize(
+    'label_name, label_text',
+    [
+        ('label_start', 'Начало периода:'),
+        ('label_end', 'Конец периода:'),
+        ('label_category', 'Категория:'),
+        ('label_progres', 'Стадия изучения:'),
+    ],
+)
+def test_selections(
+    label_name: str,
+    label_text: str,
+    box: ParamForeignPage | ParamGlossaryPage,
+) -> None:
+    """Test the selection widgets.
+
+    Testing:
+     * ParamForeignPage and ParamGlossaryPage classes;
+     * test that label of selection has specific text.
+
+    """
+    label = get_attr(box, label_name)
+
+    # Label of selection has specific text.
+    assert label.text == label_text
 
 
 @pytest.mark.parametrize(
@@ -207,24 +233,24 @@ def test_btn_goto_exercise(
     """Test the button to go to foreign exercise.
 
     Testing:
-    * ParamForeignPage and ParamGlossaryPage classes;
-    * that button has specific text;
-    * that loop task of exercise was awaited;
-    * that window content has been refreshed.
+     * ParamForeignPage and ParamGlossaryPage classes;
+     * that button has specific text;
+     * that loop task of exercise was awaited;
+     * that window content has been refreshed.
 
     Mocking:
-    * get selection values from param selection widgets;
-    * loop task of exercise.
+     * get values from param selection widgets;
+     * loop task of exercise.
 
     .. todo::
 
        Foreign params:
-       * add test exercise_box.clean_text_panel()
-       * add test exercise_box.task.status = None
-       * add test exercise_box.task.params = self.lookup_conditions
+        * add test exercise_box.clean_text_panel()
+        * add test exercise_box.task.status = None
+        * add test exercise_box.task.params = self.lookup_conditions
 
        Glossary params:
-       * add test exercise_box.task.params = self.lookup_conditions
+        * add test exercise_box.task.params = self.lookup_conditions
 
     """
     box_params = get_attr(wse, box_name)
@@ -261,21 +287,21 @@ def test_btn_save_params(
     """Test the save params button.
 
     Testing:
-    * ParamForeignPage and ParamGlossaryPage classes;
-    * that button has specific text;
-    * that window content has not been refreshed.
+     * ParamForeignPage and ParamGlossaryPage classes;
+     * that button has specific text;
+     * that window content has not been refreshed.
 
     .. todo::
 
        Foreign params:
-       * add test payload = self.lookup_conditions
-       * add test self.request_put_async(url, payload)
+        * add test payload = self.lookup_conditions
+        * add test self.request_put_async(url, payload)
 
        Glossary params:
-       * add test payload = self.lookup_conditions
-       * add test request_post(url, payload)
+        * add test payload = self.lookup_conditions
+        * add test request_post(url, payload)
 
-       * add test the call the functions in button handler.
+        * add test the call the functions in button handler.
 
     """
     btn = box.btn_save_params
@@ -324,9 +350,9 @@ def test_btn_goto_sub_main(
     Test a go to foreign main and glossary main box-containers.
 
     Testing:
-    * ParamForeignPage and ParamGlossaryPage classes;
-    * that button has specific text;
-    * that window content has not been refreshed.
+     * ParamForeignPage and ParamGlossaryPage classes;
+     * that button has specific text;
+     * that window content has not been refreshed.
 
     """
     box = get_attr(wse, box_name)
