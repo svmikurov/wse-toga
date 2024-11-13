@@ -19,6 +19,7 @@ def run_tests() -> None:
     if len(args) == 0:
         args = [
             'src',
+            # 'src/tests/page/test_params_widget.py',
         ]
 
     returncode = pytest.main(
