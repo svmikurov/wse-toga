@@ -11,6 +11,7 @@ Testing:
    * add test the selections of box.box_params;
    * add test the inputs of box.box_params;
    * add test the populate of param widgets.
+
 """
 
 import asyncio
@@ -180,6 +181,7 @@ def test_label_title(box_name: str, title_text: str, wse: WSE) -> None:
     Testing:
     * ParamForeignPage and ParamGlossaryPage classes;
     * that label has a specific text.
+
     """
     box = get_attr(wse, box_name)
 
@@ -213,7 +215,7 @@ def test_btn_goto_exercise(
     Mocking:
     * get selection values from param selection widgets;
     * loop task of exercise.
-    
+
     .. todo::
 
        Foreign params:
@@ -274,6 +276,7 @@ def test_btn_save_params(
        * add test request_post(url, payload)
 
        * add test the call the functions in button handler.
+
     """
     btn = box.btn_save_params
     set_window_content(wse, box)
@@ -296,16 +299,16 @@ def test_btn_save_params(
     'box_name, box_togo, btn_name, btn_text',
     [
         (
-                'box_foreign_params',
-                'box_foreign_main',
-                'btn_goto_foreign_main',
-                'Иностранный',
+            'box_foreign_params',
+            'box_foreign_main',
+            'btn_goto_foreign_main',
+            'Иностранный',
         ),
         (
-                'box_glossary_params',
-                'box_glossary_main',
-                'btn_goto_glossary_main',
-                'Глоссарий',
+            'box_glossary_params',
+            'box_glossary_main',
+            'btn_goto_glossary_main',
+            'Глоссарий',
         ),
     ],
 )
@@ -324,6 +327,7 @@ def test_btn_goto_sub_main(
     * ParamForeignPage and ParamGlossaryPage classes;
     * that button has specific text;
     * that window content has not been refreshed.
+
     """
     box = get_attr(wse, box_name)
     box_next = get_attr(wse, box_togo)
