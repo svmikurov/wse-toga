@@ -8,11 +8,12 @@ Testing:
 
 .. todo::
 
+   * add test the selections of box.box_params;
+   * add test the inputs of box.box_params;
    * add test the populate of param widgets.
 """
 
 import asyncio
-from unittest import skip
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
@@ -174,8 +175,15 @@ def test_glossary_widget_order(
     ],
 )
 def test_label_title(box_name: str, title_text: str, wse: WSE) -> None:
-    """Test page box title."""
+    """Test page box title.
+
+    Testing:
+    * ParamForeignPage and ParamGlossaryPage classes;
+    * that label has a specific text.
+    """
     box = get_attr(wse, box_name)
+
+    # The label has a specific text.
     assert box.label_title.text == title_text
 
 
@@ -205,11 +213,24 @@ def test_btn_goto_exercise(
     Mocking:
     * get selection values from param selection widgets;
     * loop task of exercise.
+    
+    .. todo::
+
+       Foreign params:
+       * add test exercise_box.clean_text_panel()
+       * add test exercise_box.task.status = None
+       * add test exercise_box.task.params = self.lookup_conditions
+
+       Glossary params:
+       * add test exercise_box.task.params = self.lookup_conditions
+
     """
     box_params = get_attr(wse, box_name)
     box_exercise = get_attr(wse, box_togo)
-    set_window_content(wse, box_params)
     btn = box_params.btn_goto_exercise
+
+    # Set the test box in the content window.
+    set_window_content(wse, box_params)
 
     # Mock the get param value from widgets, otherwise test failed.
     monkeypatch.setattr(BaseSelection, 'get_alias', Mock(return_value=dict()))
@@ -243,6 +264,14 @@ def test_btn_save_params(
     * that window content has not been refreshed.
 
     .. todo::
+
+       Foreign params:
+       * add test payload = self.lookup_conditions
+       * add test self.request_put_async(url, payload)
+
+       Glossary params:
+       * add test payload = self.lookup_conditions
+       * add test request_post(url, payload)
 
        * add test the call the functions in button handler.
     """
