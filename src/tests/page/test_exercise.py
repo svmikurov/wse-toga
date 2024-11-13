@@ -27,14 +27,6 @@ from wse.page import (
 )
 
 
-def get_attr(
-    instance: object, attr_name: str
-) -> ExerciseForeignPage | ExerciseGlossaryPage | ExerciseBox | AnswerBtn:
-    """Get instance attribute by attribute name."""
-    attr = instance.__getattribute__(attr_name)
-    return attr
-
-
 def set_window_content(
     wse: WSE,
     box: ExerciseForeignPage | ExerciseGlossaryPage,
@@ -227,8 +219,8 @@ def test_answer_btns(
 
         * add test the change of task.status to 'question'.
     """
-    box = get_attr(wse, box_name)
-    btn = get_attr(box, btn_name)
+    box: ExerciseForeignPage | ExerciseGlossaryPage  = getattr(wse, box_name)
+    btn = getattr(box, btn_name)
     set_window_content(wse, box)
 
     # Mock the item ID to answer.
@@ -307,7 +299,7 @@ def test_btn_goto_params(
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * window switching.
     """
-    box = get_attr(wse, box_name)
+    box: ExerciseForeignPage | ExerciseGlossaryPage = getattr(wse, box_name)
     btn = box.btn_goto_params
     set_window_content(wse, box)
 
@@ -318,4 +310,4 @@ def test_btn_goto_params(
     assert btn.text == 'Параметры упражнения'
 
     # Window switching.
-    assert wse.main_window.content == get_attr(wse, box_togo)
+    assert wse.main_window.content == getattr(wse, box_togo)

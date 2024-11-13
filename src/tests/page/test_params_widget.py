@@ -19,21 +19,10 @@ from unittest.mock import AsyncMock, Mock, patch
 import pytest
 from _pytest.fixtures import FixtureRequest
 from _pytest.monkeypatch import MonkeyPatch
-from toga import NumberInput
 
 from wse.app import WSE
-from wse.general.button import BtnApp
 from wse.general.selection import BaseSelection
 from wse.page import ParamForeignPage, ParamGlossaryPage
-
-
-def get_attr(
-    instance: WSE | ParamForeignPage,
-    attr_name: str,
-) -> ParamForeignPage | ParamGlossaryPage | BtnApp | NumberInput:
-    """Get instance attribute by attribute name."""
-    attr = instance.__getattribute__(attr_name)
-    return attr
 
 
 def set_window_content(
@@ -183,7 +172,7 @@ def test_label_title(box_name: str, title_text: str, wse: WSE) -> None:
      * that label has a specific text.
 
     """
-    box = get_attr(wse, box_name)
+    box: ParamForeignPage | ParamGlossaryPage  = getattr(wse, box_name)
 
     # The label has a specific text.
     assert box.label_title.text == title_text
@@ -210,7 +199,7 @@ def test_selections(
      * test that label of selection has specific text.
 
     """
-    label = get_attr(box, label_name)
+    label = getattr(box, label_name)
 
     # Label of selection has specific text.
     assert label.text == label_text
@@ -235,7 +224,7 @@ def test_switches(
      * test that switch has specific text.
 
     """
-    switch = get_attr(box, switch_name)
+    switch = getattr(box, switch_name)
 
     # Switch has specific text.
     assert switch.text == switch_text
@@ -295,7 +284,7 @@ def test_number_inputs(
      * that a number input has a minimal value.
 
     """
-    switch = get_attr(box, input_name)
+    switch = getattr(box, input_name)
 
     # A number input has not initial value.
     assert switch.value is None
@@ -345,8 +334,8 @@ def test_btn_goto_exercise(
         * add test exercise_box.task.params = self.lookup_conditions
 
     """
-    box_params = get_attr(wse, box_name)
-    box_exercise = get_attr(wse, box_togo)
+    box_params = getattr(wse, box_name)
+    box_exercise = getattr(wse, box_togo)
     btn = box_params.btn_goto_exercise
 
     # Set the test box in the content window.
@@ -447,9 +436,9 @@ def test_btn_goto_sub_main(
      * that window content has not been refreshed.
 
     """
-    box = get_attr(wse, box_name)
-    box_next = get_attr(wse, box_togo)
-    btn = get_attr(box, btn_name)
+    box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
+    box_next = getattr(wse, box_togo)
+    btn = getattr(box, btn_name)
 
     # Set the test box in the content window.
     set_window_content(wse, box)

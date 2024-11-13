@@ -4,6 +4,7 @@
 
    * add test the display a task question and answer;
    * add test the title label.
+
 """
 
 import asyncio
@@ -26,15 +27,6 @@ from wse.page import (
     ExerciseForeignPage,
     ExerciseGlossaryPage,
 )
-
-
-def get_attr(
-    instance: object,
-    attr_name: str,
-) -> ExerciseForeignPage | ExerciseGlossaryPage | ExerciseBox | AnswerBtn:
-    """Get instance attribute by attribute name."""
-    attr = instance.__getattribute__(attr_name)
-    return attr
 
 
 def set_window_content(
@@ -124,6 +116,7 @@ def test_display_question(
     Testing:
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * that the widget is read only.
+
     """
     # The display widget is read-only.
     assert box.display_question.readonly is True
@@ -137,6 +130,7 @@ def test_display_answer(
     Testing:
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * that the widget is read only.
+
     """
     # The display widget is read-only.
     assert box.display_answer.readonly is True
@@ -148,6 +142,7 @@ def test_display_exercise_info(box_foreign: ExerciseForeignPage) -> None:
     Testing:
      * ExerciseForeignPage class;
      * that the widget is read only.
+
     """
     # The display widget is read-only.
     assert box_foreign.display_exercise_info.readonly is True
@@ -161,6 +156,7 @@ def test_btn_pause(on_pause: Mock, box: ExerciseBox) -> None:
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * call the ``on_pause`` method of the ``Timer`` class
        with the button handler when the button is pressed.
+
     """
     btn = box.btn_pause
     assert btn.text == 'Пауза'
@@ -228,9 +224,10 @@ def test_answer_btns(
      .. todo:
 
         * add test the change of task.status to 'question'.
+
     """
-    box = get_attr(wse, box_name)
-    btn = get_attr(box, btn_name)
+    box: ExerciseForeignPage | ExerciseGlossaryPage = getattr(wse, box_name)
+    btn: AnswerBtn = getattr(box, btn_name)
     set_window_content(wse, box)
 
     # Mock the item ID to answer.
@@ -274,6 +271,7 @@ def test_btn_next(
     .. todo::
 
        * add test the unpause of task.
+
     """
     btn = box.btn_next
     set_window_content(wse, box)
@@ -308,8 +306,9 @@ def test_btn_goto_params(
     Testing:
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * window switching.
+
     """
-    box = get_attr(wse, box_name)
+    box: ExerciseForeignPage | ExerciseGlossaryPage = getattr(wse, box_name)
     btn = box.btn_goto_params
     set_window_content(wse, box)
 
@@ -320,4 +319,4 @@ def test_btn_goto_params(
     assert btn.text == 'Параметры упражнения'
 
     # Window switching.
-    assert wse.main_window.content == get_attr(wse, box_togo)
+    assert wse.main_window.content == getattr(wse, box_togo)
