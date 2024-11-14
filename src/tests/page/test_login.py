@@ -10,10 +10,9 @@ Testing:
    * add test login - request to login.
 """
 
-import asyncio
-
 import pytest
 
+from tests.utils import run_until_complete
 from wse.app import WSE
 
 WIDGET_COUNT = 5
@@ -66,7 +65,7 @@ def test_goto_main_box_btn(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'На главную'
     assert wse.main_window.content == wse.box_main

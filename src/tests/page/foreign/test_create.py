@@ -6,11 +6,10 @@ Testing:
  * Control the widget order at page.
 """
 
-import asyncio
-
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
+from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.general.table import TableApp
 
@@ -69,7 +68,7 @@ def test_btn_goto_foreign_main(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'Иностранный'
 
@@ -95,7 +94,7 @@ def test_btn_goto_foreign_list(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'Словарь иностранных слов'
 

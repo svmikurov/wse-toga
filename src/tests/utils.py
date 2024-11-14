@@ -1,8 +1,17 @@
 """Utils for testing."""
 
+import asyncio
 import json
 import os
 import pathlib
+
+from wse.app import WSE
+
+
+def run_until_complete(wse: WSE) -> object:
+    """Run the event loop until a Future is done."""
+    time = 0.2
+    return wse.loop.run_until_complete(asyncio.sleep(time))
 
 
 class FixtureReader:

@@ -7,10 +7,9 @@ Testing:
  * Control the order of widget and widget containers at page.
 """
 
-import asyncio
-
 import pytest
 
+from tests.utils import run_until_complete
 from wse.app import WSE
 
 
@@ -65,7 +64,7 @@ def test_btn_goto_glossary_main(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'Глоссарий'
     assert wse.main_window.content == wse.box_glossary_main

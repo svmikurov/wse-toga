@@ -7,7 +7,6 @@
 
 """
 
-import asyncio
 from unittest.mock import AsyncMock, Mock, call, patch
 from urllib.parse import urljoin
 
@@ -15,6 +14,7 @@ import pytest
 from _pytest.fixtures import FixtureRequest
 from _pytest.monkeypatch import MonkeyPatch
 
+from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
 from wse.container.exercise import (
@@ -237,7 +237,7 @@ def test_answer_btns(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     # Button has specific text.
     assert btn.text == btn_text
@@ -280,7 +280,7 @@ def test_btn_next(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     # Button text.
     assert box.btn_next.text == 'Далее'
@@ -316,7 +316,7 @@ def test_btn_goto_params(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     # Button text.
     assert btn.text == 'Параметры упражнения'

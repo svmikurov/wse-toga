@@ -7,11 +7,10 @@ Testing:
  * Control the order of widgets at page.
 """
 
-import asyncio
-
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
+from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.general.table import TableApp
 
@@ -51,7 +50,7 @@ def test_btn_goto_main_page(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'На главную'
     assert wse.main_window.content == wse.box_main
@@ -64,7 +63,7 @@ def test_btn_goto_glossary_create_page(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'Добавить термин'
     assert wse.main_window.content == wse.box_glossary_create
@@ -77,7 +76,7 @@ def test_btn_goto_glossary_params_page(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'Упражнение'
     assert wse.main_window.content == wse.box_glossary_params
@@ -104,6 +103,6 @@ def test_btn_goto_list(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert wse.main_window.content == wse.box_glossary_list

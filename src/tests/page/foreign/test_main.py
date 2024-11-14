@@ -7,13 +7,11 @@ Testing:
  * The order of widget at page.
 """
 
-import asyncio
-
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from httpx import Client
 
-from tests.utils import FixtureReader
+from tests.utils import FixtureReader, run_until_complete
 from wse.app import WSE
 
 FIXTURE = 'response_foreign_list.json'
@@ -61,7 +59,7 @@ def test_btn_goto_main(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     # Window switching.
     assert wse.main_window.content == wse.box_main
@@ -75,7 +73,7 @@ def test_btn_goto_create(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     # Window switching.
     assert wse.main_window.content == wse.box_foreign_create
@@ -89,7 +87,7 @@ def test_btn_goto_params(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     # Window switching.
     assert wse.main_window.content == wse.box_foreign_params
@@ -110,6 +108,6 @@ def test_btn_goto_list(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert wse.main_window.content == wse.box_foreign_list

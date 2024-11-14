@@ -13,13 +13,13 @@ Testing:
 
 """
 
-import asyncio
 from unittest.mock import AsyncMock, Mock, patch
 
 import pytest
 from _pytest.fixtures import FixtureRequest
 from _pytest.monkeypatch import MonkeyPatch
 
+from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.general.selection import BaseSelection
 from wse.page import ParamForeignPage, ParamGlossaryPage
@@ -348,7 +348,7 @@ def test_btn_goto_exercise(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     # Button has specific text.
     assert btn.text == 'Начать упражнение'
@@ -447,7 +447,7 @@ def test_btn_goto_sub_main(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     # The button has a specific text.
     assert btn.text == btn_text

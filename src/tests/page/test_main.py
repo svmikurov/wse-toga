@@ -6,8 +6,7 @@ Testing:
  * Control the widget count for test.
 """
 
-import asyncio
-
+from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
 
@@ -35,7 +34,7 @@ def test_btn_login(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'Вход в учетную запись'
     assert wse.main_window.content == wse.box_login
@@ -48,7 +47,7 @@ def test_click_goto_foreign_btn(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'Иностранный'
     assert wse.main_window.content == wse.box_foreign_main
@@ -61,7 +60,7 @@ def test_click_goto_glossary_btn(wse: WSE) -> None:
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.2))
+    run_until_complete(wse)
 
     assert btn.text == 'Глоссарий'
     assert wse.main_window.content == wse.box_glossary_main
