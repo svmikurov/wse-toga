@@ -348,7 +348,7 @@ def test_btn_goto_exercise(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.5))
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
 
     # Button has specific text.
     assert btn.text == 'Начать упражнение'
@@ -445,6 +445,9 @@ def test_btn_goto_sub_main(
 
     # Simulate a button press.
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
 
     # The button has a specific text.
     assert btn.text == btn_text

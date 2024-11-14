@@ -43,7 +43,7 @@ class GoToBoxMixin:
         """  # noqa: D401
         widget.window.content = box
 
-    def on_open(self, widget: toga.Widget) -> None:
+    async def on_open(self, widget: toga.Widget) -> None:
         """Run when the current box is assigned to the window content.
 
         Override it if it necessary to run same actions, then the

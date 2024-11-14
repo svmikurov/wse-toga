@@ -13,6 +13,7 @@ from urllib.parse import urljoin
 
 import pytest
 from _pytest.fixtures import FixtureRequest
+from toga.handlers import simple_handler
 from toga.sources import ListSource
 
 from tests.utils import FixtureReader
@@ -85,6 +86,8 @@ def test_on_open(
     box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
     url = urljoin(HOST_API, params_path)
 
+    wrapped = simple_handler(box.on_open, box)
+
     # Opening page requests the user exercise params to server.
     get.return_value = Mock(
         name='Response',
@@ -95,7 +98,7 @@ def test_on_open(
     # Mock the lookup_conditions.
     with patch(lookup_conditions, new_callable=PropertyMock) as mock:
         # Invoke on_open method.
-        box.on_open(box)
+        wse.loop.run_until_complete(wrapped(box))
 
         # Assert that request specific url.
         assert get.call_args == call(url=url)

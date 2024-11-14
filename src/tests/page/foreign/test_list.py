@@ -7,6 +7,8 @@ Testing:
  * The order of widget and widget containers at page.
 """
 
+import asyncio
+
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from httpx import Client
@@ -106,6 +108,10 @@ def test_btn_goto_foreign(wse: WSE) -> None:
 
     # Window switching.
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
     assert wse.main_window.content == wse.box_foreign_main
 
 
@@ -116,6 +122,10 @@ def test_btn_goto_foreign_create(wse: WSE) -> None:
 
     # Window switching.
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
     assert wse.main_window.content == wse.box_foreign_create
 
 

@@ -6,6 +6,8 @@ Testing:
  * Control the widget order at page.
 """
 
+import asyncio
+
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
@@ -61,11 +63,16 @@ def test_btn_submit(wse: WSE) -> None:
     assert wse.main_window.content == wse.box_foreign_create
 
 
-def test_btn_goto_foreign(wse: WSE) -> None:
-    """Test button to go to foreign page box."""
+def test_btn_goto_foreign_main(wse: WSE) -> None:
+    """Test button to go to foreign main page box."""
     btn = wse.box_foreign_create.btn_goto_foreign_main
-    assert btn.text == 'Иностранный'
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    assert btn.text == 'Иностранный'
+
     assert wse.main_window.content == wse.box_foreign_main
 
 
@@ -82,9 +89,14 @@ def test_btn_goto_foreign_list(
 ) -> None:
     """Test button to go to foreign list page box."""
     btn = wse.box_foreign_create.btn_goto_foreign_list
-    assert btn.text == 'Словарь иностранных слов'
 
     monkeypatch.setattr(TableApp, 'request_entries', request_entries)
 
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    assert btn.text == 'Словарь иностранных слов'
+
     assert wse.main_window.content == wse.box_foreign_list

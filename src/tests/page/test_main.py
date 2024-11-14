@@ -6,6 +6,8 @@ Testing:
  * Control the widget count for test.
 """
 
+import asyncio
+
 from wse.app import WSE
 from wse.constants import HOST_API
 
@@ -26,27 +28,42 @@ def test_title(wse: WSE) -> None:
     assert title.text == 'WSELFEDU'
 
 
-def test_click_goto_login_btn(wse: WSE) -> None:
+def test_btn_login(wse: WSE) -> None:
     """Test click on button to go to login page box."""
     btn = wse.box_main.btn_goto_auth
-    assert btn.text == 'Вход в учетную запись'
+
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    assert btn.text == 'Вход в учетную запись'
     assert wse.main_window.content == wse.box_login
 
 
 def test_click_goto_foreign_btn(wse: WSE) -> None:
     """Test click on button to go to foreign page box."""
     btn = wse.box_main.btn_goto_foreign_main
-    assert btn.text == 'Иностранный'
+
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    assert btn.text == 'Иностранный'
     assert wse.main_window.content == wse.box_foreign_main
 
 
 def test_click_goto_glossary_btn(wse: WSE) -> None:
     """Test click on button to go to glossary page box."""
     btn = wse.box_main.btn_goto_glossary_main
-    assert btn.text == 'Глоссарий'
+
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    assert btn.text == 'Глоссарий'
     assert wse.main_window.content == wse.box_glossary_main
 
 

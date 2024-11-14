@@ -229,7 +229,7 @@ def test_answer_btns(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.5))
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
 
     # Button has specific text.
     assert btn.text == btn_text
@@ -271,7 +271,7 @@ def test_btn_next(
     btn._impl.simulate_press()
 
     # Run a fake main loop.
-    wse.loop.run_until_complete(asyncio.sleep(0.5))
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
 
     # Button text.
     assert box.btn_next.text == 'Далее'
@@ -304,6 +304,9 @@ def test_btn_goto_params(
 
     # Simulate the press button.
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
 
     # Button text.
     assert btn.text == 'Параметры упражнения'

@@ -7,6 +7,8 @@ Testing:
  * The order of widget at page.
 """
 
+import asyncio
+
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from httpx import Client
@@ -56,8 +58,12 @@ def test_btn_goto_main(wse: WSE) -> None:
     btn = wse.box_foreign_main.btn_goto_main
     assert btn.text == 'На главную'
 
-    # Window switching.
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    # Window switching.
     assert wse.main_window.content == wse.box_main
 
 
@@ -66,8 +72,12 @@ def test_btn_goto_create(wse: WSE) -> None:
     btn = wse.box_foreign_main.btn_goto_create
     assert btn.text == 'Добавить слово'
 
-    # Window switching.
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    # Window switching.
     assert wse.main_window.content == wse.box_foreign_create
 
 
@@ -76,8 +86,12 @@ def test_btn_goto_params(wse: WSE) -> None:
     btn = wse.box_foreign_main.btn_goto_params
     assert btn.text == 'Упражнение'
 
-    # Window switching.
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    # Window switching.
     assert wse.main_window.content == wse.box_foreign_params
 
 
@@ -92,5 +106,10 @@ def test_btn_goto_list(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     # If mapping of word list have not required fields will be raising
     # the KeyError.
     monkeypatch.setattr(Client, 'get', mock_list_json)
+
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
     assert wse.main_window.content == wse.box_foreign_list

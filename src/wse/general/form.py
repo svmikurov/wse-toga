@@ -16,6 +16,6 @@ class BaseForm(
         """Construct the form."""
         super().__init__(*args, **kwargs)
 
-    def on_open(self, widget: toga.Widget) -> None:
+    async def on_open(self, widget: toga.Widget) -> None:
         """Invoke the focus to input field on open form."""
         self.focus_to_input_field()

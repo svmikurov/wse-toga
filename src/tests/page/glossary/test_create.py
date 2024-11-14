@@ -7,6 +7,8 @@ Testing:
  * Control the order of widget and widget containers at page.
 """
 
+import asyncio
+
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
@@ -60,8 +62,8 @@ def test_input_definition(wse: WSE) -> None:
 def test_btn_submit(wse: WSE) -> None:
     """Test the button of create glossary term create."""
     btn = wse.box_glossary_create.btn_submit
-    assert btn.text == 'Добавить'
     btn._impl.simulate_press()
+    assert btn.text == 'Добавить'
     assert wse.main_window.content == wse.box_glossary_create
 
 
@@ -78,17 +80,26 @@ def test_btn_goto_glossary_list(
 ) -> None:
     """Test the button of go to glossary list page box."""
     btn = wse.box_glossary_create.btn_goto_glossary_list
-    assert btn.text == 'Словарь терминов'
 
     monkeypatch.setattr(TableApp, 'request_entries', request_entries)
 
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    assert btn.text == 'Словарь терминов'
     assert wse.main_window.content == wse.box_glossary_list
 
 
 def test_btn_goto_glossary_main(wse: WSE) -> None:
     """Test the button of go to glossary main page."""
     btn = wse.box_glossary_create.btn_goto_glossary_main
-    assert btn.text == 'Глоссарий'
+
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    assert btn.text == 'Глоссарий'
     assert wse.main_window.content == wse.box_glossary_main

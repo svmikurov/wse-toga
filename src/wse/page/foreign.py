@@ -107,7 +107,7 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
         self.set_window_content(widget, exercise_box)
         await exercise_box.loop_task()
 
-    def on_open(self, widget: toga.Widget) -> None:
+    async def on_open(self, widget: toga.Widget) -> None:
         """Request and fill params data of box when box open."""
         url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
         response = request_get(url=url)
@@ -160,6 +160,12 @@ class ExerciseForeignPage(ExerciseBox):
         )
         self.box_exercise.insert(4, self.label_textpanel)
         self.box_exercise.insert(5, self.display_exercise_info)
+
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Start exercise."""
+        box_params = widget.root.app.box_foreign_params
+        self.task.params = box_params.lookup_conditions
+        await self.loop_task()
 
     def populate_textpanel(self) -> None:
         """Populate the text panel."""
@@ -301,9 +307,9 @@ class ListForeignPage(TableApp):
             self.btns_paginate,
         )
 
-    def create_handler(self, widget: toga.Widget) -> None:
+    async def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the word form, button handler."""
-        goto_foreign_create(widget)
+        await goto_foreign_create(widget)
 
     def update_handler(self, widget: toga.Widget) -> None:
         """Go to create the word form, button handler."""

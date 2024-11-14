@@ -10,6 +10,8 @@ Testing:
    * add test login - request to login.
 """
 
+import asyncio
+
 import pytest
 
 from wse.app import WSE
@@ -60,6 +62,11 @@ def test_login_btn(wse: WSE) -> None:
 def test_goto_main_box_btn(wse: WSE) -> None:
     """Test the button to go to main page box."""
     btn = wse.box_login.btn_goto_main
-    assert btn.text == 'На главную'
+
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    wse.loop.run_until_complete(asyncio.sleep(0.2))
+
+    assert btn.text == 'На главную'
     assert wse.main_window.content == wse.box_main

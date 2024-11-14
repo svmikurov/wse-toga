@@ -41,6 +41,7 @@ from wse.general.button import BtnApp
 from wse.general.form import BaseForm
 from wse.general.goto_handler import (
     goto_glossary_create,
+    goto_glossary_exercise,
     goto_glossary_list,
     goto_glossary_main,
     goto_glossary_params,
@@ -105,12 +106,14 @@ class ParamGlossaryPage(ExerciseParamSelectionsBox):
 
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to glossary exercise, button handler."""
-        exercise_box = widget.root.app.box_glossary_exercise
-        exercise_box.task.params = self.lookup_conditions
-        self.set_window_content(widget, exercise_box)
-        await exercise_box.loop_task()
+        await goto_glossary_exercise(self)
 
-    def on_open(self, widget: toga.Widget) -> None:
+    #     exercise_box = widget.root.app.box_glossary_exercise
+    #     exercise_box.task.params = self.lookup_conditions
+    #     self.set_window_content(widget, exercise_box)
+    #     await exercise_box.loop_task()
+
+    async def on_open(self, widget: toga.Widget) -> None:
         """Request and fill params data."""
         url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
         response = request_get(url=url)
@@ -149,6 +152,12 @@ class ExerciseGlossaryPage(ExerciseBox):
             self.box_exercise,
             self.btn_goto_params,
         )
+
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Start exercise."""
+        box_params = widget.root.app.box_glossary_params
+        self.task.params = box_params.lookup_conditions
+        await self.loop_task()
 
 
 class FormGlossary(BaseForm):

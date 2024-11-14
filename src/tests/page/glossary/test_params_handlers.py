@@ -6,14 +6,14 @@ Testing:
  * Request handler of save params.
 """
 
-from unittest.mock import Mock, PropertyMock, call, patch
+from unittest.mock import Mock, patch
 from urllib.parse import urljoin
 
 from toga.sources import ListSource
 
 from tests.utils import FixtureReader
 from wse.app import WSE
-from wse.constants import GLOSSARY_PARAMS_PATH, HOST_API
+from wse.constants import HOST_API
 
 REQEUST_PARAMS_URL = '/api/v1/glossary/params/'
 REQEUST_EXERCISE_URL = '/api/v1/glossary/exercise/'
@@ -26,32 +26,6 @@ def get_assertion(items: list, expected: ListSource) -> None:
     for index, item in enumerate(items):
         assert item.alias == expected[index].alias
         assert item.humanly == expected[index].humanly
-
-
-@patch(
-    target='wse.page.ParamGlossaryPage.lookup_conditions',
-    new_callable=PropertyMock,
-)
-@patch(
-    target='httpx.Client.get',
-)
-def test_on_open(get: Mock, lookup_conditions: Mock, wse: WSE) -> None:
-    """Test the calls of on_open method glossary params box."""
-    # Opening page requests the user exercise params from server.
-    get.return_value = Mock(
-        name='Response',
-        status_code=200,
-        json=Mock(return_value=PARAMS),
-    )
-    wse.box_glossary_params.on_open(wse.box_glossary_params)
-
-    # Exercise params request url.
-    url = call(url=urljoin(HOST_API, GLOSSARY_PARAMS_PATH))
-    assert get.call_args == url
-
-    # Call lookup_condition property setter.
-    mock_calls = [call(PARAMS)]
-    assert lookup_conditions.mock_calls == mock_calls
 
 
 def test_selection_start_period_data(
