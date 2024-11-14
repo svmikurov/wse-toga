@@ -28,12 +28,17 @@ from wse.constants import (
     TASK_ERROR_MSG,
 )
 from wse.constants.literal import ITEM_ID
-from wse.contrib.http_requests import request_post, request_post_async
+from wse.contrib.http_requests import (
+    HttpPutMixin,
+    request_post,
+    request_post_async,
+)
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
 from wse.general.box import FlexBox
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
+from wse.general.goto_handler import set_window_content
 from wse.general.label import TitleLabel
 from wse.general.selection import BaseSelection
 from wse.general.text_input import TextPanel
@@ -56,11 +61,14 @@ class AnswerBtn(toga.Button):
         super().__init__(text=text, style=style, on_press=on_press)
 
 
-class ExerciseParamSelectionsBox(BoxApp):
+class ExerciseParamSelectionsBox(HttpPutMixin, BoxApp):
     """Exercise param box of selection widgets."""
 
     title = ''
     """Page box title (`str`).
+    """
+    url = ''
+    """Learning foreign word exercise parameters url (`str`).
     """
 
     def __init__(self) -> None:
@@ -187,14 +195,10 @@ class ExerciseParamSelectionsBox(BoxApp):
             'Subclasses must provide a goto_exercise_box_handler() method.'
         )
 
-    def save_params_handler(self, widget: toga.Widget) -> None:
-        """Save Exercise parameters, button handler.
-
-        Request to save user exercise parameters.
-        """
-        raise NotImplementedError(
-            'Subclasses must provide a save_params_handler() method.'
-        )
+    async def save_params_handler(self, _: toga.Widget) -> None:
+        """Request to save foreign exercise params, button handler."""
+        payload = self.lookup_conditions
+        await self.request_put_async(self.url, payload)
 
     ####################################################################
     # Switch callback functions
@@ -266,6 +270,8 @@ class ExerciseBox(BoxApp):
     """Exercise container of widgets."""
 
     title = ''
+    """The box-container title (`str`).
+    """
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -325,6 +331,13 @@ class ExerciseBox(BoxApp):
             self.btn_next,
         )
 
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Start exercise."""
+        self.set_params()
+        self.clean_text_panel()
+        self.reset_task_status()
+        await self.loop_task()
+
     ####################################################################
     # Button handlers
 
@@ -357,6 +370,11 @@ class ExerciseBox(BoxApp):
     # End Button handlers
     #####################
 
+    def set_params(self) -> None:
+        """Set exercise params to exercise attr."""
+        box_params = self.get_box_params()
+        self.task.params = box_params.lookup_conditions
+
     async def request_task(self) -> None:
         """Request the task data."""
         r = request_post(self.url_exercise, self.task.params)
@@ -365,7 +383,7 @@ class ExerciseBox(BoxApp):
             return
         elif r.status_code == HTTPStatus.NO_CONTENT:
             await self.show_message('', NO_TASK_MSG)
-            self.move_to_box_params(self)
+            await self.move_to_box_params(self)
         else:
             await self.show_message('', TASK_ERROR_MSG)
         self.task.data = None
@@ -396,6 +414,10 @@ class ExerciseBox(BoxApp):
                 self.task.status = QUESTION
             await self.timer.start()
 
+    def reset_task_status(self) -> None:
+        """Reset the task status."""
+        self.task.status = None
+
     def is_enable_new_task(self) -> bool:
         """Return `False` to cancel task update, `True` otherwise."""
         if not self.timer.is_pause():
@@ -411,9 +433,16 @@ class ExerciseBox(BoxApp):
         self.display_answer.clean()
         self.display_question.clean()
 
-    def move_to_box_params(self, widget: toga.Widget) -> None:
+    async def move_to_box_params(self, widget: toga.Widget) -> None:
         """Move to exercise parameters page box.
 
         Override this method.
         """
-        pass
+        box = self.get_box_params()
+        await set_window_content(self, box)
+
+    def get_box_params(self) -> ExerciseParamSelectionsBox:
+        """Get box instance with exercise params."""
+        raise NotImplementedError(
+            'Subclasses must provide a box_name_params method.'
+        )

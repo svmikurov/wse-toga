@@ -13,6 +13,8 @@ Tests
    Glossary pages <glossary/index>
    Other <other>
 
+   test_start_app
+   test_user
    test_exercise
    test_exercise_http
    test_general_widget

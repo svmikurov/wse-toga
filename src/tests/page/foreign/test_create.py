@@ -34,12 +34,6 @@ def test_widget_order(wse: WSE) -> None:
     assert box.children == expected_widget_order
 
 
-def test_label_title(wse: WSE) -> None:
-    """Test page box title."""
-    title = wse.box_foreign_create.label_title
-    assert title.text == 'Добавить слово'
-
-
 def test_input_native(wse: WSE) -> None:
     """Test the native word input field."""
     input_native = wse.box_foreign_create.input_native

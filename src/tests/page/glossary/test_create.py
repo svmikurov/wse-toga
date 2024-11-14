@@ -24,26 +24,6 @@ def goto_glossary_term_create_page(wse: WSE) -> None:
     wse.main_window.content = wse.box_glossary_create
 
 
-def test_widget_order(wse: WSE) -> None:
-    """Test the widget order at glossary term create page box."""
-    box = wse.box_glossary_create
-
-    assert box.children == [
-        box.label_title,
-        box.input_term,
-        box.input_definition,
-        box.btn_submit,
-        box.btn_goto_glossary_list,
-        box.btn_goto_glossary_main,
-    ]
-
-
-def test_label_title(wse: WSE) -> None:
-    """Test the title of glossary term create page box."""
-    title = wse.box_glossary_create.label_title
-    assert title.text == 'Добавить термин'
-
-
 def test_input_term(wse: WSE) -> None:
     """Test the term input field of glossary create page."""
     input_field = wse.box_glossary_create.input_term

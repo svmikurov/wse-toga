@@ -1,4 +1,5 @@
 import asyncio
+from asyncio import AbstractEventLoop
 
 import pytest
 
@@ -19,7 +20,7 @@ def event_loop(request):
 
 
 @pytest.fixture
-def wse(event_loop):
+def wse(event_loop: AbstractEventLoop):
     # The app icon is cached; purge the app icon cache if it exists
     try:
         del toga.Icon.__APP_ICON

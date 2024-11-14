@@ -10,8 +10,8 @@ from wse.app import WSE
 
 def run_until_complete(wse: WSE) -> object:
     """Run the event loop until a Future is done."""
-    time = 0.2
-    return wse.loop.run_until_complete(asyncio.sleep(time))
+    time_to_sleep = 0.1
+    return wse.loop.run_until_complete(asyncio.sleep(time_to_sleep))
 
 
 class FixtureReader:

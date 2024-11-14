@@ -51,7 +51,7 @@ class UserAuth(BoxApp):
         self.is_auth: bool = False
         self.username: str | None = None
 
-        self.btn_goto_auth = BtnApp(
+        self.btn_change_auth = BtnApp(
             self.auth_attrs['btn_auth']['text'],
             on_press=self.auth_attrs['btn_auth']['on_press'],
         )
@@ -92,18 +92,21 @@ class UserAuth(BoxApp):
 
     def update_widget_values(self) -> None:
         """Update widget values by user auth status."""
-        # Display info.
+        # Update information on the display.
         self.info_panel.value = self.auth_attrs['info_text']
-        # Button auth user.
-        self.btn_goto_auth.text = self.auth_attrs['btn_auth']['text']
-        self.btn_goto_auth.on_press = self.auth_attrs['btn_auth']['on_press']
 
-    def setup_user_status(self) -> None:
-        """Request and set user data for information."""
-        user_data = request_get(self.user_detail_url)
-        # Update user data.
-        if user_data.status_code == HTTPStatus.OK:
-            self.username = user_data.json()['username']
+        # Update authentication button.
+        self.btn_change_auth.text = self.auth_attrs['btn_auth']['text']
+        self.btn_change_auth.on_press = self.auth_attrs['btn_auth']['on_press']
+
+    def refresh_user_auth_status(self) -> None:
+        """Refresh the user authentication status."""
+        # Request the user detail.
+        response = request_get(self.user_detail_url)
+
+        # Update the user authentication data.
+        if response.status_code == HTTPStatus.OK:
+            self.username = response.json()['username']
             self.is_auth = True
         else:
             self.username = None

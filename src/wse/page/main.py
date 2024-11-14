@@ -12,7 +12,9 @@ from wse.constants import (
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.goto_handler import (
+    goto_foreign_exercise,
     goto_foreign_main,
+    goto_glossary_exercise,
     goto_glossary_main,
 )
 from wse.general.label import TitleLabel
@@ -52,11 +54,11 @@ class MainBox(UserAuth, BoxApp):
         )
         self.btn_goto_foreign_exercise = BtnApp(
             'Изучение слов',
-            on_press=self.goto_foreign_exercise,
+            on_press=goto_foreign_exercise,
         )
         self.btn_goto_glossary_exercise = BtnApp(
             'Изучение терминов',
-            on_press=self.goto_glossary_exercise,
+            on_press=goto_glossary_exercise,
         )
 
         # Info panel
@@ -70,30 +72,10 @@ class MainBox(UserAuth, BoxApp):
         self.add(
             self.label_title,
             self.info_panel,
-            self.btn_goto_auth,  # UserAuth attr
+            self.btn_change_auth,  # UserAuth attr
             self.btn_goto_foreign_main,
             self.btn_goto_glossary_main,
             self.label_chapter_exercises,
             self.btn_goto_foreign_exercise,
             self.btn_goto_glossary_exercise,
         )
-
-    async def goto_foreign_exercise(self, widget: toga.Widget) -> None:
-        """Start foreign exercise."""
-        box_params = widget.root.app.box_foreign_params
-        box_params.on_open(widget)
-        await box_params.goto_box_exercise_handler(widget)
-
-        box_exercise = widget.root.app.box_foreign_exercise
-        self.set_window_content(widget, box_exercise)
-        await box_exercise.loop_task()
-
-    async def goto_glossary_exercise(self, widget: toga.Widget) -> None:
-        """Start foreign exercise."""
-        box_params = widget.root.app.box_glossary_params
-        box_params.on_open(widget)
-        await box_params.goto_box_exercise_handler(widget)
-
-        box_exercise = widget.root.app.box_glossary_exercise
-        self.set_window_content(widget, box_exercise)
-        await box_exercise.loop_task()

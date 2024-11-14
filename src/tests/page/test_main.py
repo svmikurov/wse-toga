@@ -29,7 +29,7 @@ def test_title(wse: WSE) -> None:
 
 def test_btn_login(wse: WSE) -> None:
     """Test click on button to go to login page box."""
-    btn = wse.box_main.btn_goto_auth
+    btn = wse.box_main.btn_change_auth
 
     btn._impl.simulate_press()
 

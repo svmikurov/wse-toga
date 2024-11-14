@@ -32,7 +32,6 @@ from wse.contrib.http_requests import (
     HttpPostMixin,
     HttpPutMixin,
     request_get,
-    request_post,
 )
 from wse.general.box_page import (
     BoxApp,
@@ -90,6 +89,9 @@ class ParamGlossaryPage(ExerciseParamSelectionsBox):
     """Glossary page box."""
 
     title = TITLE_GLOSSARY_PARAMS
+    url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
+    """Learning glossary term exercise parameters url (`str`).
+    """
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -108,26 +110,11 @@ class ParamGlossaryPage(ExerciseParamSelectionsBox):
         """Go to glossary exercise, button handler."""
         await goto_glossary_exercise(self)
 
-    #     exercise_box = widget.root.app.box_glossary_exercise
-    #     exercise_box.task.params = self.lookup_conditions
-    #     self.set_window_content(widget, exercise_box)
-    #     await exercise_box.loop_task()
-
     async def on_open(self, widget: toga.Widget) -> None:
         """Request and fill params data."""
-        url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
-        response = request_get(url=url)
+        response = request_get(url=self.url)
         if response.status_code == HTTPStatus.OK:
             self.lookup_conditions = response.json()
-
-    def save_params_handler(self, _: toga.Widget) -> None:
-        """Save Glossary Exercise parameters, button handler.
-
-        Request to save user exercise parameters.
-        """
-        url = urljoin(HOST_API, GLOSSARY_PARAMS_PATH)
-        payload = self.lookup_conditions
-        request_post(url, payload)
 
 
 class ExerciseGlossaryPage(ExerciseBox):
@@ -153,11 +140,9 @@ class ExerciseGlossaryPage(ExerciseBox):
             self.btn_goto_params,
         )
 
-    async def on_open(self, widget: toga.Widget) -> None:
-        """Start exercise."""
-        box_params = widget.root.app.box_glossary_params
-        self.task.params = box_params.lookup_conditions
-        await self.loop_task()
+    def get_box_params(self) -> ParamGlossaryPage:
+        """Get box instance with exercise params."""
+        return self.root.app.box_glossary_params
 
 
 class FormGlossary(BaseForm):

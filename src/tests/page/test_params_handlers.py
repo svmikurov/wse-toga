@@ -8,7 +8,7 @@ Testing:
 """
 
 from unittest import skip
-from unittest.mock import Mock, PropertyMock, call, patch
+from unittest.mock import MagicMock, Mock, PropertyMock, call, patch
 from urllib.parse import urljoin
 
 import pytest
@@ -68,7 +68,7 @@ def box(request: FixtureRequest) -> ParamForeignPage | ParamGlossaryPage:
 )
 @patch('httpx.Client.get')
 def test_on_open(
-    get: Mock,
+    get: MagicMock,
     box_name: str,
     lookup_conditions: str,
     params_path: str,
@@ -186,7 +186,7 @@ def test_input_count_last(wse: WSE, selection_params: object) -> None:
 @skip
 @patch('httpx.Client.post')
 def test_save_params_handler(
-    post: Mock,
+    post: MagicMock,
     selection_params: object,
     wse: WSE,
 ) -> None:

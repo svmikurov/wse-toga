@@ -5,7 +5,7 @@
    * add test the display a task question and answer.
 """
 
-from unittest.mock import AsyncMock, Mock, call, patch
+from unittest.mock import AsyncMock, MagicMock, call, patch
 from urllib.parse import urljoin
 
 import pytest
@@ -143,7 +143,7 @@ def test_display_exercise_info(box_foreign: ExerciseForeignPage) -> None:
 
 
 @patch.object(Timer, 'on_pause')
-def test_btn_pause(on_pause: Mock, box: ExerciseBox) -> None:
+def test_btn_pause(on_pause: MagicMock, box: ExerciseBox) -> None:
     """Test the button of pause.
 
     Testing:

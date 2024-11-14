@@ -158,14 +158,14 @@ def test_glossary_widget_order(
 
 
 @pytest.mark.parametrize(
-    'box_name, title_text',
+    'box_name, label_text',
     [
         ('box_foreign_params', 'Параметры изучения слов'),
         ('box_glossary_params', 'Параметры изучения терминов'),
     ],
 )
-def test_label_title(box_name: str, title_text: str, wse: WSE) -> None:
-    """Test page box title.
+def test_label_title(box_name: str, label_text: str, wse: WSE) -> None:
+    """Test the label title.
 
     Testing:
      * ParamForeignPage and ParamGlossaryPage classes;
@@ -175,7 +175,7 @@ def test_label_title(box_name: str, title_text: str, wse: WSE) -> None:
     box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
 
     # The label has a specific text.
-    assert box.label_title.text == title_text
+    assert box.label_title.text == label_text
 
 
 @pytest.mark.parametrize(

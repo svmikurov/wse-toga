@@ -6,7 +6,7 @@ Testing:
  * Request handler of save params.
 """
 
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, patch
 from urllib.parse import urljoin
 
 from toga.sources import ListSource
@@ -17,7 +17,7 @@ from wse.constants import HOST_API
 
 REQEUST_PARAMS_URL = '/api/v1/glossary/params/'
 REQEUST_EXERCISE_URL = '/api/v1/glossary/exercise/'
-FIXTURE = 'params.json'
+FIXTURE = 'params_glossary.json'
 PARAMS = FixtureReader(FIXTURE).json()
 
 
@@ -106,7 +106,7 @@ def test_input_count_last(wse: WSE, selection_params: object) -> None:
 
 @patch('httpx.Client.post')
 def test_save_params_handler(
-    post: Mock,
+    post: MagicMock,
     selection_params: object,
     wse: WSE,
 ) -> None:

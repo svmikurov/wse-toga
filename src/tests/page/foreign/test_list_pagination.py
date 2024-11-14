@@ -6,7 +6,7 @@ Testing:
  * Button handlers.
 """
 
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
@@ -68,7 +68,7 @@ def test_pagination_last_page(wse: WSE, monkeypatch: MonkeyPatch) -> None:
 
 
 @patch('httpx.Client')
-def test_btn_next_handler(client: Mock, wse: WSE) -> None:
+def test_btn_next_handler(client: MagicMock, wse: WSE) -> None:
     """Test the handler of button pagination next."""
     btn = wse.box_foreign_list._btn_next
     assert btn.text == '>'
@@ -79,7 +79,7 @@ def test_btn_next_handler(client: Mock, wse: WSE) -> None:
 
 
 @patch('httpx.Client')
-def test_btn_previous_handler(client: Mock, wse: WSE) -> None:
+def test_btn_previous_handler(client: MagicMock, wse: WSE) -> None:
     """Test the handler of button pagination previous."""
     btn = wse.box_foreign_list._btn_previous
     assert btn.text == '<'
@@ -90,7 +90,7 @@ def test_btn_previous_handler(client: Mock, wse: WSE) -> None:
 
 
 @patch('httpx.Client')
-def test_btn_table_reload_handler(client: Mock, wse: WSE) -> None:
+def test_btn_table_reload_handler(client: MagicMock, wse: WSE) -> None:
     """Test the handler of button pagination previous."""
     btn = wse.box_foreign_list._btn_table_reload
     assert btn.text == 'Обновить'

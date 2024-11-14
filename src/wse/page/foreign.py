@@ -40,6 +40,7 @@ from wse.general.button import BtnApp
 from wse.general.form import BaseForm
 from wse.general.goto_handler import (
     goto_foreign_create,
+    goto_foreign_exercise,
     goto_foreign_list,
     goto_foreign_main,
     goto_foreign_params,
@@ -81,10 +82,13 @@ class MainForeignPage(BoxApp):
         )
 
 
-class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
+class ParamForeignPage(ExerciseParamSelectionsBox):
     """Learning foreign words exercise parameters the page box."""
 
     title = TITLE_FOREIGN_PARAMS
+    url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
+    """Learning foreign word exercise parameters url (`str`).
+    """
 
     def __init__(self) -> None:
         """Construct the box."""
@@ -100,28 +104,13 @@ class ParamForeignPage(HttpPutMixin, ExerciseParamSelectionsBox):
 
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
-        exercise_box = widget.root.app.box_foreign_exercise
-        exercise_box.clean_text_panel()
-        exercise_box.task.status = None
-        exercise_box.task.params = self.lookup_conditions
-        self.set_window_content(widget, exercise_box)
-        await exercise_box.loop_task()
+        await goto_foreign_exercise(widget)
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Request and fill params data of box when box open."""
-        url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
-        response = request_get(url=url)
+        response = request_get(url=self.url)
         if response.status_code == HTTPStatus.OK:
             self.lookup_conditions = response.json()
-
-    async def save_params_handler(self, _: toga.Widget) -> None:
-        """Save Foreign Exercise parameters, button handler.
-
-        Request to save user exercise parameters.
-        """
-        url = urljoin(HOST_API, FOREIGN_PARAMS_PATH)
-        payload = self.lookup_conditions
-        await self.request_put_async(url, payload)
 
 
 class ExerciseForeignPage(ExerciseBox):
@@ -147,9 +136,7 @@ class ExerciseForeignPage(ExerciseBox):
         # TextPanel
         self.label_textpanel = toga.Label('Информация об упражнении:')
         self.label_textpanel.style = Pack(padding=(0, 0, 0, 7))
-        self.display_exercise_info = MultilineTextInput(
-            readonly=True,
-        )
+        self.display_exercise_info = MultilineTextInput(readonly=True)
 
         # Widget DOM.
         self.add(
@@ -160,12 +147,6 @@ class ExerciseForeignPage(ExerciseBox):
         )
         self.box_exercise.insert(4, self.label_textpanel)
         self.box_exercise.insert(5, self.display_exercise_info)
-
-    async def on_open(self, widget: toga.Widget) -> None:
-        """Start exercise."""
-        box_params = widget.root.app.box_foreign_params
-        self.task.params = box_params.lookup_conditions
-        await self.loop_task()
 
     def populate_textpanel(self) -> None:
         """Populate the text panel."""
@@ -179,9 +160,9 @@ class ExerciseForeignPage(ExerciseBox):
         super().show_question()
         self.populate_textpanel()
 
-    def move_to_box_params(self, widget: toga.Widget) -> None:
-        """Move to exercise parameters page box."""
-        goto_foreign_params(widget)
+    def get_box_params(self) -> ParamForeignPage:
+        """Get box instance with exercise params."""
+        return self.root.app.box_foreign_params
 
 
 class FormForeign(BaseForm):
