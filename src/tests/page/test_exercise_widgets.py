@@ -1,10 +1,8 @@
-"""Test widgets of foreign exercise page box.
+"""Test widgets of foreign and glossary exercise page boxes.
 
 .. todo::
 
-   * add test the display a task question and answer;
-   * add test the title label.
-
+   * add test the display a task question and answer.
 """
 
 from unittest.mock import AsyncMock, MagicMock, call, patch
@@ -18,7 +16,6 @@ from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
 from wse.container.exercise import (
-    AnswerBtn,
     ExerciseBox,
 )
 from wse.contrib.task import Task
@@ -58,8 +55,7 @@ def box(request: FixtureRequest) -> ExerciseForeignPage | ExerciseGlossaryPage:
 
 
 def test_foreign_widget_order(box_foreign: ExerciseForeignPage) -> None:
-    """Test the widget and containers orger at foreign exercise page."""
-    # Probably will use ``box`` fixture.
+    """Test the widget and container orger at foreign exercise page."""
     box = box_foreign
     assert box.children == [
         box.label_title,
@@ -85,7 +81,6 @@ def test_foreign_widget_order(box_foreign: ExerciseForeignPage) -> None:
 
 def test_glossary_widget_order(box_glossary: ExerciseGlossaryPage) -> None:
     """Test the widget and container orger at glossary exercise page."""
-    # Probably will use ``box`` fixture.
     box = box_glossary
 
     assert box.children == [
@@ -116,7 +111,6 @@ def test_display_question(
     Testing:
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * that the widget is read only.
-
     """
     # The display widget is read-only.
     assert box.display_question.readonly is True
@@ -130,7 +124,6 @@ def test_display_answer(
     Testing:
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * that the widget is read only.
-
     """
     # The display widget is read-only.
     assert box.display_answer.readonly is True
@@ -142,7 +135,6 @@ def test_display_exercise_info(box_foreign: ExerciseForeignPage) -> None:
     Testing:
      * ExerciseForeignPage class;
      * that the widget is read only.
-
     """
     # The display widget is read-only.
     assert box_foreign.display_exercise_info.readonly is True
@@ -156,7 +148,6 @@ def test_btn_pause(on_pause: MagicMock, box: ExerciseBox) -> None:
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * call the ``on_pause`` method of the ``Timer`` class
        with the button handler when the button is pressed.
-
     """
     btn = box.btn_pause
     assert btn.text == 'Пауза'
@@ -224,10 +215,9 @@ def test_answer_btns(
      .. todo:
 
         * add test the change of task.status to 'question'.
-
     """
     box: ExerciseForeignPage | ExerciseGlossaryPage = getattr(wse, box_name)
-    btn: AnswerBtn = getattr(box, btn_name)
+    btn = getattr(box, btn_name)
     set_window_content(wse, box)
 
     # Mock the item ID to answer.
@@ -271,7 +261,6 @@ def test_btn_next(
     .. todo::
 
        * add test the unpause of task.
-
     """
     btn = box.btn_next
     set_window_content(wse, box)
@@ -306,7 +295,6 @@ def test_btn_goto_params(
     Testing:
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * window switching.
-
     """
     box: ExerciseForeignPage | ExerciseGlossaryPage = getattr(wse, box_name)
     btn = box.btn_goto_params
