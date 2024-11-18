@@ -1,7 +1,5 @@
 """Task."""
 
-from wse.constants.literal import ANSWER_TEXT, ID, QUESTION_TEXT
-
 
 class Task:
     """Task.
@@ -34,14 +32,14 @@ class Task:
     @property
     def question(self) -> str:
         """The text of the task question (`str`, reade-only)."""
-        return self.data[QUESTION_TEXT]
+        return self.data['question_text']
 
     @property
     def answer(self) -> str:
         """The text of the task answer (`str`, reade-only)."""
-        return self.data[ANSWER_TEXT]
+        return self.data['answer_text']
 
     @property
     def item_id(self) -> int:
         """Item ID on task (`int`, reade-only)."""
-        return self.data[ID]
+        return self.data['id']

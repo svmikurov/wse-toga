@@ -2,8 +2,6 @@
 
 import toga
 
-from wse.constants import ALIAS, HUMANLY
-
 
 class BaseSelection(toga.Selection):
     """Custom selection widget.
@@ -18,9 +16,9 @@ class BaseSelection(toga.Selection):
 
     def __init__(self, **kwargs: object) -> None:
         """Construct the widget."""
-        kwargs['accessor'] = HUMANLY
+        kwargs['accessor'] = 'humanly'
         super().__init__(**kwargs)
-        self.alias = ALIAS
+        self.alias = 'alias'
 
     def set_items(self, items: list[dict], value: str | None) -> None:
         """Set selection initial items and initial value to display.

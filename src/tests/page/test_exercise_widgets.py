@@ -64,9 +64,9 @@ def test_foreign_widget_order(box_foreign: ExerciseForeignPage) -> None:
     ]
     assert box.box_exercise.children == [
         box.label_question,
-        box.display_question,
+        box.text_panel_question,
         box.label_answer,
-        box.display_answer,
+        box.text_panel_answer,
         box.label_textpanel,
         box.display_exercise_info,
         box.box_btn_group,
@@ -90,9 +90,9 @@ def test_glossary_widget_order(box_glossary: ExerciseGlossaryPage) -> None:
     ]
     assert box.box_exercise.children == [
         box.label_question,
-        box.display_question,
+        box.text_panel_question,
         box.label_answer,
-        box.display_answer,
+        box.text_panel_answer,
         box.box_btn_group,
     ]
     assert box.box_btn_group.children == [
@@ -113,7 +113,7 @@ def test_display_question(
      * that the widget is read only.
     """
     # The display widget is read-only.
-    assert box.display_question.readonly is True
+    assert box.text_panel_question.readonly is True
 
 
 def test_display_answer(
@@ -126,7 +126,7 @@ def test_display_answer(
      * that the widget is read only.
     """
     # The display widget is read-only.
-    assert box.display_answer.readonly is True
+    assert box.text_panel_answer.readonly is True
 
 
 def test_display_exercise_info(box_foreign: ExerciseForeignPage) -> None:

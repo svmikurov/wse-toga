@@ -8,7 +8,6 @@ from toga import MultilineTextInput
 from toga.style import Pack
 
 from wse.constants import (
-    ASSESSMENT,
     BTN_GOTO_FOREIGN_CREATE,
     BTN_GOTO_FOREIGN_LIST,
     BTN_GOTO_FOREIGN_MAIN,
@@ -19,9 +18,7 @@ from wse.constants import (
     FOREIGN_EXERCISE_PATH,
     FOREIGN_PARAMS_PATH,
     FOREIGN_PATH,
-    FOREIGN_WORD,
     HOST_API,
-    RUSSIAN_WORD,
     TITLE_FOREIGN_CREATE,
     TITLE_FOREIGN_EXERCISE,
     TITLE_FOREIGN_LIST,
@@ -152,7 +149,7 @@ class ExerciseForeignPage(ExerciseBox):
         """Populate the text panel."""
         self.display_exercise_info.value = (
             f'Найдено слов: {self.task.data["item_count"]}\n'
-            f'Оценка знания слова: {self.task.data[ASSESSMENT]}'
+            f'Оценка знания слова: {self.task.data["assessment"]}'
         )
 
     def show_question(self) -> None:
@@ -229,8 +226,8 @@ class CreateWordPage(HttpPostMixin, FormForeign):
     def get_widget_data(self) -> dict:
         """Get the entered into the form data."""
         submit_entry = {
-            FOREIGN_WORD: self.input_foreign.value,
-            RUSSIAN_WORD: self.input_native.value,
+            'foreign_word': self.input_foreign.value,
+            'native_word': self.input_native.value,
         }
         return submit_entry
 
@@ -250,8 +247,8 @@ class UpdateWordPage(HttpPutMixin, FormForeign):
         """Get the entered into the form data."""
         submit_entry = {
             'id': str(self.entry.id),
-            FOREIGN_WORD: self.input_foreign.value,
-            RUSSIAN_WORD: self.input_native.value,
+            'foreign_word': self.input_foreign.value,
+            'native_word': self.input_native.value,
         }
         return submit_entry
 

@@ -9,7 +9,6 @@ from pathlib import Path
 import httpx
 from httpx import Request, Response
 
-import wse.constants as const
 from wse.constants import CONNECTION_ERROR_MSG
 
 
@@ -44,7 +43,7 @@ class AppAuth(httpx.Auth):
 
     def set_token(self, response: Response) -> None:
         """Set auth token from login response."""
-        self.token = response.json()[const.AUTH_TOKEN]
+        self.token = response.json()['auth_token']
 
     def delete_token(self) -> None:
         """Delete current auth token."""

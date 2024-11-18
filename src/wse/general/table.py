@@ -5,7 +5,6 @@ from httpx import Response
 from toga.style import Pack
 from travertino.constants import ITALIC
 
-from wse.constants import NEXT, PREVIOUS, RESULTS
 from wse.contrib.http_requests import request_delete_async, request_get
 from wse.contrib.utils import to_entries
 from wse.general.box_page import BoxApp
@@ -182,14 +181,14 @@ class TableApp(BoxApp):
         response = request_get(pagination_url or self.source_url)
         self.set_pagination_urls(response)
         payload = response.json()
-        return to_entries(payload[RESULTS])
+        return to_entries(payload['results'])
 
     def set_pagination_urls(self, response: Response) -> None:
         """Set pagination urls."""
         payload = response.json()
-        self.next_pagination_url = payload[NEXT]
+        self.next_pagination_url = payload['next']
         self.current_pagination_url = response.url
-        self.previous_pagination_url = payload[PREVIOUS]
+        self.previous_pagination_url = payload['previous']
 
     @property
     def next_pagination_url(self) -> str:

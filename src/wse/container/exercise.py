@@ -11,23 +11,9 @@ import toga
 from toga.style.pack import COLUMN, ROW, Pack
 
 from wse.constants import (
-    ACTION,
-    ANSWER,
-    CATEGORIES,
-    CATEGORY,
-    EDGE_PERIODS,
-    EXERCISE_CHOICES,
-    KNOW,
-    LOOKUP_CONDITIONS,
     NO_TASK_MSG,
-    NOT_KNOW,
-    PERIOD_END,
-    PERIOD_START,
-    PROGRESS,
-    QUESTION,
     TASK_ERROR_MSG,
 )
-from wse.constants.literal import ITEM_ID
 from wse.contrib.http_requests import (
     HttpPutMixin,
     request_post,
@@ -228,33 +214,33 @@ class ExerciseParamSelectionsBox(HttpPutMixin, BoxApp):
         count_first = int(self.input_count_first.value or 0)
         count_last = int(self.input_count_last.value or 0)
         lookup_conditions = {
-            PERIOD_START: self.selection_start_period.get_alias(),
-            PERIOD_END: self.selection_end_period.get_alias(),
-            CATEGORY: self.selection_category.get_alias(),
-            PROGRESS: self.selection_progress.get_alias(),
+            'period_start_date': self.selection_start_period.get_alias(),
+            'period_end_date': self.selection_end_period.get_alias(),
+            'category': self.selection_category.get_alias(),
+            'progress': self.selection_progress.get_alias(),
             'count_first': count_first * self.count_first_switch.value,
             'count_last': count_last * self.count_last_switch.value,
         }
         return lookup_conditions
 
     @lookup_conditions.setter
-    def lookup_conditions(self, value: list[dict]) -> None:
+    def lookup_conditions(self, value: dict) -> None:
         # Initial values for the selection.
-        defaults = value[LOOKUP_CONDITIONS]
+        defaults = value['lookup_conditions']
         # Items to display for selection.
-        items = value[EXERCISE_CHOICES]
+        items = value['exercise_choices']
 
         self.selection_start_period.set_items(
-            items[EDGE_PERIODS], defaults[PERIOD_START]
+            items['edge_period_items'], defaults['period_start_date']
         )
         self.selection_end_period.set_items(
-            items[EDGE_PERIODS], defaults[PERIOD_END]
+            items['edge_period_items'], defaults['period_end_date']
         )
         self.selection_category.set_items(
-            items[CATEGORIES], defaults[CATEGORY]
+            items['categories'], defaults['category']
         )
         self.selection_progress.set_items(
-            items[PROGRESS], defaults[PROGRESS]
+            items['progress'], defaults['progress']
         )  # fmt: skip
         if bool(defaults['count_first']):
             self.input_count_first.value = defaults['count_first']
@@ -311,17 +297,17 @@ class ExerciseBox(BoxApp):
         )
 
         # Text display widgets.
-        self.display_question = TextPanel()
-        self.display_answer = TextPanel()
-        self.display_question.style.flex = 2
-        self.display_answer.style.flex = 2
+        self.text_panel_question = TextPanel()
+        self.text_panel_answer = TextPanel()
+        self.text_panel_question.style.flex = 2
+        self.text_panel_answer.style.flex = 2
 
         # Widgets DOM.
         self.box_exercise.add(
             self.label_question,
-            self.display_question,
+            self.text_panel_question,
             self.label_answer,
-            self.display_answer,
+            self.text_panel_answer,
             self.box_btn_group,
         )
         self.box_btn_group.add(
@@ -343,19 +329,19 @@ class ExerciseBox(BoxApp):
 
     async def know_handler(self, _: toga.Widget) -> None:
         """Mark that know the answer, button handler."""
-        know_payload = {ACTION: KNOW, ITEM_ID: self.task.item_id}
+        know_payload = {'action': 'know', 'item_id': self.task.item_id}
         await request_post_async(self.url_progress, know_payload)
         await self.move_to_next_task()
 
     async def not_know_handler(self, _: toga.Widget) -> None:
         """Mark that not know the answer, button handler."""
-        not_know_payload = {ACTION: NOT_KNOW, ITEM_ID: self.task.item_id}
+        not_know_payload = {'action': 'not_know', 'item_id': self.task.item_id}
         await request_post_async(self.url_progress, not_know_payload)
         await self.move_to_next_task()
 
     async def move_to_next_task(self) -> None:
         """Move to next task."""
-        self.task.status = QUESTION
+        self.task.status = 'question'
         await self.loop_task()
 
     def pause_handler(self, _: toga.Widget) -> None:
@@ -377,11 +363,11 @@ class ExerciseBox(BoxApp):
 
     async def request_task(self) -> None:
         """Request the task data."""
-        r = request_post(self.url_exercise, self.task.params)
-        if r.status_code == HTTPStatus.OK:
-            self.task.data = r.json()
+        response = request_post(self.url_exercise, self.task.params)
+        if response.status_code == HTTPStatus.OK:
+            self.task.data = response.json()
             return
-        elif r.status_code == HTTPStatus.NO_CONTENT:
+        elif response.status_code == HTTPStatus.NO_CONTENT:
             await self.show_message('', NO_TASK_MSG)
             await self.move_to_box_params(self)
         else:
@@ -390,28 +376,28 @@ class ExerciseBox(BoxApp):
 
     def show_question(self) -> None:
         """Show the task question without an answer."""
-        self.display_question.update(self.task.question)
-        self.display_answer.clean()
+        self.text_panel_question.update(self.task.question)
+        self.text_panel_answer.clean()
 
     def show_answer(self) -> None:
         """Show the task answer."""
-        self.display_answer.update(self.task.answer)
+        self.text_panel_answer.update(self.task.answer)
 
     async def loop_task(self) -> None:
         """Show new task in loop."""
         self.timer.cancel()
 
         while self.is_enable_new_task():
-            if self.task.status != ANSWER:
+            if self.task.status != 'answer':
                 self.clean_text_panel()
                 await self.request_task()
                 if not self.task.data:
                     break
                 self.show_question()
-                self.task.status = ANSWER
+                self.task.status = 'answer'
             else:
                 self.show_answer()
-                self.task.status = QUESTION
+                self.task.status = 'question'
             await self.timer.start()
 
     def reset_task_status(self) -> None:
@@ -426,12 +412,12 @@ class ExerciseBox(BoxApp):
 
     def is_visible_box(self, widget: toga.Box) -> bool:
         """Is the box of widget is main_window content."""
-        return bool(widget.root.app.main_window.content == self)
+        return widget.root.app.main_window.content == self
 
     def clean_text_panel(self) -> None:
         """Clean the test panel."""
-        self.display_answer.clean()
-        self.display_question.clean()
+        self.text_panel_answer.clean()
+        self.text_panel_question.clean()
 
     async def move_to_box_params(self, widget: toga.Widget) -> None:
         """Move to exercise parameters page box.
@@ -442,7 +428,10 @@ class ExerciseBox(BoxApp):
         await set_window_content(self, box)
 
     def get_box_params(self) -> ExerciseParamSelectionsBox:
-        """Get box instance with exercise params."""
+        """Get box instance with exercise params.
+
+        Override this method.
+        """
         raise NotImplementedError(
             'Subclasses must provide a box_name_params method.'
         )

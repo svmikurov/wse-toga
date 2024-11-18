@@ -16,7 +16,6 @@ Test:
 
 """
 
-from asyncio import AbstractEventLoop
 from unittest.mock import MagicMock, Mock, patch
 
 import pytest

@@ -4,7 +4,6 @@ import toga
 from httpx import Response
 from toga.sources import Source
 
-from wse.constants import ID
 from wse.general.button import BtnApp
 
 
@@ -151,7 +150,7 @@ class ManagingWidgetDataFromResponse(ManagingWidgetData):
         self.focus_to_input_field()
 
         widget_data = self.get_widget_data()
-        item_id = widget_data.get(ID)
+        item_id = widget_data.get('id')
         url = self.url % item_id if bool(item_id) else self.url
 
         response = await self.send_request_async(url, widget_data)

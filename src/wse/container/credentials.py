@@ -10,8 +10,6 @@ from toga.style import Pack
 from wse.constants import (
     HOST_API,
     INPUT_HEIGHT,
-    PASSWORD,
-    USERNAME,
 )
 from wse.contrib.http_requests import ErrorResponse, request_post
 from wse.contrib.validator import validate_credentials
@@ -101,8 +99,8 @@ class Credentials(BoxApp):
     def _extract_credentials(self) -> dict:
         """Extract user data from form, validate it."""
         credentials = {
-            USERNAME: self.input_username.value,
-            PASSWORD: self.input_password.value,
+            'username': self.input_username.value,
+            'password': self.input_password.value,
         }
         return credentials
 
