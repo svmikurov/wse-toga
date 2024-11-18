@@ -7,6 +7,8 @@ Testing:
  * Control the order of widget and widget containers at page.
 """
 
+from unittest.mock import Mock
+
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
@@ -41,6 +43,8 @@ def test_input_definition(wse: WSE) -> None:
 def test_btn_submit(wse: WSE) -> None:
     """Test the button of create glossary term create."""
     btn = wse.box_glossary_create.btn_submit
+    # Mock the button handler, otherwise http request.
+    btn.on_press = Mock()
     btn._impl.simulate_press()
     assert btn.text == 'Добавить'
     assert wse.main_window.content == wse.box_glossary_create

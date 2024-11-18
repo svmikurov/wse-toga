@@ -285,7 +285,9 @@ def test_btn_next(
         ('box_foreign_exercise', 'box_foreign_params'),
     ],
 )
+@patch('httpx.Client')
 def test_btn_goto_params(
+    client: MagicMock,
     box_name: str,
     box_togo: str,
     wse: WSE,
@@ -295,6 +297,9 @@ def test_btn_goto_params(
     Testing:
      * ExerciseForeignPage and ExerciseGlossaryPage classes;
      * window switching.
+
+    Mock:
+     * ``httpx.Client``, otherwise http request.
     """
     box: ExerciseForeignPage | ExerciseGlossaryPage = getattr(wse, box_name)
     btn = box.btn_goto_params

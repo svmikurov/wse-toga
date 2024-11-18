@@ -20,8 +20,16 @@ from wse.app import WSE
 from wse.page.user import UserAuth
 
 
-def test_main_window(event_loop: AbstractEventLoop) -> None:
-    """Test that main window will exist, and has content."""
+@patch('httpx.Client.get')
+def test_main_window(
+    get: MagicMock,
+    event_loop: AbstractEventLoop,
+) -> None:
+    """Test that main window will exist, and has content.
+
+    Mock:
+    * ``get`` method of httpx.Client, otherwise http request.
+    """
     app = WSE(formal_name='Test App', app_id='org.example.test')
 
     # The main window will exist, and has content.

@@ -101,9 +101,7 @@ def request_get(url: str) -> Response:
     """Send GET request."""
     with httpx.Client(auth=app_auth) as client:
         try:
-            response = client.get(
-                url=url,
-            )
+            response = client.get(url=url)
         except httpx.ConnectError:
             print('Connection error')
             return ErrorResponse(HTTPStatus.INTERNAL_SERVER_ERROR)

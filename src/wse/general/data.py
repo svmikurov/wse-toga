@@ -153,13 +153,13 @@ class ManagingWidgetDataFromResponse(ManagingWidgetData):
         item_id = widget_data.get('id')
         url = self.url % item_id if bool(item_id) else self.url
 
-        response = await self.send_request_async(url, widget_data)
+        response = await self.request_post_async(url, widget_data)
         if response.status_code == self.success_http_status:
             self.clear_entry_input()
             self.handle_success(widget)
 
     @classmethod
-    async def send_request_async(cls, url: str, payload: dict) -> Response:
+    async def request_post_async(cls, url: str, payload: dict) -> Response:
         """Send http async request.
 
         Currently, nothing is being implemented.
@@ -170,7 +170,7 @@ class ManagingWidgetDataFromResponse(ManagingWidgetData):
         :raises NotImplementedError: if the method is not overridden.
         """
         raise NotImplementedError(
-            'Subclasses must provide a send_request_async() method.'
+            'Subclasses must provide a request_post_async method.'
         )
 
     def handle_success(self, widget: toga.Widget) -> None:

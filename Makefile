@@ -10,7 +10,7 @@ test:
 
 test-just:
 	export TOGA_BACKEND=toga_dummy && \
-	pytest $(TEST_JUST) -s
+	pytest $(TEST_JUST) -sv
 
 test-briefcase:
 	export TOGA_BACKEND=toga_dummy && \

@@ -6,18 +6,18 @@ Testing:
  * Request handler of save params.
 """
 
-from unittest.mock import MagicMock, patch
+from unittest.mock import AsyncMock, patch
 from urllib.parse import urljoin
 
 from toga.sources import ListSource
 
-from tests.utils import FixtureReader
+from tests.utils import FixtureReader, run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
 
 REQEUST_PARAMS_URL = '/api/v1/glossary/params/'
 REQEUST_EXERCISE_URL = '/api/v1/glossary/exercise/'
-FIXTURE = 'params_glossary.json'
+FIXTURE = 'params.json'
 PARAMS = FixtureReader(FIXTURE).json()
 
 
@@ -104,9 +104,9 @@ def test_input_count_last(wse: WSE, selection_params: object) -> None:
     assert wse.box_glossary_params.count_first_switch.value is False
 
 
-@patch('httpx.Client.post')
+@patch('httpx.AsyncClient.put')
 def test_save_params_handler(
-    post: MagicMock,
+    put: AsyncMock,
     selection_params: object,
     wse: WSE,
 ) -> None:
@@ -125,4 +125,6 @@ def test_save_params_handler(
         'count_first': 0,
         'count_last': 0,
     }
-    post.assert_called_with(url=expected_url, json=expected_json)
+    run_until_complete(wse)
+
+    put.assert_awaited_with(expected_url, json=expected_json)

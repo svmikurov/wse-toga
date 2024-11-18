@@ -7,6 +7,8 @@ Testing:
  * Control the order of widgets at page.
 """
 
+from unittest.mock import MagicMock, patch
+
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 
@@ -69,8 +71,16 @@ def test_btn_goto_glossary_create_page(wse: WSE) -> None:
     assert wse.main_window.content == wse.box_glossary_create
 
 
-def test_btn_goto_glossary_params_page(wse: WSE) -> None:
-    """Test the button of go to glossary exercise params page box."""
+@patch('httpx.Client')
+def test_btn_goto_glossary_params_page(
+    client: MagicMock,
+    wse: WSE,
+) -> None:
+    """Test the button of go to glossary exercise params page box.
+
+    Mock:
+     * ``httpx.Client``, otherwise http request.
+    """
     btn = wse.box_glossary_main.btn_goto_params
 
     btn._impl.simulate_press()

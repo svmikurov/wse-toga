@@ -7,7 +7,6 @@ Testing:
 
 """
 
-from unittest import skip
 from unittest.mock import MagicMock, Mock, PropertyMock, call, patch
 from urllib.parse import urljoin
 
@@ -181,28 +180,3 @@ def test_input_count_last(wse: WSE, selection_params: object) -> None:
     # Choice by default.
     assert input_field.value == PARAMS['lookup_conditions']['count_last']
     assert wse.box_glossary_params.count_first_switch.value is False
-
-
-@skip
-@patch('httpx.Client.post')
-def test_save_params_handler(
-    post: MagicMock,
-    selection_params: object,
-    wse: WSE,
-) -> None:
-    """Test save exercise parameters handler."""
-    # Click button.
-    btn_save_params = wse.box_glossary_params.btn_save_params
-    btn_save_params._impl.simulate_press()
-
-    # Request to save params by url.
-    expected_url = urljoin(HOST_API, '')
-    expected_json = {
-        'period_start_date': 'NC',
-        'period_end_date': 'DT',
-        'category': None,
-        'progress': 'S',
-        'count_first': 0,
-        'count_last': 0,
-    }
-    post.assert_called_with(url=expected_url, json=expected_json)

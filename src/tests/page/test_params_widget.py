@@ -13,7 +13,7 @@ Testing:
 
 """
 
-from unittest.mock import AsyncMock, Mock, patch
+from unittest.mock import AsyncMock, MagicMock, Mock, patch
 
 import pytest
 from _pytest.fixtures import FixtureRequest
@@ -419,7 +419,11 @@ def test_btn_save_params(
         ),
     ],
 )
+@patch.object(BaseSelection, 'get_alias', return_value=dict())
+@patch('httpx.AsyncClient')
 def test_btn_goto_sub_main(
+    client: MagicMock,
+    get_alias: MagicMock,
     box_name: str,
     box_togo: str,
     btn_name: str,
@@ -435,6 +439,10 @@ def test_btn_goto_sub_main(
      * that button has specific text;
      * that window content has not been refreshed.
 
+     Mock:
+      * ``get_alias`` method of ``BaseSelection`` class,
+        otherwise AttributeError;
+      * ``httpx.AsyncClient``, otherwise ConnectError.
     """
     box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
     box_next = getattr(wse, box_togo)

@@ -132,10 +132,14 @@ class TableApp(BoxApp):
 
     async def delete_handler(self, _: toga.Widget) -> None:
         """Delete the entry, button handler."""
-        entry = self.table.selection
-        url = self.source_url_detail % entry.id
-        await request_delete_async(url)
-        self.populate_table(self.current_pagination_url)
+        try:
+            entry = self.table.selection
+        except IndexError:
+            print('\nDEBUG: The entry is empty')
+        else:
+            url = self.source_url_detail % entry.id
+            await request_delete_async(url)
+            self.populate_table(self.current_pagination_url)
 
     def reload_handler(self, _: toga.Widget) -> None:
         """Update the table, button handler."""

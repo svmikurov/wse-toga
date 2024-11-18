@@ -7,6 +7,8 @@ Testing:
  * The order of widget at page.
 """
 
+from unittest.mock import MagicMock, patch
+
 import pytest
 from _pytest.monkeypatch import MonkeyPatch
 from httpx import Client
@@ -79,15 +81,24 @@ def test_btn_goto_create(wse: WSE) -> None:
     assert wse.main_window.content == wse.box_foreign_create
 
 
-def test_btn_goto_params(wse: WSE) -> None:
-    """Test the button go to foreign exercise params page box."""
+@patch('httpx.Client.get')
+def test_btn_goto_params(
+    get: MagicMock,
+    wse: WSE,
+) -> None:
+    """Test the button go to foreign exercise params page box.
+
+    Mock:
+     * ``get`` method of httpx.Client, otherwise http request.
+    """
     btn = wse.box_foreign_main.btn_goto_params
-    assert btn.text == 'Упражнение'
 
     btn._impl.simulate_press()
 
     # Run a fake main loop.
     run_until_complete(wse)
+
+    assert btn.text == 'Упражнение'
 
     # Window switching.
     assert wse.main_window.content == wse.box_foreign_params

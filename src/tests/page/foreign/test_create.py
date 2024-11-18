@@ -6,12 +6,13 @@ Testing:
  * Control the widget order at page.
 """
 
+from unittest.mock import AsyncMock, patch
+
 import pytest
-from _pytest.monkeypatch import MonkeyPatch
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.general.table import TableApp
+from wse.page import CreateWordPage, ListForeignPage
 
 
 @pytest.fixture(autouse=True)
@@ -48,12 +49,21 @@ def test_input_foreign(wse: WSE) -> None:
     assert input_foreign.enabled is True
 
 
-def test_btn_submit(wse: WSE) -> None:
+@patch.object(CreateWordPage, 'request_post_async', new_callable=AsyncMock)
+def test_btn_submit(
+    request_post_async: AsyncMock,
+    wse: WSE,
+) -> None:
     """Test the submit button."""
     btn = wse.box_foreign_create.btn_submit
-    assert btn.text == 'Добавить'
     btn._impl.simulate_press()
+
+    run_until_complete(wse)
+
+    assert btn.text == 'Добавить'
     assert wse.main_window.content == wse.box_foreign_create
+
+    request_post_async.assert_awaited()
 
 
 def test_btn_goto_foreign_main(wse: WSE) -> None:
@@ -69,21 +79,17 @@ def test_btn_goto_foreign_main(wse: WSE) -> None:
     assert wse.main_window.content == wse.box_foreign_main
 
 
-def request_entries(obj: object, url: str) -> list[tuple[str, ...]]:
-    """Return entries to insert at table."""
-    return [
-        ('id', 'foreign', 'native'),
-    ]
-
-
+@patch.object(ListForeignPage, 'on_open')
 def test_btn_goto_foreign_list(
+    on_open: AsyncMock,
     wse: WSE,
-    monkeypatch: MonkeyPatch,
 ) -> None:
-    """Test button to go to foreign list page box."""
-    btn = wse.box_foreign_create.btn_goto_foreign_list
+    """Test button to go to foreign list page box.
 
-    monkeypatch.setattr(TableApp, 'request_entries', request_entries)
+    Mock:
+     * ``on_open`` method of ListForeignPage, otherwise http request.
+    """
+    btn = wse.box_foreign_create.btn_goto_foreign_list
 
     btn._impl.simulate_press()
 
