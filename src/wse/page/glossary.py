@@ -1,6 +1,5 @@
 """Glossary page boxes."""
 
-from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
@@ -31,7 +30,6 @@ from wse.container.exercise import (
 from wse.contrib.http_requests import (
     HttpPostMixin,
     HttpPutMixin,
-    request_get,
 )
 from wse.general.box_page import (
     BoxApp,
@@ -108,13 +106,7 @@ class ParamGlossaryPage(ExerciseParamSelectionsBox):
 
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to glossary exercise, button handler."""
-        await goto_glossary_exercise(self)
-
-    async def on_open(self, widget: toga.Widget) -> None:
-        """Request and fill params data."""
-        response = request_get(url=self.url)
-        if response.status_code == HTTPStatus.OK:
-            self.lookup_conditions = response.json()
+        await goto_glossary_exercise(widget)
 
 
 class ExerciseGlossaryPage(ExerciseBox):

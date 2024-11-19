@@ -16,6 +16,7 @@ from wse.constants import (
 )
 from wse.contrib.http_requests import (
     HttpPutMixin,
+    request_get,
     request_post,
     request_post_async,
 )
@@ -171,6 +172,12 @@ class ExerciseParamSelectionsBox(HttpPutMixin, BoxApp):
             self.box_input_first,
             self.box_input_last,
         )
+
+    async def on_open(self, widget: toga.Widget) -> None:
+        """Request and fill params data of box when box open."""
+        response = request_get(url=self.url)
+        if response.status_code == HTTPStatus.OK:
+            self.lookup_conditions = response.json()
 
     ####################################################################
     # Button callback functions

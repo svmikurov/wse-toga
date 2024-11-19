@@ -1,6 +1,5 @@
 """Foreign words page boxes."""
 
-from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
@@ -30,7 +29,6 @@ from wse.container.exercise import ExerciseBox, ExerciseParamSelectionsBox
 from wse.contrib.http_requests import (
     HttpPostMixin,
     HttpPutMixin,
-    request_get,
 )
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
@@ -102,12 +100,6 @@ class ParamForeignPage(ExerciseParamSelectionsBox):
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to foreign exercise page box, button handler."""
         await goto_foreign_exercise(widget)
-
-    async def on_open(self, widget: toga.Widget) -> None:
-        """Request and fill params data of box when box open."""
-        response = request_get(url=self.url)
-        if response.status_code == HTTPStatus.OK:
-            self.lookup_conditions = response.json()
 
 
 class ExerciseForeignPage(ExerciseBox):
