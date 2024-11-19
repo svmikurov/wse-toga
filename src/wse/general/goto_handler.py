@@ -17,14 +17,14 @@ async def set_window_content(
         pass
 
 
-async def goto_main(widget: toga.Widget) -> None:
-    """Go to main."""
+async def goto_main_handler(widget: toga.Widget) -> None:
+    """Go to main, button handler."""
     box = widget.root.app.box_main
     await set_window_content(widget, box)
 
 
-async def goto_login(widget: toga.Widget) -> None:
-    """Go to log in."""
+async def goto_login_handler(widget: toga.Widget) -> None:
+    """Go to log in, button handler."""
     box = widget.root.app.box_login
     await set_window_content(widget, box)
 
@@ -33,32 +33,32 @@ async def goto_login(widget: toga.Widget) -> None:
 # Glossary
 
 
-async def goto_foreign_main(widget: toga.Widget) -> None:
-    """Go to foreign main."""
+async def goto_foreign_main_handler(widget: toga.Widget) -> None:
+    """Go to foreign main, button handler."""
     box = widget.root.app.box_foreign_main
     await set_window_content(widget, box)
 
 
-async def goto_foreign_create(widget: toga.Widget) -> None:
-    """Go to foreign create."""
+async def goto_foreign_create_handler(widget: toga.Widget) -> None:
+    """Go to foreign create, button handler."""
     box = widget.root.app.box_foreign_create
     await set_window_content(widget, box)
 
 
-async def goto_foreign_params(widget: toga.Widget) -> None:
-    """Go to foreign params."""
+async def goto_foreign_params_handler(widget: toga.Widget) -> None:
+    """Go to foreign params, button handler."""
     box = widget.root.app.box_foreign_params
     await set_window_content(widget, box)
 
 
-async def goto_foreign_list(widget: toga.Widget) -> None:
-    """Go to foreign list."""
+async def goto_foreign_list_handler(widget: toga.Widget) -> None:
+    """Go to foreign list, button handler."""
     box = widget.root.app.box_foreign_list
     await set_window_content(widget, box)
 
 
-async def goto_foreign_exercise(widget: toga.Widget) -> None:
-    """Go to foreign exercise."""
+async def goto_foreign_exercise_handler(widget: toga.Widget) -> None:
+    """Go to foreign exercise, button handler."""
     box = widget.root.app.box_foreign_exercise
     await set_window_content(widget, box)
 
@@ -67,31 +67,31 @@ async def goto_foreign_exercise(widget: toga.Widget) -> None:
 # Glossary
 
 
-async def goto_glossary_main(widget: toga.Widget) -> None:
-    """Go to glossary main."""
+async def goto_glossary_main_handler(widget: toga.Widget) -> None:
+    """Go to glossary main, button handler."""
     box = widget.root.app.box_glossary_main
     await set_window_content(widget, box)
 
 
-async def goto_glossary_params(widget: toga.Widget) -> None:
-    """Go to glossary params."""
+async def goto_glossary_params_handler(widget: toga.Widget) -> None:
+    """Go to glossary params, button handler."""
     box = widget.root.app.box_glossary_params
     await set_window_content(widget, box)
 
 
-async def goto_glossary_create(widget: toga.Widget) -> None:
-    """Go to glossary create."""
+async def goto_glossary_create_handler(widget: toga.Widget) -> None:
+    """Go to glossary create, button handler."""
     box = widget.root.app.box_glossary_create
     await set_window_content(widget, box)
 
 
-async def goto_glossary_list(widget: toga.Widget) -> None:
-    """Go to glossary list."""
+async def goto_glossary_list_handler(widget: toga.Widget) -> None:
+    """Go to glossary list, button handler."""
     box = widget.root.app.box_glossary_list
     await set_window_content(widget, box)
 
 
-async def goto_glossary_exercise(widget: toga.Widget) -> None:
-    """Go to glossary exercise."""
+async def goto_glossary_exercise_handler(widget: toga.Widget) -> None:
+    """Go to glossary exercise, button handler."""
     box = widget.root.app.box_glossary_exercise
     await set_window_content(widget, box)

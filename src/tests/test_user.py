@@ -23,7 +23,7 @@ from toga.handlers import simple_handler
 
 from tests.utils import FixtureReader
 from wse.app import WSE
-from wse.general.goto_handler import goto_login
+from wse.general.goto_handler import goto_login_handler
 from wse.page.user import UserAuth
 
 FIXTURE = 'user_detail.json'
@@ -93,10 +93,10 @@ def test_refresh_user_auth_status(
             'Добро пожаловать, user name!',
         ),
         (
-            None,
-            False,
+                None,
+                False,
             'Вход в учетную запись',
-            goto_login,
+                goto_login_handler,
             'Ready for connect to http://127.0.0.1/',
         ),
     ],

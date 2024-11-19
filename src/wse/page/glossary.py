@@ -37,12 +37,12 @@ from wse.general.box_page import (
 from wse.general.button import BtnApp
 from wse.general.form import BaseForm
 from wse.general.goto_handler import (
-    goto_glossary_create,
-    goto_glossary_exercise,
-    goto_glossary_list,
-    goto_glossary_main,
-    goto_glossary_params,
-    goto_main,
+    goto_glossary_create_handler,
+    goto_glossary_exercise_handler,
+    goto_glossary_list_handler,
+    goto_glossary_main_handler,
+    goto_glossary_params_handler,
+    goto_main_handler,
 )
 from wse.general.label import TitleLabel
 from wse.general.table import TableApp
@@ -59,18 +59,18 @@ class MainGlossaryPage(BoxApp):
 
         # Box widgets.
         self.label_title = TitleLabel(TITLE_GLOSSARY_MAIN)
-        self.btn_goto_main = BtnApp(BTN_GOTO_MAIN, on_press=goto_main)
+        self.btn_goto_main = BtnApp(BTN_GOTO_MAIN, on_press=goto_main_handler)
         self.btn_goto_params = BtnApp(
             BTN_GOTO_GLOSSARY_PARAMS,
-            on_press=goto_glossary_params,
+            on_press=goto_glossary_params_handler,
         )
         self.btn_goto_create = BtnApp(
             BTN_GOTO_GLOSSARY_CREATE,
-            on_press=goto_glossary_create,
+            on_press=goto_glossary_create_handler,
         )
         self.btn_goto_list = BtnApp(
             BTN_GOTO_GLOSSARY_LIST,
-            on_press=goto_glossary_list,
+            on_press=goto_glossary_list_handler,
         )
 
         # Widget DOM.
@@ -98,7 +98,7 @@ class ParamGlossaryPage(ExerciseParamSelectionsBox):
         # Box widgets.
         self.btn_goto_glossary_main = BtnApp(
             BTN_GOTO_GLOSSARY_MAIN,
-            on_press=goto_glossary_main,
+            on_press=goto_glossary_main_handler,
         )
 
         # Widget DOM.
@@ -106,7 +106,7 @@ class ParamGlossaryPage(ExerciseParamSelectionsBox):
 
     async def goto_box_exercise_handler(self, widget: toga.Widget) -> None:
         """Go to glossary exercise, button handler."""
-        await goto_glossary_exercise(widget)
+        await goto_glossary_exercise_handler(widget)
 
 
 class ExerciseGlossaryPage(ExerciseBox):
@@ -122,7 +122,7 @@ class ExerciseGlossaryPage(ExerciseBox):
         self.label_title = TitleLabel(TITLE_GLOSSARY_EXERCISE)
         self.btn_goto_params = BtnApp(
             'Параметры упражнения',
-            on_press=goto_glossary_params,
+            on_press=goto_glossary_params_handler,
         )
 
         # Widget DOM.
@@ -153,11 +153,11 @@ class FormGlossary(BaseForm):
         self.label_title = TitleLabel(text=self.title)
         self.btn_goto_glossary_list = BtnApp(
             BTN_GOTO_GLOSSARY_LIST,
-            on_press=goto_glossary_list,
+            on_press=goto_glossary_list_handler,
         )
         self.btn_goto_glossary_main = BtnApp(
             BTN_GOTO_GLOSSARY_MAIN,
-            on_press=goto_glossary_main,
+            on_press=goto_glossary_main_handler,
         )
 
         # Data input widgets.
@@ -217,7 +217,7 @@ class UpdateTermPage(HttpPutMixin, FormGlossary):
 
     def handle_success(self, widget: toga.Widget) -> None:
         """Go to glossary list page, if success."""
-        goto_glossary_list(widget)
+        goto_glossary_list_handler(widget)
 
     def get_widget_data(self) -> dict:
         """Get the entered into the form data."""
@@ -253,7 +253,7 @@ class ListTermPage(TableApp):
         self.label_title = TitleLabel(TITLE_GLOSSARY_LIST)
         self.btn_goto_glossary_main = BtnApp(
             BTN_GOTO_GLOSSARY_MAIN,
-            on_press=goto_glossary_main,
+            on_press=goto_glossary_main_handler,
         )
 
         # Page widgets DOM.
@@ -267,7 +267,7 @@ class ListTermPage(TableApp):
 
     def create_handler(self, widget: toga.Widget) -> None:
         """Go to create the term form, button handler."""
-        goto_glossary_create(widget)
+        goto_glossary_create_handler(widget)
 
     def update_handler(self, widget: toga.Widget) -> None:
         """Go to update the term form, button handler."""

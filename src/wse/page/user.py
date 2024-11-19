@@ -26,7 +26,7 @@ from wse.contrib.http_requests import (
 )
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
-from wse.general.goto_handler import goto_login
+from wse.general.goto_handler import goto_login_handler
 
 
 class UserAuth(BoxApp):
@@ -73,7 +73,7 @@ class UserAuth(BoxApp):
             False: {
                 'btn_auth': {
                     'text': BTN_GOTO_LOGIN,
-                    'on_press': goto_login,
+                    'on_press': goto_login_handler,
                 },
                 'info_text': self.welcome,
             },

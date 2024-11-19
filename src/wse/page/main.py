@@ -12,10 +12,10 @@ from wse.constants import (
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.goto_handler import (
-    goto_foreign_exercise,
-    goto_foreign_main,
-    goto_glossary_exercise,
-    goto_glossary_main,
+    goto_foreign_exercise_handler,
+    goto_foreign_main_handler,
+    goto_glossary_exercise_handler,
+    goto_glossary_main_handler,
 )
 from wse.general.label import TitleLabel
 from wse.page.user import UserAuth
@@ -40,11 +40,11 @@ class MainBox(UserAuth, BoxApp):
         self.label_title = TitleLabel(TITLE_MAIN)
         self.btn_goto_glossary_main = BtnApp(
             BTN_GOTO_GLOSSARY_MAIN,
-            on_press=goto_glossary_main,
+            on_press=goto_glossary_main_handler,
         )
         self.btn_goto_foreign_main = BtnApp(
             BTN_GOTO_FOREIGN_MAIN,
-            on_press=goto_foreign_main,
+            on_press=goto_foreign_main_handler,
         )
 
         # Quick start of exercise.
@@ -54,11 +54,11 @@ class MainBox(UserAuth, BoxApp):
         )
         self.btn_goto_foreign_exercise = BtnApp(
             'Изучение слов',
-            on_press=goto_foreign_exercise,
+            on_press=goto_foreign_exercise_handler,
         )
         self.btn_goto_glossary_exercise = BtnApp(
             'Изучение терминов',
-            on_press=goto_glossary_exercise,
+            on_press=goto_glossary_exercise_handler,
         )
 
         # Info panel
