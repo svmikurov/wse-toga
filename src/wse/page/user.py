@@ -26,7 +26,7 @@ from wse.contrib.http_requests import (
     app_auth,
     request_get,
     request_post,
-    request_post_async, request_token_async,
+    request_token_async,
 )
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp

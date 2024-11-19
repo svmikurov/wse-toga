@@ -15,17 +15,17 @@ Test:
     * display a messages.
 """
 
-from unittest.mock import MagicMock, Mock, patch, AsyncMock, call
+from unittest.mock import AsyncMock, MagicMock, Mock, call, patch
 from urllib.parse import urljoin
 
 import pytest
-from toga.handlers import simple_handler, wrapped_handler
+from toga.handlers import simple_handler
 
 from tests.utils import FixtureReader, run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
 from wse.general.goto_handler import goto_login_handler
-from wse.page.user import UserAuthMixin, Credentials
+from wse.page.user import Credentials, UserAuthMixin
 
 REQUEST_ARGS = call(
     urljoin(HOST_API, '/auth/token/login/'),
@@ -167,7 +167,7 @@ def test_btn_login_callback_assign(wse: WSE) -> None:
         ('user name', None, False, None),
         (None, 'password', False, None),
         ('user name', 'password', True, REQUEST_ARGS),
-    ]
+    ],
 )
 @patch('httpx.AsyncClient.post', new_callable=AsyncMock)
 @patch.object(Credentials, '_show_response_message')
@@ -179,7 +179,7 @@ def test_login_handler(
     username: str | None,
     password: str | None,
     was_awaited: bool,
-    request_args,
+    request_args: Mock | None,
     wse: WSE,
 ) -> None:
     """Test a log in handler.

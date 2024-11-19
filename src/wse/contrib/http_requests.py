@@ -9,10 +9,13 @@ from urllib.parse import urljoin
 
 import httpx
 from httpx import Request, Response
-from urllib3 import request
 
-from wse.constants import CONNECTION_ERROR_MSG, HOST_API, TOKEN_PATH, \
-    USER_ME_PATH
+from wse.constants import (
+    CONNECTION_ERROR_MSG,
+    HOST_API,
+    TOKEN_PATH,
+    USER_ME_PATH,
+)
 
 
 class AppAuth(httpx.Auth):
@@ -21,6 +24,7 @@ class AppAuth(httpx.Auth):
     :ivar token: User authentication token.
     :vartype token: str or None
     """
+
     url_authentication = urljoin(HOST_API, TOKEN_PATH)
     url_authorization = urljoin(HOST_API, USER_ME_PATH)
     requires_response_body = True
