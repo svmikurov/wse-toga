@@ -11,14 +11,15 @@ Test:
     * auth_attrs property;
     * login;
     * logout;
-    * widgets and handlers of login box.
+    * widgets and handlers of login box;
+    * display a messages.
 """
 
 from unittest.mock import MagicMock, Mock, patch, AsyncMock
 from urllib.parse import urljoin
 
 import pytest
-from toga.handlers import simple_handler
+from toga.handlers import simple_handler, wrapped_handler
 
 from tests.utils import FixtureReader, run_until_complete
 from wse.app import WSE
@@ -157,7 +158,7 @@ def test_btn_login_callback_assign(wse: WSE) -> None:
 
 
 @pytest.mark.parametrize(
-    'username, password, assertion',
+    'username, password, was_awaited',
     [
         ('user name', None, False),
         (None, 'password', False),
@@ -166,12 +167,14 @@ def test_btn_login_callback_assign(wse: WSE) -> None:
 )
 @patch('httpx.AsyncClient.post', new_callable=AsyncMock)
 @patch.object(Credentials, '_show_response_message')
+@patch.object(Credentials, 'success_handler')
 def test_login_handler(
+    success_handler: AsyncMock,
     show_response_message: MagicMock,
     response: AsyncMock,
     username: str | None,
     password: str | None,
-    assertion: bool,
+    was_awaited: bool,
     wse: WSE,
 ) -> None:
     """Test a log in handler.
@@ -180,6 +183,7 @@ def test_login_handler(
      * ``httpx.AsyncClient.post``, to set response;
      * ``_show_response_message`` method of ``Credentials``,
        otherwise RuntimeError.
+     * ``success_handler`` method of ``Credentials`` to was awaited.
     """
     wse.main_window.content = wse.box_login
     button = wse.box_login.btn_login
@@ -198,4 +202,33 @@ def test_login_handler(
     run_until_complete(wse)
 
     # Http request awaited if credentials has been input.
-    assert response.await_count == assertion
+    assert response.await_count == was_awaited
+
+    # The handler of success login was awaited.
+    assert success_handler.await_count == was_awaited
+
+
+def test_success_handler(wse: WSE) -> None:
+    """Test the handler of success login."""
+    box_login = wse.box_login
+    button = box_login.btn_login
+    wse.main_window.content = wse.box_login
+
+    async def handler(*args: object, **kwargs: object) -> None:
+        """Set the tested method."""
+        await wse.box_login.success_handler(*args, **kwargs)
+
+    wrapped = simple_handler(handler, button, RESPONSE_AUTH)
+
+    # Invoke the handler.
+    wse.loop.run_until_complete(wrapped(RESPONSE_AUTH))
+
+    # Set the username for greetings.
+    assert wse.box_main._username == RESPONSE_AUTH.json()['username']
+
+    # Clear the fields with user credentials.
+    assert not box_login.input_username.value
+    assert not box_login.input_password.value
+
+    # Switch to main page.
+    assert wse.main_window.content == wse.box_main

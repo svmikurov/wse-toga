@@ -178,8 +178,8 @@ class Credentials(BoxApp):
             response = await request_post_async(url, credentials)
             await self._show_response_message(response)
 
-            # if response.status_code == self.success_status_code:
-                # await self.handel_success(widget, response)
+            if response.status_code == self.success_status_code:
+                await self.success_handler(widget, response)
 
     ####################################################################
     # Auth.
@@ -193,7 +193,7 @@ class Credentials(BoxApp):
         else:
             print('INFO: введены не полные данные для входа в учетную запись')
 
-    async def handel_success(
+    async def success_handler(
         self,
         widget: toga.Widget,
         response: Response,
