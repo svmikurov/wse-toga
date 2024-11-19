@@ -15,7 +15,7 @@ Test:
     * display a messages.
 """
 
-from unittest.mock import MagicMock, Mock, patch, AsyncMock
+from unittest.mock import MagicMock, Mock, patch, AsyncMock, call
 from urllib.parse import urljoin
 
 import pytest
@@ -27,6 +27,10 @@ from wse.constants import HOST_API
 from wse.general.goto_handler import goto_login_handler
 from wse.page.user import UserAuthMixin, Credentials
 
+REQUEST_ARGS = call(
+    urljoin(HOST_API, '/auth/token/login/'),
+    json={'username': 'user name', 'password': 'password'},
+)
 FIXTURE = 'user_detail.json'
 PARAMS = FixtureReader(FIXTURE).json()
 RESPONSE_AUTH = Mock(
@@ -158,11 +162,11 @@ def test_btn_login_callback_assign(wse: WSE) -> None:
 
 
 @pytest.mark.parametrize(
-    'username, password, was_awaited',
+    'username, password, was_awaited, request_args',
     [
-        ('user name', None, False),
-        (None, 'password', False),
-        ('user name', 'password', True),
+        ('user name', None, False, None),
+        (None, 'password', False, None),
+        ('user name', 'password', True, REQUEST_ARGS),
     ]
 )
 @patch('httpx.AsyncClient.post', new_callable=AsyncMock)
@@ -170,11 +174,12 @@ def test_btn_login_callback_assign(wse: WSE) -> None:
 @patch.object(Credentials, 'success_handler')
 def test_login_handler(
     success_handler: AsyncMock,
-    show_response_message: MagicMock,
+    _show_response_message: MagicMock,
     response: AsyncMock,
     username: str | None,
     password: str | None,
     was_awaited: bool,
+    request_args,
     wse: WSE,
 ) -> None:
     """Test a log in handler.
@@ -206,6 +211,9 @@ def test_login_handler(
 
     # The handler of success login was awaited.
     assert success_handler.await_count == was_awaited
+
+    # Http request call args.
+    assert response.call_args == request_args
 
 
 def test_success_handler(wse: WSE) -> None:

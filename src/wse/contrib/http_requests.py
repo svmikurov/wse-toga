@@ -153,6 +153,15 @@ async def request_post_async(
     return response
 
 
+async def request_token_async(
+    url: str, payload: dict | None = None
+) -> Response:
+    """Request the async POST method."""
+    async with httpx.AsyncClient() as client:
+        response = await client.post(url, json=payload)
+    return response
+
+
 async def request_put_async(url: str, payload: dict) -> Response:
     """Request the async POST method."""
     async with httpx.AsyncClient(auth=app_auth) as client:

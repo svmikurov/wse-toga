@@ -26,7 +26,7 @@ from wse.contrib.http_requests import (
     app_auth,
     request_get,
     request_post,
-    request_post_async,
+    request_post_async, request_token_async,
 )
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
@@ -175,7 +175,8 @@ class Credentials(BoxApp):
 
         if credentials:
             url = urljoin(HOST_API, self.url_path)
-            response = await request_post_async(url, credentials)
+            response = await request_token_async(url, credentials)
+            print(f'{response = }')
             await self._show_response_message(response)
 
             if response.status_code == self.success_status_code:
