@@ -5,14 +5,10 @@ Testing:
  * Changing window contents when pressing move buttons.
  * Control the widget count for test.
 """
-from unittest.mock import patch, MagicMock, AsyncMock
-
-from toga.handlers import simple_handler
 
 from tests.utils import run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
-from wse.general.goto_handler import goto_foreign_exercise
 
 WIDGET_COUNT = 8
 """Widget count at testing box container (int).
