@@ -93,10 +93,10 @@ def test_refresh_user_auth_status(
             'Добро пожаловать, user name!',
         ),
         (
-                None,
-                False,
+            None,
+            False,
             'Вход в учетную запись',
-                goto_login_handler,
+            goto_login_handler,
             'Ready for connect to http://127.0.0.1/',
         ),
     ],
