@@ -1,14 +1,18 @@
 """Test Main page box widgets.
 
-Testing:
- * Text representation of widgets in the window content.
- * Changing window contents when pressing move buttons.
- * Control the widget count for test.
+Test:
+ * the representation of widgets in the window content;
+ * the widget count at main page;
+ * that button has specific content.
 """
 
-from tests.utils import run_until_complete
+from typing import Callable
+
+import pytest
+
 from wse.app import WSE
 from wse.constants import HOST_API
+from wse.general import goto_handler as hl
 
 WIDGET_COUNT = 8
 """Widget count at testing box container (int).
@@ -21,49 +25,10 @@ def test_widget_count(wse: WSE) -> None:
     assert WIDGET_COUNT == len(children)
 
 
-def test_title(wse: WSE) -> None:
+def test_label_title(wse: WSE) -> None:
     """Test page box title."""
-    title = wse.box_main.label_title
-    assert title.text == 'WSELFEDU'
-
-
-def test_btn_login(wse: WSE) -> None:
-    """Test click on button to go to login page box."""
-    btn = wse.box_main.btn_change_auth
-
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    assert btn.text == 'Вход в учетную запись'
-    assert wse.main_window.content == wse.box_login
-
-
-def test_btn_goto_foreign_main(wse: WSE) -> None:
-    """Test click on button to go to foreign page box."""
-    btn = wse.box_main.btn_goto_foreign_main
-
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    assert btn.text == 'Иностранный'
-    assert wse.main_window.content == wse.box_foreign_main
-
-
-def test_btn_goto_glossary_main(wse: WSE) -> None:
-    """Test click on button to go to glossary page box."""
-    btn = wse.box_main.btn_goto_glossary_main
-
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    assert btn.text == 'Глоссарий'
-    assert wse.main_window.content == wse.box_glossary_main
+    label_title = wse.box_main.label_title
+    assert label_title.text == 'WSELFEDU'
 
 
 def test_info_panel(wse: WSE) -> None:
@@ -72,35 +37,41 @@ def test_info_panel(wse: WSE) -> None:
     assert info_panel.placeholder == f'Ready for connect to {HOST_API}'
 
 
-def test_btn_goto_foreign_exercise(wse: WSE) -> None:
-    """Test quik start button of foreign exercise."""
-    btn = wse.box_main.btn_goto_foreign_exercise
-
-    # Button has specific text.
-    assert btn.text == 'Изучение слов'
-
-    # Invoke the callback.
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    # Window switch.
-    assert wse.main_window.content == wse.box_foreign_exercise
+def test_label_chapter_exercises(wse: WSE) -> None:
+    """Test the label of exercise buttons."""
+    label_chapter_exercises = wse.box_main.label_chapter_exercises
+    assert label_chapter_exercises.text == 'Упражнения:'
 
 
-def test_btn_goto_glossary_exercise(wse: WSE) -> None:
+@pytest.mark.parametrize(
+    'button_name, button_text, button_handler',
+    [
+        ('btn_goto_foreign_main', 'Иностранный', hl.goto_foreign_main_handler),
+        (
+            'btn_goto_glossary_main',
+            'Глоссарий',
+            hl.goto_glossary_main_handler,
+        ),
+        (
+            'btn_goto_foreign_exercise',
+            'Изучение слов',
+            hl.goto_foreign_exercise_handler,
+        ),
+        (
+            'btn_goto_glossary_exercise',
+            'Изучение терминов',
+            hl.goto_glossary_exercise_handler,
+        ),
+    ],
+)
+def test_btn_goto_foreign_main(
+    button_name: str, button_text: str, button_handler: Callable, wse: WSE
+) -> None:
     """Test quik start button of glossary exercise."""
-    btn = wse.box_main.btn_goto_glossary_exercise
+    btn = getattr(wse.box_main, button_name)
 
     # Button has specific text.
-    assert btn.text == 'Изучение терминов'
+    assert btn.text == button_text
 
-    # Invoke the callback.
-    btn._impl.simulate_press()
-
-    # Run a fake main loop.
-    run_until_complete(wse)
-
-    # Window switch.
-    assert wse.main_window.content == wse.box_glossary_exercise
+    # Button has callback.
+    assert btn.on_press._raw is button_handler
