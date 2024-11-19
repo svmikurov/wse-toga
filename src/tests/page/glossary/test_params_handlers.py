@@ -121,7 +121,7 @@ def test_save_params_handler(
         'period_start_date': 'NC',
         'period_end_date': 'DT',
         'category': None,
-        'progress': 'S',
+        'progress': ['S'],
         'count_first': 0,
         'count_last': 0,
     }

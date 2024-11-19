@@ -224,7 +224,7 @@ class ExerciseParamSelectionsBox(HttpPutMixin, BoxApp):
             'period_start_date': self.selection_start_period.get_alias(),
             'period_end_date': self.selection_end_period.get_alias(),
             'category': self.selection_category.get_alias(),
-            'progress': self.selection_progress.get_alias(),
+            'progress': [self.selection_progress.get_alias()],
             'count_first': count_first * self.count_first_switch.value,
             'count_last': count_last * self.count_last_switch.value,
         }
