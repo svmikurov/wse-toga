@@ -17,7 +17,7 @@ from asyncio import AbstractEventLoop
 from unittest.mock import MagicMock, patch
 
 from wse.app import WSE
-from wse.page.user import UserAuth
+from wse.page.user import UserAuthMixin
 
 
 @patch('httpx.Client.get')
@@ -36,11 +36,11 @@ def test_main_window(
     assert app.main_window.content == app.box_main
 
 
-@patch.object(UserAuth, 'refresh_user_auth_status')
-@patch.object(UserAuth, 'update_widget_values')
+@patch.object(UserAuthMixin, 'refresh_user_auth_status')
+@patch.object(UserAuthMixin, 'update_widgets')
 def test_invoke_methods_on_startup(
     refresh_user_auth_status: MagicMock,
-    update_widget_values: MagicMock,
+    update_widgets: MagicMock,
 ) -> None:
     """Test that specific methods has been invoked on start app."""
     # Initializing the app.
@@ -48,7 +48,7 @@ def test_invoke_methods_on_startup(
 
     # Methods has been invoked on start app.
     refresh_user_auth_status.assert_called_once()
-    update_widget_values.assert_called_once()
+    update_widgets.assert_called_once()
 
 
 def test_has_page(wse: WSE) -> None:

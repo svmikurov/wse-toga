@@ -223,7 +223,7 @@ def test_answer_btns(
     # Mock the item ID to answer.
     monkeypatch.setattr(Task, 'item_id', 1)
 
-    # Simulate a button press.
+    # Invoke the callback.
     btn._impl.simulate_press()
 
     # Run a fake main loop.

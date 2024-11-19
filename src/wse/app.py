@@ -97,7 +97,7 @@ class WSE(toga.App):
         )
         # Application start with Main page box content.
         self.box_main.refresh_user_auth_status()
-        self.box_main.update_widget_values()
+        self.box_main.update_widgets()
         self.main_window.content = self.box_main
         self.main_window.show()
 

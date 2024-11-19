@@ -22,7 +22,7 @@ from wse.general import goto_handler as hl
             hl.goto_login_handler,
             'box_main',
             'box_login',
-            'btn_change_auth',
+            'btn_login',
         ),
         # Foreign
         (

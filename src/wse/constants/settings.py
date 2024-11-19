@@ -40,6 +40,7 @@ TITLE_USER_MAIN = 'Учетная запись'
 TITLE_USER_UPDATE = 'Изменить имя'
 TITLE_USER_CREATE = 'Регистрация'
 BTN_GOTO_LOGIN = 'Вход в учетную запись'
+BTN_LOGIN = 'Войти в учетную запись'
 BTN_LOGOUT = 'Выход из учетной записи'
 # Glossary
 TITLE_GLOSSARY_MAIN = 'Глоссарий'

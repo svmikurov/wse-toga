@@ -8,23 +8,23 @@ Test:
 
    Add tests:
     * save and delete the token;
-    * request the user data;
     * auth_attrs property;
     * login;
     * logout;
     * widgets and handlers of login box.
-
 """
 
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import MagicMock, Mock, patch, AsyncMock
+from urllib.parse import urljoin
 
 import pytest
 from toga.handlers import simple_handler
 
-from tests.utils import FixtureReader
+from tests.utils import FixtureReader, run_until_complete
 from wse.app import WSE
+from wse.constants import HOST_API
 from wse.general.goto_handler import goto_login_handler
-from wse.page.user import UserAuth
+from wse.page.user import UserAuthMixin, Credentials
 
 FIXTURE = 'user_detail.json'
 PARAMS = FixtureReader(FIXTURE).json()
@@ -55,12 +55,14 @@ def test_refresh_user_auth_status(
     is_auth: bool,
     wse: WSE,
 ) -> None:
-    """Test the refresh user authentication status.
+    """Test a refresh user authentication status.
 
     Test:
      * that http request method has been invoked;
      * the refreshing the authentication data.
     """
+    user_detail_url = urljoin(HOST_API, '/api/v1/auth/users/me/')
+
     # Set response to mock of request.
     request.return_value = response
 
@@ -74,12 +76,12 @@ def test_refresh_user_auth_status(
     # extra "widget" argument)
     wrapped('widget')
 
-    # Http request method has been invoked.
-    request.assert_called_once()
+    # Http request method has been invoked once.
+    request.assert_called_once_with(url=user_detail_url)
 
     # Assert about refreshing the authentication data.
-    assert wse.box_main.username == username
-    assert wse.box_main.is_auth is is_auth
+    assert wse.box_main._username == username
+    assert wse.box_main._is_auth is is_auth
 
 
 @pytest.mark.parametrize(
@@ -89,7 +91,7 @@ def test_refresh_user_auth_status(
             'user name',
             True,
             'Выход из учетной записи',
-            UserAuth.logout_handler,
+            UserAuthMixin.logout_handler,
             'Добро пожаловать, user name!',
         ),
         (
@@ -101,7 +103,7 @@ def test_refresh_user_auth_status(
         ),
     ],
 )
-def test_update_widget_values(
+def test_update_widgets(
     username: str,
     is_auth: bool,
     btn_text: str,
@@ -120,15 +122,14 @@ def test_update_widget_values(
 
        * Fix AssertionError of test that handler of authentication
          button has been updated.
-
     """
     box = wse.box_main
-    box.username = username
-    box.is_auth = is_auth
+    box.set_username(username)
+    box._is_auth = is_auth
 
     def handler(*args: object, **kwargs: object) -> None:
         """Set the tested method to invoke."""
-        box.update_widget_values()
+        box.update_widgets()
 
     wrapped = simple_handler(handler)
 
@@ -137,13 +138,64 @@ def test_update_widget_values(
     wrapped('widget')
 
     # The text of authentication button has been updated.
-    assert box.btn_change_auth.text == btn_text
+    assert box.btn_goto_login.text == btn_text
 
     # The handler of authentication button has been updated.
     # TODO: Fix AssertionError  # noqa: TD003, TD002
-    # <function wrapped_handler.<locals>._handler at 0x747cf1120c10>
-    # == <function goto_login at 0x747cf1e4fb50>
-    # assert box.btn_change_auth.on_press == btn_handler
+    # assert logout_handler is
+    # <function UserAuthMixin.logout_handler at 0x7af62bf66cb0>
+    # assert box.btn_goto_login.on_press._raw is btn_handler
 
     # The info panel has been updated.
     assert box.info_panel.value == info_text
+
+
+def test_btn_login_callback_assign(wse: WSE) -> None:
+    """Test the assign of callback to a button."""
+    button = wse.box_login.btn_login
+    assert button.on_press._raw == wse.box_login.login_handler
+
+
+@pytest.mark.parametrize(
+    'username, password, assertion',
+    [
+        ('user name', None, False),
+        (None, 'password', False),
+        ('user name', 'password', True),
+    ]
+)
+@patch('httpx.AsyncClient.post', new_callable=AsyncMock)
+@patch.object(Credentials, '_show_response_message')
+def test_login_handler(
+    show_response_message: MagicMock,
+    response: AsyncMock,
+    username: str | None,
+    password: str | None,
+    assertion: bool,
+    wse: WSE,
+) -> None:
+    """Test a log in handler.
+
+    Mock:
+     * ``httpx.AsyncClient.post``, to set response;
+     * ``_show_response_message`` method of ``Credentials``,
+       otherwise RuntimeError.
+    """
+    wse.main_window.content = wse.box_login
+    button = wse.box_login.btn_login
+
+    # Mock http response.
+    response.return_value = RESPONSE_AUTH
+
+    # Input credentials to login fields.
+    wse.box_login.input_username.value = username
+    wse.box_login.input_password.value = password
+
+    # Invoke the callback.
+    button._impl.simulate_press()
+
+    # Run a fake main loop.
+    run_until_complete(wse)
+
+    # Http request awaited if credentials has been input.
+    assert response.await_count == assertion

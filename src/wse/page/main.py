@@ -18,10 +18,10 @@ from wse.general.goto_handler import (
     goto_glossary_main_handler,
 )
 from wse.general.label import TitleLabel
-from wse.page.user import UserAuth
+from wse.page.user import UserAuthMixin
 
 
-class MainBox(UserAuth, BoxApp):
+class MainBox(UserAuthMixin, BoxApp):
     """Main box.
 
     Contains content that is displayed to the user
@@ -72,7 +72,7 @@ class MainBox(UserAuth, BoxApp):
         self.add(
             self.label_title,
             self.info_panel,
-            self.btn_change_auth,  # UserAuth attr
+            self.btn_goto_login,  # UserAuthMixin attr
             self.btn_goto_foreign_main,
             self.btn_goto_glossary_main,
             self.label_chapter_exercises,
