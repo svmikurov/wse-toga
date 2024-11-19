@@ -38,7 +38,7 @@ expression.
        # Box widgets.
        btn_goto_boxname = (
            'Button name',
-           on_press=lambda _: self.goto_box_handler(_, BOXNAME_BOX),
+           on_press=goto_boxname_handler,
            style=btn_style,
        )
        ...
