@@ -24,9 +24,9 @@ from wse.constants import (
 from wse.contrib.http_requests import (
     ErrorResponse,
     app_auth,
+    obtain_token,
     request_get,
     request_post,
-    request_token_async,
 )
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
@@ -174,9 +174,8 @@ class Credentials(BoxApp):
         credentials: dict = self.get_credentials()
 
         if credentials:
-            url = urljoin(HOST_API, self.url_path)
-            response = await request_token_async(url, credentials)
-            print(f'{response = }')
+            response = obtain_token(credentials)
+            print(f'{response.json() = }')
             await self._show_response_message(response)
 
             if response.status_code == self.success_status_code:
@@ -200,9 +199,6 @@ class Credentials(BoxApp):
         response: Response,
     ) -> None:
         """Handel the success auth request."""
-        username = response.json()['username']
-        main_box = widget.root.app.box_main
-        main_box.set_username(username)
         self._clear_fields()
         await goto_main_handler(widget)
 

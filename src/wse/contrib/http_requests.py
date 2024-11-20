@@ -1,6 +1,5 @@
 """App http requests module."""
 
-import json
 import os.path
 import typing
 from http import HTTPStatus
@@ -17,6 +16,9 @@ from wse.constants import (
     USER_ME_PATH,
 )
 
+url_obtain_token = urljoin(HOST_API, TOKEN_PATH)
+url_authorization = urljoin(HOST_API, USER_ME_PATH)
+
 
 class AppAuth(httpx.Auth):
     """Authentication.
@@ -25,13 +27,9 @@ class AppAuth(httpx.Auth):
     :vartype token: str or None
     """
 
-    url_authentication = urljoin(HOST_API, TOKEN_PATH)
-    url_authorization = urljoin(HOST_API, USER_ME_PATH)
-    requires_response_body = True
-
     token_path = os.path.join(
         Path(__file__).parent.parent,
-        'resources/token.json',
+        'resources/token.txt',
     )
     """Path to reade or save token (`str`).
     """
@@ -44,21 +42,9 @@ class AppAuth(httpx.Auth):
         self,
         request: Request,
     ) -> typing.Generator[Request, Response, None]:
-        """Execute the authentication flow.
-
-        Adds auth ``token`` to "Authorization" header.
-        """
+        """Execute the authentication flow."""
         request.headers['Authorization'] = f'Token {self.token}'
         yield request
-
-    def set_token(self, response: Response) -> None:
-        """Set auth token from login response."""
-        self.token = response.json()['auth_token']
-
-    def delete_token(self) -> None:
-        """Delete current auth token."""
-        self._token = None
-        del self.token
 
     @property
     def token(self) -> str | None:
@@ -68,21 +54,25 @@ class AppAuth(httpx.Auth):
 
         try:
             with open(self.token_path, 'r') as file:
-                data = json.load(file)
-                return data.get('token')
+                token = file.read()
         except FileNotFoundError:
             return None
+        else:
+            self.token = token
+            return token
 
     @token.setter
     def token(self, token: str) -> None:
-        data = {'token': token}
         with open(self.token_path, 'w') as file:
-            json.dump(data, file, indent=2)
+            file.write(token)
         self._token = token
 
     @token.deleter
     def token(self) -> None:
-        os.unlink(self.token_path)
+        try:
+            os.unlink(self.token_path)
+        except FileNotFoundError:
+            pass
         self._token = None
 
 
@@ -100,6 +90,18 @@ class ErrorResponse(Response):
         """Construct response."""
         super().__init__(*args, **kwargs)
         self.conn_error_msg = CONNECTION_ERROR_MSG
+
+
+def obtain_token(credentials: dict) -> Response:
+    """Obtain the user token."""
+    with httpx.Client() as client:
+        response = client.post(url_obtain_token, json=credentials)
+
+        if response.status_code == HTTPStatus.OK:
+            token = response.json()['auth_token']
+            app_auth.token = token
+
+            return response
 
 
 #########################################################################
