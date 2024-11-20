@@ -7,10 +7,13 @@ from wse.constants import (
     SCREEN_SIZE,
 )
 from wse.general.box_page import BoxApp
+from wse.source.user import UserSource
 
 
 class WSE(toga.App):
     """WSE application."""
+    # App source instances.
+    user: UserSource
 
     # Page boxes.
     box_main: page.MainBox
@@ -40,12 +43,16 @@ class WSE(toga.App):
     def startup(self) -> None:
         """Initialise widgets to start application.
 
+        * Initialise the app sources.
         * Initialises the page boxes.
         * Creates the app command menu.
         * Define the main window.
         """
+        # Initialise the app sources.
+        self.user = UserSource()
+
         # Page boxes.
-        self.box_main = page.MainBox()
+        self.box_main = page.MainBox(self.user)
         # Foreign language study page boxes.
         self.box_foreign_main = page.MainForeignPage()
         self.box_foreign_params = page.ParamForeignPage()

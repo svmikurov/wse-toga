@@ -19,6 +19,7 @@ from wse.general.goto_handler import (
 )
 from wse.general.label import TitleLabel
 from wse.page.user import UserAuthMixin
+from wse.source.user import UserSource
 
 
 class MainBox(UserAuthMixin, BoxApp):
@@ -32,9 +33,10 @@ class MainBox(UserAuthMixin, BoxApp):
     """Welcome text on the information display (`str`).
     """
 
-    def __init__(self) -> None:
+    def __init__(self, user) -> None:
         """Construct the Main box."""
         super().__init__()
+        self.user = user
 
         # Widgets.
         self.label_title = TitleLabel(TITLE_MAIN)
