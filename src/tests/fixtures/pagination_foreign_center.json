@@ -1,22 +1,22 @@
 {
   "count": 100,
-  "next": "http://...",
-  "previous": "http://...",
+  "next": "http://...next...",
+  "previous": "http://...previos...",
   "results": [
     {
       "id": 1,
-      "foreign_word": "hello",
-      "native_word": "привет"
+      "foreign_word": "hello foreign",
+      "native_word": "hello native"
     },
     {
       "id": 2,
-      "foreign_word": "apple",
-      "native_word": "яблоко"
+      "foreign_word": "apple foreign",
+      "native_word": "apple native"
     },
     {
       "id": 3,
-      "foreign_word": "pen",
-      "native_word": "ручка"
+      "foreign_word": "pen foreign",
+      "native_word": "pen native"
     }
   ]
 }

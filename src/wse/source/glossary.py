@@ -8,10 +8,12 @@ class Term:
 
     def __init__(
         self,
+        id: int,
         term: str,
         definition: str,
     ) -> None:
         """Construct the term wrap."""
+        self.id = id
         self.term = term
         self.definition = definition
 
@@ -24,6 +26,7 @@ class TermSource(Source):
         super().__init__()
         self._terms = []
         self.accessors = [
+            'id',
             'term',
             'definition',
         ]

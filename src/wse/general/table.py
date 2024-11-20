@@ -185,7 +185,8 @@ class TableApp(BoxApp):
         response = request_get(pagination_url or self.source_url)
         self.set_pagination_urls(response)
         payload = response.json()
-        return to_entries(payload['results'])
+        entries = to_entries(payload['results'])
+        return entries
 
     def set_pagination_urls(self, response: Response) -> None:
         """Set pagination urls."""

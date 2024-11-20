@@ -53,8 +53,8 @@ def test_label_title(wse: WSE) -> None:
 def test_table(wse: WSE) -> None:
     """Test table of glossary term list."""
     table = wse.box_glossary_list.table
-    assert table.headings == ['Термин', 'Толкование']
-    assert table.accessors == ['term', 'definition']
+    assert table.headings == ['ID', 'Термин', 'Толкование']
+    assert table.accessors == ['id', 'term', 'definition']
 
 
 def test_btn_goto_glossary_main(wse: WSE) -> None:

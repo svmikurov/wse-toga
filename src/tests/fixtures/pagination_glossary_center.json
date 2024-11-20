@@ -1,0 +1,22 @@
+{
+  "count": 100,
+  "next": "http://...next...",
+  "previous": "http://...previos...",
+  "results": [
+    {
+      "id": 22,
+      "term": "term_22",
+      "definition": "definition_22"
+    },
+    {
+      "id": 23,
+      "term": "term_22",
+      "definition": "definition_23"
+    },
+    {
+      "id": 24,
+      "term": "term_24",
+      "definition": "definition_24"
+    }
+  ]
+}

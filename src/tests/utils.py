@@ -24,9 +24,9 @@ class FixtureReader:
     """Current module dir path (`str`).
     """
 
-    def __init__(self, fixture: str) -> None:
+    def __init__(self, fixture_file_name: str) -> None:
         """Construct the reader."""
-        self.fixture = fixture
+        self.fixture = fixture_file_name
 
     @property
     def fixture_path(self) -> str:
