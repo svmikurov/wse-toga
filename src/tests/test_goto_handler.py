@@ -22,7 +22,7 @@ from wse.general import goto_handler as hl
             hl.goto_login_handler,
             'box_main',
             'box_login',
-            'btn_login',
+            'btn_goto_login',
         ),
         # Foreign
         (
@@ -98,7 +98,7 @@ def test_goto_handler(
     """Test button handlers to go to main box-container.
 
     Test:
-     * window switching.
+     * switching of window.
     """
     box = getattr(wse, box_name)
     box_togo = getattr(wse, box_target)
@@ -114,5 +114,5 @@ def test_goto_handler(
     # Invoke the handler.
     wse.loop.run_until_complete(wrapped(button))
 
-    # Window switching.
+    # The switching of window.
     assert wse.main_window.content == box_togo

@@ -72,7 +72,7 @@ class MainBox(UserAuthMixin, BoxApp):
         self.add(
             self.label_title,
             self.info_panel,
-            self.btn_goto_login,  # UserAuthMixin attr
+            self.btn_goto_login,  # attr from UserAuthMixin
             self.btn_goto_foreign_main,
             self.btn_goto_glossary_main,
             self.label_chapter_exercises,
