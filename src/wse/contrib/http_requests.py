@@ -16,8 +16,8 @@ from wse.constants import (
     USER_ME_PATH,
 )
 
-url_obtain_token = urljoin(HOST_API, TOKEN_PATH)
-url_authorization = urljoin(HOST_API, USER_ME_PATH)
+url_token = urljoin(HOST_API, TOKEN_PATH)
+url_login = urljoin(HOST_API, USER_ME_PATH)
 
 
 class AppAuth(httpx.Auth):
@@ -95,13 +95,21 @@ class ErrorResponse(Response):
 def obtain_token(credentials: dict) -> Response:
     """Obtain the user token."""
     with httpx.Client() as client:
-        response = client.post(url_obtain_token, json=credentials)
+        response = client.post(url_token, json=credentials)
 
         if response.status_code == HTTPStatus.OK:
             token = response.json()['auth_token']
             app_auth.token = token
 
             return response
+
+
+def request_user_data() -> dict:
+    """Request the userdata."""
+    with httpx.Client() as client:
+        response = client.post(url_login)
+        username = response.json()['username']
+    return {'username': username}
 
 
 #########################################################################

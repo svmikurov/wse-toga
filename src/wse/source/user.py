@@ -17,15 +17,18 @@ class UserSource(Source):
         """The username (`str`)."""
         return self._username
 
-    @username.setter
-    def username(self, value) -> None:
-        self._username = value
-
     @property
     def is_auth(self) -> bool:
         """The user auth status (`bool`)."""
         return self._is_auth
 
-    @is_auth.setter
-    def is_auth(self, value) -> None:
-        self._is_auth = value
+    def set_auth_data(self, username: str | None = None) -> None:
+        """Set auth data.
+
+        If username is None then set data as not auth.
+
+        :param username: The username (optionally)
+        :type username: str or None
+        """
+        self._username = username
+        self._is_auth = True if username else False

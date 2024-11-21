@@ -85,8 +85,8 @@ def test_refresh_user_auth_status(
     request.assert_called_once_with(url=user_detail_url)
 
     # Assert about refreshing the authentication data.
-    assert wse.box_main._username == username
-    assert wse.box_main._is_auth is is_auth
+    assert wse.user.username == username
+    assert wse.user.is_auth is is_auth
 
 
 @pytest.mark.parametrize(
@@ -129,7 +129,7 @@ def test_update_widgets(
          button has been updated.
     """
     box = wse.box_main
-    box.set_username(username)
+    box.user.set_auth_data(username)
     box._is_auth = is_auth
 
     def handler(*args: object, **kwargs: object) -> None:
@@ -232,7 +232,7 @@ def test_success_handler(wse: WSE) -> None:
     wse.loop.run_until_complete(wrapped(RESPONSE_AUTH))
 
     # Set the username for greetings.
-    assert wse.box_main._username == RESPONSE_AUTH.json()['username']
+    assert wse.user.username == RESPONSE_AUTH.json()['username']
 
     # Clear the fields with user credentials.
     assert not box_login.input_username.value

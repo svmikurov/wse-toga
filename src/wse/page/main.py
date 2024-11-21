@@ -6,7 +6,6 @@ from toga.style import Pack
 from wse.constants import (
     BTN_GOTO_FOREIGN_MAIN,
     BTN_GOTO_GLOSSARY_MAIN,
-    HOST_API,
     TITLE_MAIN,
 )
 from wse.general.box_page import BoxApp
@@ -19,6 +18,7 @@ from wse.general.goto_handler import (
 )
 from wse.general.label import TitleLabel
 from wse.page.user import UserAuthMixin
+from wse.source.text_panel_main import MainTextPanelSource
 from wse.source.user import UserSource
 
 
@@ -29,14 +29,15 @@ class MainBox(UserAuthMixin, BoxApp):
     when the application is launched.
     """
 
-    welcome = f'Ready for connect to {HOST_API}'
-    """Welcome text on the information display (`str`).
-    """
-
-    def __init__(self, user) -> None:
+    def __init__(
+        self,
+        user: UserSource,
+        input_info_main: MainTextPanelSource,
+    ) -> None:
         """Construct the Main box."""
         super().__init__()
         self.user = user
+        self.input_info_main = input_info_main
 
         # Widgets.
         self.label_title = TitleLabel(TITLE_MAIN)
@@ -65,9 +66,7 @@ class MainBox(UserAuthMixin, BoxApp):
 
         # Info panel
         self.info_panel = toga.MultilineTextInput(
-            readonly=True,
-            placeholder=self.welcome,
-            style=Pack(flex=1),
+            readonly=True, style=Pack(flex=1), value=self.input_info_main.value
         )
 
         # DOM.

@@ -1,5 +1,6 @@
 """Tests button handlers to switch window to specific box-container."""
 
+import typing
 from typing import Callable
 from unittest.mock import Mock
 
@@ -24,6 +25,7 @@ MOCK_REQUEST_GLOSSARY_LIST = [
     *MOCK_REQUEST_GET_SIMPLE,
     Mock(return_value=FixtureReader('pagination_foreign_center.json')),
 ]
+
 
 @pytest.mark.parametrize(
     """
@@ -127,7 +129,7 @@ def test_goto_handler(
     box_container_name: str,
     box_target_name: str,
     button_name: str,
-    mock_http_request: MonkeyPatch,
+    mock_http_request: typing.Iterable,
     wse: WSE,
     monkeypatch: MonkeyPatch,
 ) -> None:

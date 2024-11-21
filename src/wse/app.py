@@ -7,13 +7,16 @@ from wse.constants import (
     SCREEN_SIZE,
 )
 from wse.general.box_page import BoxApp
+from wse.source.text_panel_main import MainTextPanelSource
 from wse.source.user import UserSource
 
 
 class WSE(toga.App):
     """WSE application."""
+
     # App source instances.
     user: UserSource
+    input_info_main: MainTextPanelSource
 
     # Page boxes.
     box_main: page.MainBox
@@ -50,9 +53,10 @@ class WSE(toga.App):
         """
         # Initialise the app sources.
         self.user = UserSource()
+        self.input_info_main = MainTextPanelSource(self.user)
 
         # Page boxes.
-        self.box_main = page.MainBox(self.user)
+        self.box_main = page.MainBox(self.user, self.input_info_main)
         # Foreign language study page boxes.
         self.box_foreign_main = page.MainForeignPage()
         self.box_foreign_params = page.ParamForeignPage()
@@ -68,7 +72,7 @@ class WSE(toga.App):
         self.box_glossary_update = page.UpdateTermPage()
         self.box_glossary_list = page.ListTermPage()
         # Login box.
-        self.box_login = page.LoginBox()
+        self.box_login = page.LoginBox(self.user)
 
         # Menu.
         self.menu = toga.Group('Menu')

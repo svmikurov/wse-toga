@@ -24,14 +24,16 @@ from wse.constants import (
 from wse.contrib.http_requests import (
     ErrorResponse,
     app_auth,
-    obtain_token,
     request_get,
     request_post,
 )
+from wse.controler.user import login
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
 from wse.general.goto_handler import goto_login_handler, goto_main_handler
 from wse.general.label import TitleLabel
+from wse.source.text_panel_main import MainTextPanelSource
+from wse.source.user import UserSource
 
 
 class UserAuthMixin(BoxApp):
@@ -41,11 +43,10 @@ class UserAuthMixin(BoxApp):
     """
 
     welcome: str
+    user: UserSource
     info_panel: toga.MultilineTextInput
+    input_info_main: MainTextPanelSource
 
-    text_user_info = 'Добро пожаловать, %s!'
-    """User info text (`str`).
-    """
     url_user_detail = urljoin(HOST_API, USER_ME_PATH)
     """User detail url, allowed GET method (`str`).
     """
@@ -56,8 +57,6 @@ class UserAuthMixin(BoxApp):
     def __init__(self) -> None:
         """Construct the widget."""
         super().__init__()
-        self._is_auth: bool = False
-        self._username: str | None = None
         self._index_btn_auth = 2
 
         self.btn_goto_login = BtnApp(
@@ -77,18 +76,16 @@ class UserAuthMixin(BoxApp):
         response = request_post(url=self.url_logout)
 
         if response.status_code == HTTPStatus.NO_CONTENT:
-            self._is_auth = False
+            self.user.set_auth_data()
             self.update_widgets()
             app_auth.delete_token()
             await self.show_message('', LOGOUT_MSG)
 
     def update_widgets(self) -> None:
         """Update widgets by user auth status."""
-        if self._is_auth:
-            self.info_panel.value = self.text_user_info % self._username
+        if self.user.is_auth:
             self.children[self._index_btn_auth] = self.btn_logout
         else:
-            self.info_panel.value = self.welcome
             self.children[self._index_btn_auth] = self.btn_goto_login
 
     def refresh_user_auth_status(self) -> None:
@@ -97,17 +94,11 @@ class UserAuthMixin(BoxApp):
         response = request_get(self.url_user_detail)
 
         # Update the user authentication data.
-        if response.status_code == HTTPStatus.OK:
+        try:
             username = response.json()['username']
-            self.set_username(username)
-            self._is_auth = True
-        else:
-            self.set_username(None)
-            self._is_auth = False
-
-    def set_username(self, username: str | None) -> None:
-        """Set the username."""
-        self._username = username
+        except KeyError:
+            username = None
+        self.user.set_auth_data(username)
 
 
 class Credentials(BoxApp):
@@ -132,9 +123,10 @@ class Credentials(BoxApp):
     """Error response message (`str`).
     """
 
-    def __init__(self) -> None:
+    def __init__(self, user: UserSource) -> None:
         """Construct the widgets."""
         super().__init__()
+        self.user = user
 
         # Styles.
         style_input = Pack(height=INPUT_HEIGHT)
@@ -171,15 +163,12 @@ class Credentials(BoxApp):
 
     async def login_handler(self, widget: toga.Widget) -> None:
         """Submit login, button handler."""
-        credentials: dict = self.get_credentials()
-
+        credentials = self.get_credentials()
         if credentials:
-            response = obtain_token(credentials)
-            print(f'{response.json() = }')
-            await self._show_response_message(response)
-
-            if response.status_code == self.success_status_code:
-                await self.success_handler(widget, response)
+            await login(widget, credentials)
+        else:
+            # TO DO: Add error message
+            pass
 
     ####################################################################
     # Auth.
@@ -196,9 +185,9 @@ class Credentials(BoxApp):
     async def success_handler(
         self,
         widget: toga.Widget,
-        response: Response,
     ) -> None:
         """Handel the success auth request."""
+        widget.root.app.box_main.refresh_user_auth_status()
         self._clear_fields()
         await goto_main_handler(widget)
 
@@ -230,6 +219,10 @@ class LoginBox(Credentials):
     btn_submit_name = 'Войти'
     msg_success_response = LOGIN_MSG
     msg_error_response = LOGIN_BAD_MSG
+
+    def __init__(self, *args: object, **kwargs: object) -> None:
+        """Construct the box."""
+        super().__init__(*args, **kwargs)
 
     async def send_request(self, url: str, payload: dict) -> Response:
         """Request login without token, save token."""
