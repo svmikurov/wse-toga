@@ -18,7 +18,7 @@ from toga.sources import ListSource
 from tests.utils import FixtureReader
 from wse.app import WSE
 from wse.constants import HOST_API
-from wse.page import ParamForeignPage, ParamGlossaryPage
+from wse.pages import ParamForeignPage, ParamGlossaryPage
 
 PARAMS = FixtureReader('params.json').json()
 
@@ -87,7 +87,7 @@ def test_on_open(
 
     wrapped = simple_handler(box.on_open, box)
 
-    # Opening page requests the user exercise params to server.
+    # Opening page requests the source_user exercise params to server.
     get.return_value = Mock(
         name='Response',
         status_code=200,

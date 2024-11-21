@@ -20,7 +20,7 @@ from wse.container.exercise import (
 )
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
-from wse.page import (
+from wse.pages import (
     ExerciseForeignPage,
     ExerciseGlossaryPage,
 )

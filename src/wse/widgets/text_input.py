@@ -54,7 +54,7 @@ class TextPanel(toga.MultilineTextInput):
     """Exercise text display widget.
 
     :param str value: The initial content to display in the widget.
-    :param bool readonly: Can the text be modified by the user?
+    :param bool readonly: Can the text be modified by the source_user?
     """
 
     def __init__(self, **kwargs: object) -> None:

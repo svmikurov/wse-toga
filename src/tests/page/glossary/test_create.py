@@ -14,7 +14,7 @@ from _pytest.monkeypatch import MonkeyPatch
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.general.table import TableApp
+from wse.widgets.table import TableApp
 
 
 @pytest.fixture(autouse=True)

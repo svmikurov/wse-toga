@@ -1,4 +1,4 @@
-"""Test user credentials validator."""
+"""Test source_user credentials validator."""
 
 import pytest
 

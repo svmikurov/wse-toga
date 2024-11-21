@@ -2,8 +2,8 @@
 
 import toga
 
-from wse.general.box_page import BoxApp
-from wse.general.data import ManagingWidgetDataFromResponse
+from wse.widgets.box_page import BoxApp
+from wse.widgets.data import ManagingWidgetDataFromResponse
 
 
 class BaseForm(

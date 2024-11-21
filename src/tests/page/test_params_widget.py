@@ -21,8 +21,8 @@ from _pytest.monkeypatch import MonkeyPatch
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.general.selection import BaseSelection
-from wse.page import ParamForeignPage, ParamGlossaryPage
+from wse.pages import ParamForeignPage, ParamGlossaryPage
+from wse.widgets.selection import BaseSelection
 
 
 def set_window_content(

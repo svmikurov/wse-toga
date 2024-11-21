@@ -2,7 +2,7 @@
 
 import toga
 
-from wse.general.box_page import BoxApp
+from wse.widgets.box_page import BoxApp
 
 
 async def set_window_content(

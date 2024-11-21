@@ -12,7 +12,7 @@ import pytest
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.page import CreateWordPage, ListForeignPage
+from wse.pages import CreateWordPage, ListForeignPage
 
 
 @pytest.fixture(autouse=True)

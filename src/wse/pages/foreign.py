@@ -30,10 +30,7 @@ from wse.contrib.http_requests import (
     HttpPostMixin,
     HttpPutMixin,
 )
-from wse.general.box_page import BoxApp
-from wse.general.button import BtnApp
-from wse.general.form import BaseForm
-from wse.general.goto_handler import (
+from wse.handlers.goto_handler import (
     goto_foreign_create_handler,
     goto_foreign_exercise_handler,
     goto_foreign_list_handler,
@@ -41,10 +38,13 @@ from wse.general.goto_handler import (
     goto_foreign_params_handler,
     goto_main_handler,
 )
-from wse.general.label import TitleLabel
-from wse.general.table import TableApp
-from wse.general.text_input import TextInputApp
 from wse.source.foreign import Word, WordSource
+from wse.widgets.box_page import BoxApp
+from wse.widgets.button import BtnApp
+from wse.widgets.form import BaseForm
+from wse.widgets.label import TitleLabel
+from wse.widgets.table import TableApp
+from wse.widgets.text_input import TextInputApp
 
 
 class MainForeignPage(BoxApp):

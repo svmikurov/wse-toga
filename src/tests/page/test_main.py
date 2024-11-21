@@ -12,7 +12,7 @@ import pytest
 
 from wse.app import WSE
 from wse.constants import HOST_API
-from wse.general import goto_handler as hl
+from wse.handlers import goto_handler as hl
 
 WIDGET_COUNT = 8
 """Widget count at testing box container (int).

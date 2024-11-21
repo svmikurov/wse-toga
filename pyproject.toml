@@ -208,7 +208,6 @@ select = [
     "C90",  # mccabe: https://pypi.org/project/mccabe/
     "ANN",  # flake8-annotations: https://pypi.org/project/flake8-annotations/
     "Q",    # flake8-quotes: https://pypi.org/project/flake8-quotes/
-    "TD",   # flake8-todos: https://github.com/orsinium-labs/flake8-todos/
 ]
 ignore = [
     "D203",     # 1 blank line required before class docstring

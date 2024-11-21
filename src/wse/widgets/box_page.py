@@ -2,7 +2,6 @@
 
 import toga
 from toga.style.pack import COLUMN
-from typing_extensions import Self
 
 from wse.constants.settings import PADDING_SM
 
@@ -22,26 +21,7 @@ class BaseBox(toga.Box):
 
 
 class GoToBoxMixin:
-    """Go to page box mixin.
-
-    Mixin methods for switching between application pages.
-    """
-
-    @classmethod
-    def get_box(cls, widget: toga.Widget, box_name: str) -> Self:
-        """**DEPRECATED** - Use wse.general.goto_handler module.
-
-        Get the page box that was initialized in the app.
-        """  # noqa: D401
-        return widget.root.app.__getattribute__(box_name)
-
-    @classmethod
-    def set_window_content(cls, widget: toga.Widget, box: Self) -> None:
-        """**DEPRECATED** - Use wse.general.goto_handler module.
-
-        Set page box to window content.
-        """  # noqa: D401
-        widget.window.content = box
+    """Go to page box mixin."""
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Run when the current box is assigned to the window content.

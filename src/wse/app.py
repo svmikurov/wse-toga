@@ -2,37 +2,40 @@
 
 import toga
 
-from wse import page
+from wse import pages
 from wse.constants import (
     SCREEN_SIZE,
 )
-from wse.general.box_page import BoxApp
+from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
+from wse.widgets.box_page import BoxApp
 
 
 class WSE(toga.App):
     """WSE application."""
+
     # App source instances.
-    user: UserSource
+    source_user: UserSource
+    source_main_panel: MainPanelSource
 
     # Page boxes.
-    box_main: page.MainBox
+    box_main: pages.MainBox
     # Foreign language study page boxes.
-    box_foreign_main: page.MainForeignPage
-    box_foreign_params: page.ParamForeignPage
-    box_foreign_exercise: page.ExerciseForeignPage
-    box_foreign_create: page.CreateWordPage
-    box_foreign_update: page.UpdateWordPage
-    box_foreign_list: page.ListForeignPage
+    box_foreign_main: pages.MainForeignPage
+    box_foreign_params: pages.ParamForeignPage
+    box_foreign_exercise: pages.ExerciseForeignPage
+    box_foreign_create: pages.CreateWordPage
+    box_foreign_update: pages.UpdateWordPage
+    box_foreign_list: pages.ListForeignPage
     # Glossary study page boxes.
-    box_glossary_main: page.MainGlossaryPage
-    box_glossary_params: page.ParamGlossaryPage
-    box_glossary_exercise: page.ExerciseGlossaryPage
-    box_glossary_create: page.CreateTermPage
-    box_glossary_update: page.UpdateTermPage
-    box_glossary_list: page.ListTermPage
+    box_glossary_main: pages.MainGlossaryPage
+    box_glossary_params: pages.ParamGlossaryPage
+    box_glossary_exercise: pages.ExerciseGlossaryPage
+    box_glossary_create: pages.CreateTermPage
+    box_glossary_update: pages.UpdateTermPage
+    box_glossary_list: pages.ListTermPage
     # Login box.
-    box_login: page.LoginBox
+    box_login: pages.LoginBox
 
     # Menu.
     menu: toga.Group
@@ -41,34 +44,31 @@ class WSE(toga.App):
     cmd_goto_glossary: toga.Command
 
     def startup(self) -> None:
-        """Initialise widgets to start application.
-
-        * Initialise the app sources.
-        * Initialises the page boxes.
-        * Creates the app command menu.
-        * Define the main window.
-        """
+        """Construct and show the application."""
         # Initialise the app sources.
-        self.user = UserSource()
+        self.source_user = UserSource()
+        self.source_main_panel = MainPanelSource(self.source_user)
 
         # Page boxes.
-        self.box_main = page.MainBox(self.user)
+        self.box_main = pages.MainBox(
+            self.source_user,
+            self.source_main_panel,
+        )
+        self.box_login = pages.LoginBox(self.source_user)
         # Foreign language study page boxes.
-        self.box_foreign_main = page.MainForeignPage()
-        self.box_foreign_params = page.ParamForeignPage()
-        self.box_foreign_exercise = page.ExerciseForeignPage()
-        self.box_foreign_create = page.CreateWordPage()
-        self.box_foreign_update = page.UpdateWordPage()
-        self.box_foreign_list = page.ListForeignPage()
+        self.box_foreign_main = pages.MainForeignPage()
+        self.box_foreign_params = pages.ParamForeignPage()
+        self.box_foreign_exercise = pages.ExerciseForeignPage()
+        self.box_foreign_create = pages.CreateWordPage()
+        self.box_foreign_update = pages.UpdateWordPage()
+        self.box_foreign_list = pages.ListForeignPage()
         # Glossary study page boxes.
-        self.box_glossary_main = page.MainGlossaryPage()
-        self.box_glossary_params = page.ParamGlossaryPage()
-        self.box_glossary_exercise = page.ExerciseGlossaryPage()
-        self.box_glossary_create = page.CreateTermPage()
-        self.box_glossary_update = page.UpdateTermPage()
-        self.box_glossary_list = page.ListTermPage()
-        # Login box.
-        self.box_login = page.LoginBox()
+        self.box_glossary_main = pages.MainGlossaryPage()
+        self.box_glossary_params = pages.ParamGlossaryPage()
+        self.box_glossary_exercise = pages.ExerciseGlossaryPage()
+        self.box_glossary_create = pages.CreateTermPage()
+        self.box_glossary_update = pages.UpdateTermPage()
+        self.box_glossary_list = pages.ListTermPage()
 
         # Menu.
         self.menu = toga.Group('Menu')
@@ -97,15 +97,16 @@ class WSE(toga.App):
             self.cmd_goto_foreign,
         )
 
+        # Load user data.
+        self.source_user.load_userdata()
         # Main window.
         self.main_window = toga.MainWindow(
             title=self.formal_name,
             size=toga.Size(*SCREEN_SIZE),
         )
         # Application start with Main page box content.
-        self.box_main.refresh_user_auth_status()
-        self.box_main.update_widgets()
         self.main_window.content = self.box_main
+        self.box_main.update_widgets()
         self.main_window.show()
 
     def move_to_page(self, box: BoxApp) -> None:

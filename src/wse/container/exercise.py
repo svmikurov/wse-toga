@@ -22,13 +22,13 @@ from wse.contrib.http_requests import (
 )
 from wse.contrib.task import Task
 from wse.contrib.timer import Timer
-from wse.general.box import FlexBox
-from wse.general.box_page import BoxApp
-from wse.general.button import BtnApp
-from wse.general.goto_handler import set_window_content
-from wse.general.label import TitleLabel
-from wse.general.selection import BaseSelection
-from wse.general.text_input import TextPanel
+from wse.handlers.goto_handler import set_window_content
+from wse.widgets.box import FlexBox
+from wse.widgets.box_page import BoxApp
+from wse.widgets.button import BtnApp
+from wse.widgets.label import TitleLabel
+from wse.widgets.selection import BaseSelection
+from wse.widgets.text_input import TextPanel
 
 
 class AnswerBtn(toga.Button):

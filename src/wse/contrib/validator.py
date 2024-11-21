@@ -46,7 +46,7 @@ def validate_username(username: str) -> list:
 
 
 def validate_password(password: str) -> list:
-    """Validate the user password.
+    """Validate the source_user password.
 
     >>> validate_password('12345678')
     ['Пароль не может состоять только из цифр']
@@ -68,7 +68,7 @@ def validate_password(password: str) -> list:
 
 
 def validate_credentials(credentials: dict) -> list:
-    """Validate the user credentials."""
+    """Validate the source_user credentials."""
     errors = []
     errors.extend(validate_username(credentials['username']))
     errors.extend(validate_password(credentials['password']))

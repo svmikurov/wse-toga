@@ -16,23 +16,17 @@ from wse.constants import (
     USER_ME_PATH,
 )
 
-url_obtain_token = urljoin(HOST_API, TOKEN_PATH)
-url_authorization = urljoin(HOST_API, USER_ME_PATH)
+PATH_TOKEN_FILE = os.path.join(
+    Path(__file__).parent.parent,
+    'resources/token.txt',
+)
+
+url_token = urljoin(HOST_API, TOKEN_PATH)
+url_login = urljoin(HOST_API, USER_ME_PATH)
 
 
 class AppAuth(httpx.Auth):
-    """Authentication.
-
-    :ivar token: User authentication token.
-    :vartype token: str or None
-    """
-
-    token_path = os.path.join(
-        Path(__file__).parent.parent,
-        'resources/token.txt',
-    )
-    """Path to reade or save token (`str`).
-    """
+    """Authentication."""
 
     def __init__(self) -> None:
         """Construct the token auth."""
@@ -48,12 +42,12 @@ class AppAuth(httpx.Auth):
 
     @property
     def token(self) -> str | None:
-        """The user authentication token."""
+        """The source_user authentication token."""
         if self._token:
             return self._token
 
         try:
-            with open(self.token_path, 'r') as file:
+            with open(PATH_TOKEN_FILE, 'r') as file:
                 token = file.read()
         except FileNotFoundError:
             return None
@@ -63,14 +57,15 @@ class AppAuth(httpx.Auth):
 
     @token.setter
     def token(self, token: str) -> None:
-        with open(self.token_path, 'w') as file:
+        with open(PATH_TOKEN_FILE, 'w') as file:
             file.write(token)
         self._token = token
+        print('INFO: token was saved.')
 
     @token.deleter
     def token(self) -> None:
         try:
-            os.unlink(self.token_path)
+            os.unlink(PATH_TOKEN_FILE)
         except FileNotFoundError:
             pass
         self._token = None
@@ -93,15 +88,22 @@ class ErrorResponse(Response):
 
 
 def obtain_token(credentials: dict) -> Response:
-    """Obtain the user token."""
+    """Obtain the source_user token."""
     with httpx.Client() as client:
-        response = client.post(url_obtain_token, json=credentials)
+        response = client.post(url_token, json=credentials)
 
         if response.status_code == HTTPStatus.OK:
             token = response.json()['auth_token']
             app_auth.token = token
 
             return response
+
+
+def request_user_data() -> Response:
+    """Request the source_user data."""
+    with httpx.Client(auth=app_auth) as client:
+        response = client.get(url_login)
+    return response
 
 
 #########################################################################
