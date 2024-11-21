@@ -106,7 +106,7 @@ def obtain_token(credentials: dict) -> Response:
 
 
 def request_user_data() -> dict:
-    """Request the userdata."""
+    """Request the user data."""
     with httpx.Client(auth=app_auth) as client:
         response = client.get(url_login)
         payload = response.json()

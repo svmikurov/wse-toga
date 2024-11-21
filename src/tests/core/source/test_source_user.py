@@ -5,6 +5,7 @@ import pytest
 from wse.app import WSE
 from wse.source.user import UserSource
 
+
 @pytest.fixture
 def source() -> UserSource:
     """Return the source instance, fixture."""

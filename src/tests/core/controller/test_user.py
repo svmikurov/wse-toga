@@ -61,10 +61,12 @@ def test_login(
     wse.loop.run_until_complete(wrapped('obj'))
 
     # Http request arguments are as expected.
-    assert post.call_args == (call(
-        'http://127.0.0.1/auth/token/login/',
-        json={'username': 'name', 'password': 'pass'}
-    ))
+    assert post.call_args == (
+        call(
+            'http://127.0.0.1/auth/token/login/',
+            json={'username': 'name', 'password': 'pass'},
+        )
+    )
     assert get.call_args == call('http://127.0.0.1/api/v1/auth/users/me/')
 
     # The window content was changed.
