@@ -1,4 +1,4 @@
-"""Test of uer controllers."""
+"""Test of user controllers."""
 
 from unittest.mock import MagicMock, Mock, call, patch
 
@@ -23,15 +23,26 @@ RESPONSE_UNAUTH = Mock(
 def test_get_user(wse: WSE) -> None:
     """Test get user source instance."""
     widget = wse.box_main
-    assert wse.user is get_user(widget)
+    assert wse.source_user is get_user(widget)
 
 
+@patch('httpx.Client.get')
 @patch('httpx.Client.post', return_value=RESPONSE_AUTH)
 def test_login(
     post: MagicMock,
+    get: MagicMock,
     wse: WSE,
 ) -> None:
-    """Test the login."""
+    """Test the login.
+
+    Mock:
+     * http request to obtain token;
+     * http request to get user data.
+
+    Test:
+     * that the http request arguments are as expected;
+     * that window content was changed.
+    """
     box = wse.box_login
     box_next = wse.box_main
     button = box.btn_login
@@ -50,13 +61,11 @@ def test_login(
     wse.loop.run_until_complete(wrapped('obj'))
 
     # Http request arguments are as expected.
-    assert post.call_args_list == [
-        call(
-            'http://127.0.0.1/auth/token/login/',
-            json={'username': 'name', 'password': 'pass'},
-        ),
-        call('http://127.0.0.1/api/v1/auth/users/me/'),
-    ]
+    assert post.call_args == (call(
+        'http://127.0.0.1/auth/token/login/',
+        json={'username': 'name', 'password': 'pass'}
+    ))
+    assert get.call_args == call('http://127.0.0.1/api/v1/auth/users/me/')
 
-    # Window content was changed.
+    # The window content was changed.
     assert wse.main_window.content is box_next

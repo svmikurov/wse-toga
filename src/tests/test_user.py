@@ -45,48 +45,48 @@ RESPONSE_UNAUTH = Mock(
 )
 
 
-@pytest.mark.parametrize(
-    'response, username, is_auth',
-    [
-        (RESPONSE_AUTH, 'user name', True),
-        (RESPONSE_UNAUTH, None, False),
-    ],
-)
-@patch('httpx.Client.get')
-def test_refresh_user_auth_status(
-    request: MagicMock,
-    response: dict,
-    username: str,
-    is_auth: bool,
-    wse: WSE,
-) -> None:
-    """Test a refresh user authentication status.
-
-    Test:
-     * that http request method has been invoked;
-     * the refreshing the authentication data.
-    """
-    user_detail_url = urljoin(HOST_API, '/api/v1/auth/users/me/')
-
-    # Set response to mock of request.
-    request.return_value = response
-
-    def handler(*args: object, **kwargs: object) -> None:
-        """Set the tested method to invoke."""
-        wse.box_main.refresh_user_auth_status()
-
-    wrapped = simple_handler(handler)
-
-    # Invoke the handler as if it were a method handler (i.e., with the
-    # extra "widget" argument)
-    wrapped('widget')
-
-    # Http request method has been invoked once.
-    request.assert_called_once_with(url=user_detail_url)
-
-    # Assert about refreshing the authentication data.
-    assert wse.user.username == username
-    assert wse.user.is_auth is is_auth
+# @pytest.mark.parametrize(
+#     'response, username, is_auth',
+#     [
+#         (RESPONSE_AUTH, 'user name', True),
+#         (RESPONSE_UNAUTH, None, False),
+#     ],
+# )
+# @patch('httpx.Client.get')
+# def test_refresh_user_auth_status(
+#     request: MagicMock,
+#     response: dict,
+#     username: str,
+#     is_auth: bool,
+#     wse: WSE,
+# ) -> None:
+#     """Test a refresh user authentication status.
+#
+#     Test:
+#      * that http request method has been invoked;
+#      * the refreshing the authentication data.
+#     """
+#     user_detail_url = urljoin(HOST_API, '/api/v1/auth/users/me/')
+#
+#     # Set response to mock of request.
+#     request.return_value = response
+#
+#     def handler(*args: object, **kwargs: object) -> None:
+#         """Set the tested method to invoke."""
+#         wse.box_main.refresh_user_auth_status()
+#
+#     wrapped = simple_handler(handler)
+#
+#     # Invoke the handler as if it were a method handler (i.e., with
+#     # the extra "widget" argument)
+#     wrapped('widget')
+#
+#     # Http request method has been invoked once.
+#     request.assert_called_once_with(url=user_detail_url)
+#
+#     # Assert about refreshing the authentication data.
+#     assert wse.user.username == username
+#     assert wse.user.is_auth is is_auth
 
 
 @pytest.mark.parametrize(

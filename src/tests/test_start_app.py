@@ -36,10 +36,8 @@ def test_main_window(
     assert app.main_window.content == app.box_main
 
 
-@patch.object(UserAuthMixin, 'refresh_user_auth_status')
 @patch.object(UserAuthMixin, 'update_widgets')
 def test_invoke_methods_on_startup(
-    refresh_user_auth_status: MagicMock,
     update_widgets: MagicMock,
 ) -> None:
     """Test that specific methods has been invoked on start app."""
@@ -47,7 +45,6 @@ def test_invoke_methods_on_startup(
     WSE(formal_name='Test App', app_id='org.example.test')
 
     # Methods has been invoked on start app.
-    refresh_user_auth_status.assert_called_once()
     update_widgets.assert_called_once()
 
 

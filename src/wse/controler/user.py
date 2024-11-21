@@ -11,11 +11,16 @@ from wse.source.user import UserSource
 
 def get_user(widget: toga.Widget) -> UserSource:
     """Return user source instance."""
-    return widget.app.user
+    return widget.app.source_user
 
 
 async def login(widget: toga.Widget, credentials: dict[str, str]) -> None:
-    """Login, controller."""
+    """Login, controller.
+
+    Call the obtain user token.
+    Request user data and set it to user source.
+    Call switching window to main page.
+    """
     response_token = obtain_token(credentials)
     user = get_user(widget)
 

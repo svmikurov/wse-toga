@@ -66,6 +66,7 @@ class AppAuth(httpx.Auth):
         with open(self.token_path, 'w') as file:
             file.write(token)
         self._token = token
+        print('INFO: token was saved.')
 
     @token.deleter
     def token(self) -> None:
@@ -106,9 +107,10 @@ def obtain_token(credentials: dict) -> Response:
 
 def request_user_data() -> dict:
     """Request the userdata."""
-    with httpx.Client() as client:
-        response = client.post(url_login)
-        username = response.json()['username']
+    with httpx.Client(auth=app_auth) as client:
+        response = client.get(url_login)
+        payload = response.json()
+        username = payload['username']
     return {'username': username}
 
 

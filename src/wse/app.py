@@ -15,8 +15,8 @@ class WSE(toga.App):
     """WSE application."""
 
     # App source instances.
-    user: UserSource
-    input_info_main: MainTextPanelSource
+    source_user: UserSource
+    source_main_info_panel: MainTextPanelSource
 
     # Page boxes.
     box_main: page.MainBox
@@ -52,11 +52,14 @@ class WSE(toga.App):
         * Define the main window.
         """
         # Initialise the app sources.
-        self.user = UserSource()
-        self.input_info_main = MainTextPanelSource(self.user)
+        self.source_user = UserSource()
+        self.source_main_info_panel = MainTextPanelSource(self.source_user)
 
         # Page boxes.
-        self.box_main = page.MainBox(self.user, self.input_info_main)
+        self.box_main = page.MainBox(
+            self.source_user,
+            self.source_main_info_panel,
+        )
         # Foreign language study page boxes.
         self.box_foreign_main = page.MainForeignPage()
         self.box_foreign_params = page.ParamForeignPage()
@@ -72,7 +75,7 @@ class WSE(toga.App):
         self.box_glossary_update = page.UpdateTermPage()
         self.box_glossary_list = page.ListTermPage()
         # Login box.
-        self.box_login = page.LoginBox(self.user)
+        self.box_login = page.LoginBox(self.source_user)
 
         # Menu.
         self.menu = toga.Group('Menu')
@@ -107,8 +110,6 @@ class WSE(toga.App):
             size=toga.Size(*SCREEN_SIZE),
         )
         # Application start with Main page box content.
-        self.box_main.refresh_user_auth_status()
-        self.box_main.update_widgets()
         self.main_window.content = self.box_main
         self.main_window.show()
 

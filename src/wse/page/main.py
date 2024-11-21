@@ -31,13 +31,13 @@ class MainBox(UserAuthMixin, BoxApp):
 
     def __init__(
         self,
-        user: UserSource,
-        input_info_main: MainTextPanelSource,
+        source_user: UserSource,
+        source_main_info_panel: MainTextPanelSource,
     ) -> None:
         """Construct the Main box."""
         super().__init__()
-        self.user = user
-        self.input_info_main = input_info_main
+        self.source_user = source_user
+        self.source_main_info_panel = source_main_info_panel
 
         # Widgets.
         self.label_title = TitleLabel(TITLE_MAIN)
@@ -66,7 +66,9 @@ class MainBox(UserAuthMixin, BoxApp):
 
         # Info panel
         self.info_panel = toga.MultilineTextInput(
-            readonly=True, style=Pack(flex=1), value=self.input_info_main.value
+            readonly=True,
+            style=Pack(flex=1),
+            value=self.source_main_info_panel.value,
         )
 
         # DOM.

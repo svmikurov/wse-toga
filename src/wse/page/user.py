@@ -24,7 +24,6 @@ from wse.constants import (
 from wse.contrib.http_requests import (
     ErrorResponse,
     app_auth,
-    request_get,
     request_post,
 )
 from wse.controler.user import login
@@ -37,10 +36,7 @@ from wse.source.user import UserSource
 
 
 class UserAuthMixin(BoxApp):
-    """Handlers to control the user authentication status, mixin.
-
-    Displays the user authentication status at main page.
-    """
+    """Add user widgets, mixin."""
 
     welcome: str
     user: UserSource
@@ -87,18 +83,6 @@ class UserAuthMixin(BoxApp):
             self.children[self._index_btn_auth] = self.btn_logout
         else:
             self.children[self._index_btn_auth] = self.btn_goto_login
-
-    def refresh_user_auth_status(self) -> None:
-        """Refresh the user authentication status."""
-        # Request the user detail.
-        response = request_get(self.url_user_detail)
-
-        # Update the user authentication data.
-        try:
-            username = response.json()['username']
-        except KeyError:
-            username = None
-        self.user.set_auth_data(username)
 
 
 class Credentials(BoxApp):
@@ -156,10 +140,7 @@ class Credentials(BoxApp):
 
     async def on_open(self, widget: toga.Widget) -> None:
         """Clear fields."""
-        self._clear_fields()
-
-    ####################################################################
-    # Button callback functions.
+        self._clear_input_fields()
 
     async def login_handler(self, widget: toga.Widget) -> None:
         """Submit login, button handler."""
@@ -170,9 +151,6 @@ class Credentials(BoxApp):
             # TO DO: Add error message
             pass
 
-    ####################################################################
-    # Auth.
-
     def get_credentials(self) -> dict:
         """Extract user data from form."""
         username = self.input_username.value
@@ -182,16 +160,7 @@ class Credentials(BoxApp):
         else:
             print('INFO: введены не полные данные для входа в учетную запись')
 
-    async def success_handler(
-        self,
-        widget: toga.Widget,
-    ) -> None:
-        """Handel the success auth request."""
-        widget.root.app.box_main.refresh_user_auth_status()
-        self._clear_fields()
-        await goto_main_handler(widget)
-
-    def _clear_fields(self) -> None:
+    def _clear_input_fields(self) -> None:
         """Clear the fields with credentials."""
         self.input_username.value = None
         self.input_password.value = None
@@ -223,10 +192,3 @@ class LoginBox(Credentials):
     def __init__(self, *args: object, **kwargs: object) -> None:
         """Construct the box."""
         super().__init__(*args, **kwargs)
-
-    async def send_request(self, url: str, payload: dict) -> Response:
-        """Request login without token, save token."""
-        response = request_post(url, payload, token=False)
-        if response.status_code == HTTPStatus.OK:
-            app_auth.set_token(response)
-        return response

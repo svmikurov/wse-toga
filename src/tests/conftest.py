@@ -22,17 +22,8 @@ def event_loop(request):
 
 
 @pytest.fixture(scope='function')
-@patch.object(MainBox, 'refresh_user_auth_status')
-def wse(
-    refresh_user_auth_status: MagicMock,
-    event_loop: AbstractEventLoop,
-):
-    """Return the application instance, fixture.
-
-    Mock:
-     * ``refresh_user_auth_status`` method of ``MainBox`` class,
-       otherwise http request.
-     """
+def wse(event_loop: AbstractEventLoop):
+    """Return the application instance, fixture."""
     # The app icon is cached; purge the app icon cache if it exists
     try:
         del toga.Icon.__APP_ICON
