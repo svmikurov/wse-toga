@@ -11,7 +11,7 @@ from toga.handlers import simple_handler
 
 from tests.utils import FixtureReader
 from wse.app import WSE
-from wse.general import goto_handler
+from wse.controller import goto_handler
 
 MOCK_REQUEST_GET_SIMPLE = [httpx.Client, 'get']
 """To mock ``get`` method of ``httpx.Client`` (`list[object, str]`).

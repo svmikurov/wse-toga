@@ -6,13 +6,13 @@ import pytest
 
 from wse.app import WSE
 from wse.constants import HOST_API
-from wse.source.text_panel_main import MainTextPanelSource
+from wse.source.text_panel_main import MainInfoPanelSource
 
 
 @pytest.fixture
-def source(wse: WSE) -> MainTextPanelSource:
+def source(wse: WSE) -> MainInfoPanelSource:
     """Return the info text panel instance, fixture."""
-    return MainTextPanelSource(wse.user)
+    return MainInfoPanelSource(wse.user)
 
 
 def test_display_on_start_app() -> None:
@@ -27,15 +27,26 @@ def test_display_on_start_app() -> None:
 
 
 @patch(
-    'wse.source.text_panel_main.MainTextPanelSource.value',
+    'wse.source.text_panel_main.MainInfoPanelSource.value',
     new_callable=PropertyMock,
 )
 def test_call_on_start(
     mock: MagicMock,
 ) -> None:
     """Test source calls on start app."""
-    # Create app instance on start app.
+    # Create app instance.
     WSE(formal_name='Test app', app_id='com.com')
 
     # Get info text.
     mock.assert_called_once()
+
+
+@patch('wse.source.text_panel_main.MainInfoPanelSource.update_text')
+def test_update_text(
+    update_text: MagicMock,
+) -> None:
+    """Test update info panel at main box-container."""
+    # Create app instance.
+    WSE(formal_name='Test app', app_id='com.com')
+
+    update_text.assert_called_once()

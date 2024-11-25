@@ -1,6 +1,5 @@
 import asyncio
 from asyncio import AbstractEventLoop
-from unittest.mock import patch, Mock, MagicMock
 
 import pytest
 
@@ -8,7 +7,6 @@ import toga
 
 from tests.utils import FixtureReader
 from wse.app import WSE
-from wse.page import MainBox
 
 FIXTURE = 'params.json'
 PARAMS = FixtureReader(FIXTURE).json()

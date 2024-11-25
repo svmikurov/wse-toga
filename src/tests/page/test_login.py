@@ -14,7 +14,7 @@ import pytest
 
 from tests.utils import run_until_complete
 from wse.app import WSE
-from wse.general.goto_handler import goto_login_handler
+from wse.controller.goto_handler import goto_login_handler
 from wse.page import LoginBox, MainBox
 
 WIDGET_COUNT = 5
@@ -69,7 +69,7 @@ def test_btn_goto_login(box_main: MainBox) -> None:
 
 def test_btn_login(box_login: LoginBox) -> None:
     """Test the button to login."""
-    button = box_login.btn_login
+    button = box_login.btn_submit
     assert button.text == 'Войти в учетную запись'
     assert button.on_press._raw == box_login.login_handler
 

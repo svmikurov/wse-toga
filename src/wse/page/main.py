@@ -8,17 +8,17 @@ from wse.constants import (
     BTN_GOTO_GLOSSARY_MAIN,
     TITLE_MAIN,
 )
-from wse.general.box_page import BoxApp
-from wse.general.button import BtnApp
-from wse.general.goto_handler import (
+from wse.controller.goto_handler import (
     goto_foreign_exercise_handler,
     goto_foreign_main_handler,
     goto_glossary_exercise_handler,
     goto_glossary_main_handler,
 )
+from wse.general.box_page import BoxApp
+from wse.general.button import BtnApp
 from wse.general.label import TitleLabel
 from wse.page.user import UserAuthMixin
-from wse.source.text_panel_main import MainTextPanelSource
+from wse.source.text_panel_main import MainInfoPanelSource
 from wse.source.user import UserSource
 
 
@@ -32,7 +32,7 @@ class MainBox(UserAuthMixin, BoxApp):
     def __init__(
         self,
         source_user: UserSource,
-        source_main_info_panel: MainTextPanelSource,
+        source_main_info_panel: MainInfoPanelSource,
     ) -> None:
         """Construct the Main box."""
         super().__init__()

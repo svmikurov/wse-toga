@@ -7,7 +7,7 @@ from wse.constants import (
     SCREEN_SIZE,
 )
 from wse.general.box_page import BoxApp
-from wse.source.text_panel_main import MainTextPanelSource
+from wse.source.text_panel_main import MainInfoPanelSource
 from wse.source.user import UserSource
 
 
@@ -16,7 +16,7 @@ class WSE(toga.App):
 
     # App source instances.
     source_user: UserSource
-    source_main_info_panel: MainTextPanelSource
+    source_main_info_panel: MainInfoPanelSource
 
     # Page boxes.
     box_main: page.MainBox
@@ -53,7 +53,7 @@ class WSE(toga.App):
         """
         # Initialise the app sources.
         self.source_user = UserSource()
-        self.source_main_info_panel = MainTextPanelSource(self.source_user)
+        self.source_main_info_panel = MainInfoPanelSource(self.source_user)
 
         # Page boxes.
         self.box_main = page.MainBox(

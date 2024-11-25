@@ -6,8 +6,8 @@ from wse.constants import HOST_API
 from wse.source.user import UserSource
 
 
-class MainTextPanelSource(Source):
-    """The info text panel source."""
+class MainInfoPanelSource(Source):
+    """The source for info text panel at main box-container."""
 
     welcome = f'Ready for connect to {HOST_API}'
     """Welcome text on the information display (`str`).

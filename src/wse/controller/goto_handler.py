@@ -1,5 +1,7 @@
 """Button handlers to go to specific page box."""
 
+import inspect
+
 import toga
 
 from wse.general.box_page import BoxApp
@@ -9,10 +11,19 @@ async def set_window_content(
     widget: toga.Widget,
     box: BoxApp | toga.Box,
 ) -> None:
-    """Set page box in window content."""
+    """Set page box in window content.
+
+    :param Widget widget: The widget that invoke event
+    :param Box box: The container that will be assigned to the window's
+        contents
+    """
     widget.app.main_window.content = box
+
     try:
-        await box.on_open(widget)
+        if inspect.iscoroutinefunction(box.on_open):
+            await box.on_open(widget)
+        else:
+            box.on_open(widget)
     except AttributeError:
         pass
 

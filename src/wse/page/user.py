@@ -26,12 +26,12 @@ from wse.contrib.http_requests import (
     app_auth,
     request_post,
 )
-from wse.controler.user import login
+from wse.controller.goto_handler import goto_login_handler, goto_main_handler
+from wse.controller.user import login
 from wse.general.box_page import BoxApp
 from wse.general.button import BtnApp
-from wse.general.goto_handler import goto_login_handler, goto_main_handler
 from wse.general.label import TitleLabel
-from wse.source.text_panel_main import MainTextPanelSource
+from wse.source.text_panel_main import MainInfoPanelSource
 from wse.source.user import UserSource
 
 
@@ -41,7 +41,7 @@ class UserAuthMixin(BoxApp):
     welcome: str
     user: UserSource
     info_panel: toga.MultilineTextInput
-    input_info_main: MainTextPanelSource
+    source_info_panel: MainInfoPanelSource
 
     url_user_detail = urljoin(HOST_API, USER_ME_PATH)
     """User detail url, allowed GET method (`str`).
@@ -94,7 +94,7 @@ class Credentials(BoxApp):
     url_path = ''
     """Submit url path (`str`).
     """
-    btn_submit_name = 'Отправить'
+    name_btn_submit = 'Отправить'
     """Name of the "Submit" button (`str`).
     """
     success_status_code = HTTPStatus.OK
@@ -123,7 +123,7 @@ class Credentials(BoxApp):
         self.input_password = toga.PasswordInput(
             placeholder='Пароль', style=style_input
         )
-        self.btn_login = BtnApp(
+        self.btn_submit = BtnApp(
             BTN_LOGIN,
             on_press=self.login_handler,
         )
@@ -134,7 +134,7 @@ class Credentials(BoxApp):
             self.label_title,
             self.input_username,
             self.input_password,
-            self.btn_login,
+            self.btn_submit,
             self.btn_goto_main,
         )
 
@@ -185,7 +185,7 @@ class LoginBox(Credentials):
 
     title = TITLE_LOGIN
     url_path = LOGIN_PATH
-    btn_submit_name = 'Войти'
+    name_btn_submit = 'Войти'
     msg_success_response = LOGIN_MSG
     msg_error_response = LOGIN_BAD_MSG
 

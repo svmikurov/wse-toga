@@ -24,7 +24,7 @@ from toga.handlers import simple_handler
 from tests.utils import FixtureReader, run_until_complete
 from wse.app import WSE
 from wse.constants import HOST_API
-from wse.general.goto_handler import goto_login_handler
+from wse.controller.goto_handler import goto_login_handler
 from wse.page.user import Credentials, UserAuthMixin
 
 REQUEST_ARGS = call(
@@ -157,7 +157,7 @@ def test_update_widgets(
 
 def test_btn_login_callback_assign(wse: WSE) -> None:
     """Test the assign of callback to a button."""
-    button = wse.box_login.btn_login
+    button = wse.box_login.btn_submit
     assert button.on_press._raw == wse.box_login.login_handler
 
 
@@ -191,7 +191,7 @@ def test_login_handler(
      * ``success_handler`` method of ``Credentials`` to was awaited.
     """
     wse.main_window.content = wse.box_login
-    button = wse.box_login.btn_login
+    button = wse.box_login.btn_submit
 
     # Mock http response.
     response.return_value = RESPONSE_AUTH
@@ -219,12 +219,12 @@ def test_login_handler(
 def test_success_handler(wse: WSE) -> None:
     """Test the handler of success login."""
     box_login = wse.box_login
-    button = box_login.btn_login
+    button = box_login.btn_submit
     wse.main_window.content = wse.box_login
 
     async def handler(*args: object, **kwargs: object) -> None:
         """Set the tested method."""
-        await wse.box_login.success_handler(*args, **kwargs)
+        await wse.box_login.login_handler(*args, **kwargs)
 
     wrapped = simple_handler(handler, button, RESPONSE_AUTH)
 

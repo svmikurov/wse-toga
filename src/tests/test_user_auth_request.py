@@ -84,6 +84,7 @@ def test_request_with_token(
     """
     with tempfile.TemporaryDirectory(dir=path_token) as tmpdir:
         path_temp_token = os.path.join(tmpdir, 'token.txt')
+
         # Mock the token file path.
         monkeypatch.setattr(AppAuth, 'token_path', path_temp_token)
 

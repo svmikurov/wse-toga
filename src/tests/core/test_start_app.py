@@ -3,7 +3,8 @@
 Testing:
  * that the main window will exist, and has content;
  * that the WSE app has specific sources;
- * that the WSE app has specific box-container attrs.
+ * that the WSE app has specific box-container attrs;
+ * that request user data with saved token.
 
 .. todo::
 
@@ -12,22 +13,19 @@ Testing:
    * add test that wse app has menu with specific commands;
    * add test of handlers of menu command.
 """
+
 import os
 import tempfile
 from asyncio import AbstractEventLoop
 from pathlib import Path
-from unittest import skip
 from unittest.mock import MagicMock, patch
+from urllib.parse import urljoin
 
-import httpx
 from _pytest.monkeypatch import MonkeyPatch
 
-from tests.test_user_auth_request import URL_ME
 from wse.app import WSE
-from wse.contrib.http_requests import AppAuth, app_auth, request_user_data
-
-PATH_SRC = Path(__file__).parent.parent.parent
-PATH_TOKEN = os.path.join(PATH_SRC, 'wse/resources/')
+from wse.constants import HOST_API
+from wse.contrib.http_requests import AppAuth, request_user_data
 
 
 @patch('httpx.Client.get')
@@ -71,35 +69,46 @@ def test_has_page(wse: WSE) -> None:
 
 
 @patch('httpx.Client')
-def test_request_token_exist(
-    mock_client: MagicMock,
+def test_request_with_token(
+    client: MagicMock,
+    wse: WSE,
     monkeypatch: MonkeyPatch,
 ) -> None:
-    """Test the request with saved token."""
-    test_token = 'token543'
+    """Test request user data with saved token."""
+    test_token = 'token'
+    path_src = Path(__file__).parent.parent.parent
+    path_token = os.path.join(path_src, 'wse/resources/')
+    # greetings = 'Добро пожаловать name!'
 
-    with tempfile.TemporaryDirectory(dir=PATH_TOKEN) as tmpdir:
-        path_test_token = os.path.join(tmpdir, 'token.txt')
+    with tempfile.TemporaryDirectory(dir=path_token) as tmpdir:
+        path_token_temp = os.path.join(tmpdir, 'token.txt')
 
         # Save token.
-        with open(path_test_token, 'w') as save_token:
+        with open(path_token_temp, 'w') as save_token:
             save_token.write(test_token)
 
         # Mock the file path to reade token.
-        monkeypatch.setattr(AppAuth, 'token_path', path_test_token)
+        monkeypatch.setattr(AppAuth, 'token_path', path_token_temp)
 
-        # The http request of user data.
+        # Invoke http request of user data.
         request_user_data()
 
         # The http request is called with a token.
-        assert mock_client.call_args.kwargs['auth'].token == test_token
+        assert client.call_args.kwargs['auth'].token == test_token
+
+        # The info panel has greetings.
+        # assert wse.box_main.info_panel.value == greetings
 
 
-@skip
-def test_invoke_methods_on_startup() -> None:
-    """Test that specific methods has been invoked on start app."""
-    # Initializing the app.
-    WSE(formal_name='Test App', app_id='org.example.test')
+@patch('httpx.Client.get')
+def test_request_user_data(
+    get: MagicMock,
+) -> None:
+    """Test request user data."""
+    url = urljoin(HOST_API, '/api/v1/auth/users/me/')
 
-    # Methods has been invoked on start app.
-    ...
+    # Invoke http request of user data.
+    request_user_data()
+
+    # The http request is called with url.
+    get.assert_called_once_with(url)

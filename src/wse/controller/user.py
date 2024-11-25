@@ -5,7 +5,7 @@ from http import HTTPStatus
 import toga
 
 from wse.contrib.http_requests import obtain_token, request_user_data
-from wse.general.goto_handler import goto_main_handler
+from wse.controller.goto_handler import goto_main_handler
 from wse.source.user import UserSource
 
 
