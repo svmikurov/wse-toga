@@ -6,6 +6,7 @@ from wse import pages
 from wse.constants import (
     SCREEN_SIZE,
 )
+from wse.contrib.http_requests import request_user_data
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
 from wse.widgets.box_page import BoxApp
@@ -98,15 +99,17 @@ class WSE(toga.App):
         )
 
         # Load user data.
-        self.source_user.load_userdata()
+        self.source_user.on_start()
+
         # Main window.
         self.main_window = toga.MainWindow(
             title=self.formal_name,
             size=toga.Size(*SCREEN_SIZE),
         )
+
         # Application start with Main page box content.
         self.main_window.content = self.box_main
-        self.box_main.update_widgets()
+        self.box_main.update_widgets()  # by user auth status
         self.main_window.show()
 
     def move_to_page(self, box: BoxApp) -> None:

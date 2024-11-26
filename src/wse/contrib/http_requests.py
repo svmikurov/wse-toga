@@ -98,7 +98,6 @@ def obtain_token(credentials: dict) -> Response:
 
             return response
 
-
 def request_user_data() -> Response:
     """Request the source_user data."""
     with httpx.Client(auth=app_auth) as client:

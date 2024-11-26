@@ -104,21 +104,38 @@ class MainBox(BoxApp):
         )
 
     async def logout_handler(self, _: toga.Widget) -> None:
-        """Send the http request to logout, button handler."""
+        """Send the http request to log out, button handler."""
         response = request_post(url=self.url_logout)
 
         if response.status_code == HTTPStatus.NO_CONTENT:
-            self.source_user.set_source_user()
+            del app_auth.token
+            self.source_user.delete_userdata()
+            self.update_widgets()
+
+    def update_widgets(self) -> None:
+        """Update widgets by user auth status."""
+        if self.source_user.is_auth:
             self.place_logout_button()
-            app_auth.delete_token()
+            self.display_userdata()
+        else:
+            self.place_login_button()
+            self.display_greetings()
 
     def place_login_button(self) -> None:
         """Place login buttons."""
-        self.replace(self.btn_logout, self.btn_goto_login)
+        try:
+            self.replace(self.btn_logout, self.btn_goto_login)
+        except ValueError:
+            # The button is already placed.
+            pass
 
     def place_logout_button(self) -> None:
         """Place logout buttons."""
-        self.replace(self.btn_goto_login, self.btn_logout)
+        try:
+            self.replace(self.btn_goto_login, self.btn_logout)
+        except ValueError:
+            # The button is already placed.
+            pass
 
     def display_userdata(self) -> None:
         """Display the user data."""
@@ -129,22 +146,3 @@ class MainBox(BoxApp):
     def display_greetings(self) -> None:
         """Display greetings."""
         self.info_panel.value = self.welcome
-
-    def update_widgets(self) -> None:
-        """Update widgets by user auth status."""
-        if self.source_user.is_auth:
-            try:
-                self.place_logout_button()
-            except ValueError:
-                # The button is already placed.
-                pass
-            finally:
-                self.display_userdata()
-        else:
-            try:
-                self.place_login_button()
-            except ValueError:
-                # The button is already placed.
-                pass
-            finally:
-                self.display_greetings()
