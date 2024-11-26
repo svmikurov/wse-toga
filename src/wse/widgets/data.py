@@ -136,30 +136,28 @@ class ManagingWidgetDataFromResponse(ManagingWidgetData):
     success_http_status = None
     """Success http status (`int`).
     """
-    btn_submit_name = 'Отправить'
+    btn_submit_text = 'Отправить'
 
     def __init__(self) -> None:
         """Construct."""
         super().__init__()
         self.btn_submit = BtnApp(
-            self.btn_submit_name, on_press=self.submit_handler
+            self.btn_submit_text, on_press=self.submit_handler
         )
 
     async def submit_handler(self, widget: toga.Widget) -> None:
         """Submit, button handler."""
-        self.focus_to_input_field()
-
         widget_data = self.get_widget_data()
         item_id = widget_data.get('id')
         url = self.url % item_id if bool(item_id) else self.url
 
-        response = await self.request_post_async(url, widget_data)
+        response = await self.request_async(url, widget_data)
         if response.status_code == self.success_http_status:
             self.clear_entry_input()
-            self.handle_success(widget)
+            await self.handle_success(widget)
 
     @classmethod
-    async def request_post_async(cls, url: str, payload: dict) -> Response:
+    async def request_async(cls, url: str, payload: dict) -> Response:
         """Send http async request.
 
         Currently, nothing is being implemented.
@@ -173,7 +171,7 @@ class ManagingWidgetDataFromResponse(ManagingWidgetData):
             'Subclasses must provide a request_post_async method.'
         )
 
-    def handle_success(self, widget: toga.Widget) -> None:
+    async def handle_success(self, widget: toga.Widget) -> None:
         """Invoke if success.
 
         Currently, nothing is being implemented.

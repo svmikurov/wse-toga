@@ -7,7 +7,7 @@ from pathlib import Path
 
 from toga.sources import Source
 
-from wse.contrib.http_requests import request_user_data, app_auth
+from wse.contrib.http_requests import app_auth, request_user_data
 
 PATH_USERDATA_FILE = os.path.join(
     Path(__file__).parent.parent,

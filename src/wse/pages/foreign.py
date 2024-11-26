@@ -1,8 +1,10 @@
 """Foreign words page boxes."""
 
+from http import HTTPStatus
 from urllib.parse import urljoin
 
 import toga
+from httpx import Response
 from toga import MultilineTextInput
 from toga.style import Pack
 
@@ -28,7 +30,7 @@ from wse.constants import (
 from wse.container.exercise import ExerciseBox, ExerciseParamSelectionsBox
 from wse.contrib.http_requests import (
     HttpPostMixin,
-    HttpPutMixin,
+    request_put_async, request_post_async,
 )
 from wse.handlers.goto_handler import (
     goto_foreign_create_handler,
@@ -36,6 +38,7 @@ from wse.handlers.goto_handler import (
     goto_foreign_list_handler,
     goto_foreign_main_handler,
     goto_foreign_params_handler,
+    goto_foreign_update_handler,
     goto_main_handler,
 )
 from wse.source.foreign import Word, WordSource
@@ -157,7 +160,7 @@ class ExerciseForeignPage(ExerciseBox):
 class FormForeign(BaseForm):
     """General form to create and update entries, the container."""
 
-    title = 'Добавить слово'
+    title = ''
     """Page box title (`str`).
     """
 
@@ -175,12 +178,13 @@ class FormForeign(BaseForm):
             BTN_GOTO_FOREIGN_MAIN,
             on_press=goto_foreign_main_handler,
         )
+
         # Word data input widgets.
         self.input_native = TextInputApp(placeholder='Слово на русском')
         self.input_native.style.padding_bottom = 1
         self.input_foreign = TextInputApp(placeholder='Слово на иностранном')
         self.btn_submit = BtnApp(
-            self.btn_submit_name,
+            self.btn_submit_text,
             on_press=self.submit_handler,
         )
 
@@ -200,6 +204,7 @@ class FormForeign(BaseForm):
 
     def clear_entry_input(self) -> None:
         """Clear the entry input widgets value."""
+        print('ffffffffffffffffffffffffffffffffffffffff')
         self.input_native.clean()
         self.input_foreign.clean()
 
@@ -208,41 +213,57 @@ class FormForeign(BaseForm):
         self.input_native.focus()
 
 
-class CreateWordPage(HttpPostMixin, FormForeign):
+class CreateWordPage(FormForeign):
     """Add word to foreign dictionary."""
 
     title = TITLE_FOREIGN_CREATE
     url = urljoin(HOST_API, FOREIGN_PATH)
-    btn_submit_name = 'Добавить'
+    btn_submit_text = 'Добавить'
+    success_http_status = HTTPStatus.CREATED
 
     def get_widget_data(self) -> dict:
         """Get the entered into the form data."""
-        submit_entry = {
+        entry_create = {
             'foreign_word': self.input_foreign.value,
             'native_word': self.input_native.value,
         }
-        return submit_entry
+        return entry_create
+
+    @classmethod
+    async def request_async(cls, url: str, payload: dict) -> Response:
+        """Request to update."""
+        return await request_post_async(url, payload)
+
+    async def handle_success(self, widget: toga.Widget) -> None:
+        """Go to foreign list page, if success."""
+        self.focus_to_input_field()
 
 
-class UpdateWordPage(HttpPutMixin, FormForeign):
+class UpdateWordPage(FormForeign):
     """Update the foreign word the box."""
 
     title = TITLE_FOREIGN_UPDATE
     url = urljoin(HOST_API, FOREIGN_DETAIL_PATH)
-    btn_submit_name = 'Изменить'
-
-    def handle_success(self, widget: toga.Widget) -> None:
-        """Go to foreign list page, if success."""
-        goto_foreign_list_handler(widget)
+    btn_submit_text = 'Изменить'
+    success_http_status = HTTPStatus.OK
 
     def get_widget_data(self) -> dict:
         """Get the entered into the form data."""
-        submit_entry = {
+        entry_updated = {
             'id': str(self.entry.id),
             'foreign_word': self.input_foreign.value,
             'native_word': self.input_native.value,
         }
-        return submit_entry
+        return entry_updated
+
+    @classmethod
+    async def request_async(cls, url: str, payload: dict) -> Response:
+        """Request to update."""
+        return await request_put_async(url, payload)
+
+    async def handle_success(self, widget: toga.Widget) -> None:
+        """Go to foreign list page, if success."""
+        await goto_foreign_list_handler(widget)
 
 
 class ListForeignPage(TableApp):
@@ -281,9 +302,9 @@ class ListForeignPage(TableApp):
         """Go to create the word form, button handler."""
         await goto_foreign_create_handler(widget)
 
-    def update_handler(self, widget: toga.Widget) -> None:
-        """Go to create the word form, button handler."""
+    async def update_handler(self, widget: toga.Widget) -> None:
+        """Go to update the word form, button handler."""
         entry = self.table.selection
         box = self.root.app.box_foreign_update
         box.entry = entry
-        self.set_window_content(widget, box)
+        await goto_foreign_update_handler(widget)

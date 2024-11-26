@@ -30,7 +30,7 @@ async def goto_login_handler(widget: toga.Widget) -> None:
 
 
 ########################################################################
-# Glossary
+# Foreign
 
 
 async def goto_foreign_main_handler(widget: toga.Widget) -> None:
@@ -42,6 +42,12 @@ async def goto_foreign_main_handler(widget: toga.Widget) -> None:
 async def goto_foreign_create_handler(widget: toga.Widget) -> None:
     """Go to foreign create, button handler."""
     box = widget.root.app.box_foreign_create
+    await set_window_content(widget, box)
+
+
+async def goto_foreign_update_handler(widget: toga.Widget) -> None:
+    """Go to foreign update, button handler."""
+    box = widget.root.app.box_foreign_update
     await set_window_content(widget, box)
 
 

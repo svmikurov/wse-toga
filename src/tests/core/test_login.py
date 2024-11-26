@@ -1,8 +1,9 @@
 """Test Login widgets."""
+
 import json
 import os
 import tempfile
-from unittest.mock import MagicMock, Mock, patch, call
+from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 from _pytest.monkeypatch import MonkeyPatch

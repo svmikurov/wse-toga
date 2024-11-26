@@ -6,7 +6,6 @@ from wse import pages
 from wse.constants import (
     SCREEN_SIZE,
 )
-from wse.contrib.http_requests import request_user_data
 from wse.source.text_panel_main import MainPanelSource
 from wse.source.user import UserSource
 from wse.widgets.box_page import BoxApp

@@ -165,7 +165,7 @@ class FormGlossary(BaseForm):
         self.input_term.style.padding_bottom = 1
         self.input_definition = MulTextInpApp(placeholder='Определение')
         self.btn_submit = BtnApp(
-            self.btn_submit_name, on_press=self.submit_handler
+            self.btn_submit_text, on_press=self.submit_handler
         )
 
         self.add(
