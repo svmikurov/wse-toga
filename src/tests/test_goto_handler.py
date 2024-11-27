@@ -66,13 +66,6 @@ MOCK_REQUEST_GLOSSARY_LIST = [
             None,
         ),
         (
-            goto_handler.goto_foreign_update_handler,
-            'box_foreign_list',
-            'box_foreign_update',
-            'btn_goto_update',
-            None,
-        ),
-        (
             goto_handler.goto_foreign_params_handler,
             'box_foreign_main',
             'box_foreign_params',

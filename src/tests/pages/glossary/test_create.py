@@ -50,10 +50,10 @@ def test_btn_submit(wse: WSE) -> None:
     assert wse.main_window.content == wse.box_glossary_create
 
 
-def request_entries(obj: object, url: str) -> list[tuple[str, str]]:
+def request_entries(obj: object, url: str) -> list[tuple[str, ...]]:
     """Return entries to insert at table."""
     return [
-        ('term', 'definition'),
+        ('id', 'term', 'definition'),
     ]
 
 

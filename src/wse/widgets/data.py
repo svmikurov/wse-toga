@@ -8,20 +8,7 @@ from wse.widgets.button import BtnApp
 
 
 class ManagingWidgetData:
-    """Managing widget data.
-
-    .. important::
-
-        Override the methods:
-            * populate_entry_input()
-            * clear_entry_input()
-            * get_widget_data()
-
-        Override the attrs:
-            * url
-            * success_http_status
-
-    """
+    """Managing widget data."""
 
     source_class = Source
     """Set the custom entry source class (`toga.sources.Source`').
@@ -33,14 +20,7 @@ class ManagingWidgetData:
 
     @property
     def entry(self) -> source_class:
-        """The widget entry data.
-
-        The setter invokes methods to populate or clear the widget's
-        attr value.
-
-        :setter value: the item of Source data to set to widget
-            value.
-        """
+        """The widget entry data."""
         return self._entry
 
     @entry.setter
@@ -54,88 +34,33 @@ class ManagingWidgetData:
         self.clear_entry_input()
 
     def focus_to_input_field(self) -> None:
-        """Focus to field input.
-
-        Currently, nothing is being implemented.
-        You may **override** this method, for example::
-
-            def focus_to_input_field(self) -> None:
-                self.field_name_input.focus()
-        """
+        """Focus to field input."""
         pass
 
     def populate_entry_input(self) -> None:
-        """Populate the entry input widgets value.
-
-        Currently, nothing is being implemented.
-        **Override** this method, for example::
-
-            def populate_entry_input(self) -> None:
-                self.field_name_input.value = self.entry.some_value
-                ...
-
-        :raises NotImplementedError: if the method is not overridden.
-        """
+        """Populate the entry input widgets value."""
         raise NotImplementedError(
             'Subclasses must provide a populate_entry_input() method.'
         )
 
     def get_widget_data(self) -> dict:
-        """Get the entered into the widget data.
-
-        Currently, nothing is being implemented.
-        **Override** this method, for example::
-
-            def get_widget_data(self) -> dict:
-                submit_entry = {
-                    'some_value': self.field_name_input.value,
-                    ...
-                }
-                return submit_entry
-
-        :raises NotImplementedError: if the method is not overridden.
-        """
+        """Get the entered into the widget data."""
         raise NotImplementedError(
             'Subclasses must provide a get_widget_data() method.'
         )
 
     def clear_entry_input(self) -> None:
-        """Clear the entry input widgets value.
-
-        Currently, nothing is being implemented.
-        **Override** this method, for example::
-
-             def clear_entry_input(self) -> None:
-                self.field_name_input.clean()
-                ...
-
-        :raises NotImplementedError: if the method is not overridden.
-        """
+        """Clear the entry input widgets value."""
         raise NotImplementedError(
             'Subclasses must provide a clear_entry_input() method.'
         )
 
 
-class ManagingWidgetDataFromResponse(ManagingWidgetData):
-    """Managing widget data received from a response request.
-
-    .. important::
-
-        Override the methods:
-            * send_request_async()
-
-        Override the attrs:
-            * url
-            * success_http_status
-
-    """
+class HandleSuccessResponse(ManagingWidgetData):
+    """Managing widget data received from a response request."""
 
     url = None
-    """Entries url path to http requests (`str` | None).
-    """
     success_http_status = None
-    """Success http status (`int`).
-    """
     btn_submit_text = 'Отправить'
 
     def __init__(self) -> None:
@@ -158,23 +83,11 @@ class ManagingWidgetDataFromResponse(ManagingWidgetData):
 
     @classmethod
     async def request_async(cls, url: str, payload: dict) -> Response:
-        """Send http async request.
-
-        Currently, nothing is being implemented.
-        **Override** this method.
-
-        :param str url: Url to request.
-        :param dict payload: Data to assign.
-        :raises NotImplementedError: if the method is not overridden.
-        """
+        """Send http async request."""
         raise NotImplementedError(
-            'Subclasses must provide a request_post_async method.'
+            'Subclasses must provide a request_async method.'
         )
 
     async def handle_success(self, widget: toga.Widget) -> None:
-        """Invoke if success.
-
-        Currently, nothing is being implemented.
-        Yoy may **override** this method to act.
-        """
+        """Invoke if success."""
         pass

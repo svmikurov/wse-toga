@@ -1,11 +1,4 @@
-"""Test glossary exercise params handlers.
-
-Testing:
- * Filling out ang reade the selections.
- * Count switching.
- * Request handler of save params.
-
-"""
+"""Test glossary exercise params handlers."""
 
 from unittest.mock import MagicMock, Mock, PropertyMock, call, patch
 from urllib.parse import urljoin
@@ -56,12 +49,12 @@ def box(request: FixtureRequest) -> ParamForeignPage | ParamGlossaryPage:
         (
             'box_foreign_params',
             '/api/v1/foreign/params/',
-            'wse.page.ParamForeignPage.lookup_conditions',
+            'wse.pages.ParamForeignPage.lookup_conditions',
         ),
         (
             'box_glossary_params',
             '/api/v1/glossary/params/',
-            'wse.page.ParamGlossaryPage.lookup_conditions',
+            'wse.pages.ParamGlossaryPage.lookup_conditions',
         ),
     ],
 )
@@ -73,15 +66,7 @@ def test_on_open(
     params_path: str,
     wse: WSE,
 ) -> None:
-    """Test the call of on_open method params box.
-
-    Testing:
-     * ParamForeignPage and ParamGlossaryPage classes;
-     * that request specific url;
-     * that that requested params has been set to
-       lookup_condition property of class.
-
-    """
+    """Test the call of on_open method params box."""
     box: ParamForeignPage | ParamGlossaryPage = getattr(wse, box_name)
     url = urljoin(HOST_API, params_path)
 

@@ -1,9 +1,4 @@
-"""Test widgets of foreign and glossary exercise page boxes.
-
-.. todo::
-
-   * add test the display a task question and answer.
-"""
+"""Test widgets of foreign and glossary exercise page boxes."""
 
 from unittest.mock import AsyncMock, MagicMock, call, patch
 from urllib.parse import urljoin

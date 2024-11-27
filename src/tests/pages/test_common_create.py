@@ -1,10 +1,4 @@
-"""Test widgets of create page boxes.
-
-Testing:
- * Text representation of widgets in the window content.
- * Changing window contents when pressing move buttons.
- * Control the widget order at page.
-"""
+"""Test widgets of create page boxes."""
 
 import pytest
 from _pytest.fixtures import FixtureRequest
@@ -80,13 +74,7 @@ def test_glossary_widget_order(wse: WSE) -> None:
     ],
 )
 def test_label_title(box_name: str, label_text: str, wse: WSE) -> None:
-    """Test the label title.
-
-    Testing:
-     * CreateWordPage and CreateTermPage classes;
-     * that label has a specific text.
-
-    """
+    """Test the label title."""
     box: CreateWordPage | CreateTermPage = getattr(wse, box_name)
 
     # The label has a specific text.

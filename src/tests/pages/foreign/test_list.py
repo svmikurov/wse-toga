@@ -137,8 +137,13 @@ def test_btn_goto_foreign_update(wse: WSE, monkeypatch: MonkeyPatch) -> None:
     entry_index = 1
     table = wse.box_foreign_list.table
     table._impl.simulate_selection(entry_index)
+
     # Press button.
     btn._impl.simulate_press()
+
+    # Run a fake main loop.
+    run_until_complete(wse)
+
     assert wse.main_window.content == wse.box_foreign_update
 
 

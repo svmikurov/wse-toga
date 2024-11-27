@@ -3,12 +3,12 @@
 import toga
 
 from wse.widgets.box_page import BoxApp
-from wse.widgets.data import ManagingWidgetDataFromResponse
+from wse.widgets.data import HandleSuccessResponse
 
 
 class BaseForm(
     BoxApp,
-    ManagingWidgetDataFromResponse,
+    HandleSuccessResponse,
 ):
     """Base form widget class."""
 

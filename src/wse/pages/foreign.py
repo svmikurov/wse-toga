@@ -29,8 +29,8 @@ from wse.constants import (
 )
 from wse.container.exercise import ExerciseBox, ExerciseParamSelectionsBox
 from wse.contrib.http_requests import (
-    HttpPostMixin,
-    request_put_async, request_post_async,
+    request_post_async,
+    request_put_async,
 )
 from wse.handlers.goto_handler import (
     goto_foreign_create_handler,

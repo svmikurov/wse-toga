@@ -197,7 +197,7 @@ class CreateTermPage(HttpPostMixin, FormGlossary):
 
     title = TITLE_GLOSSARY_CREATE
     url = urljoin(HOST_API, GLOSSARY_PATH)
-    btn_submit_name = 'Добавить'
+    btn_submit_text = 'Добавить'
 
     def get_widget_data(self) -> dict:
         """Get the entered into the form data."""

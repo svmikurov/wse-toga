@@ -1,17 +1,4 @@
-"""Test widgets of foreign exercise params page box.
-
-Testing:
- * Text representation of widgets in the window content
-   (text on widget, placeholder text).
- * Changing window contents when pressing move buttons.
- * Control the order of widget and widget containers at page.
-
-.. todo::
-
-   * add test the inputs of box.box_params;
-   * add test the populate of param widgets.
-
-"""
+"""Test widgets of foreign exercise params page box."""
 
 from unittest.mock import AsyncMock, MagicMock, Mock, patch
 

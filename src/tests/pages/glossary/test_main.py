@@ -92,10 +92,10 @@ def test_btn_goto_glossary_params_page(
     assert wse.main_window.content == wse.box_glossary_params
 
 
-def request_entries(obj: object, url: str) -> list[tuple[str, str]]:
+def request_entries(obj: object, url: str) -> list[tuple[str, ...]]:
     """Return entries to insert at table."""
     return [
-        ('term', 'definition'),
+        ('id', 'term', 'definition'),
     ]
 
 

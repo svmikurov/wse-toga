@@ -1,10 +1,4 @@
-"""Test widgets of create foreign word page box.
-
-Testing:
- * Text representation of widgets in the window content.
- * Changing window contents when pressing move buttons.
- * Control the widget order at page.
-"""
+"""Test widgets of create foreign word page box."""
 
 from unittest.mock import AsyncMock, patch
 
@@ -49,9 +43,9 @@ def test_input_foreign(wse: WSE) -> None:
     assert input_foreign.enabled is True
 
 
-@patch.object(CreateWordPage, 'request_post_async', new_callable=AsyncMock)
+@patch.object(CreateWordPage, 'request_async', new_callable=AsyncMock)
 def test_btn_submit(
-    request_post_async: AsyncMock,
+    request_async: AsyncMock,
     wse: WSE,
 ) -> None:
     """Test the submit button."""
@@ -63,7 +57,7 @@ def test_btn_submit(
     assert btn.text == 'Добавить'
     assert wse.main_window.content == wse.box_foreign_create
 
-    request_post_async.assert_awaited()
+    request_async.assert_awaited()
 
 
 def test_btn_goto_foreign_main(wse: WSE) -> None:
@@ -84,11 +78,7 @@ def test_btn_goto_foreign_list(
     on_open: AsyncMock,
     wse: WSE,
 ) -> None:
-    """Test button to go to foreign list page box.
-
-    Mock:
-     * ``on_open`` method of ListForeignPage, otherwise http request.
-    """
+    """Test button to go to foreign list page box."""
     btn = wse.box_foreign_create.btn_goto_foreign_list
 
     btn._impl.simulate_press()

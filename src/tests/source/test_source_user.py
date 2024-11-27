@@ -12,7 +12,7 @@ def source() -> UserSource:
     return UserSource()
 
 
-def test_app_instance(wse: WSE) -> None:
+def test_create_instance(wse: WSE) -> None:
     """Test create the source instance."""
     assert hasattr(wse, 'source_user')
     assert wse.source_user.username is None

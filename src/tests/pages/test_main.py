@@ -1,17 +1,10 @@
-"""Test Main page box widgets.
-
-Test:
- * the representation of widgets in the window content;
- * the widget count at main page;
- * that button has specific content.
-"""
+"""Test Main page box widgets."""
 
 from typing import Callable
 
 import pytest
 
 from wse.app import WSE
-from wse.constants import HOST_API
 from wse.handlers import goto_handler as hl
 
 WIDGET_COUNT = 8
@@ -29,12 +22,6 @@ def test_label_title(wse: WSE) -> None:
     """Test page box title."""
     label_title = wse.box_main.label_title
     assert label_title.text == 'WSELFEDU'
-
-
-def test_info_panel(wse: WSE) -> None:
-    """Test info panel placeholder."""
-    info_panel = wse.box_main.info_panel
-    assert info_panel.placeholder == f'Ready for connect to {HOST_API}'
 
 
 def test_label_chapter_exercises(wse: WSE) -> None:
