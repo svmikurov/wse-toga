@@ -1,6 +1,6 @@
 # This project was generated with 0.3.19 using template: https://github.com/beeware/briefcase-template@v0.3.19
 [tool.briefcase]
-project_name = "WSE"
+project_name = "WSE GUI"
 bundle = "online.wselfedu"
 version = "0.1.1"
 url = "http://wselfedu.online"
@@ -9,8 +9,8 @@ author = "Sergei Mikurov"
 author_email = "454004@mail.ru"
 
 [tool.briefcase.app.wse]
-formal_name = "WSE"
-description = "WSE Toga app"
+formal_name = "WSE GUI"
+description = "WSE GUI Toga app"
 long_description = """More details about the app should go here.
 """
 sources = [

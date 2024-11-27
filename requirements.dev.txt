@@ -7,3 +7,4 @@ sphinx-copybutton==0.5.2
 furo==2024.8.6
 toga-dummy==0.4.8
 pillow==11.0.0
+pytest==8.3.3

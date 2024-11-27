@@ -1,6 +1,7 @@
 .env
-.venv_wse_toga/
-*token.json
+.venv_wse_gui/
+*token.txt
+*userdata.json
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
